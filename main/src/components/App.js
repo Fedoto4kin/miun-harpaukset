@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import axios from 'axios';
-import { Navbar, Form, InputGroup, ButtonGroup, Button, Card, Container } from 'bootstrap-4-react';
+import { Navbar, Form, InputGroup, ButtonGroup, Button, Card, Container, Alert } from 'bootstrap-4-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCogs, faQuestion, faBookOpen } from '@fortawesome/free-solid-svg-icons'
 
@@ -16,6 +16,18 @@ class WordTable extends React.Component {
     const filterText = this.props.filterText;
     const rows = [];
 
+    const wordCount = this.props.words.length;
+    let message = null;
+
+    if (filterText) {
+      if (wordCount) {
+        message = 'On löydän ' + wordCount;
+        message += ((wordCount > 1) ?  ' šanoida': ' šano')
+      } else
+        message = 'Ei nimidä löydän';
+    } 
+
+
     this.props.words.forEach((word) => {
       rows.push(
         <WordCard
@@ -25,11 +37,16 @@ class WordTable extends React.Component {
       );
     });
 
-    if (this.props.loading) {
-       return (< Card.Columns style={{opacity: 0.5}}>{rows}</Card.Columns>);
-    } else {
-       return (< Card.Columns>{rows}</Card.Columns>);
-    }
+
+
+    return (<Container>
+      { (filterText.length && !this.props.loading ) > 0 && <Alert className='text-center alert alert-secondary show'>{message}</Alert> } 
+      { this.props.loading ?
+        <Card.Columns style={{opacity: 0.5}}>{rows}</Card.Columns> :
+        <Card.Columns>{rows}</Card.Columns> 
+      }
+      </Container>
+    );
   }
 }
 
@@ -74,19 +91,18 @@ class FilterableWordTable extends React.Component {
    }
 
   }
-  
-  
 
+
+  
   render() {
 
     return (
     <div>
-      <div style={{height:"9rem"}}>
-       
-          <Navbar expand="lg" dark bg="dark" fixed="top" mb="5">
+
+          <Navbar expand="lg" dark bg="dark">
           <Container>
           <Navbar.Brand>
-            <h2  className='text-info'  >
+            <h2  className='text-info' style={{textShadow: "1px 1px #000"}} >
             <FontAwesomeIcon icon={faBookOpen} size="lg"  /> Šanakniiga</h2></Navbar.Brand>
             <ButtonGroup  className='float-right'>
               <Button disabled={true} className='btn-light' size="lg" ><FontAwesomeIcon icon={faCogs} size="lg" /></Button>
@@ -96,23 +112,22 @@ class FilterableWordTable extends React.Component {
            
            </Container>
           </Navbar>
-
-      </div>
-      <Container>
-        <SearchBar
-          filterText={this.state.filterText}
-          onFilterTextChange={this.handleFilterTextChange}
-          loading={this.state.loading}
-          word_count={this.state.words.length}
-        />
-      </Container>
-      <Container>
+           <Navbar expand="lg" light bg="light" pt='5' pb='3' mb= '3' className='sticky-top'>
+          <Container>
+            <SearchBar
+              filterText={this.state.filterText}
+              onFilterTextChange={this.handleFilterTextChange}
+              loading={this.state.loading}
+            />
+          </Container>
+          </Navbar>
+      
         <WordTable
           words={this.state.words}
           filterText={this.state.filterText}
           loading={this.state.loading}
         />
-      </Container>
+
       </div>
     );
   }
