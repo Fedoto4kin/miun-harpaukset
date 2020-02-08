@@ -27,7 +27,6 @@ class WordTable extends React.Component {
         message = 'Ei nimidä löydän';
     } 
 
-
     this.props.words.forEach((word) => {
       rows.push(
         <WordCard
@@ -39,10 +38,10 @@ class WordTable extends React.Component {
 
 
 
-    return (<Container>
+    return (<Container> 
       { (filterText.length && !this.props.loading ) > 0 && <Alert className='text-center alert alert-secondary show'>{message}</Alert> } 
       { this.props.loading ?
-        <Card.Columns style={{opacity: 0.5}}>{rows}</Card.Columns> :
+        <Card.Columns className='clearfix' style={{opacity: 0.5}}>{rows}</Card.Columns> :
         <Card.Columns>{rows}</Card.Columns> 
       }
       </Container>
@@ -112,7 +111,7 @@ class FilterableWordTable extends React.Component {
            
            </Container>
           </Navbar>
-           <Navbar expand="lg" light bg="light" pt='5' pb='3' mb= '3' className='sticky-top'>
+           <Navbar expand="lg" light bg="light" pt='5' pb='2' mb='1' className='sticky-top'>
           <Container>
             <SearchBar
               filterText={this.state.filterText}
@@ -128,6 +127,15 @@ class FilterableWordTable extends React.Component {
           loading={this.state.loading}
         />
 
+
+        <div style={{height:'4em'}}>
+        </div>
+
+          <Navbar expand="sm"  dark bg="dark" pt='3' pb='2' mt= '3' className='row-fluid fixed-bottom border-top border-white'>
+          <Container>
+            <h5  className='text-info'  >Miun harpaukšet karielan kieleh</h5>
+          </Container>
+          </Navbar>
       </div>
     );
   }

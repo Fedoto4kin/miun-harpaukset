@@ -1,7 +1,27 @@
 from django.db import models
 from django.utils.translation import gettext as _
 from django.core.validators import MinValueValidator, MaxValueValidator
+from slugify import slugify
+from uuid import uuid4
+from django.utils.text import Truncator
 
+class Speech(models.Model):
+
+    def sound_upload_path(instance, filename):
+        filename = "%s.%s" % (uuid4(), filename.split('.')[-1])
+        dir_id = ord(instance.text[0]) % 10
+        return 'lexicon/speech_{0}/{1}'.format(dir_id, filename)
+
+    mp3 = models.FileField(
+                upload_to=sound_upload_path,
+                null=True,
+                blank=True,
+                editable=True,
+    )
+    text = models.TextField(blank=False)
+
+    def __str__(self):
+        return Truncator(self.text).words(1)
 
 class Pos(models.Model):
     
@@ -22,6 +42,7 @@ class Word(models.Model):
     #TODO: Correct sorting by karelian abc
     word = models.CharField(_('Šana'), max_length=128)
     pos = models.ForeignKey(Pos, unique=False, on_delete=models.CASCADE)
+    speech = models.ForeignKey(Speech, null=True, blank=True, on_delete=models.SET_NULL)
     orig = models.TextField(blank=True)
 
     def __str__(self):
@@ -44,9 +65,8 @@ class Definition(models.Model):
     definition = models.TextField(blank=True)
     
     class Meta:
-        unique_together = ("word", "lang")
+        ordering = ['-lang']
     
-
 class Base(models.Model):
     
     word = models.ForeignKey(Word, unique=False, on_delete=models.CASCADE, related_name='base_set')
@@ -57,8 +77,9 @@ class Base(models.Model):
     class Meta:
         unique_together = ("num", "base", "word")
 
-    def krl_slugify(self, string):
+    def krl_slugify(self, string, save_diacrit=True):
         return ''.join([i for i in string if i.isalpha()]).lower().replace('ü','y')
+        #TODO: create remove diacritics
 
     def save(self, *args, **kwargs):
         self.base_slug = self.krl_slugify(self.base)

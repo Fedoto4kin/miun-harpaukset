@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Word, Pos, Definition, Base
+from .models import *   
 
 class BaseInline(admin.TabularInline):
     extra = 0
@@ -11,6 +11,7 @@ class BaseInline(admin.TabularInline):
 class DefinitionInline(admin.TabularInline):
     extra = 0
     model = Definition
+
 
 class WordAdm(admin.ModelAdmin):
     list_display = ('word','_pos', '_def')
@@ -30,6 +31,12 @@ class WordAdm(admin.ModelAdmin):
         return ' — '.join([i['definition'] for i in obj.definition_set.values()])
 
 
+class SpeechAdmin(admin.ModelAdmin):
+
+    search_fields = ('text',)
+
+
 admin.site.site_title = "Ylläpitäjän paikka"
 admin.site.site_header = "Ylläpitäjän paikka" 
 admin.site.register(Word, WordAdm)
+admin.site.register(Speech, SpeechAdmin)

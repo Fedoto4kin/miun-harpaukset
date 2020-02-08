@@ -3,13 +3,10 @@ import { Form, InputGroup, Button,  Container } from 'bootstrap-4-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
-
 class SearchBar extends React.Component {
 
   constructor(props) {
     super(props);
-
-
 
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
   }
@@ -19,44 +16,35 @@ class SearchBar extends React.Component {
   }
   
   render() {
-
-    const wordCount = this.props.word_count;
-    let message = '';
-
-    if (this.props.filterText) {
-      if (wordCount) {
-        message = 'On löydän ' + wordCount;
-        message += ((wordCount > 1) ?  ' šanoida': ' šano')
-      } else
-        message = 'Ei nimidä löydän';
-    } 
-
+    let suggestionsListComponent;
+    
     return (
-     <Container>
-       <Form>
-        <Form.Group>
+
+       <Form className="mx-2 d-inline w-100">
+        <Form.Group> 
       
        <InputGroup className='input-group-lg'>
+       <React.Fragment>
          <Form.Input  type="text" 
             placeholder="Täššä zavodikkua kirjuttua, štobi eččie šanakniigašša" 
             value={this.props.filterText}
             onChange={this.handleFilterTextChange} 
             className='input-lg'
           />
-        <InputGroup.Append>
-          <InputGroup.Text><FontAwesomeIcon icon={faSearch} /></InputGroup.Text>
+          {suggestionsListComponent}
+        </React.Fragment>
+        <InputGroup.Append >
+          <InputGroup.Text>
+           {this.props.loading ?
+            <span className="spinner-border   text-secondary"></span>:
+            <FontAwesomeIcon icon={faSearch} />
+          }
+          </InputGroup.Text>
         </InputGroup.Append>
       </InputGroup>
       </Form.Group>
-      <Form.Group>
-        
-         {this.props.loading ?
-             <div className="spinner-border text-info  "></div>:
-             <h5> {message} </h5> }
-      
-        </Form.Group>
       </Form>
-      </Container>
+ 
     );
   }
 }

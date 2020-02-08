@@ -6,6 +6,7 @@ class BaseSerializer(serializers.ModelSerializer):
         model = Base
         fields = ['id', 'base',]
 
+
 class DefinitionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Definition
@@ -15,6 +16,7 @@ class WordPreviewSerializer(serializers.ModelSerializer):
 
     definition = DefinitionSerializer(many=True, source='definition_set') 
     pos = serializers.CharField(source='pos.abbr', read_only=True)
+    speech = serializers.FileField(source='speech.mp3', read_only=True  )
 
     class Meta:
         model = Word
@@ -23,12 +25,14 @@ class WordPreviewSerializer(serializers.ModelSerializer):
             'word',
             'pos',
             'definition',
+            'speech'
         ]
 
 class WordDetailSerializer(serializers.ModelSerializer):
     
     definition = DefinitionSerializer(many=True, source='definition_set') 
     pos = serializers.CharField(source='pos.abbr', read_only=True)
+
 
     class Meta:
         model = Word

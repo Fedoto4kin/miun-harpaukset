@@ -51,6 +51,14 @@ class WordViewSet(viewsets.ReadOnlyModelViewSet):
                 base_slug__startswith=Base.krl_slugify(Base, string=search)
                 )
             )
+            for q in queryset:
+                q.definition_set_by_lang = {}
+                for df in q.definition_set.all():
+                    if df.lang not in q.definition_set_by_lang:
+                        q.definition_set_by_lang[df.lang] =  [df.definition,]
+                    else:
+                        q.definition_set_by_lang[df.lang].append(df.definition)
+
             return queryset
         else:
             return ()
