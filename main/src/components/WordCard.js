@@ -5,7 +5,7 @@ import { faHeadphones } from '@fortawesome/free-solid-svg-icons'
 import { Navbar, Form, InputGroup, Button, Card, Container, Badge, ListGroup } from 'bootstrap-4-react';
 
 
-class WordCard extends React.Component {
+export default class WordCard extends React.Component {
 
   constructor(props) {
     super(props);
@@ -31,7 +31,7 @@ class WordCard extends React.Component {
     
     return (
 
-       <Card bg="dark" text="white" id={word.id}>
+       <Card bg="dark" text="white" id={word.id} >
         <Card.Header className="clearfix">
         <Badge className="badge-info float-right"><i>{word.pos}</i></Badge>
         <h5><Button className='btn-sm btn-outline-warning' 
@@ -61,5 +61,3 @@ class WordCard extends React.Component {
     );
   }
 }
-
-export {WordCard};

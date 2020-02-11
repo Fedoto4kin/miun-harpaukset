@@ -3,24 +3,34 @@ import { Form, InputGroup, Button,  Container } from 'bootstrap-4-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
-class SearchBar extends React.Component {
+
+export default class SearchBar extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
+    this.handleFilterTextKeyPress = this.handleFilterTextKeyPress.bind(this);
+    this.handleButtonClick = this.handleButtonClick.bind(this);
   }
   
   handleFilterTextChange(e) {
     this.props.onFilterTextChange(e.target.value);
   }
   
+  handleFilterTextKeyPress(e) {
+    this.props.onFilterTextKeyPress(e);
+  }
+
+  handleButtonClick(e) {
+    this.props.onClickButton(e);
+  }
+
   render() {
-    let suggestionsListComponent;
-    
+
+
     return (
 
-       <Form className="mx-2 d-inline w-100">
+       <Form className="w-100">
         <Form.Group> 
       
        <InputGroup className='input-group-lg'>
@@ -29,17 +39,15 @@ class SearchBar extends React.Component {
             placeholder="Täššä zavodikkua kirjuttua, štobi eččie šanakniigašša" 
             value={this.props.filterText}
             onChange={this.handleFilterTextChange} 
+            onKeyPress={this.handleFilterTextKeyPress}
             className='input-lg'
           />
-          {suggestionsListComponent}
+
         </React.Fragment>
         <InputGroup.Append >
-          <InputGroup.Text>
-           {this.props.loading ?
-            <span className="spinner-border   text-secondary"></span>:
+          <Button className='btn-dark' onClick={this.handleButtonClick}>
             <FontAwesomeIcon icon={faSearch} />
-          }
-          </InputGroup.Text>
+          </Button>
         </InputGroup.Append>
       </InputGroup>
       </Form.Group>
@@ -48,5 +56,3 @@ class SearchBar extends React.Component {
     );
   }
 }
-
-export {SearchBar};

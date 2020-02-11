@@ -5,6 +5,7 @@ from slugify import slugify
 from uuid import uuid4
 from django.utils.text import Truncator
 
+
 class Speech(models.Model):
 
     def sound_upload_path(instance, filename):

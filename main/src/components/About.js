@@ -6,7 +6,7 @@ import { Button, Container, ListGroup, Badge } from 'bootstrap-4-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCogs, faQuestion} from '@fortawesome/free-solid-svg-icons'
 
-class About extends React.Component {
+export default class About extends React.Component {
   
   constructor(props) {
       super(props);
@@ -14,11 +14,16 @@ class About extends React.Component {
         open: false,
         pos: []
       };   
-      axios.get("/api/v0/lexicon/pos/")
+     
+  }
+
+  componentDidMount() {
+
+     axios.get("/api/v0/lexicon/pos/")
         .then((response) => {
           this.setState({ 'pos': response.data  });
         });
-    }
+  }
 
   closeModal() { this.setState({ open: false }); };
 
@@ -51,4 +56,3 @@ class About extends React.Component {
     )
   }
 }
-export {About};
