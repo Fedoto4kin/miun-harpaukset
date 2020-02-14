@@ -37,7 +37,7 @@ export default class About extends React.Component {
       <div>
       <Modal visible={this.state.open} onClickBackdrop={this.modalBackdropClicked}>
         <div className="modal-header" >
-          <h5 className="modal-title">Lyhenešanoih näh</h5>
+          <h5 className="modal-title">Lyhennettyöh šanoih näh</h5>
           <button type="button" className="close"  onClick={this.closeModal.bind(this)}><span aria-hidden="true">×</span><span className="sr-only">Close</span></button>
         </div>
         <div className="modal-body">
@@ -47,7 +47,7 @@ export default class About extends React.Component {
         </div>
         <div className="modal-footer">
           <button type="button" className="btn btn-outline-secondary btn-block" onClick={this.closeModal.bind(this)} >
-            Ymmärdän
+            Maltan
           </button>
         </div>
       </Modal>

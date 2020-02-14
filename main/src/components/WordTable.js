@@ -4,8 +4,7 @@ import { Card, Container, Alert} from 'bootstrap-4-react';
 import { PointSpreadLoading } from 'react-loadingg';
 import axios from 'axios';
 
-import WordCard from './WordCard'; 
-
+const WordCard = React.lazy(() => import('./WordCard'));
 
 export default  class WordTable extends React.Component {
 
@@ -29,7 +28,7 @@ export default  class WordTable extends React.Component {
 
     this.setState({loading: !this.state.loading}); 
 
-    axios.get("/api/v0/lexicon", { params: {search: search}})
+    axios.get("/api/v0/lexicon/", { params: {search: search}})
       .then((response) => {
         this.setState({ 'words': response.data  });
         this.setState({loading: false}); 
@@ -45,22 +44,24 @@ export default  class WordTable extends React.Component {
 
       if (this.props.search && !this.state.loading) {
         if (wordCount) {
-          message = 'On löydän ' + wordCount;
-          message += ((wordCount > 1) ?  ' šanoida': ' šano')
-        } else message = 'Ei nimidä löydän';             
+          message = 'Löydy ' + wordCount;
+          message += ((wordCount > 1) ?  ' šanua': ' šana')
+        } else message = 'Ei nimidä löydyn';             
       }
 
-    
+      
       this.state.words.forEach((word) => {
         rows.push(
-            <WordCard word={word} key={word.id} />
+          <React.Suspense fallback={<span className="spinner-grow spinner-grow-lg"></span>} key={word.id}  >
+            <WordCard  word={word} doSearch={this._search.bind(this)} />
+          </React.Suspense>
         
         );
       });
 
       return (
 
-        <Container className='position-relative' style={{height: '8em'}}>
+        <Container className='position-relative' style={{minHeight: '8em'}}>
           { !this.state.loading ?
           <div>
             { message && <Alert className='text-center alert alert-secondary show'>{message}</Alert> }

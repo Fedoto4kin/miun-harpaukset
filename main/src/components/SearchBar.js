@@ -8,21 +8,27 @@ export default class SearchBar extends React.Component {
 
   constructor(props) {
     super(props);
-    this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
-    this.handleFilterTextKeyPress = this.handleFilterTextKeyPress.bind(this);
-    this.handleButtonClick = this.handleButtonClick.bind(this);
+
+    this.state = {
+      searchText: this.props.search,
+    };
   }
+
   
-  handleFilterTextChange(e) {
-    this.props.onFilterTextChange(e.target.value);
+  handleButtonClick(e) {
+    this.props.pushSearchStr(this.state.searchText);
+    e.preventDefault();
+  }
+
+  handleSearchTextChange(e) {
+    this.setState({ searchText: e.target.value}); 
   }
   
   handleFilterTextKeyPress(e) {
-    this.props.onFilterTextKeyPress(e);
-  }
-
-  handleButtonClick(e) {
-    this.props.onClickButton(e);
+    if(e.charCode==13){
+      this.props.pushSearchStr(e.target.value);
+      e.preventDefault();
+    }
   }
 
   render() {
@@ -36,16 +42,16 @@ export default class SearchBar extends React.Component {
        <InputGroup className='input-group-lg'>
        <React.Fragment>
          <Form.Input  type="text" 
-            placeholder="Täššä zavodikkua kirjuttua, štobi eččie šanakniigašša" 
-            value={this.props.filterText}
-            onChange={this.handleFilterTextChange} 
-            onKeyPress={this.handleFilterTextKeyPress}
+            placeholder="Zavodikkua kirjuttua täššä, štobi löydiä šanan šanakniigašta" 
+            value={this.state.searchText}
+            onChange={this.handleSearchTextChange.bind(this)} 
+            onKeyPress={this.handleFilterTextKeyPress.bind(this)}
             className='input-lg'
           />
 
         </React.Fragment>
         <InputGroup.Append >
-          <Button className='btn-dark' onClick={this.handleButtonClick}>
+          <Button className='btn-dark' onClick={this.handleButtonClick.bind(this)}>
             <FontAwesomeIcon icon={faSearch} />
           </Button>
         </InputGroup.Append>

@@ -12,48 +12,24 @@ const About = React.lazy(() => import('./About'));
 const SearchBar = React.lazy(() => import('./SearchBar'));
 
 
-class FilterableWordTable extends React.Component {
+class Lexicon extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      filterText: '',
       search: '',
-      loading: false
     };
     
-    this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
-    this.onFilterTextKeyPress = this.onFilterTextKeyPress.bind(this);
-    this.onClickButton = this.onClickButton.bind(this);
+    this.getSearchStr = this.getSearchStr.bind(this);
+    if (this.props.match.params.search) this.state.search = this.props.match.params.search;
+
   }
 
-  componentDidMount() {
-    if (this.props.match.params.search) { 
-      this.setState({ filterText: this.props.match.params.search});
-      this.setState({ search: this.props.match.params.search});
-    }
+  getSearchStr(srt) {
+    this.setState({ search: srt});
+    history.push(srt); 
   }
 
-  onFilterTextKeyPress(e) {
-
-    this.setState({ filterText: e.target.value}); 
-    if(e.charCode==13){
-      this.setState({ search:  e.target.value});
-      history.push( e.target.value )
-      e.preventDefault();
-    }
-  }
-
-  onClickButton(e) {
-      this.setState({ search: this.state.filterText});
-      history.push(this.state.filterText);
-      e.preventDefault();
-  }
-
-  handleFilterTextChange(filterText) { 
-    this.setState({ filterText: filterText}); 
-  }
-  
   render() {
 
     return (
@@ -65,28 +41,24 @@ class FilterableWordTable extends React.Component {
             <h2  className='text-info' style={{textShadow: "1px 1px #000"}} >
             <FontAwesomeIcon icon={faBookOpen} size="lg"  /> Šanakniiga</h2></Navbar.Brand>
             <ButtonGroup  className='float-right'>
-              <Button disabled={true} className='btn-light' size="lg" ><FontAwesomeIcon icon={faCogs} size="lg" /></Button>
-            &nbsp; 
-             <React.Suspense  fallback={<span className="spinner-grow spinner-grow-sm"></span>}> 
-            <About />
-            </React.Suspense>
+              <React.Suspense  fallback={<span className="spinner-grow text-info"></span>}> 
+                  <About />
+              </React.Suspense>
             </ButtonGroup>
            
            </Container>
           </Navbar>
            <Navbar light bg="light" pt='5' pb='2' mb='1' className='sticky-top'>
           <Container>
-          <React.Suspense fallback='<div>...</div>'>
+          <React.Suspense fallback={<span className="spinner-grow spinner-grow-lg"></span>} >
             <SearchBar
-              filterText={this.state.filterText}
-              onFilterTextChange={this.handleFilterTextChange}
-              onFilterTextKeyPress={this.onFilterTextKeyPress}
-              onClickButton={this.onClickButton}
+              search={this.state.search}
+              pushSearchStr={this.getSearchStr}
             />
           </React.Suspense>
           </Container>
           </Navbar>
-        <React.Suspense  fallback={<div>Pannah...</div>}>
+        <React.Suspense fallback={<div>...</div>} >
           <WordTable search={this.state.search} />
         </React.Suspense>
         <div style={{height:'4em'}}>
@@ -103,8 +75,9 @@ class FilterableWordTable extends React.Component {
 }
 
 document.body.classList.add('bg-light');
+
 ReactDOM.render((<Router history={history}>
-     <Route exact path="/:search?" component={FilterableWordTable} >
+     <Route exact path="/:search?" component={Lexicon} >
      </Route>
   </Router>
   ), document.getElementById('app'));
