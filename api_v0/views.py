@@ -13,7 +13,9 @@ class SearchViewList(generics.ListAPIView):
         by filtering against a `username` query parameter in the URL.
         """
         search = self.kwargs['search']
+        #TODO: group by base, order base_num 
         queryset =  Base.objects.filter(base_slug__startswith=Base.krl_slugify(Base, string=search))
+        # Sorting by karelian abc
         return queryset
 
 
@@ -45,6 +47,7 @@ class WordViewSet(viewsets.ReadOnlyModelViewSet):
         by filtering against a `username` query parameter in the URL.
         """
         queryset =  Word.objects.all()
+
         search = self.request.query_params.get('search', None)
         if search:
             queryset = queryset.filter(base_set__in=Base.objects.filter(
@@ -59,7 +62,7 @@ class WordViewSet(viewsets.ReadOnlyModelViewSet):
                     else:
                         q.definition_set_by_lang[df.lang].append(df.definition)
 
-            return queryset
+            return sorted(queryset, key=lambda word: [Word.KRL_ABC.lower().index(c) for c in Base.krl_slugify(Base, word.word)])
         else:
             return ()
 

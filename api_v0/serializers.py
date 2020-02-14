@@ -6,6 +6,11 @@ class BaseSerializer(serializers.ModelSerializer):
         model = Base
         fields = ['id', 'base',]
 
+class WordAliasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Word
+        fields = ['id', 'word',]
+
 
 class DefinitionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,6 +22,7 @@ class WordPreviewSerializer(serializers.ModelSerializer):
     definition = DefinitionSerializer(many=True, source='definition_set') 
     pos = serializers.CharField(source='pos.abbr', read_only=True)
     speech = serializers.FileField(source='speech.mp3', read_only=True  )
+    alias_words = WordAliasSerializer(many=True, source='alias')
 
     class Meta:
         model = Word
@@ -25,7 +31,8 @@ class WordPreviewSerializer(serializers.ModelSerializer):
             'word',
             'pos',
             'definition',
-            'speech'
+            'speech',
+            'alias_words'
         ]
 
 class WordDetailSerializer(serializers.ModelSerializer):

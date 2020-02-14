@@ -36,6 +36,7 @@ class Pos(models.Model):
     class Meta:
         verbose_name = 'Šanaloukka'
 
+
 class Word(models.Model):
     
     KRL_ABC = 'ABCČDEFGHIJKLMNOPRSŠZŽTUVYÄÖ'
@@ -45,6 +46,8 @@ class Word(models.Model):
     pos = models.ForeignKey(Pos, unique=False, on_delete=models.CASCADE)
     speech = models.ForeignKey(Speech, null=True, blank=True, on_delete=models.SET_NULL)
     orig = models.TextField(blank=True)
+    alias = models.ManyToManyField('self', blank=True, null=True)
+
 
     def __str__(self):
         return self.word
@@ -67,6 +70,7 @@ class Definition(models.Model):
     
     class Meta:
         ordering = ['-lang']
+
     
 class Base(models.Model):
     
