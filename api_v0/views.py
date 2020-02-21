@@ -62,7 +62,7 @@ class WordViewSet(viewsets.ReadOnlyModelViewSet):
                     else:
                         q.definition_set_by_lang[df.lang].append(df.definition)
 
-            return sorted(queryset, key=lambda word: [Word.KRL_ABC.lower().index(c) for c in Base.krl_slugify(Base, word.word)])
+            return sorted(queryset, key=lambda word: [Word.get_krl_abc().lower().index(c) for c in Base.krl_slugify(Base, word.word)])
         else:
             return ()
 

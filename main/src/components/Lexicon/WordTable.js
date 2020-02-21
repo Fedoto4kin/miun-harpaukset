@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { Card, Container, Alert} from 'bootstrap-4-react';
+import { Card, Container, Alert, Row, Col} from 'bootstrap-4-react';
 import { PointSpreadLoading } from 'react-loadingg';
 import axios from 'axios';
 
@@ -49,11 +49,13 @@ export default  class WordTable extends React.Component {
         } else message = 'Ei nimidä löydyn';             
       }
 
-      
+    
       this.state.words.forEach((word) => {
         rows.push(
-          <React.Suspense fallback={<span className="spinner-grow spinner-grow-lg"></span>} key={word.id}  >
-            <WordCard  word={word} doSearch={this._search.bind(this)} />
+          <React.Suspense key={word.id}>
+           <Col md={6} sm={12} lg={4} pb={2}>
+            <WordCard word={word}  />
+            </Col>
           </React.Suspense>
         
         );
@@ -65,7 +67,7 @@ export default  class WordTable extends React.Component {
           { !this.state.loading ?
           <div>
             { message && <Alert className='text-center alert alert-secondary show'>{message}</Alert> }
-            <Card.Columns>{rows}</Card.Columns>
+            <Row>{rows}</Row>
           </div> :
              <PointSpreadLoading size='large' color='#17a2b8'/>
           }

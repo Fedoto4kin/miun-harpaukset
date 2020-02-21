@@ -27,8 +27,13 @@ export default class WordCard extends React.Component {
         return r;
     }, Object.create(null));
 
+    let alias;
     let _nice_word = word.word.replace('|', '<span class="text-muted font-weight-normal">|</span>');
-    
+      
+    if (word.alias_words.length) {
+        alias = word.alias_words.map((d) => <Badge ml={2} className='badge-light' key={d.id}>{d.word.replace('|', '')}</Badge>) 
+    }
+
     return (
 
        <Card bg="dark" text="white" id={word.id} >
@@ -47,7 +52,6 @@ export default class WordCard extends React.Component {
             { Object.entries(definition).map((t,k) => 
               <ListGroup.Item key={k} bg="secondary" className='clearfix border-dark border' pl='4'>
                <Badge pill bg="dark" className='float-right' > <img src={`/static/img/${t[0]}.png`} alt={t[0]} /></Badge>
-                
                {t[1].length > 1 ? 
                 <ol className="list-group-numbered list-group">
                   {t[1].map((m, i) => <li key={i}>{m}</li>)}
@@ -59,7 +63,9 @@ export default class WordCard extends React.Component {
           </ListGroup>
         </Card.Body>
         <Card.Footer>
-          { word.alias_words.map((d) => <Badge mr={3} className='badge-light' key={d.id}>{d.word.replace('|', '')}</Badge>) }
+          { alias &&
+            <div><span  className='text-light small'>Sama kuin:</span>{alias}</div>
+          }
         </Card.Footer>
       </Card>
     );

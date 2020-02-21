@@ -6,6 +6,8 @@ from uuid import uuid4
 from django.utils.text import Truncator
 
 
+KRL_ABC = 'ABCČDEFGHIJKLMNOPRSŠZŽTUVYÄÖ';
+
 class Speech(models.Model):
 
     def sound_upload_path(instance, filename):
@@ -38,16 +40,16 @@ class Pos(models.Model):
 
 
 class Word(models.Model):
-    
-    KRL_ABC = 'ABCČDEFGHIJKLMNOPRSŠZŽTUVYÄÖ'
 
-    #TODO: Correct sorting by karelian abc
     word = models.CharField(_('Šana'), max_length=128)
     pos = models.ForeignKey(Pos, unique=False, on_delete=models.CASCADE)
     speech = models.ForeignKey(Speech, null=True, blank=True, on_delete=models.SET_NULL)
     orig = models.TextField(blank=True)
     alias = models.ManyToManyField('self', blank=True, null=True)
 
+    @staticmethod
+    def get_krl_abc():
+        return KRL_ABC
 
     def __str__(self):
         return self.word
@@ -79,12 +81,17 @@ class Base(models.Model):
     base = models.CharField(max_length=128)
     base_slug = models.CharField(max_length=128, db_index=True, blank=True)
     
+    @staticmethod
+    def get_krl_abc():
+        return KRL_ABC
+
     class Meta:
         unique_together = ("num", "base", "word")
 
-    def krl_slugify(self, string, save_diacrit=True):
-        return ''.join([i for i in string if i.isalpha()]).lower().replace('ü','y')
-        #TODO: create remove diacritics
+    def krl_slugify(self, string):
+        return ''.join([i for i in string.lower().replace('ü','y') if i in self.get_krl_abc().lower()])
+    
+    #TODO: create remove diacritics
 
     def save(self, *args, **kwargs):
         self.base_slug = self.krl_slugify(self.base)

@@ -39,14 +39,13 @@ export default class SearchBar extends React.Component {
        <Form className="w-100">
         <Form.Group> 
       
-       <InputGroup className='input-group-lg'>
+       <InputGroup>
        <React.Fragment>
          <Form.Input  type="text" 
             placeholder="Zavodikkua kirjuttua täššä, štobi löydiä šanan šanakniigašta" 
             value={this.state.searchText}
             onChange={this.handleSearchTextChange.bind(this)} 
             onKeyPress={this.handleFilterTextKeyPress.bind(this)}
-            className='input-lg'
           />
 
         </React.Fragment>
