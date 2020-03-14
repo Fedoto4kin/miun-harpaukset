@@ -1,7 +1,6 @@
 from rest_framework import viewsets, filters, generics
 from .serializers import *
 
-
 class SearchViewList(generics.ListAPIView):
 
     def get_serializer_class(self):
@@ -49,11 +48,19 @@ class WordViewSet(viewsets.ReadOnlyModelViewSet):
         queryset =  Word.objects.all()
 
         search = self.request.query_params.get('search', None)
+        reverse = self.request.query_params.get('reverse', None) is not None
+
         if search:
-            queryset = queryset.filter(base_set__in=Base.objects.filter(
-                base_slug__startswith=Base.krl_slugify(Base, string=search)
+            if not reverse:
+                queryset = Word.objects.filter(base_set__in=Base.objects.filter(
+                    base_slug__startswith=Base.krl_slugify(Base, string=search)
+                    )
                 )
-            )
+            else:
+                queryset = Word.objects.filter(
+                    definition_set__in=Definition.objects.filter(definition__icontains=search)
+                    )
+
             for q in queryset:
                 q.definition_set_by_lang = {}
                 for df in q.definition_set.all():
