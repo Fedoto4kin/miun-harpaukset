@@ -42,7 +42,9 @@ export default  class WordTable extends React.Component {
 
     this.setState({searching: !this.state.searching});
     let params = {search: search}
-    params.page = 1;
+    this.setState({page: 1 });
+    params.page =  this.state.page;
+
     if (reverse) params.reverse = true
 
     axios.get("/api/v0/lexicon/", {params: params})
