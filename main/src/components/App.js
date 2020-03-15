@@ -11,5 +11,6 @@ document.body.classList.add('bg-light');
 ReactDOM.render((<Router history={history}>
      <Route exact path="/:search?" component={Lexicon} >
      </Route>
+
   </Router>
   ), document.getElementById('app'));

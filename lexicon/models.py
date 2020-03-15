@@ -21,7 +21,7 @@ class Speech(models.Model):
                 blank=True,
                 editable=True,
     )
-    text = models.TextField(blank=False)
+    text = models.TextField(blank=False,  null = True, db_index = True)
 
     def __str__(self):
         return Truncator(self.text).words(1)
@@ -45,7 +45,7 @@ class Word(models.Model):
     pos = models.ForeignKey(Pos, unique=False, on_delete=models.CASCADE)
     speech = models.ForeignKey(Speech, null=True, blank=True, on_delete=models.SET_NULL)
     orig = models.TextField(blank=True)
-    alias = models.ManyToManyField('self', blank=True, null=True)
+    alias = models.ManyToManyField('self', blank=True)
 
     @staticmethod
     def get_krl_abc():

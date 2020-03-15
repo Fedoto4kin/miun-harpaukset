@@ -7,7 +7,7 @@ router = DefaultRouter()
 router.register(r'lexicon/pos/?', PosViewSet, basename='pos')
 router.register(r'lexicon', WordViewSet, basename='word')
 
-#router.urls.append(re_path('lexicon/search/(?P<search>.+)/?$', SearchViewList.as_view()))
-router.urls.append(re_path('lexicon/search/(?P<search>[\w-]+)/?(?P<reverse>.*)/?$', SearchViewList.as_view()))
+router.urls.append(re_path('lexicon/search/(?P<search>.+)/?$', SearchViewList.as_view()))
+#router.urls.append(re_path('lexicon/search/(?P<search>[\w-]+)/?(?P<reverse>.*)/?$', SearchViewList.as_view()))
 
 urlpatterns = router.urls

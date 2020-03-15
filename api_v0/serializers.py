@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.pagination import PageNumberPagination
 from lexicon.models import Word, Definition, Pos, Base
 
 class BaseSerializer(serializers.ModelSerializer):

@@ -16,10 +16,12 @@ export default class Lexicon extends React.Component {
     super(props);
     this.state = {
       search: '',
+      reverse: false
     };
     
     this.getSearchStr = this.getSearchStr.bind(this);
     if (this.props.match.params.search) this.state.search = this.props.match.params.search;
+    if (location.search.includes('reverse')) this.state.reverse = true;
 
   }
 
@@ -27,8 +29,9 @@ export default class Lexicon extends React.Component {
   	document.title = 'Šanakniiga – Miun harpaukšet karielan kieleh';
    }	
 
-  getSearchStr(srt) {
-    this.setState({ search: srt});
+  getSearchStr(srt, rev) {
+    this.setState({ search: srt, reverse: rev});
+    if (rev) srt += '?reverse'
     history.push(srt); 
   }
 
@@ -55,13 +58,14 @@ export default class Lexicon extends React.Component {
           <React.Suspense fallback={<span className="spinner-grow spinner-grow-lg"></span>} >
             <SearchBar
               search={this.state.search}
+              reverse={this.state.reverse}
               pushSearchStr={this.getSearchStr}
             />
           </React.Suspense>
           </Container>
           </Navbar>
         <React.Suspense fallback={<div>...</div>} >
-          <WordTable search={this.state.search} />
+          <WordTable search={this.state.search}  reverse={this.state.reverse} />
         </React.Suspense>
         <div style={{height:'4em'}}>
         </div>
