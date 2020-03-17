@@ -15,9 +15,15 @@ export default class SearchBar extends React.Component {
     };
   }
 
-  handleButtonClick(e) {
+
+  handleSearchButtonClick(e) {
     this.props.pushSearchStr(this.state.searchText, this.state.reverse);
     e.preventDefault();
+  }
+
+  handleDiacrtButtonClick(e) {
+     this.setState({ searchText: this.state.searchText + e.target.value }); 
+     e.preventDefault();
   }
 
   handleSearchTextChange(e) {
@@ -43,7 +49,7 @@ export default class SearchBar extends React.Component {
                       width='180'
                       checked={this.state.reverse}
                       offlabel='Karielan šana'
-                      onlabel="Kiäneššä"
+                      onlabel="Kiännökšeššä"
                       offstyle="primary" 
                       onstyle="warning" 
                       onChange={(checked) => {this.setState({ reverse: checked }) }}
@@ -59,8 +65,26 @@ export default class SearchBar extends React.Component {
 
               </React.Fragment>
                 <InputGroup.Append>
-
-                <Button className='btn-dark' onClick={this.handleButtonClick.bind(this)}>
+                <Button value='č' className='btn-secondary' onClick={this.handleDiacrtButtonClick.bind(this)}>
+                  č
+                </Button> 
+                <Button value='š' className='btn-secondary' onClick={this.handleDiacrtButtonClick.bind(this)}>
+                  š
+                </Button> 
+                <Button value='ž' className='btn-secondary' onClick={this.handleDiacrtButtonClick.bind(this)}>
+                  ž
+                </Button> 
+                <Button value='ä' className='btn-dark' onClick={this.handleDiacrtButtonClick.bind(this)}>
+                  ä
+                </Button>                
+                <Button value='ö' className='btn-dark' onClick={this.handleDiacrtButtonClick.bind(this)}>
+                  ö
+                </Button>                
+               
+               
+               
+ 
+                <Button className='btn-light border-dark' onClick={this.handleSearchButtonClick.bind(this)}>
                   <FontAwesomeIcon icon={faSearch} />
                 </Button>
               </InputGroup.Append>
