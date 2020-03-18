@@ -15,7 +15,6 @@ export default class SearchBar extends React.Component {
     };
   }
 
-
   handleSearchButtonClick(e) {
     this.props.pushSearchStr(this.state.searchText, this.state.reverse);
     e.preventDefault();

@@ -27,7 +27,7 @@ class SearchReverseViewList(generics.ListAPIView):
 class PosViewSet(viewsets.ReadOnlyModelViewSet):
 
     pagination_class = None
-    
+
     def get_serializer_class(self):
         return PosSerializer
 
@@ -60,12 +60,12 @@ class WordViewSet(viewsets.ReadOnlyModelViewSet):
         if reverse and search:
             queryset = Word.objects.all()
             queryset = Word.objects.filter(
-                    definition_set__in=Definition.objects.filter(definition__search=search)
+                    definition_set__in=Definition.objects.filter(definition_lcase__search=search.lower())
                     )
         elif search and len(Base.krl_slugify(Base, string=search)):
             queryset = Word.objects.all()
             queryset = Word.objects.filter(base_set__in=Base.objects.filter(
-                base_slug__startswith=Base.krl_slugify(Base, string=search)
+                base_slug_diacrit__startswith=Base.krl_slugify(Base, string=search)
                 )
             )
 

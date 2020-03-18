@@ -29,21 +29,18 @@ export default  class WordTable extends React.Component {
     }
   }
 
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     //if ((this.props.search !== nextProps.search) || (this.props.reverse !== nextProps.reverse)) this._search(nextProps.search)
     this._search(nextProps.search, nextProps.reverse)
-  }
-
-  loadMore() {
-     console.log('Bottom')
   }
 
   _search(search, reverse) {
 
     this.setState({searching: !this.state.searching});
     let params = {search: search}
-    this.setState({page: 1 });
-    params.page =  this.state.page;
+    this.setState({page: 1});
+    params.page = 1;
 
     if (reverse) params.reverse = true
 
@@ -61,9 +58,9 @@ export default  class WordTable extends React.Component {
   }
 
   uploadMore = () => {
-  
+
     if (this.state.data.next) {
-        this.setState({loading: !this.state.loading});
+        this.setState({loading: true});
         this.setState({page: this.state.page + 1 });
 
         let params = {search: this.props.search}
@@ -77,7 +74,7 @@ export default  class WordTable extends React.Component {
               'next': !!response.data.next
             }
             this.setState({'data': data });
-            this.setState({loading: false}); 
+            this.setState({loading: false})
         });
     }
   
@@ -122,7 +119,7 @@ export default  class WordTable extends React.Component {
              <div className='position-relative' style={{minHeight: '8em'}}>
             { this.state.loading == true && <PointSpreadLoading size='large' color='#17a2b8'/>}</div>
           }
-          <BottomScrollListener onBottom={this.uploadMore} />
+          <BottomScrollListener offset='100' debounce='30' onBottom={this.uploadMore} />
         </Container>
       );
   }

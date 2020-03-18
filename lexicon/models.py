@@ -69,9 +69,14 @@ class Definition(models.Model):
     word = models.ForeignKey(Word, unique=False, on_delete=models.CASCADE,  related_name='definition_set')
     lang =  models.CharField(max_length=32, choices=LANGUAGE)
     definition = models.TextField(blank=True)
+    definition_lcase = models.TextField(blank=True)
     
     class Meta:
         ordering = ['-lang']
+
+    def save(self, *args, **kwargs):
+        self.definition_lcase = self.definition.lower()
+        super(Definition, self).save(*args, **kwargs)
 
     
 class Base(models.Model):
@@ -80,6 +85,7 @@ class Base(models.Model):
     num = models.IntegerField(choices=((int(x), x) for x in range(0,8)))
     base = models.CharField(max_length=128)
     base_slug = models.CharField(max_length=128, db_index=True, blank=True)
+    base_slug_diacrit = models.CharField(max_length=128, db_index=True, blank=True)
     
     @staticmethod
     def get_krl_abc():
@@ -91,8 +97,7 @@ class Base(models.Model):
     def krl_slugify(self, string):
         return ''.join([i for i in string.lower().replace('ü','y') if i in self.get_krl_abc().lower()])
     
-    #TODO: create remove diacritics
-
     def save(self, *args, **kwargs):
-        self.base_slug = self.krl_slugify(self.base)
+        self.base_slug = slugify(self.base)
+        self.base_slug_diacrit = self.krl_slugify(self.base)
         super(Base, self).save(*args, **kwargs)
