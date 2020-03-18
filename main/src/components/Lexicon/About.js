@@ -47,7 +47,7 @@ export default class About extends React.Component {
         </div>
         <div className="modal-footer">
           <button type="button" className="btn btn-outline-secondary btn-block" onClick={this.closeModal.bind(this)} >
-            Maltan
+            maltan
           </button>
         </div>
       </Modal>

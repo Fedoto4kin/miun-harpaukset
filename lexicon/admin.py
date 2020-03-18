@@ -6,10 +6,11 @@ from .models import *
 class BaseInline(admin.TabularInline):
     extra = 0
     model = Base
-    readonly_fields = ["base_slug"]
+    readonly_fields = ["base_slug", "base_slug_diacrit"]
 
 class DefinitionInline(admin.TabularInline):
     extra = 0
+    exclude = ('definition_lcase',)
     model = Definition
 
 

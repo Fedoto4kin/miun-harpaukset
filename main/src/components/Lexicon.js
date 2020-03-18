@@ -6,6 +6,7 @@ import { faCogs, faQuestion, faBookOpen } from '@fortawesome/free-solid-svg-icon
 
 const WordTable = React.lazy(() => import('./Lexicon/WordTable'));
 const About = React.lazy(() => import('./Lexicon/About'));
+const Made = React.lazy(() => import('./Lexicon/Made'));
 const SearchBar = React.lazy(() => import('./Lexicon/SearchBar'));
 
 import history from './history';
@@ -44,7 +45,7 @@ export default class Lexicon extends React.Component {
           <Container>
           <Navbar.Brand>
             <h2  className='text-info' style={{textShadow: "1px 1px #000"}} >
-            <FontAwesomeIcon icon={faBookOpen} size="lg"  /> Šanakniiga</h2></Navbar.Brand>
+            <FontAwesomeIcon icon={faBookOpen} size="lg"  /> Tverinkarielan Šanakniiga<sup className='font-italic text-muted'>beta</sup></h2></Navbar.Brand>
             <ButtonGroup  className='float-right'>
               <React.Suspense  fallback={<span className="spinner-grow text-info"></span>}> 
                   <About />
@@ -73,6 +74,11 @@ export default class Lexicon extends React.Component {
           <Navbar dark bg="dark" pt='3' pb='2' mt= '3' className='row-fluid fixed-bottom border-top border-white'>
           <Container>
             <h5  className='text-info'  >Miun harpaukšet karielan kieleh</h5>
+           
+             <React.Suspense  fallback={<span className="spinner-grow text-info"></span>}> 
+                   <Made />
+            </React.Suspense>
+
           </Container>
           </Navbar>
       </div>
