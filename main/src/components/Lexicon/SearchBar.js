@@ -13,6 +13,9 @@ export default class SearchBar extends React.Component {
       searchText: this.props.search,
       reverse: this.props.reverse,
     };
+
+    this.searchInput = React.createRef();
+
   }
 
   handleSearchButtonClick(e) {
@@ -21,8 +24,11 @@ export default class SearchBar extends React.Component {
   }
 
   handleDiacrtButtonClick(e) {
-     this.setState({ searchText: this.state.searchText + e.target.value }); 
-     e.preventDefault();
+     
+     this.setState({ searchText: this.state.searchText + e.target.dataset.char }); 
+     this.searchInput.current.focus();    
+ 
+     
   }
 
   handleSearchTextChange(e) {
@@ -55,30 +61,33 @@ export default class SearchBar extends React.Component {
                   />
 
              <React.Fragment>
-               <Form.Input  type="text" 
+               <input  type="text" 
+                  className='form-control'
                   placeholder="Zavodikkua kirjuttua täššä, štobi löydiä šanan šanakniigašta" 
                   value={this.state.searchText}
+                  ref={this.searchInput}
                   onChange={this.handleSearchTextChange.bind(this)} 
+                  autoFocus={true}
                   onKeyPress={this.handleFilterTextKeyPress.bind(this)}
                 />
 
               </React.Fragment>
                 <InputGroup.Append>
-                <Button value='č' className='btn-secondary' onClick={this.handleDiacrtButtonClick.bind(this)}>
+                <span data-char='č' className='btn btn-secondary' onClick={this.handleDiacrtButtonClick.bind(this)}>
                   č
-                </Button> 
-                <Button value='š' className='btn-secondary' onClick={this.handleDiacrtButtonClick.bind(this)}>
+                </span> 
+                <span data-char='š' className='btn btn-secondary' onClick={this.handleDiacrtButtonClick.bind(this)}>
                   š
-                </Button> 
-                <Button value='ž' className='btn-secondary' onClick={this.handleDiacrtButtonClick.bind(this)}>
+                </span> 
+                <span data-char='ž' className='btn btn-secondary' onClick={this.handleDiacrtButtonClick.bind(this)}>
                   ž
-                </Button> 
-                <Button value='ä' className='btn-dark' onClick={this.handleDiacrtButtonClick.bind(this)}>
+                </span> 
+                <span data-char='ä' className='btn btn-dark' onClick={this.handleDiacrtButtonClick.bind(this)}>
                   ä
-                </Button>                
-                <Button value='ö' className='btn-dark' onClick={this.handleDiacrtButtonClick.bind(this)}>
+                </span>                
+                <span data-char='ö' className='btn btn-dark' onClick={this.handleDiacrtButtonClick.bind(this)}>
                   ö
-                </Button>                
+                </span>                
                
                
                
