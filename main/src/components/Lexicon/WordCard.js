@@ -64,7 +64,7 @@ export default class WordCard extends React.Component {
         </Card.Body>
         <Card.Footer>
           { alias &&
-            <div><span  className='text-light small'>Sama kuin:</span>{alias}</div>
+            <div><span  className='text-light small'>Šama kuin:</span>{alias}</div>
           }
         </Card.Footer>
       </Card>
