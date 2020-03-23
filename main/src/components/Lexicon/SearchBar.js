@@ -12,6 +12,7 @@ export default class SearchBar extends React.Component {
     this.state = {
       searchText: this.props.search,
       reverse: this.props.reverse,
+      inputCursor: 0
     };
 
     this.searchInput = React.createRef();
@@ -20,26 +21,47 @@ export default class SearchBar extends React.Component {
 
   handleSearchButtonClick(e) {
     this.props.pushSearchStr(this.state.searchText, this.state.reverse);
+    this.searchInput.current.focus();
     e.preventDefault();
   }
 
+  componentDidUpdate() {
+    this.searchInput.current.focus();
+    this.searchInput.current.selectionStart = this.state.inputCursor;
+    this.searchInput.current.selectionEnd = this.state.inputCursor;
+  }
+
+
   handleDiacrtButtonClick(e) {
-     
-     this.setState({ searchText: this.state.searchText + e.target.dataset.char }); 
-     this.searchInput.current.focus();    
- 
-     
+    
+    let position =  this.searchInput.current.selectionStart;
+    let updated_text = [this.state.searchText.slice(0, position),
+                        e.target.dataset.char, 
+                        this.state.searchText.slice(position)].join('');
+
+    this.setState({
+     searchText: updated_text,
+     inputCursor: position+1 
+    }); 
+   
   }
 
   handleSearchTextChange(e) {
-    this.setState({ searchText: e.target.value}); 
+
+    this.setState({ 
+        inputCursor: this.searchInput.current.selectionStart,
+        searchText: e.target.value
+    }); 
   }
+
   
   handleFilterTextKeyPress(e) {
+    this.setState({ inputCursor: this.searchInput.current.selectionStart }); 
     if(e.charCode==13){
       this.props.pushSearchStr(e.target.value, this.state.reverse);
       e.preventDefault();
     }
+  
   }
 
   render() {

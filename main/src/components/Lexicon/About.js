@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from "react-dom";
 import Modal from 'react-bootstrap4-modal';
 import axios from 'axios';
-import { Button, Container, ListGroup, Badge } from 'bootstrap-4-react';
+import { Button, Container, Badge } from 'bootstrap-4-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCogs, faQuestion} from '@fortawesome/free-solid-svg-icons'
 
@@ -31,7 +31,7 @@ export default class About extends React.Component {
 
   render(){
     
-    const listItems = this.state.pos.map((pos) =>  <ListGroup.Item key={pos.id} ><Badge  className="badge-info"><i>{pos.abbr}</i></Badge> {pos.name_ru} &mdash; {pos.name_fi}  </ListGroup.Item> );
+    const listItems = this.state.pos.map((pos) =>  <tr key={pos.id} ><td><Badge  className="badge-info"><i>{pos.abbr}</i></Badge></td><td>{pos.name_ru}</td><td>{pos.name_fi}</td></tr> );
 
     return (
       <div>
@@ -41,9 +41,11 @@ export default class About extends React.Component {
           <button type="button" className="close"  onClick={this.closeModal.bind(this)}><span aria-hidden="true">×</span><span className="sr-only">Close</span></button>
         </div>
         <div className="modal-body">
-        <ListGroup>
-        {listItems}
-        </ListGroup>
+
+            <table className='table table-borderless'>
+            {listItems}
+            </table>
+
         </div>
         <div className="modal-footer">
           <button type="button" className="btn btn-outline-secondary btn-block" onClick={this.closeModal.bind(this)} >
