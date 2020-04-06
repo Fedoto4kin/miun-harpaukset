@@ -43,7 +43,9 @@ export default class About extends React.Component {
         <div className="modal-body">
 
             <table className='table table-borderless'>
+            <tbody>
             {listItems}
+            </tbody>
             </table>
 
         </div>
