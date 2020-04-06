@@ -108,6 +108,7 @@ export default  class WordTable extends React.Component {
       return (
 
         <Container className='position-relative' style={{minHeight: '8em'}}>
+        
           { !this.state.searching ?
           <div>
             { message && <Alert className='text-center alert alert-secondary show'>{message}</Alert> }
@@ -119,7 +120,9 @@ export default  class WordTable extends React.Component {
              <div className='position-relative' style={{minHeight: '8em'}}>
             { this.state.loading == true && <PointSpreadLoading size='large' color='#17a2b8'/>}</div>
           }
+
           <BottomScrollListener offset='100' debounce='30' onBottom={this.uploadMore} />
+       
         </Container>
       );
   }
