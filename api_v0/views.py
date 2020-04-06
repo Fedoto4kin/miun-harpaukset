@@ -47,10 +47,6 @@ class WordViewSet(viewsets.ReadOnlyModelViewSet):
         return WordDetailSerializer
 
     def get_queryset(self):
-        """
-        Optionally restricts the returned purchases to a given user,
-        by filtering against a `username` query parameter in the URL.
-        """
         
         queryset = ()
         search = self.request.query_params.get('search', None)

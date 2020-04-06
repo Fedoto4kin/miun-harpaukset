@@ -4,6 +4,7 @@ import { Link  } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeadphones } from '@fortawesome/free-solid-svg-icons'
 import { Navbar, Form, InputGroup, Button, Card, Container, Badge, ListGroup } from 'bootstrap-4-react';
+import ReactTooltip from 'react-tooltip';
 
 export default class WordCard extends React.Component {
 
@@ -28,6 +29,7 @@ export default class WordCard extends React.Component {
     }, Object.create(null));
 
     let alias;
+    let pos_tooltip = word.pos_name_ru + ' | ' + word.pos_name_fi;
     let _nice_word = word.word.replace('|', '<span class="text-muted font-weight-normal">|</span>');
       
     if (word.alias_words.length) {
@@ -38,7 +40,7 @@ export default class WordCard extends React.Component {
 
        <Card bg="dark" text="white" id={word.id} >
         <Card.Header className="clearfix">
-        <Badge className="badge-info float-right"><i>{word.pos}</i></Badge>
+            <Badge className="badge-info float-right" data-tip={pos_tooltip}><i>{word.pos}</i></Badge>
         <h5><Button className='btn-sm btn-outline-warning' 
                     onClick={this.playAudio.bind(this)}><FontAwesomeIcon icon={faHeadphones} />
               </Button>&nbsp;{ReactHtmlParser (_nice_word) }</h5>
@@ -51,7 +53,7 @@ export default class WordCard extends React.Component {
          <ListGroup variant="flush">
             { Object.entries(definition).map((t,k) => 
               <ListGroup.Item key={k} bg="secondary" className='clearfix border-dark border' pl='4'>
-               <Badge pill bg="dark" className='float-right' > <img src={`/static/img/${t[0]}.png`} alt={t[0]} /></Badge>
+               <Badge pill bg="dark" className='float-right' ><img src={`/static/img/${t[0]}.png`} alt={t[0]} /></Badge>
                {t[1].length > 1 ? 
                 <ol className="list-group-numbered list-group">
                   {t[1].map((m, i) => <li key={i}>{m}</li>)}
@@ -67,6 +69,7 @@ export default class WordCard extends React.Component {
             <div><span  className='text-light small'>Šama kuin:</span>{alias}</div>
           }
         </Card.Footer>
+        <ReactTooltip  place="top" type="light" border={true} effect="solid" />
       </Card>
     );
   }

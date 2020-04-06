@@ -22,6 +22,8 @@ class WordPreviewSerializer(serializers.ModelSerializer):
 
     definition = DefinitionSerializer(many=True, source='definition_set') 
     pos = serializers.CharField(source='pos.abbr', read_only=True)
+    pos_name_ru = serializers.CharField(source='pos.name_ru', read_only=True)
+    pos_name_fi = serializers.CharField(source='pos.name_fi', read_only=True)
     speech = serializers.FileField(source='speech.mp3', read_only=True  )
     alias_words = WordAliasSerializer(many=True, source='alias')
 
@@ -31,6 +33,8 @@ class WordPreviewSerializer(serializers.ModelSerializer):
             'id',
             'word',
             'pos',
+            'pos_name_ru',
+            'pos_name_fi',
             'definition',
             'speech',
             'alias_words'
