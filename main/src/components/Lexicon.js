@@ -9,6 +9,7 @@ import ym from 'react-yandex-metrika';
 const WordTable = React.lazy(() => import('./Lexicon/WordTable'));
 const Made = React.lazy(() => import('./Lexicon/Made'));
 const SearchBar = React.lazy(() => import('./Lexicon/SearchBar'));
+const About = React.lazy(() => import('./Lexicon/About'));
 
 import history from './history';
 
@@ -34,7 +35,7 @@ export default class Lexicon extends React.Component {
 
   getSearchStr(srt, rev) {
     this.setState({ search: srt, reverse: rev});
-    if (rev) srt += '?reverse'
+    if (rev) searcht += '?reverse'
     history.push(srt); 
     ym('reachGoal', 'search', {search: srt});
   }
@@ -52,9 +53,10 @@ export default class Lexicon extends React.Component {
         </h2>
       </Navbar.Brand>
         <ButtonGroup  className='float-right'>
-             <Button className='btn-primary' data-tip='Avunda' data-for='help-button' >
-                <FontAwesomeIcon icon={faInfoCircle} size="lg" />
-             </Button>
+            <React.Suspense  fallback={<span className="spinner-grow text-info"></span>}> 
+               <About />
+            </React.Suspense>
+
         </ButtonGroup>
         <ReactTooltip id='help-button' place="left" type="info" border={true} effect="solid" />
        </Container>
