@@ -26,7 +26,7 @@ export default class Lexicon extends React.Component {
     if (this.props.match.params.search) this.state.search = this.props.match.params.search;
     if (location.search.includes('reverse')) this.state.reverse = true;
 
-  }
+  } 
 
   componentDidMount() {
   	document.title = 'Šanakniiga – Miun harpaukšet karielan kieleh';
