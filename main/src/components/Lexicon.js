@@ -4,7 +4,6 @@ import { Navbar, ButtonGroup, Button,  Container } from 'bootstrap-4-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCogs, faQuestion, faBookOpen, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import ReactTooltip from 'react-tooltip';
-import ym from 'react-yandex-metrika';
 
 const WordTable = React.lazy(() => import('./Lexicon/WordTable'));
 const Made = React.lazy(() => import('./Lexicon/Made'));
@@ -36,7 +35,6 @@ export default class Lexicon extends React.Component {
     this.setState({ search: srt, reverse: rev});
     if (rev) srt += '?reverse'
     history.push(srt); 
-    ym('reachGoal', 'search', {search: srt});
   }
 
   render() {
