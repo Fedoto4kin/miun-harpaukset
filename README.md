@@ -6,3 +6,5 @@ It's web version of study cource karelian language, tver' dialect(one of minore 
 * [About language](https://en.wikipedia.org/wiki/Karelian_language)
 
 Web version is based on book with  same name of Irina Novak and Irina Kommisarova.
+
+![Original book front](https://raw.githubusercontent.com/Fedoto4kin/Miun_harpaukset/master/static/img/book.jpg)
