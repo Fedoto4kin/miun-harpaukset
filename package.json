@@ -58,6 +58,7 @@
     "react-loaders": "^3.0.1",
     "react-loadingg": "^1.7.1",
     "react-router-dom": "^5.1.2",
+    "react-yandex-metrika": "^2.6.0",
     "react-tooltip": "^4.1.5",
     "style-loader": "^1.1.3"
   }

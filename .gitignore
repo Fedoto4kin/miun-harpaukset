@@ -1,4 +1,7 @@
 __pycache__/
 *.py[cod]
 
+
 krl/settings.py
+webpack.config.js
+main/static/main.js

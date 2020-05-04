@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { Router, Route, syncHistoryWithStore, routerReducer } from "react-router-dom";
 import { YMInitializer } from 'react-yandex-metrika';
+import Joyride from 'react-joyride';
 
 import history from './history';
 import Lexicon from './Lexicon';
