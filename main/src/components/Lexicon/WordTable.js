@@ -31,8 +31,7 @@ export default  class WordTable extends React.Component {
 
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    //if ((this.props.search !== nextProps.search) || (this.props.reverse !== nextProps.reverse)) this._search(nextProps.search)
-    this._search(nextProps.search, nextProps.reverse)
+     this._search(nextProps.search, nextProps.reverse);
   }
 
   _search(search, reverse) {

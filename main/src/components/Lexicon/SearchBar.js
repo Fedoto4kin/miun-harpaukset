@@ -25,7 +25,20 @@ export default class SearchBar extends React.Component {
     e.preventDefault();
   }
 
+
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+
+    if (nextProps.search != this.props.search) {
+          this.setState({
+             searchText: nextProps.search,
+             reverse: nextProps.reverse
+        }); 
+    }
+  }
+
   componentDidUpdate() {
+   
     this.searchInput.current.focus();
     this.searchInput.current.selectionStart = this.state.inputCursor;
     this.searchInput.current.selectionEnd = this.state.inputCursor;
@@ -71,8 +84,9 @@ export default class SearchBar extends React.Component {
 
        <Form className="w-100">
         <Form.Group> 
-             <InputGroup>
-                    <BootstrapSwitchButton
+             <InputGroup >
+                <span  className="search-bar-switcher">
+                    <BootstrapSwitchButton  
                       width='180'
                       checked={this.state.reverse}
                       offlabel='Karielan šana'
@@ -81,10 +95,10 @@ export default class SearchBar extends React.Component {
                       onstyle="warning" 
                       onChange={(checked) => {this.setState({ reverse: checked }) }}
                   />
-
+                </span>
              <React.Fragment>
                <input  type="text" 
-                  className='form-control'
+                  className='form-control search-bar-input'
                   placeholder="Zavodikkua kirjuttua täššä, štobi löydiä šanan šanakniigašta" 
                   value={this.state.searchText}
                   ref={this.searchInput}
@@ -94,7 +108,7 @@ export default class SearchBar extends React.Component {
                 />
 
               </React.Fragment>
-                <InputGroup.Append>
+                <InputGroup.Append className='krl-letters'>
                 <span data-char='č' className='btn btn-secondary' onClick={this.handleDiacrtButtonClick.bind(this)}>
                   č
                 </span> 
@@ -110,11 +124,7 @@ export default class SearchBar extends React.Component {
                 <span data-char='ö' className='btn btn-dark' onClick={this.handleDiacrtButtonClick.bind(this)}>
                   ö
                 </span>                
-               
-               
-               
- 
-                <Button className='btn-light border-dark' onClick={this.handleSearchButtonClick.bind(this)}>
+                <Button className='btn-light border-dark search-run' onClick={this.handleSearchButtonClick.bind(this)}>
                   <FontAwesomeIcon icon={faSearch} />
                 </Button>
               </InputGroup.Append>
