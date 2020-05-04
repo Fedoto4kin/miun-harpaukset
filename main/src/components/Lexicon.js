@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCogs, faQuestion, faBookOpen, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import ReactTooltip from 'react-tooltip';
 import Joyride from 'react-joyride';
+import ym from 'react-yandex-metrika';
 
 
 const WordTable = React.lazy(() => import('./Lexicon/WordTable'));
@@ -39,8 +40,8 @@ export default class Lexicon extends React.Component {
   getSearchStr(str, rev) {
     this.setState({ search: str, reverse: rev});
     if (rev) str += '?reverse'
-    history.push(str)
-    
+    history.push(str);
+    ym('reachGoal', 'search', {search: srt});
   }
 
   handleClickStart(e) {
