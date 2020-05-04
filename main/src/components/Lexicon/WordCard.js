@@ -40,8 +40,9 @@ export default class WordCard extends React.Component {
 
        <Card bg="dark" text="white" id={word.id} >
         <Card.Header className="clearfix">
-            <Badge className="badge-info float-right" data-tip={pos_tooltip}><i>{word.pos}</i></Badge>
-        <h5><Button className='btn-sm btn-outline-warning' 
+            <Badge className="badge-info float-right word-pos" data-tip={pos_tooltip}><i>{word.pos}</i></Badge>
+        <h5 className='word'>
+            <Button className='btn-sm btn-outline-warning sound-btn' 
                     onClick={this.playAudio.bind(this)}><FontAwesomeIcon icon={faHeadphones} />
               </Button>&nbsp;{ReactHtmlParser (_nice_word) }</h5>
           <audio ref={this.soundRef}>
@@ -50,10 +51,10 @@ export default class WordCard extends React.Component {
         </audio>
         </Card.Header>
         <Card.Body>
-         <ListGroup variant="flush">
+         <ListGroup variant="flush" className='word-translate'>
             { Object.entries(definition).map((t,k) => 
               <ListGroup.Item key={k} bg="secondary" className='clearfix border-dark border' pl='4'>
-               <Badge pill bg="dark" className='float-right' ><img src={`/static/img/${t[0]}.png`} alt={t[0]} /></Badge>
+               <Badge pill bg="dark" className='float-right' ><img src={`/static/img/${t[0]}-xs.png`} alt={t[0]} /></Badge>
                {t[1].length > 1 ? 
                 <ol className="list-group-numbered list-group">
                   {t[1].map((m, i) => <li key={i}>{m}</li>)}
@@ -66,7 +67,7 @@ export default class WordCard extends React.Component {
         </Card.Body>
         <Card.Footer>
           { alias &&
-            <div><span  className='text-light small'>Šama kuin:</span>{alias}</div>
+            <div className='word-alias'><span  className='text-light small'>Šama kuin:</span>{alias}</div>
           }
         </Card.Footer>
         <ReactTooltip  place="top" type="light" border={true} effect="solid" />
