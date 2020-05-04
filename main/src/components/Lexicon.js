@@ -42,7 +42,7 @@ export default class Lexicon extends React.Component {
     this.setState({ search: str, reverse: rev});
     if (rev) str += '?reverse'
     history.push(str);
-    ym('reachGoal', 'search', {search: srt});
+    ym('reachGoal', 'search', {search: str});
   }
 
   handleClickStart(e) {
