@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactHtmlParser from 'react-html-parser'; 
 import { Link  } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeadphones } from '@fortawesome/free-solid-svg-icons'
@@ -30,7 +29,7 @@ export default class WordCard extends React.Component {
 
     let alias;
     let pos_tooltip = word.pos_name_ru + ' | ' + word.pos_name_fi;
-    let _nice_word = word.word.replace('|', '<span class="text-muted font-weight-normal">|</span>');
+    let nice_word = word.word.replace('|', '');
       
     if (word.alias_words.length) {
         alias = word.alias_words.map((d) => <Badge ml={2} className='badge-light' key={d.id}>{d.word.replace('|', '')}</Badge>) 
@@ -44,7 +43,7 @@ export default class WordCard extends React.Component {
         <h5 className='word'>
             <Button className='btn-sm btn-outline-warning sound-btn' 
                     onClick={this.playAudio.bind(this)}><FontAwesomeIcon icon={faHeadphones} />
-              </Button>&nbsp;{ReactHtmlParser (_nice_word) }</h5>
+              </Button>&nbsp;{ nice_word }</h5>
           <audio ref={this.soundRef}>
             <source src={word.speech}>
           </source>

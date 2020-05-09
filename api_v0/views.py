@@ -37,9 +37,7 @@ class PosViewSet(viewsets.ReadOnlyModelViewSet):
         return queryset
 
 
-
 class WordViewSet(viewsets.ReadOnlyModelViewSet):
-
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -52,29 +50,25 @@ class WordViewSet(viewsets.ReadOnlyModelViewSet):
         search = self.request.query_params.get('search', None)
         reverse = self.request.query_params.get('reverse', None) is not None
 
-
         if reverse and search:
-            queryset = Word.objects.all()
             queryset = Word.objects.filter(
                     definition_set__in=Definition.objects.filter(definition_lcase__search=search.lower())
                     ).annotate(total=Count('id'))
         elif search and len(Base.krl_slugify(Base, string=search)):
-            queryset = Word.objects.all()
             queryset = Word.objects.filter(base_set__in=Base.objects.filter(
                 base_slug_diacrit__startswith=Base.krl_slugify(Base, string=search)
                 )
-            )
+            ).annotate(total=Count('id'))
 
         if len(queryset):
             for q in queryset:
                 q.definition_set_by_lang = {}
                 for df in q.definition_set.all():
                     if df.lang not in q.definition_set_by_lang:
-                        q.definition_set_by_lang[df.lang] =  [df.definition,]
+                        q.definition_set_by_lang[df.lang] = [df.definition,]
                     else:
                         q.definition_set_by_lang[df.lang].append(df.definition)
 
             return sorted(queryset, key=lambda word: [Word.get_krl_abc().lower().index(c) for c in Base.krl_slugify(Base, word.word)])
         else:
             return ()
-        

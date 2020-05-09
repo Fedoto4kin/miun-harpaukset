@@ -29,7 +29,7 @@ export default class LexiconTour extends React.Component {
                         Нажмите <strong> edeh <FontAwesomeIcon icon={faChevronCircleRight} size="lg" /></strong> 
                         чтобы начать знакомство со словарем.
                         </ListGroup.Item>
-                        <ListGroup.Item className='clearfix border-secondary border'>
+                        <ListGroup.Item className='clearfix border-secondary borde d-none'>
                           <Badge pill bg="light" className='float-right' ><img src={`/static/img/fi-md.png`}  /></Badge>
                         % Sama asiat, suomea % 
                         </ListGroup.Item>
@@ -57,7 +57,7 @@ export default class LexiconTour extends React.Component {
                         <span className='btn btn-primary btn-xs'>Karielan šana</span> по карельским словам <br />
                         <span className='btn btn-warning btn-xs'>Kiännökšeššä</span> по значению слов в финском или русском языке
                         </ListGroup.Item>
-                        <ListGroup.Item className='clearfix border-secondary border small'>
+                        <ListGroup.Item className='clearfix border-secondary border small d-none'>
                           <Badge pill bg="light" className='float-right' ><img src={`/static/img/fi-sm.png`}  /></Badge>
                         % Sama asiat, suomea % 
                         </ListGroup.Item>
@@ -79,7 +79,7 @@ export default class LexiconTour extends React.Component {
                         Карельские слова можно искать даже по нескольким первым буквам, 
                         слова в переводе только по полному совпадению
                         </ListGroup.Item>
-                        <ListGroup.Item className='clearfix border-secondary border small'>
+                        <ListGroup.Item className='clearfix border-secondary border small d-none'>
                           <Badge pill bg="light" className='float-right' ><img src={`/static/img/fi-sm.png`}  /></Badge>
                         % Sama asiat, suomea % 
                         </ListGroup.Item>
@@ -98,7 +98,7 @@ export default class LexiconTour extends React.Component {
                          <Badge pill bg="light" className='float-right' ><img src={`/static/img/ru-sm.png`}  /></Badge>
                           Если не хватает &laquo;карельских&raquo; букв на клавиатуре, можно взять отсюда
                         </ListGroup.Item>
-                        <ListGroup.Item className='clearfix border-secondary border small'>
+                        <ListGroup.Item className='clearfix border-secondary border small d-none'>
                           <Badge pill bg="light" className='float-right' ><img src={`/static/img/fi-sm.png`}  /></Badge>
                         % Sama asiat, suomea % 
                         </ListGroup.Item>
@@ -118,7 +118,7 @@ export default class LexiconTour extends React.Component {
                           Жмем чтобы начать поиск<br />
                           (или клавишу Enter)
                         </ListGroup.Item>
-                        <ListGroup.Item className='clearfix border-secondary border small'>
+                        <ListGroup.Item className='clearfix border-secondary border small d-none'>
                           <Badge pill bg="light" className='float-right' ><img src={`/static/img/fi-sm.png`}  /></Badge>
                         % Sama asiat, suomea % 
                         </ListGroup.Item>
@@ -137,7 +137,7 @@ export default class LexiconTour extends React.Component {
                          <Badge pill bg="light" className='float-right' ><img src={`/static/img/ru-sm.png`}  /></Badge>
                             Одно из найденных слов
                         </ListGroup.Item>
-                        <ListGroup.Item className='clearfix border-secondary border small'>
+                        <ListGroup.Item className='clearfix border-secondary border small d-none'>
                           <Badge pill bg="light" className='float-right' ><img src={`/static/img/fi-sm.png`}  /></Badge>
                         % Sama asiat, suomea % 
                         </ListGroup.Item>
@@ -157,7 +157,7 @@ export default class LexiconTour extends React.Component {
                          <Badge pill bg="light" className='float-right' ><img src={`/static/img/ru-sm.png`}  /></Badge>
                             Можно послушать как слово правильно произносится
                         </ListGroup.Item>
-                        <ListGroup.Item className='clearfix border-secondary border small'>
+                        <ListGroup.Item className='clearfix border-secondary border small d-none'>
                           <Badge pill bg="light" className='float-right' ><img src={`/static/img/fi-sm.png`}  /></Badge>
                         % Sama asiat, suomea % 
                         </ListGroup.Item>
@@ -176,7 +176,7 @@ export default class LexiconTour extends React.Component {
                          <Badge pill bg="light" className='float-right' ><img src={`/static/img/ru-sm.png`}  /></Badge>
                             Варианты перевода на русский и финский языки
                         </ListGroup.Item>
-                        <ListGroup.Item className='clearfix border-secondary border small'>
+                        <ListGroup.Item className='clearfix border-secondary border small d-none'>
                           <Badge pill bg="light" className='float-right' ><img src={`/static/img/fi-sm.png`}  /></Badge>
                         % Sama asiat, suomea % 
                         </ListGroup.Item>
@@ -196,7 +196,7 @@ export default class LexiconTour extends React.Component {
                          <Badge pill bg="light" className='float-right' ><img src={`/static/img/ru-sm.png`}  /></Badge>
                             Часть речи
                         </ListGroup.Item>
-                        <ListGroup.Item className='clearfix border-secondary border small'>
+                        <ListGroup.Item className='clearfix border-secondary border small d-none'>
                           <Badge pill bg="light" className='float-right' ><img src={`/static/img/fi-sm.png`}  /></Badge>
                         % Sama asiat, suomea % 
                         </ListGroup.Item>
@@ -216,7 +216,7 @@ export default class LexiconTour extends React.Component {
                          <Badge pill bg="light" className='float-right' ><img src={`/static/img/ru-sm.png`}  /></Badge>
                             Синонимы
                         </ListGroup.Item>
-                        <ListGroup.Item className='clearfix border-secondary border small'>
+                        <ListGroup.Item className='clearfix border-secondary border small d-none'>
                           <Badge pill bg="light" className='float-right' ><img src={`/static/img/fi-sm.png`}  /></Badge>
                         % Sama asiat, suomea % 
                         </ListGroup.Item>
@@ -244,7 +244,7 @@ export default class LexiconTour extends React.Component {
                            Ждем любые пожелания и предложения на почту  <a href='mailto:anatole@fedotochkin.ru'>anatole@fedotochkin.ru</a>
 
                         </ListGroup.Item>
-                        <ListGroup.Item className='clearfix border-secondary border'>
+                        <ListGroup.Item className='clearfix border-secondary border d-none'>
                           <Badge pill bg="light" className='float-right' ><img src={`/static/img/fi-md.png`}  /></Badge>
                         % Sama asiat, suomea % 
                         </ListGroup.Item>
