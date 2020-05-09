@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCogs, faQuestion, faBookOpen, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import ReactTooltip from 'react-tooltip';
 import Joyride from 'react-joyride';
+import ym from 'react-yandex-metrika';
 
 
 const WordTable = React.lazy(() => import('./Lexicon/WordTable'));
@@ -29,18 +30,19 @@ export default class Lexicon extends React.Component {
     if (this.props.match.params.search) this.state.search = this.props.match.params.search;
     if (location.search.includes('reverse')) this.state.reverse = true;
 
-  }
+  } 
 
   componentDidMount() {
   	document.title = 'Šanakniiga – Miun harpaukšet karielan kieleh';
 
   }
 
+
   getSearchStr(str, rev) {
     this.setState({ search: str, reverse: rev});
     if (rev) str += '?reverse'
-    history.push(str)
-    
+    history.push(str);
+    ym('reachGoal', 'search', {search: str});
   }
 
   handleClickStart(e) {
@@ -67,6 +69,7 @@ export default class Lexicon extends React.Component {
             <React.Suspense  fallback={<span className="spinner-grow text-info"></span>}> 
                <LexiconTour  pushSearchStr={this.getSearchStr} />
             </React.Suspense>
+
         </ButtonGroup>
 
        </Container>

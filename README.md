@@ -10,3 +10,4 @@ This language is endangered and at serios risk of extinction and this project is
 Web version is based on book with  same name of Irina Novak and Irina Kommisarova.
 
 ![Original book front](https://raw.githubusercontent.com/Fedoto4kin/Miun_harpaukset/master/static/img/book.jpg)
+
