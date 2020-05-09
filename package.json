@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --host 0.0.0.0",
     "dev": "webpack --mode development ./main/src/components/index.js --output ./main/static/main.js",
-    "build": "webpack --mode production ./main/src/components/index.js --output ./main/static/main.js"
+    "build": "webpack --mode production ./main/src/components/index.js --output ./static/main.js"
   },
   "keywords": [],
   "author": "",
