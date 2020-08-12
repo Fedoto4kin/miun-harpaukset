@@ -1,6 +1,6 @@
 __pycache__/
 *.py[cod]
-
+.idea
 
 krl/settings.py
 webpack.config.js
