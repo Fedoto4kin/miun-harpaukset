@@ -54,9 +54,9 @@ class WordViewSet(viewsets.ReadOnlyModelViewSet):
             queryset = Word.objects.filter(
                     definition_set__in=Definition.objects.filter(definition_lcase__search=search.lower())
                     ).annotate(total=Count('id'))
-        elif search and len(Base.krl_slugify(Base, string=search)):
+        elif search and len(Word.search_prepare(string=search)):
             queryset = Word.objects.filter(base_set__in=Base.objects.filter(
-                base_slug_diacrit__startswith=Base.krl_slugify(Base, string=search)
+                base_slug_diacritic__startswith=Word.search_prepare(string=search)
                 )
             ).annotate(total=Count('id'))
 
