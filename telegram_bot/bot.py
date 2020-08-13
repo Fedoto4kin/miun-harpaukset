@@ -14,11 +14,10 @@ sys.path.append('../')
 os.environ["DJANGO_SETTINGS_MODULE"] = 'krl.settings'
 django.setup()
 
+from django.conf import settings
 from lexicon.models import *
 
-
-API_KEY = '1217434023:AAFyz8HYtVuVOCrZboD5Rqkrm-FBcFXnHRo'
-bot = telebot.TeleBot(API_KEY)
+bot = telebot.TeleBot(settings.TELEGRAM_API_KEY)
 
 
 def get_word(str):
