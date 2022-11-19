@@ -57,7 +57,7 @@ class Word(models.Model):
 
     @staticmethod
     def search_prepare(string):
-        return string.lower().replace('ü', 'y').replace('\'', '') #TODO: add filter non-aphabeth and whitespace
+        return string.lower().replace('ü', 'y').replace('’', '').replace('\'', '') #TODO: bulk filter 'bads' non-aphabeth and whitespace
 
 
     class Meta:

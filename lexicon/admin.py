@@ -1,12 +1,14 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import *   
+from .models import *
+
 
 class BaseInline(admin.TabularInline):
     extra = 0
     model = Base
-    readonly_fields = ["base_slug", "base_slug_diacrit"]
+    readonly_fields = ["base_slug", "base_slug_diacritic"]
+
 
 class DefinitionInline(admin.TabularInline):
     extra = 0
@@ -15,7 +17,7 @@ class DefinitionInline(admin.TabularInline):
 
 
 class WordAdm(admin.ModelAdmin):
-    list_display = ('word','_pos', '_def')
+    list_display = ('word', '_pos', '_def')
     list_filter = (
         ('pos', admin.RelatedOnlyFieldListFilter),
     )
@@ -25,19 +27,20 @@ class WordAdm(admin.ModelAdmin):
         BaseInline,
     ]
 
-    def _pos(self, obj):
-    	return ("%s" % obj.pos.abbr)
+    @staticmethod
+    def _pos(self):
+        return "%s" % self.pos.abbr
 
-    def _def(self, obj):
-        return ' — '.join([i['definition'] for i in obj.definition_set.values()])
+    @staticmethod
+    def _def(self):
+        return ' — '.join([i['definition'] for i in self.definition_set.values()])
 
 
 class SpeechAdmin(admin.ModelAdmin):
-
     search_fields = ('text',)
 
 
 admin.site.site_title = "Ylläpitäjän paikka"
-admin.site.site_header = "Ylläpitäjän paikka" 
+admin.site.site_header = "Ylläpitäjän paikka"
 admin.site.register(Word, WordAdm)
 admin.site.register(Speech, SpeechAdmin)
