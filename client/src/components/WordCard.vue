@@ -7,7 +7,11 @@
             {{ word.word ? word.word.replace('|', '') : '' }}
             <span class="badge bg-secondary">{{ word.pos }}</span>
           </span>
-          <button @click="playSound(word.speech)" class="btn btn-sm btn-outline-primary">
+          <button 
+            @click="playSound(word.speech)" 
+            :disabled="isPlaying" 
+            class="btn btn-sm btn-outline-primary"
+          >
             <font-awesome-icon icon="volume-up" />
           </button>
         </h5>
@@ -17,7 +21,7 @@
               <img :src="'/img/' + lang + '-xs.png'" :alt="lang" class="me-2" />
               <div class="definition-content">
                 <span v-if="def.length > 1">
-                  <ol class="mb-0 ms-3">
+                  <ol class="mb-0" style="margin-left: -1rem;">
                     <li v-for="d in def" :key="d">{{ d }}</li>
                   </ol>
                 </span>
@@ -44,6 +48,11 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      isPlaying: false
+    };
+  },
   methods: {
     definition(definitions) {
       return definitions.reduce((r, a) => {
@@ -57,7 +66,11 @@ export default {
     },
     playSound(file) {
       const audio = new Audio(file);
+      this.isPlaying = true;
       audio.play();
+      audio.onended = () => {
+        this.isPlaying = false;
+      };
     }
   }
 };

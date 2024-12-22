@@ -1,7 +1,7 @@
 <template>
   <div class="search-bar-container my-3 col-6">
     <form @submit.prevent="handleSearchButtonClick">
-      <div class="form-group">
+      <div class="form-group mb-1">
         <div class="input-group">
           <span class="search-bar-switcher mx-2">
             <SwitchButton
@@ -38,7 +38,7 @@
           </div>
         </div>
       </div>
-      <div class="text-muted text-center">Zavodikkua kirjuttua täššä, štobi löydiä šanan šanakniigašta</div>
+      <div class="text-muted text-center small">Zavodikkua kirjuttua täššä, štobi löydiä šanan šanakniigašta</div>
     </form>
   </div>
 </template>

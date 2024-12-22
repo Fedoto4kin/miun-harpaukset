@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <div class="row my-4">
-      <h1 class="mt-4 col-6">{{ title }}</h1>
+      <h1 class="mt-4 col-6">
+        <font-awesome-icon icon="book" />
+        {{ title }}
+      </h1>
       <SearchBar @pushSearchStr="getWordsBySearch" />
     </div>
     <div class="navbar">
@@ -54,7 +57,6 @@ export default {
       this.letter = letter;
       axios.get(`v0/lexicon/search/${letter}/`)
         .then((response) => {
-        console.log(response.data);
           this.words = response.data;
         })
         .finally(() => {
@@ -75,6 +77,9 @@ export default {
   },
   created() {
     this.getWordsByLetter(this.letter);
+  },
+  mounted() {
+    document.title = 'Miun harpaukšet Karielan Kieleh - Šanakniiga';
   }
 };
 </script>
