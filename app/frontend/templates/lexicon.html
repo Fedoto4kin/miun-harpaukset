@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Miun harpaukšet Karielan Kieleh - Šanakniiga
+{% endblock %}
+
+{% block content %}
+    {% verbatim %}
+        <div class="container" id="app">
+            <div class="row mt-5 mb-3">
+                <h3>{{ title }}</h3>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="navbar-nav
+                       flex-wrap
+                       mt-2
+                       mb-5
+                       mx-auto" role="group">
+                        <div class="btn-group">
+                            <span class="btn px-1 btn-light"
+                                  v-for="l in abc.split('')"
+                                  :class="{active:  l == letter}"
+                                  v-on:click="getWordsByLetter(l)"
+                            >
+                                <a class="nav-link text-grey" >{{ l }}</a>
+                            </span>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            <div class="row mb-5 mt-5" v-if="loading">
+                <div class="col-sm-12">
+                    <p class="text-center">
+                        <img src="/static/img/preloader.gif" />
+                    </p>
+                </div>
+            </div>
+            <div class="row mb-5" v-else >
+                <div class="col-md-3 my-1"  v-for="word in words">
+                    <div class="card" class="card" >
+                        <div class="card-header">
+                            <button v-on:click="playSound(word.speech)"
+                                    class="btn btn-outline-warning sound-btn btn-sm float-start me-1">
+                                <i class="fa fa-headphones"></i>
+                            </button>
+                            <h5 class="card-title mt-1">
+                                {{ word.word.replace('|', '') }} <span class="badge bg-dark">{{ word.pos }}</span>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item clearfix" v-for="(def, lang) in definition(word.definition)">
+                                    <span class="badge badge-secondary bg-secondary position-absolute" style="top: 0.75em; left: -0.85em">
+                                        <img v-bind:src="'/static/img/' + lang + '-xs.png'"  :alt=lang >
+                                    </span>
+                                    <span v-if="def.length > 1" >
+                                    <ol className="list-group-numbered list-group">
+                                        <li v-for="d in def">{{ d }}</li>
+                                    </ol>
+                                </span>
+                                    <span v-else class="ps-2">{{ def[0] }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-footer" v-if="word.alias_words.length">
+                            Šama kuin: <span class="badge bg-secondary mx-1" v-for="al in alias(word.alias_words)">{{al}} </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {%  endverbatim %}
+    <script src="/static/js/lexicon.js"></script>
+{%  endblock %}

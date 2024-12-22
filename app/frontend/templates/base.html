@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- todo: replace to production version -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.13/dist/vue.js"></script>
+    {#    <script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>#}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.0/axios.min.js" integrity="sha512-OdkysyYNjK4CZHgB+dkw9xQp66hZ9TLqmS2vXaBrftfyJeduVhyy1cOfoxiKdi4/bfgpco6REu6Rb+V2oVIRWg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% block style %}
+    {% endblock %}
+</head>
+<body class="min-vh-100">
+<div id="wrap">
+    <nav class="navbar navbar-expand-lg bg-light border" >
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <h4 class="mb-0">
+                    <div class="d-none d-xs-inline d-xl-inline">
+                        Miun harpaukšet Karielan Kieleh
+                    </div>
+                </h4>
+            </a>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link {% if lessons %} active{% endif %}" href="/lessons/"  >Urokat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if lexicon %} active{% endif %}"
+                           href="/lexicon/" >Šanakniiga
+                        </a>
+                    </li>
+                </ul>
+
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Back to top button -->
+{#    <button#}
+{#            type="button"#}
+{#            class="btn btn-info btn-floating btn-lg"#}
+{#            id="btn-back-to-top">#}
+{#        <i class="fas fa-arrow-up"></i>#}
+{#    </button>#}
+</div>
+
+<script>
+/*    let mybutton = document.getElementById("btn-back-to-top");
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function () {
+        scrollFunction();
+    };
+
+    function scrollFunction() {
+        if (
+            document.body.scrollTop > 20 ||
+            document.documentElement.scrollTop > 20
+        ) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+    // When the user clicks on the button, scroll to the top of the document
+    mybutton.addEventListener("click", backToTop);
+
+    function backToTop() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    } */
+</script>
+</body>
+</html>

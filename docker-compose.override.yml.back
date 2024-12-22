@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  client-init:
+    build:
+      context: ./client
+    volumes:
+      - ./client:/app
+    stdin_open: true
+    tty: true
