@@ -1,7 +1,7 @@
 asgiref==3.8.1
 Django==3.2.16
 django-cors-headers==4.4.0
-djangorestframework==3.14.0
+djangorestframework==3.15.2
 psycopg2==2.9.5
 pytz==2022.6
 slugify==0.0.1
