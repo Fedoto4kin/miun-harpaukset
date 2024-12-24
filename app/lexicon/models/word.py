@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from slugify import slugify
 from .speech import Speech
 from .pos import Pos
@@ -10,6 +10,7 @@ KRL_ABC = 'ABCČDEFGHIJKLMNOPRSŠZŽTUVYÄÖ'
 class Word(models.Model):
 
     word = models.CharField(_('Šana'), max_length=128)
+    word_clean = models.CharField(_('Cleaned Šana'), max_length=128, blank=True)
     pos = models.ForeignKey(Pos, unique=False, on_delete=models.CASCADE)
     speech = models.ForeignKey(Speech, null=True, blank=True, on_delete=models.SET_NULL)
     orig = models.TextField(blank=True)
@@ -24,8 +25,12 @@ class Word(models.Model):
 
     @staticmethod
     def search_prepare(string):
+        # todo: filter by KRL_ABC
         return string.lower().replace('ü', 'y').replace('’', '').replace('\'', '')
 
+    def save(self, *args, **kwargs):
+        self.word_clean = self.word.replace('|', '').replace('’', '').replace('\'', '')
+        super(Word, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Šana'

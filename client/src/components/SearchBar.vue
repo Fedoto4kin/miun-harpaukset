@@ -1,7 +1,7 @@
 <template>
   <div class="search-bar-container my-3 col-6">
     <form @submit.prevent="handleSearchButtonClick">
-      <div class="form-group mb-1">
+      <div class="form-group position-relative">
         <div class="input-group">
           <span class="search-bar-switcher mx-2">
             <SwitchButton
@@ -17,6 +17,7 @@
             placeholder=""
             v-model="searchText"
             ref="searchInput"
+            @input="fetchSuggestions"
             @keyup.enter="handleSearchButtonClick"
             autofocus
           />
@@ -31,14 +32,29 @@
               >
                 {{ char }}
               </span>
-              <button class="btn btn-light border-dark search-run" type="button" @click="handleSearchButtonClick">
+              <button
+                class="btn btn-light border-dark search-run"
+                type="button"
+                @click="handleSearchButtonClick"
+                :disabled="!searchText.length"
+              >
                 <font-awesome-icon :icon="faSearch" />
               </button>
             </div>
           </div>
         </div>
+        <ul v-if="suggestions.length" class="list-group mt-2 suggestions">
+          <li
+            v-for="suggestion in suggestions"
+            :key="suggestion"
+            class="list-group-item"
+            @click="handleSuggestionClick(suggestion)"
+          >
+            {{ suggestion }}
+          </li>
+        </ul>
       </div>
-      <div class="text-muted text-center small">Zavodikkua kirjuttua täššä, štobi löydiä šanan šanakniigašta</div>
+      <div class="text-muted text-center">Zavodikkua kirjuttua täššä, štobi löydiä šanan šanakniigašta</div>
     </form>
   </div>
 </template>
@@ -48,6 +64,7 @@ import { ref, watch, onMounted, nextTick } from 'vue';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import SwitchButton from './SwitchButton.vue';
+import axios from '../axios';
 
 export default {
   name: 'SearchBar',
@@ -69,6 +86,7 @@ export default {
     const searchText = ref(props.search);
     const reverse = ref(props.reverseProp);
     const searchInput = ref(null);
+    const suggestions = ref([]);
 
     const specialChars = ['č', 'š', 'ž', 'ä', 'ö'];
 
@@ -80,6 +98,16 @@ export default {
       reverse.value = newReverse;
     });
 
+    const fetchSuggestions = async () => {
+      if (searchText.value.length >= 2) {
+        const url = reverse.value ? 'v0/lexicon/reverse-search-suggestions/' : 'v0/lexicon/search-suggestions/';
+        const response = await axios.get(url, { params: { query: searchText.value } });
+        suggestions.value = response.data;
+      } else {
+        suggestions.value = [];
+      }
+    };
+
     const handleSearchButtonClick = () => {
       const params = { search: searchText.value };
       if (reverse.value) {
@@ -87,6 +115,12 @@ export default {
       }
       emit('pushSearchStr', params);
       searchInput.value.focus();
+    };
+
+    const handleSuggestionClick = (suggestion) => {
+      searchText.value = suggestion;
+      suggestions.value = [];
+      handleSearchButtonClick();
     };
 
     const handleDiacrtButtonClick = (e) => {
@@ -97,10 +131,10 @@ export default {
         searchText.value.slice(position)
       ].join('');
       searchText.value = updatedText;
-      // Устанавливаем фокус и позицию курсора
       nextTick(() => {
         searchInput.value.focus();
         searchInput.value.selectionStart = searchInput.value.selectionEnd = position + 1;
+        fetchSuggestions(); // добавлено для вызова поиска предложений
       });
     };
 
@@ -117,7 +151,10 @@ export default {
       reverse,
       searchInput,
       specialChars,
+      suggestions,
+      fetchSuggestions,
       handleSearchButtonClick,
+      handleSuggestionClick,
       handleDiacrtButtonClick,
       toggleReverse,
       faSearch
@@ -133,5 +170,21 @@ export default {
 
 .search-bar-input {
   max-width: 250px;
+}
+
+.list-group-item {
+  cursor: pointer;
+}
+
+.suggestions {
+  position: absolute;
+  background-color: white;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.suggestions .list-group-item {
+  margin-bottom: 0;
 }
 </style>
