@@ -8,6 +8,10 @@
           <div class="row">
             <div class="row mt-5 mb-3">
               <h3 class="ps-4">Tverinkarielan algukursa</h3>
+              <audio controls>
+                <source src="/media/intro.mp3" type="audio/mpeg">
+                Your browser does not support the audio tag.
+              </audio>
             </div>
           </div>
           <div class="row">
@@ -28,14 +32,6 @@
                 </p>
                 <p style="text-indent: 1.5em;">Hyviä opaššundua šiula! Rubiemma pagizomah karielakši!</p>
                 <p class="text-end">Tervehyzin, kakši Iruo,<br> Šalon da Puasinkoin</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <audio controls>
-                <source src="/media/intro.mp3" type="audio/mpeg">
-                Your browser does not support the audio tag.
-              </audio>
             </div>
           </div>
         </div>

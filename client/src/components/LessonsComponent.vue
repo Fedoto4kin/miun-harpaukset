@@ -2,7 +2,7 @@
     <div class="container">
       <div class="row my-4">
         <h1 class="mt-4 col-6">
-          <font-awesome-icon :icon="['fas', 'star']" />
+          <font-awesome-icon :icon="['fas', 'star']" class="text-success" />
           {{ title }}
         </h1>
       </div>
@@ -30,7 +30,7 @@
       };
     },
     mounted() {
-      document.title = 'Urokat - Lessons';
+      document.title = 'Urokat';
     }
   };
   </script>

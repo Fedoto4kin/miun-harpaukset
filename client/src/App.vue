@@ -22,6 +22,9 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/lexicon" exact-active-class="active">Šanakniiga</router-link>
             </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/authors" exact-active-class="active">Luadijat</router-link>
+            </li>
           </ul>
         </div>
       </div>

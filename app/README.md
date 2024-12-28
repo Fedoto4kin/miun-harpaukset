@@ -1,11 +1,19 @@
 
 
-`docker exec -it mhkk_django pip install django-cors-headers`
-
 Deploy(1st):
 
+Set up certbot
+
+*Backend*
+
 1. Migrate  
- docker exec -it mhkk_django python manage.py migrate
+ `docker exec -it mhkk_django python manage.py migrate`
 2. Upload fixtures  
-python manage.py loaddata lexicon/fixtures/pos.json
-python manage.py loaddata lexicon/fixtures/lexicon.json
+``docker exec -it mhkk_django python manage.py loaddata lexicon/fixtures/whole_lexicon.json`
+
+*Frontend*
+1. `docker compose -f docker-compose-prod.yml run client npm install`
+2. `docker compose -f docker-compose-prod.yml run client npm run build`
+
+Deploy(changes)
+

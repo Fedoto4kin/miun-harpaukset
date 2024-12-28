@@ -109,7 +109,7 @@ export default {
     };
 
     const handleSearchButtonClick = () => {
-      const params = { search: searchText.value };
+      const params = { query: searchText.value };
       if (reverse.value) {
         params.reverse = reverse.value;
       }
@@ -134,7 +134,7 @@ export default {
       nextTick(() => {
         searchInput.value.focus();
         searchInput.value.selectionStart = searchInput.value.selectionEnd = position + 1;
-        fetchSuggestions(); // добавлено для вызова поиска предложений
+        fetchSuggestions();
       });
     };
 

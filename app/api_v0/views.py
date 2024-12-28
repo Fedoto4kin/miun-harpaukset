@@ -12,8 +12,10 @@ class SearchViewList(generics.ListAPIView):
         return WordPreviewSerializer
 
     def get_queryset(self):
-        search = self.kwargs['search']
-        print(search)
+
+        queryset = ()
+        
+        search = self.request.query_params.get('query', '').lower()
         if search and len(Word.search_prepare(string=search)):
             queryset = Word.objects.filter(
                 word_clean__startswith=Word.search_prepare(string=search)
@@ -43,7 +45,7 @@ class SearchReverseViewList(generics.ListAPIView):
         return WordPreviewSerializer
 
     def get_queryset(self):
-        search = self.kwargs['search']
+        search = self.request.query_params.get('query', '').lower()
         queryset = Word.objects.filter(
             definition_set__in=Definition.objects.filter(definition_lcase__istartswith=search.lower())
         ).annotate(total=Count('id'))

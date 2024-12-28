@@ -17,6 +17,6 @@ urlpatterns = [
         ReverseSearchSuggestionsView.as_view(),
         name='reverse-search-suggestions'
     ),
-    re_path(r'^lexicon/search/(?P<search>[’\'\w-]+)/$', SearchViewList.as_view(), name='search-view'),
-    re_path(r'^lexicon/reverse/(?P<search>[’\'\w-]+)/$', SearchReverseViewList.as_view(), name='search-reverse-view'),
+    re_path(r'^lexicon/search/$', SearchViewList.as_view(), name='search-view'),
+    re_path(r'^lexicon/reverse/$', SearchReverseViewList.as_view(), name='search-reverse-view'),
 ]

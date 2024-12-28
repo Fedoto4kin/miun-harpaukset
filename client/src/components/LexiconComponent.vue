@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row my-4">
       <h1 class="mt-4 col-6">
-        <font-awesome-icon icon="book" />
+        <font-awesome-icon icon="book" class="text-success" />
         {{ title }}
       </h1>
       <SearchBar @pushSearchStr="getWordsBySearch" />
@@ -55,7 +55,7 @@ export default {
     getWordsByLetter(letter) {
       this.loading = true;
       this.letter = letter;
-      axios.get(`v0/lexicon/search/${letter}/`)
+      axios.get(`v0/lexicon/search/`, {params: {'query': letter}})
         .then((response) => {
           this.words = response.data;
         })
@@ -65,7 +65,7 @@ export default {
     },
     getWordsBySearch(params) {
       this.loading = true;
-      const url = params.reverse ? `v0/lexicon/reverse/${params.search}/` : `v0/lexicon/search/${params.search}/`;
+      const url = params.reverse ? `v0/lexicon/reverse/` : `v0/lexicon/search/`;
       axios.get(url, { params: params })
         .then((response) => {
           this.words = response.data;
@@ -79,7 +79,7 @@ export default {
     this.getWordsByLetter(this.letter);
   },
   mounted() {
-    document.title = 'Miun harpaukšet Karielan Kieleh - Šanakniiga';
+    document.title = this.title;
   }
 };
 </script>
