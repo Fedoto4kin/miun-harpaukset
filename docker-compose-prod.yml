@@ -1,0 +1,85 @@
+version: '3'
+
+services:
+
+  nginx:
+    container_name: mhkk_nginx
+    restart: "always"
+    image: nginx:alpine
+    ports:
+      - 80:80
+    volumes:
+      - ./images/nginx/mhkk.conf:/etc/nginx/conf.d/default.conf
+      - ./images/nginx/mime.types:/etc/nginx/mime.types
+      - ./logs:/var/log/nginx
+      - ./app:/app/
+      - ./client/dist:/var/www/html
+    depends_on:
+      - web
+      - db
+      - client
+    networks:
+      - mhkk-net
+
+  web:
+    restart: "always"
+    container_name: mhkk_django
+    volumes:
+      - ./app:/app
+    build:
+      context: ./
+      dockerfile: images/django/Dockerfile
+    command: python manage.py runserver --insecure 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_PASSWORD=${PG_PASS}
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_DB=mhkk
+    depends_on:
+      - db
+      - client
+    networks:
+      - mhkk-net
+
+  client:
+    container_name: mhkk_client
+    build:
+      context: ./
+      dockerfile: images/node/Dockerfile.prod
+    volumes:
+      - ./client:/app
+    ports:
+      - "8080:8080"
+    networks:
+      - mhkk-net
+
+  db:
+    container_name: mhkk_db
+    image: postgres:14
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${PG_PASS}
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_DB=mhkk
+    networks:
+      - mhkk-net
+
+  pgadmin:
+    container_name: mhkk_pgadmin
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=fedoto4kin@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=${PG_PASSWORD:-12345}
+      - PGADMIN_CONFIG_SERVER_MODE=False
+    ports:
+      - "5050:80"
+    depends_on:
+      - "db"
+    networks:
+      - mhkk-net
+
+networks:
+  mhkk-net:
+    driver: bridge
