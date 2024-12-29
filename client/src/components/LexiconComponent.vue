@@ -12,7 +12,6 @@
         />
     </div>
 
-    <!-- Сообщение о количестве найденных слов -->
     <div v-if="message" class="row">
       <div class="col-12">
         <div :class="['alert', alertClass]" role="alert">
@@ -92,6 +91,7 @@ export default {
     async getWordsByLetter(letter) {
       this.loading = true;
       this.letter = letter;
+      this.message = '';
       this.searching = false; // Reset search flag
       this.words = [];
       try {
@@ -106,12 +106,13 @@ export default {
     // Fetch words by search query
     async getWordsBySearch(params) {
       this.loading = true;
+      this.message = '';
       this.searching = true; // Set search flag
       try {
         this.words = await fetchWordsBySearch(params);
         this.updateMessage(this.words.length); // Update message
       } catch (error) {
-        this.message = 'Failed to fetch words. Please try again later.';
+        this.message = 'Ei voi löydy. Kuottekua jälgeh';
       } finally {
         this.loading = false;
       }
