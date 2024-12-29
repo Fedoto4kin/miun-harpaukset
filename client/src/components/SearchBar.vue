@@ -64,7 +64,7 @@ import { ref, watch, onMounted, nextTick } from 'vue';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import SwitchButton from './SwitchButton.vue';
-import axios from '../axios';
+import { fetchSearchSuggestions } from '../services/searchService';
 
 export default {
   name: 'SearchBar',
@@ -90,6 +90,11 @@ export default {
 
     const specialChars = ['č', 'š', 'ž', 'ä', 'ö'];
 
+    const clearSearchText = () => {
+      searchText.value = '';
+      suggestions.value = [];
+    };
+
     watch(() => props.search, (newSearch) => {
       searchText.value = newSearch;
     });
@@ -100,9 +105,12 @@ export default {
 
     const fetchSuggestions = async () => {
       if (searchText.value.length >= 2) {
-        const url = reverse.value ? 'v0/lexicon/reverse-search-suggestions/' : 'v0/lexicon/search-suggestions/';
-        const response = await axios.get(url, { params: { query: searchText.value } });
-        suggestions.value = response.data;
+        try {
+          suggestions.value = await fetchSearchSuggestions(searchText.value, reverse.value); 
+        } catch (error) {
+          console.error('Failed to fetch suggestions:', error);
+          suggestions.value = [];
+        }
       } else {
         suggestions.value = [];
       }
@@ -110,7 +118,6 @@ export default {
 
     const handleSearchButtonClick = () => {
       if (!searchText.value.trim()) {
-        // Если строка поиска пустая, сбрасываем состояние и возвращаемся на начальную страницу
         emit('pushClear', 'A');
         return;
       }
@@ -159,6 +166,7 @@ export default {
       searchInput,
       specialChars,
       suggestions,
+      clearSearchText,
       fetchSuggestions,
       handleSearchButtonClick,
       handleSuggestionClick,

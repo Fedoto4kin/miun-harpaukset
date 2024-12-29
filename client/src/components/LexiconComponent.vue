@@ -5,7 +5,11 @@
         <font-awesome-icon icon="book" class="text-success" />
         {{ title }}
       </h1>
-      <SearchBar @pushSearchStr="getWordsBySearch" @pushClear="getWordsByLetter"/>
+      <SearchBar 
+        ref="searchBar" 
+        @pushSearchStr="getWordsBySearch" 
+        @pushClear="getWordsByLetter"
+        />
     </div>
 
     <!-- Сообщение о количестве найденных слов -->
@@ -23,7 +27,7 @@
         v-for="l in abc.split('')"
         :key="l"
         :class="['nav-item', 'my-1', { active: l == letter }]"
-        @click="getWordsByLetter(l)"
+        @click="handleLetterClick(l)"
         class="btn btn-primary mx-1"
       >
         {{ l }}
@@ -35,14 +39,7 @@
       <img src="/img/preloader.gif" alt="Loading..." />
     </div>
     
-    <!-- Кнопка "Наверх" -->
-    <button 
-      v-if="showScrollButton" 
-      @click="scrollToTop" 
-      class="scroll-to-top-btn btn btn-primary"
-    >
-      <font-awesome-icon icon="arrow-up" />
-    </button>
+    <ScrollToTopButton />
     
     <!-- Список слов -->
     <div class="row mt-4">
@@ -56,15 +53,17 @@
 </template>
 
 <script>
-import axios from '../axios';
 import WordCard from './WordCard.vue';
 import SearchBar from './SearchBar.vue';
+import ScrollToTopButton from './ui/ScrollToTopButton.vue';
+import { fetchWordsByLetter, fetchWordsBySearch } from '../services/lexiconService'; // Импортируем сервис
 
 export default {
   name: 'LexiconComponent',
   components: {
     WordCard,
-    SearchBar
+    SearchBar,
+    ScrollToTopButton,
   },
   data() {
     return {
@@ -75,7 +74,6 @@ export default {
       loading: false,
       message: '', // Message about the number of words found
       searching: false, // Flag to track search state
-      showScrollButton: false, // Flag to show/hide the scroll-to-top button
     };
   },
   computed: {
@@ -85,33 +83,38 @@ export default {
     }
   },
   methods: {
+    // Handle letter click
+    async handleLetterClick(letter) {
+      await this.getWordsByLetter(letter); // Fetch words for the selected letter
+      this.$refs.searchBar.clearSearchText(); // Clear the search bar
+    },
     // Fetch words by letter
-    getWordsByLetter(letter) {
+    async getWordsByLetter(letter) {
       this.loading = true;
       this.letter = letter;
       this.searching = false; // Reset search flag
-      axios.get(`v0/lexicon/search/`, { params: { query: letter } })
-        .then((response) => {
-          this.words = response.data;
-          this.updateMessage(response.data.length); // Update message
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+      this.words = [];
+      try {
+        this.words = await fetchWordsByLetter(letter);
+        this.updateMessage(this.words.length); // Update message
+      } catch (error) {
+        this.message = 'Failed to fetch words. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
     },
     // Fetch words by search query
-    getWordsBySearch(params) {
+    async getWordsBySearch(params) {
       this.loading = true;
       this.searching = true; // Set search flag
-      const url = params.reverse ? `v0/lexicon/reverse/` : `v0/lexicon/search/`;
-      axios.get(url, { params: params })
-        .then((response) => {
-          this.words = response.data;
-          this.updateMessage(response.data.length); // Update message
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+      try {
+        this.words = await fetchWordsBySearch(params);
+        this.updateMessage(this.words.length); // Update message
+      } catch (error) {
+        this.message = 'Failed to fetch words. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
     },
     // Update the message based on the number of words found
     updateMessage(wordCount) {
@@ -123,17 +126,6 @@ export default {
       } else {
         this.message = ''; // Reset message if search is not active
       }
-    },
-    // Scroll to the top of the page
-    scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    },
-    // Handle scroll event to show/hide the scroll-to-top button
-    handleScroll() {
-      this.showScrollButton = window.scrollY > 100; // Show button if scrolled more than 100px
     }
   },
   created() {
@@ -141,10 +133,6 @@ export default {
   },
   mounted() {
     document.title = this.title;
-    window.addEventListener('scroll', this.handleScroll); // Add scroll event listener
-  },
-  beforeUnmount() {
-    window.removeEventListener('scroll', this.handleScroll); // Remove scroll event listener
   }
 };
 </script>
