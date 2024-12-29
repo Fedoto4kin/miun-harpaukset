@@ -19,3 +19,9 @@ Set up certbot
 
 Deploy(changes)
 
+1. Build front-end
+`docker compose -f docker-compose-prod.yml run client npm run build`
+2. migrate backend
+`docker compose -f docker-compose-prod.yml exec -it web python manage.py migrate`
+3. Restart
+`docker compose -f docker-compose-prod.yml restart`
