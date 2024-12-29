@@ -109,11 +109,18 @@ export default {
     };
 
     const handleSearchButtonClick = () => {
+      if (!searchText.value.trim()) {
+        // Если строка поиска пустая, сбрасываем состояние и возвращаемся на начальную страницу
+        emit('pushClear', 'A');
+        return;
+      }
+
       const params = { query: searchText.value };
       if (reverse.value) {
         params.reverse = reverse.value;
       }
       emit('pushSearchStr', params);
+      suggestions.value = [];
       searchInput.value.focus();
     };
 
