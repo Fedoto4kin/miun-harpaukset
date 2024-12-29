@@ -6,15 +6,16 @@
         </div>
         <div class="col-sm-6">
           <div class="row">
-            <div class="row mt-5 mb-3">
-              <h3 class="ps-4">Tverinkarielan algukursa</h3>
+            <div class="row mt-5">
               <audio controls>
                 <source src="/media/intro.mp3" type="audio/mpeg">
                 Your browser does not support the audio tag.
               </audio>
+              <h3 class="ps-4 mt-3">Miun harpaukšet Karielan Kieleh</h3>
+              <h4 class="ps-4">Tverinkarielan algukursa</h4>
             </div>
           </div>
-          <div class="row">
+          <div class="row mt-3">
             <div class="col-sm-12">
               <h6 class="ps-4">Hyvä tverinkarielan opaštuja!</h6>
               <p class="justify-content-between" style="text-indent: 1.5em;">
@@ -43,7 +44,7 @@
   export default {
     name: 'HomeComponent',
     mounted() {
-      document.title = 'Miun harpaukšet Karielan Kieleh - Šanakniiga';
+      document.title = 'Miun harpaukšet Karielan Kieleh';
     }
   };
   </script>

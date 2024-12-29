@@ -9,7 +9,9 @@ Set up certbot
 1. Migrate  
  `docker exec -it mhkk_django python manage.py migrate`
 2. Upload fixtures  
-``docker exec -it mhkk_django python manage.py loaddata lexicon/fixtures/whole_lexicon.json`
+`docker exec -it mhkk_django python manage.py loaddata lexicon/fixtures/whole_lexicon.json`
+3. Init admin
+`docker exec -it mhkk_django python manage.py createsuperuser`
 
 *Frontend*
 1. `docker compose -f docker-compose-prod.yml run client npm install`
