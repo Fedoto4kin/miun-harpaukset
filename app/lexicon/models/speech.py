@@ -26,3 +26,7 @@ class Speech(models.Model):
         if self.mp3:
             self.mp3.name = 'media/' + self.mp3.name
             return self.mp3
+        
+    class Meta:
+        verbose_name = 'Pagina'
+        verbose_name_plural = 'Paginat'
