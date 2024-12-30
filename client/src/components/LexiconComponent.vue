@@ -20,7 +20,6 @@
       </div>
     </div>
 
-    <!-- Ряд букв -->
     <div class="navbar">
       <span
         v-for="l in abc.split('')"
@@ -33,11 +32,8 @@
       </span>
     </div>
 
-    <!-- Прелоадер -->
-    <div v-if="loading" class="text-center mt-4">
-      <img src="/img/preloader.gif" alt="Loading..." />
-    </div>
-    
+    <LoadingSpinner v-if="loading" />
+
     <ScrollToTopButton />
     
     <!-- Список слов -->
@@ -55,7 +51,8 @@
 import WordCard from './WordCard.vue';
 import SearchBar from './SearchBar.vue';
 import ScrollToTopButton from './ui/ScrollToTopButton.vue';
-import { fetchWordsByLetter, fetchWordsBySearch } from '../services/lexiconService'; // Импортируем сервис
+import LoadingSpinner from './ui/LoadingDots.vue';
+import { fetchWordsByLetter, fetchWordsBySearch } from '../services/lexiconService';
 
 export default {
   name: 'LexiconComponent',
@@ -63,6 +60,7 @@ export default {
     WordCard,
     SearchBar,
     ScrollToTopButton,
+    LoadingSpinner, // Добавляем новый компонент
   },
   data() {
     return {

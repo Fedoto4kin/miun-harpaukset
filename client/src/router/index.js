@@ -8,17 +8,17 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: HomeComponent
+    component: HomeComponent,
   },
   {
     path: '/lexicon',
     name: 'Lexicon',
-    component: LexiconComponent
+    component: LexiconComponent,
   },
   {
-    path: '/lessons',
+    path: '/lessons/:id?',
     name: 'Lessons',
-    component: LessonsComponent
+    component: LessonsComponent,
   },
   {
     path: '/authors',
@@ -29,7 +29,7 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 });
 
 export default router;
