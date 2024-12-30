@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from lexicon.models import Word, Definition, Pos, Base
-from lessons.models import Lesson
+from lessons.models import Lesson, LessonSpeech 
 
 class BaseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -70,7 +70,14 @@ class PosSerializer(serializers.ModelSerializer):
         ]
 
 
+# class LessonSpeechSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = LessonSpeech
+#         fields = ['id', 'text', 'mp3']
+
 class LessonSerializer(serializers.ModelSerializer):
+    # speech = LessonSpeechSerializer(source='lesson_speech', read_only=True)
+    speech = serializers.FileField(source='speech.media', read_only=True)
     class Meta:
         model = Lesson
         fields = [
@@ -81,4 +88,6 @@ class LessonSerializer(serializers.ModelSerializer):
             'description',
             'is_enabled',
             'slogan',
+            'speech'
             ]
+
