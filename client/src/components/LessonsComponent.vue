@@ -54,7 +54,7 @@
           <h2>{{ activeLesson.slogan }}</h2>
         </div>
         <div v-else>
-          <h1>Выберите урок</h1>
+          <h1>...tulošša piäh</h1>
         </div>
       </div>
     </div>
