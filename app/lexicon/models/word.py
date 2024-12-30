@@ -59,7 +59,7 @@ class Definition(models.Model):
 class Base(models.Model):
 
     BASES = (
-        (0, 0),
+        (0, 0), # word as it is in dictionary form
         (1, 1),
         (2, 2),
         (3, 3),
