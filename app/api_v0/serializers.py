@@ -1,7 +1,6 @@
 from rest_framework import serializers
-from rest_framework.pagination import PageNumberPagination
 from lexicon.models import Word, Definition, Pos, Base
-
+from lessons.models import Lesson
 
 class BaseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -69,3 +68,9 @@ class PosSerializer(serializers.ModelSerializer):
             'name_ru',
             'name_fi'
         ]
+
+
+class LessonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lesson
+        fields = '__all__'

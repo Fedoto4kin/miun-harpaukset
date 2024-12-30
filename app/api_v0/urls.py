@@ -1,9 +1,11 @@
 from rest_framework.routers import DefaultRouter
 from .lexiconViews import *
+from .lessonsViews import *
 from django.urls import include, path, re_path
 
 router = DefaultRouter()
 router.register(r'lexicon/pos', PosViewSet, basename='pos')
+router.register(r'lessons', LessonViewSet, basename='lesson')
 
 urlpatterns = [
     path('', include(router.urls)),

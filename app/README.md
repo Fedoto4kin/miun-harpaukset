@@ -1,11 +1,15 @@
 
+### Help
+`docker compose exec -it web python manage.py makemigrations`
+`docker compose exec -it web python manage.py migrate`
 
-Deploy(1st):
+### Deploy(1st):
 
-Set up certbot
+Create `mhkk` user and clone code into `miun-harpaukset` directory
+
+Set up certbot (?)
 
 *Backend*
-
 1. Migrate  
  `docker exec -it mhkk_django python manage.py migrate`
 2. Upload fixtures  
@@ -17,11 +21,8 @@ Set up certbot
 1. `docker compose -f docker-compose-prod.yml run client npm install`
 2. `docker compose -f docker-compose-prod.yml run client npm run build`
 
-Deploy(changes)
+### Deploy(changes)
 
-1. Build front-end
-`docker compose -f docker-compose-prod.yml run client npm run build`
-2. migrate backend
-`docker compose -f docker-compose-prod.yml exec -it web python manage.py migrate`
-3. Restart
-`docker compose -f docker-compose-prod.yml restart`
+1. `cd /home/mhkk/miun-harpaukset`
+2. `git pull`
+3. `bash ./upgrade.sh`

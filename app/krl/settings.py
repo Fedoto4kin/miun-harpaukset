@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'lexicon.apps.LexiconConfig',
     'api_v0.apps.ApiV0Config',
+    'lessons.apps.LessonsConfig',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
