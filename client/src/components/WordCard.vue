@@ -5,7 +5,12 @@
         <h5 class="card-title d-flex justify-content-between align-items-center">
           <span>
             {{ word.word ? word.word.replace('|', '') : '' }}
-            <span class="badge bg-secondary">{{ word.pos }}</span>
+            <span 
+              class="badge bg-secondary tooltip-badge" 
+              :title="`🇫🇮 ${word.pos_name_fi}\n🇷🇺 ${word.pos_name_ru}`"
+            >
+              {{ word.pos }}
+            </span>
           </span>
           <button 
             @click="playSound(word.speech)" 
@@ -83,5 +88,8 @@ export default {
 }
 .definition-content {
   margin-left: 0.5rem;
+}
+.tooltip-badge {
+  cursor: help;
 }
 </style>
