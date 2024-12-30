@@ -73,4 +73,12 @@ class PosSerializer(serializers.ModelSerializer):
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = '__all__'
+        fields = [
+            'id',
+            'full_name',
+            'num',
+            'title',
+            'description',
+            'is_enabled',
+            'slogan',
+            ]

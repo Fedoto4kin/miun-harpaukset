@@ -11,6 +11,10 @@ class Lesson(models.Model):
     def __str__(self):
         return f'{self.num}. {self.title}'
 
+    @property    
+    def full_name(self):
+        return self.__str__
+
     class Meta:
         verbose_name = 'Uroka'
         verbose_name_plural = 'Urokat'
