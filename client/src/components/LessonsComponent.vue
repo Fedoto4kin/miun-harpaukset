@@ -1,13 +1,11 @@
 <template>
   <div class="container">
-    <div class="row my-4">
-      <h1 class="mt-4 col-6">
-        <font-awesome-icon :icon="['fas', 'star']" class="text-success" />
-        {{ title }}
-      </h1>
-    </div>
     <div class="row">
       <div class="col-3">
+        <h1 class="mt-2 mb-4">
+          <font-awesome-icon :icon="['fas', 'star']" class="text-success" />
+          {{ title }}
+        </h1>
         <div v-if="loading">
           <h3>
             <font-awesome-icon :icon="['fas', 'spinner']" spin />
@@ -48,10 +46,20 @@
           </div>
         </div>
       </div>
-      <div class="col-9">
-        <div v-if="activeLesson" class="text-center">
-          <h4 class="border-bottom">{{ activeLesson.full_name }}</h4>
-          <h2>{{ activeLesson.slogan }}</h2>
+      <div class="col-9 mt-4" id="lesson-frame">
+        <div v-if="activeLesson" class="text-center position-relative">
+          <div v-if="activeLesson.speech" class="audio-container">
+            <audio controls class="audio-player">
+              <source :src="activeLesson.speech" type="audio/mpeg" />
+              Your browser does not support the audio tag.
+            </audio>
+          </div>
+          <h4 class="border-bottom pb-2">
+            {{ activeLesson.full_name }}
+          </h4>
+          <h2>
+            {{ activeLesson.slogan }}
+          </h2>
         </div>
         <div v-else>
           <h1>...tulošša piäh</h1>
@@ -175,5 +183,16 @@ export default {
 .accordion-button small {
   font-size: 0.875rem;
   color: #6c757d; /* Gray text color */
+}
+
+.audio-container {
+  position: absolute;
+  top: -2em; /* Сдвигаем на полстроки выше */
+  right: 0; /* Размещаем слева */
+  width: 300px; /* Ширина аудиоплеера */
+}
+
+.audio-player {
+  width: 100%; /* Ширина аудиоплеера на всю доступную ширину */
 }
 </style>

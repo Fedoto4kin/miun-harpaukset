@@ -1,0 +1,35 @@
+[
+{
+  "model": "lessons.lesson",
+  "pk": 1,
+  "fields": {
+    "num": 1,
+    "title": "(enžimäne) urokka",
+    "slogan": "Igä elä, igä opaššu",
+    "description": "Alfavitta. Vokalit, pität vokalit, diftongat, triftongat. Vokaliloin šobu",
+    "is_enabled": true
+  }
+},
+{
+  "model": "lessons.lesson",
+  "pk": 2,
+  "fields": {
+    "num": 2,
+    "title": "(toine) urokka",
+    "slogan": "Ruattu eu muattu",
+    "description": "Paginaetiketta\r\nKonsonantat. Pehmiet konsonantat. Geminatat",
+    "is_enabled": true
+  }
+},
+{
+  "model": "lessons.lesson",
+  "pk": 3,
+  "fields": {
+    "num": 3,
+    "title": "(kolmaš) urokka",
+    "slogan": "Ei nimi mieštä riko",
+    "description": "Kuin šilma kučutah? Tverinkarielazet nimet\r\nAziešanoin muuttuačenda. Inessiva (Missä?). Translativa (Miksi?)",
+    "is_enabled": true
+  }
+}
+]

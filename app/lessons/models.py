@@ -40,7 +40,7 @@ class LessonSpeech(models.Model):
 
 
 class Lesson(models.Model):
-    num = models.IntegerField()
+    num = models.IntegerField(unique=True)
     title = models.CharField(max_length=255)
     slogan = models.CharField(max_length=255)
     description = models.TextField()
