@@ -47,22 +47,24 @@
         </div>
       </div>
       <div class="col-9 mt-4" id="lesson-frame">
-        <div v-if="activeLesson" class="text-center position-relative">
-          <div v-if="activeLesson.speech" class="audio-container">
-            <audio controls class="audio-player">
-              <source :src="activeLesson.speech" type="audio/mpeg" />
-              Your browser does not support the audio tag.
-            </audio>
+        <div class="sticky-lesson pt-3">
+          <div v-if="activeLesson" class="text-center position-relative">
+            <div v-if="activeLesson.speech" class="audio-container">
+              <audio controls class="audio-player">
+                <source :src="activeLesson.speech" type="audio/mpeg" />
+                Your browser does not support the audio tag.
+              </audio>
+            </div>
+            <h4 class="border-bottom pb-2">
+              {{ activeLesson.full_name }}
+            </h4>
+            <h3>
+              {{ activeLesson.slogan }}
+            </h3>
           </div>
-          <h4 class="border-bottom pb-2">
-            {{ activeLesson.full_name }}
-          </h4>
-          <h2>
-            {{ activeLesson.slogan }}
-          </h2>
-        </div>
-        <div v-else>
-          <h1>...tulošša piäh</h1>
+          <div v-else>
+            <h1>...tulošša piäh</h1>
+          </div>
         </div>
       </div>
     </div>
@@ -187,12 +189,20 @@ export default {
 
 .audio-container {
   position: absolute;
-  top: -2em; /* Сдвигаем на полстроки выше */
+  top: 0.6em; /* Сдвигаем на полстроки выше */
   right: 0; /* Размещаем слева */
   width: 300px; /* Ширина аудиоплеера */
+  z-index: 1000;
 }
 
 .audio-player {
   width: 100%; /* Ширина аудиоплеера на всю доступную ширину */
+}
+
+.sticky-lesson {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
 }
 </style>
