@@ -46,7 +46,7 @@
           </div>
         </div>
       </div>
-      <div class="col-9 mt-4" id="lesson-frame">
+      <div class="col-9 mt-2" id="lesson-frame">
         <div class="sticky-lesson pt-3">
           <div v-if="activeLesson" class="text-center position-relative">
             <div v-if="activeLesson.speech" class="audio-container">
@@ -55,10 +55,10 @@
                 Your browser does not support the audio tag.
               </audio>
             </div>
-            <h4 class="border-bottom pb-2">
+            <h4 class="border-bottom pb-2 shift-left">
               {{ activeLesson.full_name }}
             </h4>
-            <h3>
+            <h3 class="shift-left">
               {{ activeLesson.slogan }}
             </h3>
           </div>
@@ -191,12 +191,12 @@ export default {
   position: absolute;
   top: 0.6em; /* Сдвигаем на полстроки выше */
   right: 0; /* Размещаем слева */
-  width: 300px; /* Ширина аудиоплеера */
+  width: 18em; /* Ширина аудиоплеера */
   z-index: 1000;
 }
 
 .audio-player {
-  width: 100%; /* Ширина аудиоплеера на всю доступную ширину */
+  width: 100%;
 }
 
 .sticky-lesson {
@@ -204,5 +204,9 @@ export default {
   top: 0;
   height: 100vh;
   overflow-y: auto;
+}
+
+.shift-left {
+  transform: translateX(-12%);
 }
 </style>
