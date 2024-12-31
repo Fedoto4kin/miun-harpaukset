@@ -18,16 +18,29 @@
               </td>
             </tr>
             <tr>
-              <th scope="row">Šanakniigan keriäjät:</th>
+              <th scope="row">Kniigan luadijat:</th>
               <td>
                 <b>Irina Novak</b>, <b>Irina Komissarova</b>
               </td>
             </tr>
             <tr>
-              <th scope="row">Iänehlugija:</th>
+              <th scope="row">Resuiččija:</th>
+              <td>
+                <b>Anastasija Trifanova</b>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Iänehlugijat:</th>
               <td>
                 <b>Irina Komissarova</b><br />
+                <b>Anatolii Fedotočkin</b><br />
                 <a href="https://vk.com/startmusictver" target="_blank">StArt-iänehstudija</a>, Tveri-linna
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Soittaja(kandeleh):</th>
+              <td>
+                <b>Kegri</b><br />
               </td>
             </tr>
           </tbody>

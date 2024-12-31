@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <div class="container pb-5">
     <div class="row">
-      <div class="col-3">
+      <div class="col-3" id="lesson-list">
         <h1 class="mt-2 mb-4">
           <font-awesome-icon :icon="['fas', 'star']" class="text-success" />
           {{ title }}
@@ -50,7 +50,7 @@
         <div class="sticky-lesson pt-3">
           <div v-if="activeLesson" class="text-center position-relative">
             <div v-if="activeLesson.speech" class="audio-container">
-              <audio controls class="audio-player">
+              <audio controls class="audio-player" :key="activeLesson.id">
                 <source :src="activeLesson.speech" type="audio/mpeg" />
                 Your browser does not support the audio tag.
               </audio>
@@ -65,6 +65,9 @@
           <div v-else>
             <h1>...tulošša piäh</h1>
           </div>
+        </div>
+        <div class="lesson-content">
+            Here we are
         </div>
       </div>
     </div>
@@ -118,6 +121,13 @@ export default {
     },
     // Set the active lesson
     setActiveLesson(lesson) {
+      // Остановить текущее аудио, если оно воспроизводится
+      const audioElement = document.querySelector('.audio-player');
+      if (audioElement) {
+        audioElement.pause();
+        audioElement.currentTime = 0; // Сбросить время воспроизведения
+      }
+
       this.activeLesson = lesson;
       this.$router.push({ path: `/lessons/${lesson.num}` });
     },
@@ -189,23 +199,34 @@ export default {
 
 .audio-container {
   position: absolute;
-  top: 0.6em; /* Сдвигаем на полстроки выше */
   right: 0; /* Размещаем слева */
+  top: -0.5rem;
   width: 18em; /* Ширина аудиоплеера */
   z-index: 1000;
 }
 
 .audio-player {
   width: 100%;
+  transform: scale(0.75); /* Уменьшаем размер в 1.5 раза */
+  transform-origin: top left; /* Масштабируем от верхнего левого угла */
 }
 
 .sticky-lesson {
   position: sticky;
   top: 0;
-  height: 100vh;
+  overflow-y: auto;
+  background-color: #fff;
+}
+
+#lesson-list {
+  height: calc(100vh); 
   overflow-y: auto;
 }
 
+.lesson-content {
+  margin-top: 0.5rem;
+  padding-left: 1.5rem;
+}
 .shift-left {
   transform: translateX(-12%);
 }
