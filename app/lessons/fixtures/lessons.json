@@ -9,6 +9,42 @@
   }
 },
 {
+  "model": "lessons.lessonspeech",
+  "pk": 2,
+  "fields": {
+    "text": "Kaheškymmeneštoine urokka.\r\nGostʼa kahičči ihaššuttau: tullešša da lähtiessä",
+    "mp3": "lessons/0/5cac9053-aa7b-426f-8db2-282238c92c67.MP3",
+    "lesson": 22
+  }
+},
+{
+  "model": "lessons.lessonspeech",
+  "pk": 3,
+  "fields": {
+    "text": "Kahekšaštoista urokka.\r\nVuatteida myöten vaššatah, a hajuo myöten šuatetah",
+    "mp3": "lessons/0/8c89c39d-7ab1-4abe-8209-6e15d0bdd8f9.MP3",
+    "lesson": 18
+  }
+},
+{
+  "model": "lessons.lessonspeech",
+  "pk": 4,
+  "fields": {
+    "text": "Nelläš urokka.\r\nYheštä opaštunnuošta kolmie opaštumatonda ei pie",
+    "mp3": "lessons/0/45b0eb41-84e8-4be2-baec-7d57c008aa82.MP3",
+    "lesson": 4
+  }
+},
+{
+  "model": "lessons.lessonspeech",
+  "pk": 5,
+  "fields": {
+    "text": "Kahekšaš urokka.\r\nEu kaikki puut mečäššä yhenmuozet, ei što rahvaš",
+    "mp3": "lessons/0/178132db-1608-46e7-86ea-50bfa0626a2d.MP3",
+    "lesson": 8
+  }
+},
+{
   "model": "lessons.lesson",
   "pk": 1,
   "fields": {
@@ -27,7 +63,7 @@
     "title": "(toine) urokka",
     "slogan": "Ruattu eu muattu",
     "description": "Paginaetiketta\r\nKonsonantat. Pehmiet konsonantat. Geminatat",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -38,7 +74,7 @@
     "title": "(kolmaš) urokka",
     "slogan": "Ei nimi mieštä riko",
     "description": "Kuin šilma kučutah? Tverinkarielazet nimet\r\nAziešanoin muuttuačenda. Inessiva (Missä?). Translativa (Miksi?)",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -49,7 +85,7 @@
     "title": "(nelläš) urokka",
     "slogan": "Yheštä opaštunnuošta kolmie opaštumatonda ei pie",
     "description": "Äijägo vuotta on?\r\nLugušanat",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -60,7 +96,7 @@
     "title": "(viiješ) urokka",
     "slogan": "Ken ruaduo varajau, a kedä i ruado",
     "description": "Mi / Ken tämä on? Mit / Ket nämä ollah?\r\nMonikon nominativa (Ket? Mit?). Konsonantoin vaihoš",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -71,7 +107,7 @@
     "title": "(kuuveš) urokka",
     "slogan": "Veri on vettä šagiembi",
     "description": "Pereh (nimišanat, tunnuššanat)\r\nGenetiva (Kenen?). Adessiva (Kellä?)",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -82,7 +118,7 @@
     "title": "(šeiččimeš) urokka",
     "slogan": "Rodu eu redu",
     "description": "Omahizet (nimišanat, aziešanat)\r\nGenetiva (Kenen?). Adessiva (Kellä?). Aziešanoin muuttuačenda",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -93,7 +129,7 @@
     "title": "(kahekšaš) urokka",
     "slogan": "Eu kaikki puut mečäššä yhenmuozet, ei što rahvaš",
     "description": "Ulgonägö. Cvietut\r\nMonikon nominativa. Adessiva (Kellä?)",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -104,7 +140,7 @@
     "title": "(yhekšäš) urokka",
     "slogan": "Kuin elät, niin i kuulut",
     "description": "Ristikanžan taba\r\nTunnuššana (Mityš?). Komparativa. Superlativa",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -115,7 +151,7 @@
     "title": "(kymmeneš) urokka",
     "slogan": "Ruado mieštä ei riko",
     "description": "Ruado\r\nEssiva (Kenä?). Translativa (Kekši?)",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -126,7 +162,7 @@
     "title": "(yheštoista) urokka",
     "slogan": "Midä i maha – kaikki godiečou",
     "description": "Aziešanat\r\nAziešanoin muuttuačenda",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -137,7 +173,7 @@
     "title": "(kaheštoista) urokka",
     "slogan": "Kanoinke laškieče, kukkoloinke nouže",
     "description": "Aiga. Ruadopäivä\r\nAziešanoin muuttuačenda. Iččiehizet aziešanat",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -148,7 +184,7 @@
     "title": "(kolmaštoista) urokka",
     "slogan": "Tervehyš on kuldua kallehembi",
     "description": "Tervehyš\r\nPartitiva (Midä?)",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -159,7 +195,7 @@
     "title": "(nelläštoista) urokka",
     "slogan": "Vuotta myöt’ lindu laulau",
     "description": "Šiä. Vuuven aijat. Kuut. Nedelin päivät. Suutkat. Konža?\r\nEssiva, adessiva. Aziešanoin muuttuačenda. Translativa (Miksi?)",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -170,7 +206,7 @@
     "title": "(viiještoista) urokka",
     "slogan": "Čirozešša on hyvä, vielä parembi on omalla mualla",
     "description": "Kylä. Puut. Žiivatat da zvierit, linnut\r\nPaikkamuutokšet",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -181,7 +217,7 @@
     "title": "(kuuveštoista) urokka",
     "slogan": "Jogo linnulla on oma pežo kallisʼ",
     "description": "Muutokšet. Abessiva (Kettä? Mittä?). Komitativa (Kenenke? Minke?)",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -192,7 +228,7 @@
     "title": "(šeiččimeštoista) urokka",
     "slogan": "Koissa i šeinät paissah",
     "description": "Talo. Fatera. Miebeli\r\nEzi- da jälgišanat",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -203,7 +239,7 @@
     "title": "(kahekšaštoista) urokka",
     "slogan": "Vuatteida myöten vaššatah, a hajuo myöten šuatetah",
     "description": "Vuattiet\r\nMuutokšet. Monikko",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -214,7 +250,7 @@
     "title": "(yhekšäštoista) urokka",
     "slogan": "Kuni jalgane kapšau, šini šuuhut n’apšau",
     "description": "Kalat, marjat, šienet da gribat\r\nImperfekta. Neuvondašana (Konža?)",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -225,7 +261,7 @@
     "title": "(kaheškymmeneš) urokka",
     "slogan": "Eu kaikki šuuh, midä šilmä nägöy",
     "description": "Šyömizet. Einehet da fruuktat\r\nObjektan muutokšet (akkuzativa da partitiva)",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -236,7 +272,7 @@
     "title": "(kaheškymmenešenžimäne) urokka",
     "slogan": "Paistua vois’, vain mistä ois’",
     "description": "Šyömizen varuššanda\r\nAziešanoin muuttuačenda. Imperativa. Objekta",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -247,7 +283,7 @@
     "title": "(kaheškymmeneštoine) urokka",
     "slogan": "Gostʼa kahičči ihaššuttau: tullešša da lähtiessä",
     "description": "Gostissa\r\nEzi- da jälgišanat. Neuvondašanat",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -258,7 +294,7 @@
     "title": "(kaheškymmeneškolmaš) urokka",
     "slogan": "Mierošša kuin mereššä – kaikkie on",
     "description": "Matkuššanda\r\nKondicionala",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -269,7 +305,7 @@
     "title": "(kaheškymmenešnelläš) urokka",
     "slogan": "Lebävö luuda ei katkua",
     "description": "Pruazniekat\r\nInfinitivat. Pričastijat",
-    "is_enabled": false
+    "is_enabled": true
   }
 },
 {
@@ -279,8 +315,8 @@
     "num": 25,
     "title": "(kaheškymmenešviiješ) urokka",
     "slogan": "Hyvin ruata – uniloitta muata",
-    "description": "",
-    "is_enabled": false
+    "description": "Lopun harpauš",
+    "is_enabled": true
   }
 }
 ]
