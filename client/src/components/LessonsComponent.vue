@@ -23,8 +23,7 @@
                   :disabled="!lesson.is_enabled"
                 >
                   <div class="d-flex flex-column">
-                    <h5 class="mb-2">{{ lesson.full_name }}</h5>
-                    <small class="text-muted" v-html="formatDescription(lesson.description)"></small>
+                    <small class="text-muted" v-html="formatDescription(lesson)"></small>
                   </div>
                 </button>
               </h2>
@@ -148,8 +147,8 @@ export default {
       }
     },
     // Format description to replace newlines with <br>
-    formatDescription(description) {
-      return description.replace(/\n/g, '<br>');
+    formatDescription(lesson) {
+      return lesson.num+'. '+lesson.description.replace(/\n/g, '<br>');
     },
   },
 };
@@ -201,7 +200,7 @@ export default {
   position: absolute;
   right: 0; /* Размещаем слева */
   top: -0.5rem;
-  width: 18em; /* Ширина аудиоплеера */
+  width: 22em; /* Ширина аудиоплеера */
   z-index: 1000;
 }
 
