@@ -66,7 +66,7 @@
           </div>
         </div>
         <div class="lesson-content">
-            Here we are
+          ..tulošša piäh
         </div>
       </div>
     </div>
