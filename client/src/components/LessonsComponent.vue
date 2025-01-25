@@ -139,14 +139,14 @@ export default {
       }
 
       this.activeLesson = lesson;
-      this.$router.push({ path: `/lessons/${lesson.num}` });
+      this.$router.push({ path: `/lessons/${lesson.number}` });
     },
     handleRoute() {
       const lessonId = this.$route.params.id;
       if (!lessonId) {
         this.$router.replace({ path: '/lessons/1' });
       } else {
-        const lesson = this.lessons.find((lesson) => lesson.num == lessonId);
+        const lesson = this.lessons.find((lesson) => lesson.number == lessonId);
         if (!lesson || !lesson.is_enabled) {
           this.$router.replace({ path: '/lessons/1' });
         } else {
@@ -188,7 +188,7 @@ export default {
       }
     },
     formatDescription(lesson) {
-      return lesson.num + '. ' + lesson.description.replace(/\n/g, '<br>');
+      return lesson.number + '. ' + lesson.description.replace(/\n/g, '<br>');
     },
   },
 };

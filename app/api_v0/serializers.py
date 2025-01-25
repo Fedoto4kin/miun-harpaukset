@@ -76,7 +76,7 @@ class LessonSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'full_name',
-            'num',
+            'number',
             'title',
             'description',
             'is_enabled',

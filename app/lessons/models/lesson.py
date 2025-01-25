@@ -3,7 +3,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from .lesson_speech import LessonSpeech
 
 class Lesson(models.Model):
-    num = models.IntegerField(unique=True)
+    number = models.IntegerField(unique=True)
     title = models.CharField(max_length=255)
     slogan = models.CharField(max_length=255)
     description = models.TextField()
@@ -17,7 +17,7 @@ class Lesson(models.Model):
     )
 
     def __str__(self):
-        return f'{self.num}. {self.title}'
+        return f'{self.number}. {self.title}'
     
     @property
     def speech(self):
@@ -33,4 +33,4 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = 'Uroka'
         verbose_name_plural = 'Urokat'
-        ordering = ['num']
+        ordering = ['number']

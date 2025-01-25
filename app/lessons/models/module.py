@@ -32,7 +32,7 @@ class Module(models.Model):
         return self.module_speeches.first()
 
     def __str__(self):
-        return f'{self.lesson.num}.{self.number} - {self.lesson.title}'
+        return f'{self.lesson.title} - {self.lesson.number}.{self.number}'
 
     class Meta:
         verbose_name = 'Модуль'
