@@ -1,322 +1,637 @@
 [
 {
-  "model": "lessons.lessonspeech",
-  "pk": 1,
-  "fields": {
-    "text": "Enžimäne urokka.\r\nIgä elä, igä opaššu",
-    "mp3": "lessons/0/fe9b1e8a-9e5b-48b2-89ea-36031e72f8c7.MP3",
-    "lesson": 1
-  }
+    "model": "lessons.lesson",
+    "pk": 1,
+    "fields": {
+        "num": 1,
+        "title": "(enžimäne) urokka",
+        "slogan": "Igä elä, igä opaššu",
+        "description": "Alfavitta. Vokalit, pität vokalit, diftongat, triftongat. Vokaliloin šobu",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lessonspeech",
-  "pk": 2,
-  "fields": {
-    "text": "Kaheškymmeneštoine urokka.\r\nGostʼa kahičči ihaššuttau: tullešša da lähtiessä",
-    "mp3": "lessons/0/5cac9053-aa7b-426f-8db2-282238c92c67.MP3",
-    "lesson": 22
-  }
+    "model": "lessons.lesson",
+    "pk": 2,
+    "fields": {
+        "num": 2,
+        "title": "(toine) urokka",
+        "slogan": "Ruattu eu muattu",
+        "description": "Paginaetiketta\r\nKonsonantat. Pehmiet konsonantat. Geminatat",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lessonspeech",
-  "pk": 3,
-  "fields": {
-    "text": "Kahekšaštoista urokka.\r\nVuatteida myöten vaššatah, a hajuo myöten šuatetah",
-    "mp3": "lessons/0/8c89c39d-7ab1-4abe-8209-6e15d0bdd8f9.MP3",
-    "lesson": 18
-  }
+    "model": "lessons.lesson",
+    "pk": 3,
+    "fields": {
+        "num": 3,
+        "title": "(kolmaš) urokka",
+        "slogan": "Ei nimi mieštä riko",
+        "description": "Kuin šilma kučutah? Tverinkarielazet nimet\r\nAziešanoin muuttuačenda. Inessiva (Missä?). Translativa (Miksi?)",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lessonspeech",
-  "pk": 4,
-  "fields": {
-    "text": "Nelläš urokka.\r\nYheštä opaštunnuošta kolmie opaštumatonda ei pie",
-    "mp3": "lessons/0/45b0eb41-84e8-4be2-baec-7d57c008aa82.MP3",
-    "lesson": 4
-  }
+    "model": "lessons.lesson",
+    "pk": 4,
+    "fields": {
+        "num": 4,
+        "title": "(nelläš) urokka",
+        "slogan": "Yheštä opaštunnuošta kolmie opaštumatonda ei pie",
+        "description": "Äijägo vuotta on?\r\nLugušanat",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lessonspeech",
-  "pk": 5,
-  "fields": {
-    "text": "Kahekšaš urokka.\r\nEu kaikki puut mečäššä yhenmuozet, ei što rahvaš",
-    "mp3": "lessons/0/178132db-1608-46e7-86ea-50bfa0626a2d.MP3",
-    "lesson": 8
-  }
+    "model": "lessons.lesson",
+    "pk": 5,
+    "fields": {
+        "num": 5,
+        "title": "(viiješ) urokka",
+        "slogan": "Ken ruaduo varajau, a kedä i ruado",
+        "description": "Mi / Ken tämä on? Mit / Ket nämä ollah?\r\nMonikon nominativa (Ket? Mit?). Konsonantoin vaihoš",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 1,
-  "fields": {
-    "num": 1,
-    "title": "(enžimäne) urokka",
-    "slogan": "Igä elä, igä opaššu",
-    "description": "Alfavitta. Vokalit, pität vokalit, diftongat, triftongat. Vokaliloin šobu",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 6,
+    "fields": {
+        "num": 6,
+        "title": "(kuuveš) urokka",
+        "slogan": "Veri on vettä šagiembi",
+        "description": "Pereh (nimišanat, tunnuššanat)\r\nGenetiva (Kenen?). Adessiva (Kellä?)",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 2,
-  "fields": {
-    "num": 2,
-    "title": "(toine) urokka",
-    "slogan": "Ruattu eu muattu",
-    "description": "Paginaetiketta\r\nKonsonantat. Pehmiet konsonantat. Geminatat",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 7,
+    "fields": {
+        "num": 7,
+        "title": "(šeiččimeš) urokka",
+        "slogan": "Rodu eu redu",
+        "description": "Omahizet (nimišanat, aziešanat)\r\nGenetiva (Kenen?). Adessiva (Kellä?). Aziešanoin muuttuačenda",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 3,
-  "fields": {
-    "num": 3,
-    "title": "(kolmaš) urokka",
-    "slogan": "Ei nimi mieštä riko",
-    "description": "Kuin šilma kučutah? Tverinkarielazet nimet\r\nAziešanoin muuttuačenda. Inessiva (Missä?). Translativa (Miksi?)",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 8,
+    "fields": {
+        "num": 8,
+        "title": "(kahekšaš) urokka",
+        "slogan": "Eu kaikki puut mečäššä yhenmuozet, ei što rahvaš",
+        "description": "Ulgonägö. Cvietut\r\nMonikon nominativa. Adessiva (Kellä?)",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 4,
-  "fields": {
-    "num": 4,
-    "title": "(nelläš) urokka",
-    "slogan": "Yheštä opaštunnuošta kolmie opaštumatonda ei pie",
-    "description": "Äijägo vuotta on?\r\nLugušanat",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 9,
+    "fields": {
+        "num": 9,
+        "title": "(yhekšäš) urokka",
+        "slogan": "Kuin elät, niin i kuulut",
+        "description": "Ristikanžan taba\r\nTunnuššana (Mityš?). Komparativa. Superlativa",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 5,
-  "fields": {
-    "num": 5,
-    "title": "(viiješ) urokka",
-    "slogan": "Ken ruaduo varajau, a kedä i ruado",
-    "description": "Mi / Ken tämä on? Mit / Ket nämä ollah?\r\nMonikon nominativa (Ket? Mit?). Konsonantoin vaihoš",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 10,
+    "fields": {
+        "num": 10,
+        "title": "(kymmeneš) urokka",
+        "slogan": "Ruado mieštä ei riko",
+        "description": "Ruado\r\nEssiva (Kenä?). Translativa (Kekši?)",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 6,
-  "fields": {
-    "num": 6,
-    "title": "(kuuveš) urokka",
-    "slogan": "Veri on vettä šagiembi",
-    "description": "Pereh (nimišanat, tunnuššanat)\r\nGenetiva (Kenen?). Adessiva (Kellä?)",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 11,
+    "fields": {
+        "num": 11,
+        "title": "(yheštoista) urokka",
+        "slogan": "Midä i maha – kaikki godiečou",
+        "description": "Aziešanat\r\nAziešanoin muuttuačenda",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 7,
-  "fields": {
-    "num": 7,
-    "title": "(šeiččimeš) urokka",
-    "slogan": "Rodu eu redu",
-    "description": "Omahizet (nimišanat, aziešanat)\r\nGenetiva (Kenen?). Adessiva (Kellä?). Aziešanoin muuttuačenda",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 12,
+    "fields": {
+        "num": 12,
+        "title": "(kaheštoista) urokka",
+        "slogan": "Kanoinke laškieče, kukkoloinke nouže",
+        "description": "Aiga. Ruadopäivä\r\nAziešanoin muuttuačenda. Iččiehizet aziešanat",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 8,
-  "fields": {
-    "num": 8,
-    "title": "(kahekšaš) urokka",
-    "slogan": "Eu kaikki puut mečäššä yhenmuozet, ei što rahvaš",
-    "description": "Ulgonägö. Cvietut\r\nMonikon nominativa. Adessiva (Kellä?)",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 13,
+    "fields": {
+        "num": 13,
+        "title": "(kolmaštoista) urokka",
+        "slogan": "Tervehyš on kuldua kallehembi",
+        "description": "Tervehyš\r\nPartitiva (Midä?)",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 9,
-  "fields": {
-    "num": 9,
-    "title": "(yhekšäš) urokka",
-    "slogan": "Kuin elät, niin i kuulut",
-    "description": "Ristikanžan taba\r\nTunnuššana (Mityš?). Komparativa. Superlativa",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 14,
+    "fields": {
+        "num": 14,
+        "title": "(nelläštoista) urokka",
+        "slogan": "Vuotta myöt’ lindu laulau",
+        "description": "Šiä. Vuuven aijat. Kuut. Nedelin päivät. Suutkat. Konža?\r\nEssiva, adessiva. Aziešanoin muuttuačenda. Translativa (Miksi?)",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 10,
-  "fields": {
-    "num": 10,
-    "title": "(kymmeneš) urokka",
-    "slogan": "Ruado mieštä ei riko",
-    "description": "Ruado\r\nEssiva (Kenä?). Translativa (Kekši?)",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 15,
+    "fields": {
+        "num": 15,
+        "title": "(viiještoista) urokka",
+        "slogan": "Čirozešša on hyvä, vielä parembi on omalla mualla",
+        "description": "Kylä. Puut. Žiivatat da zvierit, linnut\r\nPaikkamuutokšet",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 11,
-  "fields": {
-    "num": 11,
-    "title": "(yheštoista) urokka",
-    "slogan": "Midä i maha – kaikki godiečou",
-    "description": "Aziešanat\r\nAziešanoin muuttuačenda",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 16,
+    "fields": {
+        "num": 16,
+        "title": "(kuuveštoista) urokka",
+        "slogan": "Jogo linnulla on oma pežo kallisʼ",
+        "description": "Muutokšet. Abessiva (Kettä? Mittä?). Komitativa (Kenenke? Minke?)",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 12,
-  "fields": {
-    "num": 12,
-    "title": "(kaheštoista) urokka",
-    "slogan": "Kanoinke laškieče, kukkoloinke nouže",
-    "description": "Aiga. Ruadopäivä\r\nAziešanoin muuttuačenda. Iččiehizet aziešanat",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 17,
+    "fields": {
+        "num": 17,
+        "title": "(šeiččimeštoista) urokka",
+        "slogan": "Koissa i šeinät paissah",
+        "description": "Talo. Fatera. Miebeli\r\nEzi- da jälgišanat",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 13,
-  "fields": {
-    "num": 13,
-    "title": "(kolmaštoista) urokka",
-    "slogan": "Tervehyš on kuldua kallehembi",
-    "description": "Tervehyš\r\nPartitiva (Midä?)",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 18,
+    "fields": {
+        "num": 18,
+        "title": "(kahekšaštoista) urokka",
+        "slogan": "Vuatteida myöten vaššatah, a hajuo myöten šuatetah",
+        "description": "Vuattiet\r\nMuutokšet. Monikko",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 14,
-  "fields": {
-    "num": 14,
-    "title": "(nelläštoista) urokka",
-    "slogan": "Vuotta myöt’ lindu laulau",
-    "description": "Šiä. Vuuven aijat. Kuut. Nedelin päivät. Suutkat. Konža?\r\nEssiva, adessiva. Aziešanoin muuttuačenda. Translativa (Miksi?)",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 19,
+    "fields": {
+        "num": 19,
+        "title": "(yhekšäštoista) urokka",
+        "slogan": "Kuni jalgane kapšau, šini šuuhut n’apšau",
+        "description": "Kalat, marjat, šienet da gribat\r\nImperfekta. Neuvondašana (Konža?)",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 15,
-  "fields": {
-    "num": 15,
-    "title": "(viiještoista) urokka",
-    "slogan": "Čirozešša on hyvä, vielä parembi on omalla mualla",
-    "description": "Kylä. Puut. Žiivatat da zvierit, linnut\r\nPaikkamuutokšet",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 20,
+    "fields": {
+        "num": 20,
+        "title": "(kaheškymmeneš) urokka",
+        "slogan": "Eu kaikki šuuh, midä šilmä nägöy",
+        "description": "Šyömizet. Einehet da fruuktat\r\nObjektan muutokšet (akkuzativa da partitiva)",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 16,
-  "fields": {
-    "num": 16,
-    "title": "(kuuveštoista) urokka",
-    "slogan": "Jogo linnulla on oma pežo kallisʼ",
-    "description": "Muutokšet. Abessiva (Kettä? Mittä?). Komitativa (Kenenke? Minke?)",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 21,
+    "fields": {
+        "num": 21,
+        "title": "(kaheškymmenešenžimäne) urokka",
+        "slogan": "Paistua vois’, vain mistä ois’",
+        "description": "Šyömizen varuššanda\r\nAziešanoin muuttuačenda. Imperativa. Objekta",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 17,
-  "fields": {
-    "num": 17,
-    "title": "(šeiččimeštoista) urokka",
-    "slogan": "Koissa i šeinät paissah",
-    "description": "Talo. Fatera. Miebeli\r\nEzi- da jälgišanat",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 22,
+    "fields": {
+        "num": 22,
+        "title": "(kaheškymmeneštoine) urokka",
+        "slogan": "Gostʼa kahičči ihaššuttau: tullešša da lähtiessä",
+        "description": "Gostissa\r\nEzi- da jälgišanat. Neuvondašanat",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 18,
-  "fields": {
-    "num": 18,
-    "title": "(kahekšaštoista) urokka",
-    "slogan": "Vuatteida myöten vaššatah, a hajuo myöten šuatetah",
-    "description": "Vuattiet\r\nMuutokšet. Monikko",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 23,
+    "fields": {
+        "num": 23,
+        "title": "(kaheškymmeneškolmaš) urokka",
+        "slogan": "Mierošša kuin mereššä – kaikkie on",
+        "description": "Matkuššanda\r\nKondicionala",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 19,
-  "fields": {
-    "num": 19,
-    "title": "(yhekšäštoista) urokka",
-    "slogan": "Kuni jalgane kapšau, šini šuuhut n’apšau",
-    "description": "Kalat, marjat, šienet da gribat\r\nImperfekta. Neuvondašana (Konža?)",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 24,
+    "fields": {
+        "num": 24,
+        "title": "(kaheškymmenešnelläš) urokka",
+        "slogan": "Lebävö luuda ei katkua",
+        "description": "Pruazniekat\r\nInfinitivat. Pričastijat",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 20,
-  "fields": {
-    "num": 20,
-    "title": "(kaheškymmeneš) urokka",
-    "slogan": "Eu kaikki šuuh, midä šilmä nägöy",
-    "description": "Šyömizet. Einehet da fruuktat\r\nObjektan muutokšet (akkuzativa da partitiva)",
-    "is_enabled": true
-  }
+    "model": "lessons.lesson",
+    "pk": 25,
+    "fields": {
+        "num": 25,
+        "title": "(kaheškymmenešviiješ) urokka",
+        "slogan": "Hyvin ruata – uniloitta muata",
+        "description": "Lopun harpauš",
+        "is_enabled": true
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 21,
-  "fields": {
-    "num": 21,
-    "title": "(kaheškymmenešenžimäne) urokka",
-    "slogan": "Paistua vois’, vain mistä ois’",
-    "description": "Šyömizen varuššanda\r\nAziešanoin muuttuačenda. Imperativa. Objekta",
-    "is_enabled": true
-  }
+    "model": "lessons.lessonspeech",
+    "pk": 1,
+    "fields": {
+        "text": "Enžimäne urokka.\r\nIgä elä, igä opaššu",
+        "mp3": "lessons/1/fe9b1e8a-9e5b-48b2-89ea-36031e72f8c7.MP3",
+        "lesson": 1,
+        "code": "1.0"
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 22,
-  "fields": {
-    "num": 22,
-    "title": "(kaheškymmeneštoine) urokka",
-    "slogan": "Gostʼa kahičči ihaššuttau: tullešša da lähtiessä",
-    "description": "Gostissa\r\nEzi- da jälgišanat. Neuvondašanat",
-    "is_enabled": true
-  }
+    "model": "lessons.lessonspeech",
+    "pk": 2,
+    "fields": {
+        "text": "Kaheškymmeneštoine urokka.\r\nGostʼa kahičči ihaššuttau: tullešša da lähtiessä",
+        "mp3": "lessons/22/5cac9053-aa7b-426f-8db2-282238c92c67.MP3",
+        "lesson": 22,
+        "code": "22.0"
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 23,
-  "fields": {
-    "num": 23,
-    "title": "(kaheškymmeneškolmaš) urokka",
-    "slogan": "Mierošša kuin mereššä – kaikkie on",
-    "description": "Matkuššanda\r\nKondicionala",
-    "is_enabled": true
-  }
+    "model": "lessons.lessonspeech",
+    "pk": 3,
+    "fields": {
+        "text": "Kahekšaštoista urokka.\r\nVuatteida myöten vaššatah, a hajuo myöten šuatetah",
+        "mp3": "lessons/18/8c89c39d-7ab1-4abe-8209-6e15d0bdd8f9.MP3",
+        "lesson": 18,
+        "code": "18.0"
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 24,
-  "fields": {
-    "num": 24,
-    "title": "(kaheškymmenešnelläš) urokka",
-    "slogan": "Lebävö luuda ei katkua",
-    "description": "Pruazniekat\r\nInfinitivat. Pričastijat",
-    "is_enabled": true
-  }
+    "model": "lessons.lessonspeech",
+    "pk": 4,
+    "fields": {
+        "text": "Nelläš urokka.\r\nYheštä opaštunnuošta kolmie opaštumatonda ei pie",
+        "mp3": "lessons/4/45b0eb41-84e8-4be2-baec-7d57c008aa82.MP3",
+        "lesson": 4,
+        "code": "4.0"
+    }
 },
 {
-  "model": "lessons.lesson",
-  "pk": 25,
-  "fields": {
-    "num": 25,
-    "title": "(kaheškymmenešviiješ) urokka",
-    "slogan": "Hyvin ruata – uniloitta muata",
-    "description": "Lopun harpauš",
-    "is_enabled": true
-  }
+    "model": "lessons.lessonspeech",
+    "pk": 5,
+    "fields": {
+        "text": "Kahekšaš urokka.\r\nEu kaikki puut mečäššä yhenmuozet, ei što rahvaš",
+        "mp3": "lessons/8/178132db-1608-46e7-86ea-50bfa0626a2d.MP3",
+        "lesson": 8,
+        "code": "8.0"
+    }
+},
+{
+    "model": "lessons.tag",
+    "pk": 1,
+    "fields": {
+        "code": "grammar",
+        "name": "Grammatikka",
+        "hint_russian": "Грамматика",
+        "hint_finnish": "Kielioppi"
+    }
+},
+{
+    "model": "lessons.tag",
+    "pk": 2,
+    "fields": {
+        "code": "tell",
+        "name": "Šanele!",
+        "hint_russian": "Расскажи",
+        "hint_finnish": "Kerro"
+    }
+},
+{
+    "model": "lessons.tag",
+    "pk": 3,
+    "fields": {
+        "code": "vocabulary",
+        "name": "Uuvet šanat",
+        "hint_russian": "Новая лексика",
+        "hint_finnish": "Uusi sanasto"
+    }
+},
+{
+    "model": "lessons.tag",
+    "pk": 4,
+    "fields": {
+        "code": "dialogue",
+        "name": "Dialoga",
+        "hint_russian": "Диалог",
+        "hint_finnish": "Vuoropuhelu"
+    }
+},
+{
+    "model": "lessons.tag",
+    "pk": 5,
+    "fields": {
+        "code": "remember",
+        "name": "Muissuta!",
+        "hint_russian": "Запомни",
+        "hint_finnish": "Muista"
+    }
+},
+{
+    "model": "lessons.tag",
+    "pk": 6,
+    "fields": {
+        "code": "proverbs",
+        "name": "Šanapolvet",
+        "hint_russian": "Пословицы",
+        "hint_finnish": "Sanonnat"
+    }
+},
+{
+    "model": "lessons.tag",
+    "pk": 7,
+    "fields": {
+        "code": "task",
+        "name": "Annanda / Kyžymykšet",
+        "hint_russian": "Задание / Вопросы",
+        "hint_finnish": "Tehtävä / Kysymykset"
+    }
+},
+{
+    "model": "lessons.tag",
+    "pk": 8,
+    "fields": {
+        "code": "game",
+        "name": "Kiza",
+        "hint_russian": "Игра",
+        "hint_finnish": "Peli"
+    }
+},
+{
+    "model": "lessons.tag",
+    "pk": 9,
+    "fields": {
+        "code": "read",
+        "name": "Luve da kiännä!",
+        "hint_russian": "Прочитай и переведи",
+        "hint_finnish": "Lue ja käännä"
+    }
+},
+{
+    "model": "lessons.tag",
+    "pk": 10,
+    "fields": {
+        "code": "sing",
+        "name": "Laula!",
+        "hint_russian": "Спой",
+        "hint_finnish": "Laula"
+    }
+},
+{
+    "model": "lessons.tag",
+    "pk": 11,
+    "fields": {
+        "code": "write",
+        "name": "Kirjuta! / Täyvennä!",
+        "hint_russian": "Напиши / Заполни",
+        "hint_finnish": "Kirjoita / Täydennä"
+    }
+},
+{
+    "model": "lessons.tag",
+    "pk": 12,
+    "fields": {
+        "code": "smile",
+        "name": "Muhaha!",
+        "hint_russian": "Улыбнись",
+        "hint_finnish": "Hymyile"
+    }
+},
+{
+    "model": "lessons.tag",
+    "pk": 13,
+    "fields": {
+        "code": "listen",
+        "name": "Kuundele da tačkuta! / Kuundele oigie varianta!",
+        "hint_russian": "Послушай и повтори / Послушай правильный вариант",
+        "hint_finnish": "Kuuntele ja toista / Kuuntele oikea vaihtoehto"
+    }
+},
+{
+    "model": "lessons.tag",
+    "pk": 14,
+    "fields": {
+        "code": "test",
+        "name": "Testa",
+        "hint_russian": "Тест",
+        "hint_finnish": "Testi"
+    }
+},
+{
+    "model": "lessons.tag",
+    "pk": 15,
+    "fields": {
+        "code": "key",
+        "name": "Avuan",
+        "hint_russian": "Ключ",
+        "hint_finnish": "Avain"
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 1,
+    "fields": {
+        "lesson": 1,
+        "number": 1,
+        "html_content": "",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 2,
+    "fields": {
+        "lesson": 1,
+        "number": 2,
+        "html_content": "",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 3,
+    "fields": {
+        "lesson": 1,
+        "number": 3,
+        "html_content": "",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 4,
+    "fields": {
+        "lesson": 1,
+        "number": 4,
+        "html_content": "",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 5,
+    "fields": {
+        "lesson": 1,
+        "number": 5,
+        "html_content": "",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 6,
+    "fields": {
+        "lesson": 1,
+        "number": 6,
+        "html_content": "",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 7,
+    "fields": {
+        "lesson": 1,
+        "number": 7,
+        "html_content": "",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 8,
+    "fields": {
+        "lesson": 1,
+        "number": 8,
+        "html_content": "",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 9,
+    "fields": {
+        "lesson": 1,
+        "number": 9,
+        "html_content": "",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 10,
+    "fields": {
+        "lesson": 1,
+        "number": 10,
+        "html_content": "",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 11,
+    "fields": {
+        "lesson": 1,
+        "number": 11,
+        "html_content": "",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 12,
+    "fields": {
+        "lesson": 1,
+        "number": 12,
+        "html_content": "",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 13,
+    "fields": {
+        "lesson": 1,
+        "number": 13,
+        "html_content": "",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 14,
+    "fields": {
+        "lesson": 1,
+        "number": 14,
+        "html_content": "",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 15,
+    "fields": {
+        "lesson": 1,
+        "number": 15,
+        "html_content": "",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 16,
+    "fields": {
+        "lesson": 1,
+        "number": 16,
+        "html_content": "",
+        "tags": []
+    }
 }
 ]
