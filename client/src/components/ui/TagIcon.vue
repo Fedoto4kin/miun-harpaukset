@@ -39,7 +39,7 @@
           vocabulary: ['fas', 'book'],
           dialogue: ['fas', 'comments'],
           remember: ['fas', 'brain'],
-          proverbs: ['fas', 'book-open-read'],
+          proverbs: ['fas', 'book-open-reader'],
           task: ['fas', 'question-circle'],
           game: ['fas', 'face-grin-stars'],
           read: ['fas', 'book-open'],

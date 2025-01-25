@@ -23,7 +23,7 @@ export const getModulesByLesson = async (lessonId) => {
 export const getModuleContent = async (moduleId) => {
   try {
     const response = await axios.get(`v0/modules/${moduleId}/content/`);
-    return response.data.html_content;
+    return response.data;
   } catch (error) {
     console.error('Error fetching module content:', error);
     throw error;

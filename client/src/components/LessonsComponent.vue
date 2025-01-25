@@ -55,7 +55,6 @@
             <div v-if="activeLesson.speech" class="audio-container">
               <audio controls class="audio-player" :key="activeLesson.id">
                 <source :src="activeLesson.speech" type="audio/mpeg" />
-                Your browser does not support the audio tag.
               </audio>
             </div>
             <h4 class="border-bottom pb-2 shift-left">
@@ -66,10 +65,17 @@
             </h3>
           </div>
         </div>
-        <div class="lesson-content" v-if="selectedModuleContent" v-html="selectedModuleContent"></div>
+        <div class="lesson-content" v-if="moduleData.html_content" v-html="moduleData.html_content"></div>
         <div class="lesson-content" v-else>
           ...tulošša piäh
         </div>
+        <div v-if="moduleData && moduleData.speech" class="mt-4">
+        <div class="mb-3">
+          <audio controls class="audio-player" :key="moduleData.speech">
+            <source :src="moduleData.speech" type="audio/mpeg" />
+          </audio>
+        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -94,8 +100,11 @@ export default {
       activeLesson: null,
       modules: [],
       modulesLoading: false,
-      selectedModuleContent: null,
       selectedModuleId: null,
+      moduleData: {
+        html_content: null,
+        speech: null,
+      }, 
     };
   },
   async mounted() {
@@ -166,11 +175,16 @@ export default {
     },
     async loadModuleContent(moduleId) {
       try {
-        this.selectedModuleContent = await getModuleContent(moduleId);
+        const response = await getModuleContent(moduleId);
+        this.moduleData = {
+          html_content: response.html_content,
+          speech: response.speech || null,
+        };
         this.selectedModuleId = moduleId;
       } catch (error) {
         console.error('Error loading module content:', error);
         this.selectedModuleContent = 'Ошибка загрузки контента модуля.';
+        this.moduleSpeech = null;
       }
     },
     formatDescription(lesson) {
