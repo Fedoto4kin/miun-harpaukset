@@ -46,7 +46,7 @@ services:
     container_name: mhkk_client
     build:
       context: ./
-      dockerfile: images/node/Dockerfile
+      dockerfile: images/node/Dockerfile.dev
     volumes:
       - ./client:/app
     ports:
