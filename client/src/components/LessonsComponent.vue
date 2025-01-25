@@ -33,12 +33,16 @@
                 :class="{ show: isLessonActive(lesson) }"
                 :aria-labelledby="'heading' + lesson.id"
               >
-                <div class="accordion-body" v-if="lesson.is_enabled">
-                  <ul>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                  </ul>
+                <div class="accordion-body p-0" v-if="lesson.is_enabled">
+                  <div v-if="modulesLoading">
+                    <font-awesome-icon :icon="['fas', 'spinner']" spin />
+                  </div>
+                  <ModuleList
+                    v-else
+                    :modules="modules"
+                    :selected-module-id="selectedModuleId"
+                    @module-clicked="loadModuleContent"
+                  />
                 </div>
               </div>
             </div>
@@ -61,12 +65,10 @@
               {{ activeLesson.slogan }}
             </h3>
           </div>
-          <div v-else>
-            <h1>...tulošša piäh</h1>
-          </div>
         </div>
-        <div class="lesson-content">
-          ..tulošša piäh
+        <div class="lesson-content" v-if="selectedModuleContent" v-html="selectedModuleContent"></div>
+        <div class="lesson-content" v-else>
+          ...tulošša piäh
         </div>
       </div>
     </div>
@@ -75,80 +77,104 @@
 
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { getLessons } from '../services/lessonsService.js';
+import { getLessons, getModulesByLesson, getModuleContent } from '../services/lessonsService.js';
+import ModuleList from '@/components/ModuleListComponent.vue'; 
 
 export default {
   name: 'LessonsComponent',
   components: {
     FontAwesomeIcon,
+    ModuleList,
   },
   data() {
     return {
       title: 'Urokat',
       loading: true,
       lessons: [],
-      activeLesson: null, // Store the active lesson as an object
+      activeLesson: null,
+      modules: [],
+      modulesLoading: false,
+      selectedModuleContent: null,
+      selectedModuleId: null,
     };
   },
   async mounted() {
     document.title = 'Urokat';
     try {
-      this.lessons = await getLessons(); // Fetch lessons asynchronously
-      this.handleRoute(); // Handle route after lessons are loaded
+      this.lessons = await getLessons();
+      this.handleRoute();
     } catch (error) {
       console.error('Error loading lessons:', error);
     } finally {
-      this.loading = false; // Finish loading
+      this.loading = false;
     }
   },
   watch: {
-    // Watch for changes in the route
     '$route.params.id': 'handleRoute',
   },
   methods: {
-    // Check if the lesson is active
     isLessonActive(lesson) {
       return this.activeLesson && this.activeLesson.id === lesson.id;
     },
-    // Toggle lesson (open/close)
     toggleLesson(lesson) {
       if (this.isLessonActive(lesson)) {
-        // If the lesson is already active, do nothing (prevent collapsing)
         return;
       }
       this.setActiveLesson(lesson);
     },
-    // Set the active lesson
     setActiveLesson(lesson) {
-      // Остановить текущее аудио, если оно воспроизводится
       const audioElement = document.querySelector('.audio-player');
       if (audioElement) {
         audioElement.pause();
-        audioElement.currentTime = 0; // Сбросить время воспроизведения
+        audioElement.currentTime = 0;
       }
 
       this.activeLesson = lesson;
       this.$router.push({ path: `/lessons/${lesson.num}` });
     },
-    // Handle route changes
     handleRoute() {
       const lessonId = this.$route.params.id;
       if (!lessonId) {
-        // Redirect to the first lesson if no ID is provided
         this.$router.replace({ path: '/lessons/1' });
       } else {
         const lesson = this.lessons.find((lesson) => lesson.num == lessonId);
         if (!lesson || !lesson.is_enabled) {
-          // Redirect to the first lesson if the lesson doesn't exist or is disabled
           this.$router.replace({ path: '/lessons/1' });
         } else {
-          this.activeLesson = lesson; // Set the active lesson
+          this.activeLesson = lesson;
+          this.loadModules();
         }
       }
     },
-    // Format description to replace newlines with <br>
+    async loadModules() {
+      if (!this.activeLesson) return;
+
+      this.modulesLoading = true;
+      try {
+        this.modules = await getModulesByLesson(this.activeLesson.id);
+
+        if (this.modules.length > 0) {
+          await this.loadModuleContent(this.modules[0].id);
+        } else {
+          this.selectedModuleContent = null;
+        }
+      } catch (error) {
+        console.error('Error loading modules:', error);
+      } finally {
+        this.modulesLoading = false;
+      }
+    },
+    async loadModuleContent(moduleId) {
+      try {
+        this.selectedModuleContent = await getModuleContent(moduleId);
+        this.selectedModuleId = moduleId;
+      } catch (error) {
+        console.error('Error loading module content:', error);
+        this.selectedModuleContent = 'Ошибка загрузки контента модуля.';
+      }
+    },
     formatDescription(lesson) {
-      return lesson.num+'. '+lesson.description.replace(/\n/g, '<br>');
+      return lesson.num + '. ' + lesson.description.replace(/\n/g, '<br>');
     },
   },
 };
@@ -198,16 +224,16 @@ export default {
 
 .audio-container {
   position: absolute;
-  right: 0; /* Размещаем слева */
+  right: 0;
   top: -0.5rem;
-  width: 22em; /* Ширина аудиоплеера */
+  width: 22em; 
   z-index: 1000;
 }
 
 .audio-player {
   width: 100%;
-  transform: scale(0.75); /* Уменьшаем размер в 1.5 раза */
-  transform-origin: top left; /* Масштабируем от верхнего левого угла */
+  transform: scale(0.75); 
+  transform-origin: top left; 
 }
 
 .sticky-lesson {
@@ -228,5 +254,30 @@ export default {
 }
 .shift-left {
   transform: translateX(-12%);
+}
+
+.list-group-item {
+  cursor: pointer; /* Указываем, что элемент кликабельный */
+  border: none; /* Убираем границы */
+  background-color: #f8f9fa; /* Серый фон по умолчанию */
+  transition: background-color 0.2s ease; /* Плавное изменение фона */
+}
+
+.list-group-item:hover {
+  background-color: #e9ecef; /* Темнее серого при наведении */
+}
+
+.active-module {
+  background-color: white !important; /* Белый фон для активного элемента */
+  font-weight: bold; /* Жирный шрифт для активного элемента */
+}
+
+.custom-badge {
+  font-size: 0.9rem; /* Уменьшаем размер шрифта в 2 раза */
+  padding: 0.25rem 0.5rem; /* Уменьшаем отступы в 2 раза */
+}
+
+.shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Тень для badge */
 }
 </style>
