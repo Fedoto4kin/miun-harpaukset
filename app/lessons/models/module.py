@@ -25,4 +25,4 @@ class Module(models.Model):
         verbose_name = 'Модуль'
         verbose_name_plural = 'Модули'
         unique_together = ('lesson', 'number')
-        ordering = ['lesson', 'number']
+        ordering = ['number']

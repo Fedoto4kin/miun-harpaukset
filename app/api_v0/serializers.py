@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from lexicon.models import Word, Definition, Pos, Base
-from lessons.models import Lesson, LessonSpeech 
+from lessons.models import Lesson, LessonSpeech, Module, Tag
 
 class BaseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -91,3 +91,15 @@ class LessonSerializer(serializers.ModelSerializer):
             'speech'
             ]
 
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['id', 'code', 'name', 'hint_russian', 'hint_finnish']
+
+class ModuleSerializer(serializers.ModelSerializer):
+    tags = TagSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Module
+        fields = ['id', 'lesson', 'number', 'tags']

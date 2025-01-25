@@ -1,5 +1,5 @@
 
-### Help
+### Dev Help
 `docker compose exec -it web python manage.py makemigrations`
 `docker compose exec -it web python manage.py migrate`
 
@@ -31,3 +31,19 @@ Set up certbot (?)
 2. `git pull`
 3. `bash ./upgrade.sh`
 4. [optional] Upload fixtures, if need
+
+
+### Data upload
+
+1. Create dump fixture
+    * Lessons:
+`docker compose exec -it web python manage.py dumpdata lessons --indent 4 > app/lessons/fixtures/lessons.json`
+    * Lexicon
+`docker compose exec -it web python manage.py dumpdata lexixon --indent 4 > app/lexicon/fixtures/lexicon.json`    
+2. Upload to server
+3. Clear lessons_* tables
+4. Run on server
+    * Lessons:
+`docker exec -it mhkk_django python manage.py loaddata app/lessons/fixtures/lessons.json`
+    * Lexicon
+`docker compose exec -it web python manage.py dumpdata lexixon --indent 4 > app/lexicon/fixtures/lexicon.json`    

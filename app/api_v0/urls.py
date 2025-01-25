@@ -6,6 +6,7 @@ from django.urls import include, path, re_path
 router = DefaultRouter()
 router.register(r'lexicon/pos', PosViewSet, basename='pos')
 router.register(r'lessons', LessonViewSet, basename='lesson')
+router.register(r'modules', ModuleViewSet, basename='module')  # Регистрируем ModuleViewSet
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -21,4 +22,5 @@ urlpatterns = [
     ),
     re_path(r'^lexicon/search/$', SearchViewList.as_view(), name='search-view'),
     re_path(r'^lexicon/reverse/$', SearchReverseViewList.as_view(), name='search-reverse-view'),
+    path('modules/<int:module_id>/content/', ModuleContentView.as_view(), name='module-content'),
 ]
