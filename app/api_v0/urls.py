@@ -6,7 +6,7 @@ from django.urls import include, path, re_path
 router = DefaultRouter()
 router.register(r'lexicon/pos', PosViewSet, basename='pos')
 router.register(r'lessons', LessonViewSet, basename='lesson')
-router.register(r'modules', ModuleViewSet, basename='module')  # Регистрируем ModuleViewSet
+router.register(r'modules', ModuleViewSet, basename='module')
 
 urlpatterns = [
     path('', include(router.urls)),

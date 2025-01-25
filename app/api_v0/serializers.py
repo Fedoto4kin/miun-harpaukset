@@ -69,14 +69,7 @@ class PosSerializer(serializers.ModelSerializer):
             'name_fi'
         ]
 
-
-# class LessonSpeechSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = LessonSpeech
-#         fields = ['id', 'text', 'mp3']
-
 class LessonSerializer(serializers.ModelSerializer):
-    # speech = LessonSpeechSerializer(source='lesson_speech', read_only=True)
     speech = serializers.FileField(source='speech.media', read_only=True)
     class Meta:
         model = Lesson
@@ -91,7 +84,6 @@ class LessonSerializer(serializers.ModelSerializer):
             'speech'
             ]
 
-
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
@@ -99,7 +91,8 @@ class TagSerializer(serializers.ModelSerializer):
 
 class ModuleSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, read_only=True)
+    speech = serializers.FileField(source='speech.media', read_only=True, use_url=True)
 
     class Meta:
         model = Module
-        fields = ['id', 'lesson', 'number', 'tags']
+        fields = ['id', 'lesson', 'html_content', 'number', 'tags', 'speech']

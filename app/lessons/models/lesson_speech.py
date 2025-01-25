@@ -3,7 +3,9 @@ import re
 import uuid
 from django.db import models
 from django.core.exceptions import ValidationError
-from .lesson import Lesson  # Import the Lesson model
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.db.models import Q
 
 class LessonSpeech(models.Model):
 
@@ -25,13 +27,23 @@ class LessonSpeech(models.Model):
         blank=True,
         editable=True,
     )
-    lesson = models.OneToOneField(
-        Lesson,  # Use the imported Lesson model
-        on_delete=models.CASCADE, 
-        related_name='lesson_speech',
+    
+    content_type = models.ForeignKey(
+        ContentType, 
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        limit_choices_to=Q(app_label='lessons', model='lesson') | Q(app_label='lessons', model='module')
+    )
+    object_id = models.PositiveIntegerField(
         null=True,
         blank=True
     )
+    content_object = GenericForeignKey(
+        'content_type', 
+        'object_id'
+    )
+
     code = models.CharField(
         max_length=10,
         blank=True,
