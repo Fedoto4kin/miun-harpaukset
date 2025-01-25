@@ -68,6 +68,8 @@ services:
   db:
     container_name: mhkk_db
     image: postgres:14
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
     volumes:
       - ./db:/var/lib/postgresql/data
     environment:
