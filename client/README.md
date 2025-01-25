@@ -2,12 +2,7 @@
 
 ## Project setup
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+docker compose run client npm intsall
 ```
 
 ### Compiles and minifies for production

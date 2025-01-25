@@ -3,6 +3,10 @@
 `docker compose exec -it web python manage.py makemigrations`
 `docker compose exec -it web python manage.py migrate`
 
+Create lesson blocks(modules)
+E.g. Lesson 1 create 5 modules
+`docker compose exec -it web python manage.py create_modules 1 5`
+
 ### Deploy(1st):
 
 Create `mhkk` user and clone code into `miun-harpaukset` directory
@@ -26,3 +30,4 @@ Set up certbot (?)
 1. `cd /home/mhkk/miun-harpaukset`
 2. `git pull`
 3. `bash ./upgrade.sh`
+4. [optional] Upload fixtures, if need

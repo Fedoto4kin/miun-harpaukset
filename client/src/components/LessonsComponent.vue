@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="col-9 mt-2" id="lesson-frame">
-        <div class="sticky-lesson pt-3">
+        <div class="sticky-lesson pt-3">  
           <div v-if="activeLesson" class="text-center position-relative">
             <div v-if="activeLesson.speech" class="audio-container">
               <audio controls class="audio-player" :key="activeLesson.id">
