@@ -1,5 +1,5 @@
 #!/bin/bash
-    
+
 echo "Checking repository status..."
 if ! git diff-index --quiet HEAD --; then
   echo "Repository is not clean. Please commit or stash changes before deploying."
@@ -13,6 +13,14 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 echo "Code updated successfully."
+
+echo "Installing front-end dependencies..."
+docker compose -f docker-compose-prod.yml run client npm install
+if [ $? -ne 0 ]; then
+  echo "Front-end dependency installation failed!"
+  exit 1
+fi
+echo "Front-end dependencies installed successfully."
 
 echo "Building front-end..."
 docker compose -f docker-compose-prod.yml run client npm run build
