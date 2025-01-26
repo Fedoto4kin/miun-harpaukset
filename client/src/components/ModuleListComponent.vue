@@ -19,6 +19,7 @@
                 :tagCode="tag.code" 
                 :hintFinnish="tag.hint_finnish"
                 :hintRussian="tag.hint_russian"
+                :tagName="tag.name"
             />
           </span>
         </div>

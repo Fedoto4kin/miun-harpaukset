@@ -65,15 +65,17 @@
             </h3>
           </div>
         </div>
-        <div class="lesson-content" v-if="moduleData.html_content" v-html="moduleData.html_content"></div>
-        <div class="lesson-content" v-else>
+        <div v-if="!modulesLoading">
+          <div class="lesson-content" v-if="moduleData.html_content" v-html="moduleData.html_content"></div>
+          <div class="lesson-content" v-else>
           ...tulošša piäh
-        </div>
-        <div v-if="moduleData && moduleData.speech" class="mt-4">
-        <div class="mb-3">
-          <audio controls class="audio-player" :key="moduleData.speech">
-            <source :src="moduleData.speech" type="audio/mpeg" />
-          </audio>
+          </div>
+          <div v-if="moduleData && moduleData.speech" class="mt-4">
+          <div class="mb-3">
+            <audio controls class="audio-player" :key="moduleData.speech">
+              <source :src="moduleData.speech" type="audio/mpeg" />
+            </audio>
+          </div>
         </div>
       </div>
       </div>
@@ -165,7 +167,8 @@ export default {
         if (this.modules.length > 0) {
           await this.loadModuleContent(this.modules[0].id);
         } else {
-          this.selectedModuleContent = null;
+          this.selectedModuleId = null;
+          this.moduleData = {};
         }
       } catch (error) {
         console.error('Error loading modules:', error);
@@ -183,8 +186,8 @@ export default {
         this.selectedModuleId = moduleId;
       } catch (error) {
         console.error('Error loading module content:', error);
-        this.selectedModuleContent = 'Ошибка загрузки контента модуля.';
-        this.moduleSpeech = null;
+        this.moduleData = {}
+        this.selectedModuleId = null;
       }
     },
     formatDescription(lesson) {

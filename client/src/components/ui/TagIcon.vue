@@ -2,6 +2,7 @@
     <VTooltip>
         <font-awesome-icon :icon="getTagIcon(tagCode)" class="custom-icon" />
         <template #popper>
+          <h6 class="px-1">&bullet;&nbsp;{{ tagName }}</h6>
             <ul class="my-0 list-unstyled">
                 <li>
                     <span><img :src="'/img/ru-xs.png'" :alt="lang" class="me-2" />{{ hintRussian }}</span>
@@ -27,6 +28,10 @@
         required: true,
       },
       hintRussian: {
+        type: String,
+        required: true,
+      },  
+      tagName: {
         type: String,
         required: true,
       },
