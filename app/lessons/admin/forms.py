@@ -1,4 +1,5 @@
 from django import forms
+from ckeditor.widgets import CKEditorWidget
 from ..models import LessonSpeech, Module
 from .widgets import HideListenTagWidget
 
@@ -9,6 +10,8 @@ class LessonSpeechForm(forms.ModelForm):
 
 
 class ModuleForm(forms.ModelForm):
+    html_content = forms.CharField(widget=CKEditorWidget()) 
+
     class Meta:
         model = Module
         fields = '__all__'

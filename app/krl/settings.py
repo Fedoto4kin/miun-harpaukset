@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -133,6 +134,7 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/' 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'static'),
@@ -149,3 +151,20 @@ if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
 else:
     CORS_ALLOWED_ORIGINS = []
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['Image', 'Table', 'HorizontalRule'],
+            ['RemoveFormat', 'Source']
+        ],
+        'extraPlugins': 'uploadimage',
+        'uploadUrl': '/ckeditor/upload/',
+        'height': 300,
+        'width': '100%',
+    },
+}

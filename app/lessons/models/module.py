@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
+from ckeditor.fields import RichTextField
 from .lesson import Lesson  # Import the Lesson model
 from .tag import Tag  # Import the Tag model
 from .lesson_speech import LessonSpeech
@@ -12,7 +13,11 @@ class Module(models.Model):
         verbose_name='Urokka'
     )
     number = models.IntegerField()
-    html_content = models.TextField()
+    html_content = RichTextField(
+        verbose_name='HTML',
+        blank=True,
+        default=''
+    )
     tags = models.ManyToManyField(
         Tag,
         related_name='modules',

@@ -55,7 +55,7 @@ class LessonSpeechAdmin(admin.ModelAdmin):
     
 
 class ModuleAdmin(admin.ModelAdmin):
-    list_display = ('lesson', 'number', 'html_content', 'upload_sound_button')
+    list_display = ('number', 'lesson', 'html_content', 'upload_sound_button')
     search_fields = ('lesson__title', 'number')
     ordering = ['lesson', 'number']
     inlines = [LessonSpeechInline]
