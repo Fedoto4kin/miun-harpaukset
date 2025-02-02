@@ -277,9 +277,6 @@ export default {
   margin-top: 0.5rem;
   padding-left: 1.5rem;
 }
-.shift-left {
-  transform: translateX(-12%);
-}
 
 .list-group-item {
   cursor: pointer;

@@ -136,9 +136,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
-# )
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static_src'),
+)
 
 #STATIC_ROOT = BASE_DIR / 'static'
 
@@ -158,23 +158,26 @@ CKEDITOR_CONFIGS = {
         'toolbar_Custom': [
             ['Bold', 'Italic', 'Underline'],
             ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink'],
+            ['InsertBadge'],
             ['Image', 'Table', 'HorizontalRule'],
-            ['Format', 'RemoveFormat', 'Source'],
-            ['FontSize', 'Styles']
+            ['TextColor', 'BGColor'],
+            ['Format', 'FontSize', 'Styles'],
+            ['RemoveFormat', 'Source'],
         ],
         'format_tags': 'p;h3;h4;h5;h6',
-        'extraPlugins': 'uploadimage,stylescombo,font,table',
+        'extraPlugins': 'uploadimage,stylescombo,font,table,krl_insertbadge',
         'uploadUrl': '/ckeditor/upload/',
         'height': 400,
         'width': '100%',
-        'contentsCss': '/static/custom-bootstrap.css',
+        'contentsCss': '/static/css/bootstrap.min.css',
         'fontSize_sizes': '0.5em;0.75em;1em;1.25em;1.5em;1.7em;2em',
         'stylesSet': [
             { 'name': 'Table Cell Yellow', 'element': 'td', 'attributes': { 'class': 'table-warning' } },
             { 'name': 'Table Cell Blue', 'element': 'td', 'attributes': { 'class': 'table-info' } },
-            { 'name': 'Table Cell Grey', 'element': 'td', 'attributes': { 'class': 'table-active' } }   ,
+            { 'name': 'Table Cell Grey', 'element': 'td', 'attributes': { 'class': 'table-active' } },
         ],
+        'allowedContent': True,
+        'extraAllowedContent': 'span[class](*)'
     },
 }
 
