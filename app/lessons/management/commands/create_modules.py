@@ -13,17 +13,22 @@ class Command(BaseCommand):
         num_modules = kwargs['num_modules']
 
         try:
-            lesson = Lesson.objects.get(num=lesson_num)
+            lesson = Lesson.objects.get(number=lesson_num)
         except Lesson.DoesNotExist:
             self.stdout.write(self.style.ERROR(f'Урок с номером {lesson_num} не найден.'))
             return
 
+        created_count = 0
         for i in range(1, num_modules + 1):
-            Module.objects.create(
-                lesson=lesson,
-                number=i,
-                html_content=''
-            )
-            self.stdout.write(self.style.SUCCESS(f'Создан модуль {i} для урока {lesson_num}'))
+            if not Module.objects.filter(lesson=lesson, number=i).exists():
+                Module.objects.create(
+                    lesson=lesson,
+                    number=i,
+                    html_content=''
+                )
+                created_count += 1
+                self.stdout.write(self.style.SUCCESS(f'Создан модуль {i} для урока {lesson_num}'))
+            else:
+                self.stdout.write(self.style.WARNING(f'Модуль {i} для урока {lesson_num} уже существует, пропуск...'))
 
-        self.stdout.write(self.style.SUCCESS(f'Успешно создано {num_modules} модулей для урока {lesson_num}'))
+        self.stdout.write(self.style.SUCCESS(f'Успешно создано {created_count} модулей для урока {lesson_num}'))
