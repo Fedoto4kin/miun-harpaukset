@@ -20,7 +20,7 @@ class LessonSpeech(models.Model):
         
         return os.path.join('lessons', directory, unique_filename)
     
-    text = models.TextField(blank=False, null=True, db_index=True)
+    text = models.TextField(blank=True, null=True, db_index=True)
     mp3 = models.FileField(
         upload_to=sound_upload_path,
         null=True,
@@ -57,7 +57,7 @@ class LessonSpeech(models.Model):
         return self.mp3
 
     def __str__(self):
-        return self.text
+        return self.code
 
     def clean(self):
         super().clean()

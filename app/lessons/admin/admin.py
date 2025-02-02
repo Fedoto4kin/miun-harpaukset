@@ -4,29 +4,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from django.utils.html import format_html
 from django import forms
-from .models import Lesson, LessonSpeech, Module
-
-class LessonSpeechForm(forms.ModelForm):
-    class Meta:
-        model = LessonSpeech
-        fields = '__all__'
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Если объект уже связан с Lesson или Module, блокируем поля
-        if self.instance.content_type and self.instance.object_id:
-            self.fields['content_type'].disabled = True
-            self.fields['object_id'].disabled = True
-
-class LessonSpeechInline(GenericTabularInline):
-    model = LessonSpeech
-    extra = 1
-    fields = ('code', 'mp3', 'text')
-
-class ModuleInline(admin.TabularInline):
-    model = Module
-    extra = 1
-    fields = ('number', 'html_content', 'tags')
+from ..models import Lesson, LessonSpeech, Module
+from .forms import LessonSpeechForm
+from .inlines import LessonSpeechInline, ModuleInline
 
 class LessonSpeechAdmin(admin.ModelAdmin):
     list_display = ('code', 'mp3', 'content_object_link')
@@ -45,8 +25,9 @@ class LessonSpeechAdmin(admin.ModelAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         if 'lesson' in request.GET or 'module' in request.GET:
-            form.base_fields['content_type'].disabled = True
-            form.base_fields['object_id'].disabled = True
+            pass
+            form.base_fields['content_type'].widget = forms.HiddenInput()
+            form.base_fields['object_id'].widget = forms.HiddenInput()
         return form
 
     def get_changeform_initial_data(self, request):
