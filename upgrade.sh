@@ -30,6 +30,14 @@ if [ $? -ne 0 ]; then
 fi
 echo "Front-end build completed successfully."
 
+echo "Installing Python dependencies..."
+docker compose -f docker-compose-prod.yml exec -it web pip install -r requirements.txt
+if [ $? -ne 0 ]; then
+  echo "Python dependency installation failed!"
+  exit 1
+fi
+echo "Python dependencies installed successfully."
+
 echo "Running backend migrations..."
 docker compose -f docker-compose-prod.yml exec -it web python manage.py migrate
 if [ $? -ne 0 ]; then
