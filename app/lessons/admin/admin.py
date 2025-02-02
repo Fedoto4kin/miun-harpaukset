@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django import forms
 from ..models import Lesson, LessonSpeech, Module
-from .forms import LessonSpeechForm
+from .forms import LessonSpeechForm, ModuleForm
 from .inlines import LessonSpeechInline, ModuleInline
 
 class LessonSpeechAdmin(admin.ModelAdmin):
@@ -60,6 +60,7 @@ class ModuleAdmin(admin.ModelAdmin):
     ordering = ['lesson', 'number']
     inlines = [LessonSpeechInline]
     list_filter = ('lesson',)
+    form = ModuleForm
 
     def upload_sound_button(self, obj):
         if obj.module_speeches.exists():
@@ -69,6 +70,7 @@ class ModuleAdmin(admin.ModelAdmin):
 
     upload_sound_button.short_description = 'Pagina'
     upload_sound_button.allow_tags = True
+
 
 class LessonAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'description', 'upload_sound_button')
