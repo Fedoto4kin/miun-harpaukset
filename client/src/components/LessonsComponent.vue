@@ -50,17 +50,17 @@
         </div>
       </div>
       <div class="col-9 mt-2" id="lesson-frame">
-        <div class="sticky-lesson pt-3">  
-          <div v-if="activeLesson" class="text-center position-relative">
+        <div class="sticky-lesson pt-5">  
+          <div v-if="activeLesson" class="position-relative">
             <div v-if="activeLesson.speech" class="audio-container">
-              <audio controls class="audio-player" :key="activeLesson.id">
+              <audio controls class="audio-player-1" :key="activeLesson.id">
                 <source :src="activeLesson.speech" type="audio/mpeg" />
               </audio>
             </div>
-            <h4 class="border-bottom pb-2 shift-left">
+            <h4 class="border-bottom pb-2 px-2">
               {{ activeLesson.full_name }}
             </h4>
-            <h3 class="shift-left">
+            <h3 class="px-3">
               {{ activeLesson.slogan }}
             </h3>
           </div>
@@ -74,13 +74,13 @@
           ...tulošša piäh
           </div>
           <div v-if="moduleData && moduleData.speech" class="mt-4">
-          <div class="mb-3">
-            <audio controls class="audio-player" :key="moduleData.speech">
-              <source :src="moduleData.speech" type="audio/mpeg" />
-            </audio>
+            <div class="mb-3 d-flex justify-content-center">
+              <audio controls class="audio-player" :key="moduleData.speech">
+                <source :src="moduleData.speech" type="audio/mpeg" />
+              </audio>
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </div>
   </div>
@@ -250,11 +250,16 @@ export default {
   z-index: 1000;
 }
 
-.audio-player {
+.audio-player-1 {
   width: 100%;
   transform: scale(0.75); 
-  transform-origin: top left; 
+  transform-origin: top right; 
 }
+
+.audio-player {
+  width: 100%;
+}
+
 
 .sticky-lesson {
   position: sticky;
