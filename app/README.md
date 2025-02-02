@@ -1,6 +1,8 @@
 
 ### Dev Help
-`docker compose exec -it web python manage.py makemigrations`
+```sh
+docker compose exec -it web python manage.py makemigrations
+```
 `docker compose exec -it web python manage.py migrate`
 
 Create lesson blocks(modules)

@@ -16,7 +16,7 @@ const routes = [
     component: LexiconComponent,
   },
   {
-    path: '/lessons/:id?',
+    path: '/lessons/:id?/:moduleId?',
     name: 'Lessons',
     component: LessonsComponent,
   },

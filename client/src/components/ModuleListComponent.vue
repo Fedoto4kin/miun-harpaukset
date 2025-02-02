@@ -71,7 +71,7 @@
   }
   
   .custom-badge {
-    font-size: 0.9rem; 
+    font-size: 0.75rem; 
     padding: 0.25rem 0.5rem; 
   }
   

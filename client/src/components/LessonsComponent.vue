@@ -12,7 +12,7 @@
           </h3>
         </div>
         <div v-else>
-          <div class="accordion" id="lessonsAccordion">
+          <div class="accordion pb-5" id="lessonsAccordion">
             <div class="accordion-item" v-for="lesson in lessons" :key="lesson.id">
               <h2 class="accordion-header" :id="'heading' + lesson.id">
                 <button
@@ -65,8 +65,11 @@
             </h3>
           </div>
         </div>
-        <div v-if="!modulesLoading">
-          <div class="lesson-content" v-if="moduleData.html_content" v-html="moduleData.html_content"></div>
+        <div v-if="!modulesLoading" class="mt-5 mx-5">
+          <div class="lesson-content" 
+               v-if="moduleData.html_content" 
+               v-html="moduleData.html_content">
+          </div>
           <div class="lesson-content" v-else>
           ...tulošša piäh
           </div>
@@ -274,14 +277,14 @@ export default {
 }
 
 .list-group-item {
-  cursor: pointer; /* Указываем, что элемент кликабельный */
-  border: none; /* Убираем границы */
-  background-color: #f8f9fa; /* Серый фон по умолчанию */
-  transition: background-color 0.2s ease; /* Плавное изменение фона */
+  cursor: pointer;
+  border: none;
+  background-color: #f8f9fa; 
+  transition: background-color 0.2s ease;
 }
 
 .list-group-item:hover {
-  background-color: #e9ecef; /* Темнее серого при наведении */
+  background-color: #e9ecef;
 }
 
 .active-module {
