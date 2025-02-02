@@ -9,6 +9,12 @@ Create lesson blocks(modules)
 E.g. Lesson 1 create 5 modules
 `docker compose exec -it web python manage.py create_modules 1 5`
 
+
+Clear lesson speeche files(deattched)
+`docker compose exec -it web python manage.py clear_lesson_speeches`
+
+
+
 ### Deploy(1st):
 
 Create `mhkk` user and clone code into `miun-harpaukset` directory
