@@ -46,6 +46,14 @@ if [ $? -ne 0 ]; then
 fi
 echo "Backend migrations completed successfully."
 
+echo "Collecting static files..."
+docker compose -f docker-compose-prod.yml exec -it web python manage.py collectstatic --noinput
+if [ $? -ne 0 ]; then
+  echo "Collecting static files failed!"
+  exit 1
+fi
+echo "Static files collected successfully."
+
 echo "Restarting containers..."
 docker compose -f docker-compose-prod.yml restart
 if [ $? -ne 0 ]; then
