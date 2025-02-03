@@ -7,6 +7,7 @@ CKEDITOR.plugins.add('krl_insertbadge', {
                 element.setAttribute('class', 'badge badge-secondary bg-secondary');
                 element.setText('1.');
                 editor.insertElement(element);
+                editor.insertText('\u00A0');
             }
         });
         editor.ui.addButton('InsertBadge', {

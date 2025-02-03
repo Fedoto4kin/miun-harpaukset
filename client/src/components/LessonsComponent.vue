@@ -66,19 +66,40 @@
           </div>
         </div>
         <div v-if="!modulesLoading" class="mt-5 mx-5">
-          <div class="lesson-content" 
-               v-if="moduleData.html_content" 
-               v-html="moduleData.html_content">
+          <div class="module-navigation d-flex justify-content-between mb-5">
+              <button 
+                class="btn btn-primary"
+                :style="{ visibility: hasPreviousModule ? 'visible' : 'hidden' }"
+                @click="goToPreviousModule"
+              >
+                <span class="badge badge-light bg-light">
+                  <font-awesome-icon :icon="['fas', 'arrow-left']" class="text-primary" />
+                </span>
+                  Tagah
+              </button>
+              <button 
+                class="btn btn-primary"
+                :style="{ visibility: hasNextModule ? 'visible' : 'hidden' }"
+                @click="goToNextModule"
+              >
+                Edeh 
+                <span class="badge badge-light bg-light">
+                  <font-awesome-icon :icon="['fas', 'arrow-right']" class="text-primary" />
+                </span>
+            </button>
+            </div>
+          <div class="lesson-content" v-if="moduleData.html_content">
+            <div v-html="moduleData.html_content"></div>
+            <div v-if="moduleData && moduleData.speech" class="mt-4">
+              <div class="mb-3 d-flex justify-content-center">
+                <audio controls class="audio-player" :key="moduleData.speech">
+                  <source :src="moduleData.speech" type="audio/mpeg" />
+                </audio>
+              </div>
+            </div>
           </div>
           <div class="lesson-content" v-else>
           ...tulošša piäh
-          </div>
-          <div v-if="moduleData && moduleData.speech" class="mt-4">
-            <div class="mb-3 d-flex justify-content-center">
-              <audio controls class="audio-player" :key="moduleData.speech">
-                <source :src="moduleData.speech" type="audio/mpeg" />
-              </audio>
-            </div>
           </div>
         </div>
       </div>
@@ -123,6 +144,17 @@ export default {
       this.loading = false;
     }
   },
+  computed: {
+    currentModuleIndex() {
+      return this.modules.findIndex(module => module.id === this.selectedModuleId);
+    },
+    hasPreviousModule() {
+      return this.currentModuleIndex > 0;
+    },
+    hasNextModule() {
+      return this.currentModuleIndex < this.modules.length - 1;
+    },
+  },
   watch: {
     '$route.params.id': 'handleRoute',
   },
@@ -148,6 +180,7 @@ export default {
     },
     handleRoute() {
       const lessonId = this.$route.params.id;
+      const moduleId = this.$route.params.moduleId;
       if (!lessonId) {
         this.$router.replace({ path: '/lessons/1' });
       } else {
@@ -156,23 +189,28 @@ export default {
           this.$router.replace({ path: '/lessons/1' });
         } else {
           this.activeLesson = lesson;
-          this.loadModules();
-        }
+            this.loadModules().then(() => {
+              if (this.modules.length === 0) {
+                return;
+              }
+              if (moduleId) {
+                this.loadModuleContent(moduleId);
+                
+              } else  {
+                this.loadModuleContent(this.modules[0].id);
+              }
+            }
+          );
+        } 
       }
     },
     async loadModules() {
       if (!this.activeLesson) return;
-
       this.modulesLoading = true;
       try {
+        this.selectedModuleId = null;
+        this.moduleData = {};
         this.modules = await getModulesByLesson(this.activeLesson.id);
-
-        if (this.modules.length > 0) {
-          await this.loadModuleContent(this.modules[0].id);
-        } else {
-          this.selectedModuleId = null;
-          this.moduleData = {};
-        }
       } catch (error) {
         console.error('Error loading modules:', error);
       } finally {
@@ -186,7 +224,8 @@ export default {
           html_content: response.html_content,
           speech: response.speech || null,
         };
-        this.selectedModuleId = moduleId;
+        this.selectedModuleId = Number(moduleId);
+        this.$router.replace({path: `/lessons/${this.activeLesson.id}/${this.selectedModuleId}`});
       } catch (error) {
         console.error('Error loading module content:', error);
         this.moduleData = {}
@@ -195,6 +234,18 @@ export default {
     },
     formatDescription(lesson) {
       return lesson.number + '. ' + lesson.description.replace(/\n/g, '<br>');
+    },
+    goToPreviousModule() {
+      if (this.hasPreviousModule) {
+        const previousModuleId = this.modules[this.currentModuleIndex - 1].id;
+        this.loadModuleContent(previousModuleId);
+      }
+    },
+    goToNextModule() {
+      if (this.hasNextModule) {
+        const nextModuleId = this.modules[this.currentModuleIndex + 1].id;
+        this.loadModuleContent(nextModuleId);
+      }
     },
   },
 };

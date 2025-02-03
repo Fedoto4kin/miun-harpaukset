@@ -20,7 +20,9 @@ import {
     faHeadphones,   
     faQuestionCircle,
     faKey,               
-    faExclamationTriangle 
+    faExclamationTriangle,
+    faArrowLeft,
+    faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -45,7 +47,9 @@ library.add(
     faHeadphones,   
     faQuestionCircle,
     faKey,           
-    faExclamationTriangle 
+    faExclamationTriangle,
+    faArrowLeft,
+    faArrowRight,
 );
 
 export { FontAwesomeIcon };
