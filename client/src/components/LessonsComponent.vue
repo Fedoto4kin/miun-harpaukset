@@ -65,7 +65,7 @@
             </h3>
           </div>
         </div>
-        <div v-if="!modulesLoading" class="mt-5 mx-5">
+        <div v-if="!modulesLoading" class="mt-4 mx-5">
           <div class="module-navigation d-flex justify-content-between mb-5">
               <button 
                 class="btn btn-primary"
@@ -181,6 +181,7 @@ export default {
     handleRoute() {
       const lessonId = this.$route.params.id;
       const moduleId = this.$route.params.moduleId;
+
       if (!lessonId) {
         this.$router.replace({ path: '/lessons/1' });
       } else {
@@ -193,9 +194,9 @@ export default {
               if (this.modules.length === 0) {
                 return;
               }
-              if (moduleId) {
+              const moduleExists = this.modules.some(module => module.id == moduleId);
+              if (moduleId && moduleExists) {
                 this.loadModuleContent(moduleId);
-                
               } else  {
                 this.loadModuleContent(this.modules[0].id);
               }
