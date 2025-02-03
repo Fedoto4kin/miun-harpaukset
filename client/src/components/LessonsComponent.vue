@@ -51,56 +51,16 @@
       </div>
       <div class="col-9 mt-2" id="lesson-frame">
         <div class="sticky-lesson pt-5">  
-          <div v-if="activeLesson" class="position-relative">
-            <div v-if="activeLesson.speech" class="audio-container">
-              <audio controls class="audio-player-1" :key="activeLesson.id">
-                <source :src="activeLesson.speech" type="audio/mpeg" />
-              </audio>
-            </div>
-            <h4 class="border-bottom pb-2 px-2">
-              {{ activeLesson.full_name }}
-            </h4>
-            <h3 class="px-3">
-              {{ activeLesson.slogan }}
-            </h3>
-          </div>
+          <LessonHeaderComponent :lesson="activeLesson" />
         </div>
-        <div v-if="!modulesLoading" class="mt-4 mx-5">
-          <div class="module-navigation d-flex justify-content-between mb-5">
-              <button 
-                class="btn btn-primary"
-                :style="{ visibility: hasPreviousModule ? 'visible' : 'hidden' }"
-                @click="goToPreviousModule"
-              >
-                <span class="badge badge-light bg-light">
-                  <font-awesome-icon :icon="['fas', 'arrow-left']" class="text-primary" />
-                </span>
-                  Tagah
-              </button>
-              <button 
-                class="btn btn-primary"
-                :style="{ visibility: hasNextModule ? 'visible' : 'hidden' }"
-                @click="goToNextModule"
-              >
-                Edeh 
-                <span class="badge badge-light bg-light">
-                  <font-awesome-icon :icon="['fas', 'arrow-right']" class="text-primary" />
-                </span>
-            </button>
-            </div>
-          <div class="lesson-content" v-if="moduleData.html_content">
-            <div v-html="moduleData.html_content"></div>
-            <div v-if="moduleData && moduleData.speech" class="mt-4">
-              <div class="mb-3 d-flex justify-content-center">
-                <audio controls class="audio-player" :key="moduleData.speech">
-                  <source :src="moduleData.speech" type="audio/mpeg" />
-                </audio>
-              </div>
-            </div>
-          </div>
-          <div class="lesson-content" v-else>
-          ...tulošša piäh
-          </div>
+        <div v-if="!modulesLoading" class="mt-5 mx-5">
+          <ModuleContentComponent
+            :moduleData="moduleData"
+            :hasPreviousModule="hasPreviousModule"
+            :hasNextModule="hasNextModule"
+            @previous-module="goToPreviousModule"
+            @next-module="goToNextModule"
+          />
         </div>
       </div>
     </div>
@@ -111,12 +71,16 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { getLessons, getModulesByLesson, getModuleContent } from '../services/lessonsService.js';
 import ModuleList from '@/components/ModuleListComponent.vue'; 
+import ModuleContentComponent from '@/components/ModuleContentComponent.vue';
+import LessonHeaderComponent from '@/components/LessonHeaderComponent.vue';
 
 export default {
   name: 'LessonsComponent',
   components: {
     FontAwesomeIcon,
     ModuleList,
+    ModuleContentComponent,
+    LessonHeaderComponent,
   },
   data() {
     return {
@@ -294,25 +258,6 @@ export default {
   color: #6c757d; /* Gray text color */
 }
 
-.audio-container {
-  position: absolute;
-  right: 0;
-  top: -0.5rem;
-  width: 22em; 
-  z-index: 1000;
-}
-
-.audio-player-1 {
-  width: 100%;
-  transform: scale(0.75); 
-  transform-origin: top right; 
-}
-
-.audio-player {
-  width: 100%;
-}
-
-
 .sticky-lesson {
   position: sticky;
   top: 0;
@@ -342,16 +287,16 @@ export default {
 }
 
 .active-module {
-  background-color: white !important; /* Белый фон для активного элемента */
-  font-weight: bold; /* Жирный шрифт для активного элемента */
+  background-color: white !important;
+  font-weight: bold;
 }
 
 .custom-badge {
-  font-size: 0.9rem; /* Уменьшаем размер шрифта в 2 раза */
-  padding: 0.25rem 0.5rem; /* Уменьшаем отступы в 2 раза */
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
 }
 
 .shadow-sm {
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Тень для badge */
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 </style>
