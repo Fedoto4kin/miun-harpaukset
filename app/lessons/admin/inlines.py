@@ -1,6 +1,7 @@
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.contrib import admin
-from ..models import LessonSpeech, Module
+from ..models import LessonSpeech, Module, Exercise
+from .forms import ExerciseForm
 
 class LessonSpeechInline(GenericTabularInline):
     model = LessonSpeech
@@ -13,3 +14,10 @@ class ModuleInline(admin.TabularInline):
     model = Module
     extra = 1
     fields = ('number', 'html_content', 'tags')
+
+class ExerciseInline(admin.StackedInline):
+    model = Exercise
+    form = ExerciseForm
+    extra = 0
+    fields = ('exercise_type', 'data')
+    

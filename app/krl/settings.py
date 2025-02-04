@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_json_widget',
     'corsheaders',
     'ckeditor',
 ]
@@ -170,7 +171,7 @@ CKEDITOR_CONFIGS = {
         'height': 400,
         'width': '100%',
         'contentsCss': '/static/css/bootstrap.min.css',
-        'fontSize_sizes': '0.5em;0.75em;1em;1.25em;1.5em;1.7em;2em',
+        'fontSize_sizes': '0.5em;0.75em;1em;1.12em;1.25em;1.5em;1.75em',
         'stylesSet': [
             { 'name': 'Table Cell Yellow', 'element': 'td', 'attributes': { 'class': 'table-warning' } },
             { 'name': 'Table Cell Blue', 'element': 'td', 'attributes': { 'class': 'table-info' } },

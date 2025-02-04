@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from lexicon.models import Word, Definition, Pos, Base
-from lessons.models import Lesson, LessonSpeech, Module, Tag
+from lessons.models import Lesson, LessonSpeech, Module, Tag, Exercise
+
 
 class BaseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -89,10 +90,18 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ['id', 'code', 'name', 'hint_russian', 'hint_finnish']
 
+
+class ExerciseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exercise
+        fields = ['id', 'exercise_type', 'data']
+
+
 class ModuleSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, read_only=True)
     speech = serializers.FileField(source='speech.media', read_only=True, use_url=True)
+    exercises = ExerciseSerializer(many=True, read_only=True)
 
     class Meta:
         model = Module
-        fields = ['id', 'lesson', 'html_content', 'number', 'tags', 'speech']
+        fields = ['id', 'lesson', 'html_content', 'number', 'tags', 'speech', 'exercises']

@@ -1,12 +1,11 @@
 from django.contrib import admin
-from django.contrib.contenttypes.admin import GenericTabularInline
 from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from django.utils.html import format_html
 from django import forms
-from ..models import Lesson, LessonSpeech, Module
+from ..models import Lesson, LessonSpeech, Module, Exercise
 from .forms import LessonSpeechForm, ModuleForm
-from .inlines import LessonSpeechInline, ModuleInline
+from .inlines import LessonSpeechInline, ModuleInline, ExerciseInline
 
 class LessonSpeechAdmin(admin.ModelAdmin):
     list_display = ('code', 'mp3', 'content_object_link')
@@ -58,7 +57,7 @@ class ModuleAdmin(admin.ModelAdmin):
     list_display = ('number', 'lesson', 'upload_sound_button')
     search_fields = ('lesson__title', 'number')
     ordering = ['lesson', 'number']
-    inlines = [LessonSpeechInline]
+    inlines = [LessonSpeechInline, ExerciseInline]
     list_filter = ('lesson',)
     form = ModuleForm
 

@@ -16,7 +16,8 @@ class Module(models.Model):
     html_content = RichTextField(
         verbose_name='HTML',
         blank=True,
-        default=''
+        null=True,
+        default=None
     )
     tags = models.ManyToManyField(
         Tag,
@@ -35,6 +36,13 @@ class Module(models.Model):
     @property
     def speech(self):
         return self.module_speeches.first()
+    
+    @property
+    def exercise(self):
+        """Return module Exercise if exists"""
+        if hasattr(self, 'exercise'):
+            return self.exercise
+        return None
 
     def __str__(self):
         return f'{self.lesson.title} - {self.lesson.number}.{self.number}'
