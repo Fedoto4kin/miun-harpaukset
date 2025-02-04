@@ -188,6 +188,7 @@ export default {
         this.moduleData = {
           html_content: response.html_content,
           speech: response.speech || null,
+          exercises: response.exercises || []
         };
         this.selectedModuleId = Number(moduleId);
         this.$router.replace({path: `/lessons/${this.activeLesson.id}/${this.selectedModuleId}`});

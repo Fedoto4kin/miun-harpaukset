@@ -23,6 +23,8 @@ import {
     faExclamationTriangle,
     faArrowLeft,
     faArrowRight,
+    faCheck,
+    faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -50,6 +52,8 @@ library.add(
     faExclamationTriangle,
     faArrowLeft,
     faArrowRight,
+    faCheck,
+    faXmark,
 );
 
 export { FontAwesomeIcon };

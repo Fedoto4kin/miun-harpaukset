@@ -23,15 +23,10 @@
           />
           <div class="input-group-append krl-letters">
             <div class="btn-group">
-              <span
-                v-for="char in specialChars"
-                :key="char"
-                :data-char="char"
-                class="btn btn-secondary"
-                @click="handleDiacrtButtonClick"
-              >
-                {{ char }}
-              </span>
+              <SpecialCharsButtons
+                :searchText="searchText"
+                @diacrt-click="handleDiacrtButtonClick"            
+              />
               <button
                 class="btn btn-light border-dark search-run"
                 type="button"
@@ -62,15 +57,15 @@
 <script>
 import { ref, watch, onMounted, nextTick } from 'vue';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import SwitchButton from './SwitchButton.vue';
 import { fetchSearchSuggestions } from '../services/searchService';
+import  SpecialCharsButtons  from '@/components/ui/SpecialCharsButtons.vue'
 
 export default {
   name: 'SearchBar',
   components: {
-    FontAwesomeIcon,
-    SwitchButton
+    SwitchButton,
+    SpecialCharsButtons,
   },
   props: {
     search: {
@@ -87,8 +82,6 @@ export default {
     const reverse = ref(props.reverseProp);
     const searchInput = ref(null);
     const suggestions = ref([]);
-
-    const specialChars = ['č', 'š', 'ž', 'ä', 'ö'];
 
     const clearSearchText = () => {
       searchText.value = '';
@@ -164,7 +157,6 @@ export default {
       searchText,
       reverse,
       searchInput,
-      specialChars,
       suggestions,
       clearSearchText,
       fetchSuggestions,
