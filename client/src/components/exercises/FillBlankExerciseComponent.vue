@@ -1,8 +1,8 @@
 <template>
     <div class="fill-blank-exercise">
       <div class="row justify-content-center">
-        <div v-for="(item, itemIndex) in parsedData" :key="itemIndex" class="col-md-6 col-lg-4 mb-3">
-          <div class="card bg-light p-2 text-center">
+        <div v-for="(item, itemIndex) in parsedData" :key="itemIndex" class="w-auto mb-3 px-3">
+          <div class="card bg-light py-2 px-3 text-center">
             <div 
                 class="d-flex justify-content-center align-items-center position-relative"
                     v-tooltip="{
@@ -174,7 +174,7 @@
   .result-icon {
     top: 50%;
     transform: translateY(-50%);
-    right: -1.5em;
+    right: -1.9em;
   }
   
   .text-center {
