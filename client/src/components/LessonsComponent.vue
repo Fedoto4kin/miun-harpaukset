@@ -34,7 +34,7 @@
                 :aria-labelledby="'heading' + lesson.id"
               >
                 <div class="accordion-body p-0" v-if="lesson.is_enabled">
-                  <div v-if="modulesLoading">
+                  <div v-if="isContentLoading">
                     <font-awesome-icon :icon="['fas', 'spinner']" spin />
                   </div>
                   <ModuleList
@@ -53,7 +53,7 @@
         <div class="sticky-lesson pt-5">  
           <LessonHeaderComponent :lesson="activeLesson" />
         </div>
-        <div v-if="!modulesLoading" class="mt-5 mx-5">
+        <div v-if="!isLoading" class="mt-5 mx-5">
           <ModuleContentComponent
             :moduleData="moduleData"
             :hasPreviousModule="hasPreviousModule"
@@ -89,7 +89,7 @@ export default {
       lessons: [],
       activeLesson: null,
       modules: [],
-      modulesLoading: false,
+      isContentLoading: false,
       selectedModuleId: null,
       moduleData: {
         html_content: null,
@@ -172,7 +172,7 @@ export default {
     },
     async loadModules() {
       if (!this.activeLesson) return;
-      this.modulesLoading = true;
+      this.isLoading = true;
       try {
         this.selectedModuleId = null;
         this.moduleData = {};
@@ -180,10 +180,11 @@ export default {
       } catch (error) {
         console.error('Error loading modules:', error);
       } finally {
-        this.modulesLoading = false;
+        this.isLoading = false;
       }
     },
     async loadModuleContent(moduleId) {
+      this.isLoading = true;
       this.moduleData = {
           html_content: null,
           speech: null,
@@ -202,7 +203,10 @@ export default {
         console.error('Error loading module content:', error);
         this.moduleData = {}
         this.selectedModuleId = null;
+      } finally {
+        this.isLoading = false;
       }
+
     },
     formatDescription(lesson) {
       return lesson.number + '. ' + lesson.description.replace(/\n/g, '<br>');
