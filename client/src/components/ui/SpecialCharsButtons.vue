@@ -12,12 +12,6 @@
   
   export default {
     name: 'SpecialCharsButtons',
-    props: {
-      searchText: {
-        type: String,
-        required: true,
-      },
-    },
     data() {
       return {
         specialChars: ['č', 'š', 'ž', 'ä', 'ö']

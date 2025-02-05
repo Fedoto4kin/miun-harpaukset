@@ -94,6 +94,7 @@ export default {
       moduleData: {
         html_content: null,
         speech: null,
+        exercises: null
       }, 
     };
   },
@@ -183,12 +184,17 @@ export default {
       }
     },
     async loadModuleContent(moduleId) {
+      this.moduleData = {
+          html_content: null,
+          speech: null,
+          exercises: null
+        };
       try {
         const response = await getModuleContent(moduleId);
         this.moduleData = {
           html_content: response.html_content,
           speech: response.speech || null,
-          exercises: response.exercises || []
+          exercises: response.exercises || null
         };
         this.selectedModuleId = Number(moduleId);
         this.$router.replace({path: `/lessons/${this.activeLesson.id}/${this.selectedModuleId}`});
