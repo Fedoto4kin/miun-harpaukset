@@ -2,6 +2,13 @@
   <div>
     <div class="module-navigation d-flex justify-content-between mb-4">
       <button 
+        class="btn btn-success"
+        v-if="!hasPreviousModule && previousLesson"
+        @click="goToPreviousLesson"
+      >{{ previousLesson?.full_name }}
+      </button>
+      {{ hasPreviousLesson }}
+      <button 
         class="btn btn-primary"
         :style="{ visibility: hasPreviousModule ? 'visible' : 'hidden' }"
         @click="goToPreviousModule"
@@ -20,6 +27,12 @@
         <span class="badge badge-light bg-light">
           <font-awesome-icon :icon="['fas', 'arrow-right']" class="text-primary" />
         </span>
+      </button>
+      <button 
+        class="btn btn-success"
+        v-if="!hasNextModule && nextLesson"
+        @click="goToNextLesson"
+      >{{ nextLesson?.full_name }}
       </button>
     </div>
     <div class="lesson-content" v-if="moduleData.html_content">
@@ -54,18 +67,11 @@ export default {
     ExerciseFactory,
   },
   props: {
-    moduleData: {
-      type: Object,
-      required: true,
-    },
-    hasPreviousModule: {
-      type: Boolean,
-      required: true,
-    },
-    hasNextModule: {
-      type: Boolean,
-      required: true,
-    },
+    moduleData: Object,
+    hasPreviousModule: Boolean,
+    hasNextModule: Boolean,
+    nextLesson: Object,
+    previousLesson: Object,
   },
   methods: {
     goToPreviousModule() {
@@ -73,6 +79,12 @@ export default {
     },
     goToNextModule() {
       this.$emit('next-module');
+    },
+    goToNextLesson() {
+      this.$emit('next-lesson');
+    },
+    goToPreviousLesson() {
+      this.$emit('previous-lesson');
     },
   },
 };

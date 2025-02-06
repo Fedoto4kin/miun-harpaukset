@@ -2,7 +2,7 @@
 
 ## Project setup
 ```
-docker compose run client npm intsall
+docker compose run client npm install
 ```
 
 ### Compiles and minifies for production

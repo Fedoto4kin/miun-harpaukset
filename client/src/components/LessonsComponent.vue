@@ -58,8 +58,12 @@
             :moduleData="moduleData"
             :hasPreviousModule="hasPreviousModule"
             :hasNextModule="hasNextModule"
+            :nextLesson="nextLesson"
+            :previousLesson="previousLesson"
             @previous-module="goToPreviousModule"
             @next-module="goToNextModule"
+            @next-lesson="goToNextLesson"
+            @previous-lesson="goToPreviousLesson"
           />
         </div>
       </div>
@@ -91,6 +95,8 @@ export default {
       modules: [],
       isContentLoading: false,
       selectedModuleId: null,
+      nextLesson: null,
+      previousLesson: null,
       moduleData: {
         html_content: null,
         speech: null,
@@ -125,7 +131,10 @@ export default {
   },
   methods: {
     isLessonActive(lesson) {
-      return this.activeLesson && this.activeLesson.id === lesson.id;
+      return (this.activeLesson && this.activeLesson.id === lesson.id);
+    },
+    getLessonIndex() {
+      return this.lessons.findIndex(lesson => lesson.id === this.activeLesson.id);
     },
     toggleLesson(lesson) {
       if (this.isLessonActive(lesson)) {
@@ -141,12 +150,16 @@ export default {
       }
 
       this.activeLesson = lesson;
+      const currentLessonIndex = this.getLessonIndex();
+
+      this.nextLesson = this.checkLessonIsEnable(this.lessons[currentLessonIndex + 1])? this.lessons[currentLessonIndex + 1]: null;
+      this.previousLesson =  this.checkLessonIsEnable(this.lessons[currentLessonIndex - 1])? this.lessons[currentLessonIndex - 1]: null;
+
       this.$router.push({ path: `/lessons/${lesson.number}` });
     },
     handleRoute() {
       const lessonId = this.$route.params.id;
       const moduleId = this.$route.params.moduleId;
-
       if (!lessonId) {
         this.$router.replace({ path: '/lessons/1' });
       } else {
@@ -154,7 +167,7 @@ export default {
         if (!lesson || !lesson.is_enabled) {
           this.$router.replace({ path: '/lessons/1' });
         } else {
-          this.activeLesson = lesson;
+            this.setActiveLesson(lesson);
             this.loadModules().then(() => {
               if (this.modules.length === 0) {
                 return;
@@ -185,12 +198,12 @@ export default {
     },
     async loadModuleContent(moduleId) {
       this.isLoading = true;
-      this.moduleData = {
+      try {
+        this.moduleData = {
           html_content: null,
           speech: null,
           exercises: null
         };
-      try {
         const response = await getModuleContent(moduleId);
         this.moduleData = {
           html_content: response.html_content,
@@ -223,6 +236,33 @@ export default {
         this.loadModuleContent(nextModuleId);
       }
     },
+    goToNextLesson() {
+      const currentLessonIndex = this.getLessonIndex();
+      const nextLesson = this.lessons[currentLessonIndex + 1];
+      if (currentLessonIndex >= 0 && currentLessonIndex < this.lessons.length - 1) {        
+        if (nextLesson.is_enabled) {
+          this.setActiveLesson(nextLesson);
+          this.loadModules();
+        }
+      }
+    },
+    goToPreviousLesson() {
+      const currentLessonIndex = this.getLessonIndex();
+      const previousLesson = this.lessons[currentLessonIndex - 1];
+      if (currentLessonIndex > 0) {
+        if (previousLesson.is_enabled) {
+          this.setActiveLesson(previousLesson);
+          this.loadModules();
+        }
+      }
+    },
+    checkLessonIsEnable(lesson) {
+      if (lesson) {
+        return lesson.is_enabled;
+      }
+      return false;
+    },
+    
   },
 };
 </script>
