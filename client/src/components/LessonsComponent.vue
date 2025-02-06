@@ -34,7 +34,7 @@
                 :aria-labelledby="'heading' + lesson.id"
               >
                 <div class="accordion-body p-0" v-if="lesson.is_enabled">
-                  <div v-if="isContentLoading">
+                  <div v-if="isModulesByLessonLoading">
                     <font-awesome-icon :icon="['fas', 'spinner']" spin />
                   </div>
                   <ModuleList
@@ -53,7 +53,7 @@
         <div class="sticky-lesson pt-5">  
           <LessonHeaderComponent :lesson="activeLesson" />
         </div>
-        <div v-if="!isLoading" class="mt-5 mx-5">
+        <div v-if="!isContentLoading" class="mt-5 mx-5">
           <ModuleContentComponent
             :moduleData="moduleData"
             :hasPreviousModule="hasPreviousModule"
@@ -65,6 +65,11 @@
             @next-lesson="goToNextLesson"
             @previous-lesson="goToPreviousLesson"
           />
+        </div>
+        <div v-else>
+          <h3 class="text-center">
+            <font-awesome-icon :icon="['fas', 'spinner']" spin />
+          </h3>
         </div>
       </div>
     </div>
@@ -94,6 +99,8 @@ export default {
       activeLesson: null,
       modules: [],
       isContentLoading: false,
+      isModulesByLessonLoading: false,
+      
       selectedModuleId: null,
       nextLesson: null,
       moduleData: {
@@ -168,6 +175,7 @@ export default {
             this.setActiveLesson(lesson);
             this.loadModules().then(() => {
               if (this.modules.length === 0) {
+                this.isContentLoading = false;
                 return;
               }
               const moduleExists = this.modules.some(module => module.id == moduleId);
@@ -183,7 +191,8 @@ export default {
     },
     async loadModules() {
       if (!this.activeLesson) return;
-      this.isLoading = true;
+      this.isModulesByLessonLoading = true;
+      this.isContentLoading = true;
       try {
         this.selectedModuleId = null;
         this.moduleData = {};
@@ -191,12 +200,14 @@ export default {
       } catch (error) {
         console.error('Error loading modules:', error);
       } finally {
-        this.isLoading = false;
+        this.isModulesByLessonLoading = false;
       }
     },
     async loadModuleContent(moduleId) {
-      this.isLoading = true;
+      this.isContentLoading = true;
       try {
+        this.selectedModuleId = Number(moduleId);
+        this.$router.replace({path: `/lessons/${this.activeLesson.id}/${this.selectedModuleId}`});
         this.moduleData = {
           html_content: null,
           speech: null,
@@ -208,14 +219,12 @@ export default {
           speech: response.speech || null,
           exercises: response.exercises || null
         };
-        this.selectedModuleId = Number(moduleId);
-        this.$router.replace({path: `/lessons/${this.activeLesson.id}/${this.selectedModuleId}`});
       } catch (error) {
         console.error('Error loading module content:', error);
         this.moduleData = {}
         this.selectedModuleId = null;
       } finally {
-        this.isLoading = false;
+        this.isContentLoading = false;
       }
 
     },
