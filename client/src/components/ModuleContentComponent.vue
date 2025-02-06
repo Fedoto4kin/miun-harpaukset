@@ -1,12 +1,6 @@
 <template>
   <div>
     <div class="module-navigation d-flex justify-content-between mb-4">
-      <button 
-        class="btn btn-success"
-        v-if="!hasPreviousModule && previousLesson"
-        @click="goToPreviousLesson"
-      >{{ previousLesson?.full_name }}
-      </button>
       {{ hasPreviousLesson }}
       <button 
         class="btn btn-primary"
@@ -33,6 +27,9 @@
         v-if="!hasNextModule && nextLesson"
         @click="goToNextLesson"
       >{{ nextLesson?.full_name }}
+      <span class="badge badge-light bg-light">
+        <font-awesome-icon :icon="['fas', 'right-from-bracket']" class="text-success" />
+      </span>
       </button>
     </div>
     <div class="lesson-content" v-if="moduleData.html_content">

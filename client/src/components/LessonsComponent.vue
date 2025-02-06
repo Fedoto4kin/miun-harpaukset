@@ -96,7 +96,6 @@ export default {
       isContentLoading: false,
       selectedModuleId: null,
       nextLesson: null,
-      previousLesson: null,
       moduleData: {
         html_content: null,
         speech: null,
@@ -151,10 +150,9 @@ export default {
 
       this.activeLesson = lesson;
       const currentLessonIndex = this.getLessonIndex();
-
-      this.nextLesson = this.checkLessonIsEnable(this.lessons[currentLessonIndex + 1])? this.lessons[currentLessonIndex + 1]: null;
-      this.previousLesson =  this.checkLessonIsEnable(this.lessons[currentLessonIndex - 1])? this.lessons[currentLessonIndex - 1]: null;
-
+      this.nextLesson = this.checkLessonIsEnable(this.lessons[currentLessonIndex + 1]) ?
+                        this.lessons[currentLessonIndex + 1] : 
+                        null;
       this.$router.push({ path: `/lessons/${lesson.number}` });
     },
     handleRoute() {
