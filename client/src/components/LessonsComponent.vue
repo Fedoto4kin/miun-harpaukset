@@ -279,6 +279,10 @@ export default {
   margin-top: 20px;
 }
 
+.sticky-lesson {
+  z-index: 999;
+}
+
 .fa-spinner {
   margin-right: 16px;
 }

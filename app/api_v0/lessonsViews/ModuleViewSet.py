@@ -4,6 +4,7 @@ from rest_framework.decorators import action
 from lessons.models import Module
 from ..serializers import ModuleSerializer
 
+
 class ModuleViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ModuleSerializer
     queryset = Module.objects.all()

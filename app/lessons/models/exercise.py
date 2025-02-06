@@ -3,8 +3,17 @@ from django.core.serializers.json import DjangoJSONEncoder
 from enum import Enum
 
 class ExerciseType(Enum):
+    ''' A fill-in-the-blank exercise 
+        where users complete words 
+        by filling in missing parts.
+    '''
     FILL_BLANK = "FillBlank"
-    #todo: Add more types
+    ''' A syllable assembly exercise 
+        where users construct a word
+        by arranging given syllables 
+        in the correct order.
+    '''
+    SYLLABLE_ASSEMBLY = "SyllableAssembly"
 
 class Exercise(models.Model):
     module = models.ForeignKey(

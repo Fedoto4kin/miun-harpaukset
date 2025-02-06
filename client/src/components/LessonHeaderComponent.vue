@@ -27,6 +27,7 @@ props: {
 </script>
 
 <style scoped>
+
 .audio-container {
   position: absolute;
   right: 0;

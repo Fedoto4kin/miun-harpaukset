@@ -21,7 +21,10 @@
                 <input 
                   :ref="'inputField' + groupIndex + '-' + itemIndex"
                   v-model="userAnswers[groupIndex][itemIndex]" 
-                  :style="{ width: `${item.placeholderLength * 0.5}em`, color: results[groupIndex][itemIndex] === undefined ? 'black' : results[groupIndex][itemIndex] ? 'green' : 'red' }" 
+                  :style="{ 
+                    width: `${item.placeholderLength * 0.5}em`, 
+                    color: results[groupIndex][itemIndex] === undefined ? 'black' : results[groupIndex][itemIndex] ? 'green' : 'red' 
+                  }" 
                   class="form-control mx-1 input-field" 
                   @input="checkAnswer(groupIndex, itemIndex)"
                   @focus="handleFocus(groupIndex, itemIndex)"

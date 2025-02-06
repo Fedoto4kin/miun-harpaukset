@@ -4,6 +4,7 @@
   
   <script>
   import FillBlankExercise from './FillBlankExerciseComponent.vue';
+  import SyllableAssemblyExercise from './SyllableAssemblyExerciseComponent.vue';
   
   export default {
     name: 'ExerciseFactory',
@@ -18,7 +19,8 @@
         switch (this.exercise.exercise_type) {
           case 'FillBlank':
             return FillBlankExercise;
-          // Добавьте другие типы заданий здесь
+          case 'SyllableAssembly':
+            return SyllableAssemblyExercise;
           default:
             return null;
         }

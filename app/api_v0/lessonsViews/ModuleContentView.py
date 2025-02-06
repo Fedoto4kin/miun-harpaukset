@@ -4,6 +4,7 @@ from rest_framework import status
 from lessons.models import Module
 from ..serializers import ModuleSerializer 
 
+
 class ModuleContentView(APIView):
         
     pagination_class = None

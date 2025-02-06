@@ -25,7 +25,8 @@ import {
     faArrowRight,
     faCheck,
     faXmark,
-    faRightFromBracket
+    faRightFromBracket,
+    faDeleteLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -55,7 +56,8 @@ library.add(
     faArrowRight,
     faCheck,
     faXmark,
-    faRightFromBracket
+    faRightFromBracket,
+    faDeleteLeft
 );
 
 export { FontAwesomeIcon };
