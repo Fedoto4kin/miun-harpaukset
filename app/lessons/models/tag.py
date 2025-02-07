@@ -12,3 +12,4 @@ class Tag(models.Model):
     class Meta:
         verbose_name = 'Znaku'
         verbose_name_plural = 'Znakut'
+        ordering = ['id']
