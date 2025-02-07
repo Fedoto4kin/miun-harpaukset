@@ -1,29 +1,40 @@
 <template>
   <div class="fill-blank-text-exercise">
+    <div class="d-flex flex-row-reverse">
+      <button 
+        class="btn btn-outline-primary"
+        @click="checkAnswers"
+        title="Kuotele otviettua"
+      >
+        <font-awesome-icon :icon="['fas', 'spell-check']" />
+      </button>
+    </div>
     <div v-if="parsedExample.length" class="example-section">
-      <h4>Пример:</h4>
       <div class="example-text">
-        <div v-for="(part, partIndex) in parsedExample" :key="partIndex" class="d-inline position-relative">
-          <span v-if="part.type === 'text'">{{ part.value }}</span>
-          <span v-else class="example-blank">{{ part.correctAnswer }}</span>
+        <div v-for="(sentence, sentenceIndex) in parsedExample" 
+            :key="sentenceIndex" 
+            class="sentence d-inline-flex flex-wrap pe-2 mb-2">
+          <div 
+              v-for="(part, partIndex) in sentence" 
+              :key="partIndex" 
+              class="d-inline position-relative">
+            <span v-if="part.type === 'text'">{{ part.value }}</span>
+            <input
+              v-else
+              :value="part.correctAnswer"
+              :style="{ width: `${part.placeholderLength * 0.6}em` }"
+              class="form-control mx-1 input-field"
+              disabled
+            />
+          </div>
         </div>
       </div>
     </div>
-
     <div v-for="(textObj, textIndex) in parsedTexts" :key="textIndex" class="text-section">
-      <div class="d-flex flex-row-reverse">
-        <button 
-          class="btn btn-outline-primary"
-          @click="checkAnswers"
-          title="Kuotele otviettua"
-        >
-          <font-awesome-icon :icon="['fas', 'spell-check']" />
-        </button>
-      </div>
       <div 
         v-for="(sentence, sentenceIndex) in textObj.text" 
         :key="sentenceIndex" 
-        class="pe-1 d-inline-flex flex-wrap pe-2 mb-2"
+        class="sentence d-inline-flex flex-wrap pe-2 mb-2"
       >
         <div 
           v-for="(part, partIndex) in sentence" 
@@ -168,7 +179,7 @@ export default {
           sentence.forEach((part, partIndex) => {
             if (part.type === 'blank') {
               const userAnswer = this.userAnswers[textIndex][sentenceIndex][partIndex]?.toLowerCase();
-              const isCorrect = part.correctAnswer === userAnswer;
+              const isCorrect = part.correctAnswer.toLowerCase() === userAnswer;
               this.results[textIndex][sentenceIndex][partIndex] = isCorrect;
             }
           });
@@ -213,6 +224,10 @@ export default {
 </script>
 
 <style scoped>
+.sentence {
+  justify-content: space-between;
+}
+
 .fill-blank-text-exercise {
   font-size: 1.125em;
 }
