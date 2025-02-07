@@ -34,19 +34,19 @@
     </div>
     <div class="lesson-content" v-if="moduleData.html_content">
       <div v-html="moduleData.html_content"></div>
-      <div v-if="moduleData.speech" class="mt-4">
-        <div class="mb-3 d-flex justify-content-center">
-          <audio controls class="audio-player" :key="moduleData.speech">
-            <source :src="moduleData.speech" type="audio/mpeg" />
-          </audio>
-        </div>
-      </div>
       <div v-if="moduleData.exercises && moduleData.exercises.length > 0" class="exercise-container mt-2">
         <ExerciseFactory 
           v-for="(exercise, index) in moduleData.exercises" 
           :key="index" 
           :exercise="exercise" 
         />
+      </div>
+      <div v-if="moduleData.speech" class="mt-4">
+        <div class="mb-3 d-flex justify-content-center">
+          <audio controls class="audio-player" :key="moduleData.speech">
+            <source :src="moduleData.speech" type="audio/mpeg" />
+          </audio>
+        </div>
       </div>
     </div>
     <div class="lesson-content" v-else>

@@ -12,7 +12,7 @@
       <div 
         v-for="(sentence, sentenceIndex) in parsedText" 
         :key="sentenceIndex" 
-        class="pe-1 d-inline-flex flex-wrap pe-1 mb-2"
+        class="pe-1 d-inline-flex flex-wrap pe-2 mb-2"
     >
         <div 
             v-for="(part, partIndex) in sentence" 
