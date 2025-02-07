@@ -5,11 +5,10 @@ from ..models import Tag
 class HideListenTagWidget(forms.CheckboxSelectMultiple):
     def render(self, name, value, attrs=None, renderer=None):
         all_tags = Tag.objects.all()
-        # Проверяем, является ли value None
         if value is None:
             value = []
-        hidden_tags = [tag for tag in all_tags if tag.code == 'listen' and tag.pk in value]
-        visible_tags = [tag for tag in all_tags if tag.code != 'listen' or tag.pk not in value]
+        hidden_tags = [tag for tag in all_tags if tag.code in ['listen', 'key'] and tag.pk in value]
+        visible_tags = [tag for tag in all_tags if tag.code not in ['listen', 'key'] or tag.pk not in value]
         
         self.choices = [(tag.pk, tag.name) for tag in visible_tags]
         visible_output = super().render(name, value, attrs, renderer)

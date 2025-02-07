@@ -3,7 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from django.utils.html import format_html
 from django import forms
-from ..models import Lesson, LessonSpeech, Module, Exercise
+from ..models import Lesson, LessonSpeech, Module, Exercise, Tag
 from .forms import LessonSpeechForm, ModuleForm
 from .inlines import LessonSpeechInline, ModuleInline, ExerciseInline
 
@@ -14,17 +14,14 @@ class LessonSpeechAdmin(admin.ModelAdmin):
     form = LessonSpeechForm
 
     def content_object_link(self, obj):
-        if obj.content_object:
-            return format_html('<a href="{}">{}</a>',
-                              reverse(f'admin:lessons_{obj.content_object._meta.model_name}_change', args=(obj.content_object.id,)),
-                              str(obj.content_object))
+        if (obj.content_object):
+            return format_html('<a href="{}">{}</a>', reverse(f'admin:lessons_{obj.content_object._meta.model_name}_change', args=(obj.content_object.id,)), str(obj.content_object))
         return "No linked object"
     content_object_link.short_description = 'Linked Object'
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         if 'lesson' in request.GET or 'module' in request.GET:
-            pass
             form.base_fields['content_type'].widget = forms.HiddenInput()
             form.base_fields['object_id'].widget = forms.HiddenInput()
         return form
@@ -51,14 +48,13 @@ class LessonSpeechAdmin(admin.ModelAdmin):
             initial_data = self.get_changeform_initial_data(request)
             extra_context['linked_object_name'] = initial_data.get('linked_object_name', '')
         return super().changeform_view(request, object_id, form_url, extra_context)
-    
 
 class ModuleAdmin(admin.ModelAdmin):
     list_display = ('number', 'lesson', 'upload_sound_button')
     search_fields = ('lesson__title', 'number')
     ordering = ['lesson', 'number']
     inlines = [LessonSpeechInline, ExerciseInline]
-    list_filter = ('lesson',)
+    list_filter = ('lesson', 'tags')
     form = ModuleForm
 
     def upload_sound_button(self, obj):
@@ -70,11 +66,10 @@ class ModuleAdmin(admin.ModelAdmin):
     upload_sound_button.short_description = 'Pagina'
     upload_sound_button.allow_tags = True
 
-
 class LessonAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'description', 'upload_sound_button')
     inlines = [ModuleInline]
-
+    
     def upload_sound_button(self, obj):
         if obj.lesson_speeches.exists():
             return obj.lesson_speeches.first().code
