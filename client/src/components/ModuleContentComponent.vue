@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="module-navigation d-flex justify-content-between mb-4">
-      {{ hasPreviousLesson }}
       <button 
         class="btn btn-primary"
         :style="{ visibility: hasPreviousModule ? 'visible' : 'hidden' }"

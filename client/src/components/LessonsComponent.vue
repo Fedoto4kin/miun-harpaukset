@@ -51,7 +51,7 @@
       </div>
       <div class="col-9 mt-2" id="lesson-frame">
         <div class="sticky-lesson pt-5">  
-          <LessonHeaderComponent :lesson="activeLesson" />
+          <LessonHeaderComponent :lesson="activeLesson" v-if="activeLesson" />
         </div>
         <div v-if="!isContentLoading" class="mt-5 mx-5">
           <ModuleContentComponent
@@ -103,6 +103,7 @@ export default {
       
       selectedModuleId: null,
       nextLesson: null,
+      previousLesson: null,
       moduleData: {
         html_content: null,
         speech: null,

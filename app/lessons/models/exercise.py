@@ -23,6 +23,12 @@ class ExerciseType(Enum):
     '''
     FILL_BLANK_TEXT = ("FillBlankText", "Fill in the Blank Text")
 
+    ''' 
+        A sentence assembly exercise where users construct a sentence
+        by arranging given words in the correct order.
+    '''
+    SENTENCE_ASSEMBLY = ("SentenceAssembly", "Sentence Assembly")
+
     def __init__(self, value, label):
         self._value_ = value
         self.label = label
@@ -54,4 +60,3 @@ class Exercise(models.Model):
 
     def __str__(self):
         return f"{self.get_exercise_type_display()}: {self.module}"
-

@@ -2,7 +2,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-4 d-flex align-items-center">
-            <img src="/img/book.jpg" :alt="lang" class="my-5" />
+            <img src="/img/book.jpg" class="my-5" />
         </div>
         <div class="col-sm-6">
           <div class="row">
