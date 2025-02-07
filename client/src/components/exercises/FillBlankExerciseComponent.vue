@@ -48,13 +48,7 @@
           @diacrt-click="handleDiacrtButtonClick"            
         />
       </div>
-      <button class="btn btn-light border-dark" 
-              ref="hintButton" 
-              @pointerdown="isShowHints = true"
-              @pointerup="isShowHints = false"  
-              @mouseleave="isShowHints = false">
-        <font-awesome-icon :icon="['fas', 'key']" />
-      </button>
+      <HintButton @show-hint="isShowHints = $event" />
     </div>
   </div>
 </template>
@@ -62,11 +56,13 @@
 
 <script>
 import SpecialCharsButtons from '@/components/ui/SpecialCharsButtons.vue';
+import HintButton from '@/components/ui/HintButtonCompponent.vue';
 
 export default {
   name: 'FillBlankExercise',
   components: {
     SpecialCharsButtons,
+    HintButton,
   },
   props: {
     exercise: {

@@ -36,7 +36,6 @@
 
     <ScrollToTopButton />
     
-    <!-- Список слов -->
     <div class="row mt-4">
       <WordCard
         v-for="word in words"
@@ -60,7 +59,7 @@ export default {
     WordCard,
     SearchBar,
     ScrollToTopButton,
-    LoadingSpinner, // Добавляем новый компонент
+    LoadingSpinner,
   },
   data() {
     return {
@@ -105,6 +104,7 @@ export default {
     async getWordsBySearch(params) {
       this.loading = true;
       this.message = '';
+      this.letter = null;
       this.searching = true; // Set search flag
       try {
         this.words = await fetchWordsBySearch(params);

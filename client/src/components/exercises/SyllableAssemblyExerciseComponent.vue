@@ -70,23 +70,23 @@
           </div>
         </div>
       </div>
-      <div class="mt-3 d-flex justify-content-end">
-        <button
-          class="btn btn-light border-dark"
-          ref="hintButton"
-          @pointerdown="isShowHints = true"
-          @pointerup="isShowHints = false"
-          @mouseleave="isShowHints = false"
-        >
-          <font-awesome-icon :icon="['fas', 'key']" />
-        </button>
+      <div class="d-flex justify-content-end">
+        <div class="btn-group">
+          <HintButton @show-hint="isShowHints = $event" />
+        </div>
       </div>
     </div>
   </template>
   
-  <script>
+<script>
+
+  import HintButton from '@/components/ui/HintButtonCompponent.vue';
+
   export default {
     name: 'SyllableAssemblyExercise',
+    components: {
+      HintButton,
+    },
     props: {
       exercise: {
         type: Object,
@@ -173,11 +173,6 @@
   </script>
   
   <style scoped>
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-  }
   
   .syllable-assembly-exercise {
     font-size: 1em;

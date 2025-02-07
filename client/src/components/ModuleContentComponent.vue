@@ -41,7 +41,7 @@
           </audio>
         </div>
       </div>
-      <div v-if="moduleData.exercises && moduleData.exercises.length > 0" class="exercise-container mt-4">
+      <div v-if="moduleData.exercises && moduleData.exercises.length > 0" class="exercise-container mt-2">
         <ExerciseFactory 
           v-for="(exercise, index) in moduleData.exercises" 
           :key="index" 

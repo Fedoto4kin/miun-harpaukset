@@ -5,6 +5,7 @@
   <script>
   import FillBlankExercise from './FillBlankExerciseComponent.vue';
   import SyllableAssemblyExercise from './SyllableAssemblyExerciseComponent.vue';
+  import FillBlankTextExercise from './FillBlankTextExerciseComponent.vue';
   
   export default {
     name: 'ExerciseFactory',
@@ -21,6 +22,8 @@
             return FillBlankExercise;
           case 'SyllableAssembly':
             return SyllableAssemblyExercise;
+          case 'FillBlankText':
+            return FillBlankTextExercise;
           default:
             return null;
         }
