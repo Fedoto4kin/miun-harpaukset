@@ -20,13 +20,14 @@
             class="d-inline position-relative"           
         >
           <span v-if="part.type === 'text'">{{ part.value }}</span>
+
           <input
             v-else
             v-model="userAnswers[sentenceIndex][partIndex]"
             :ref="'inputField' + sentenceIndex + '-' + partIndex"
             :style="{ 
-              width: `${part.placeholderLength * 0.6}em`, 
-              color: results[sentenceIndex][partIndex] === undefined ? 'black' : results[sentenceIndex][partIndex] ? 'green' : 'red' 
+                width: `${part.placeholderLength * 0.6}em`, 
+                color: results[sentenceIndex][partIndex] === undefined ? 'black' : results[sentenceIndex][partIndex] ? 'green' : 'red' 
             }"
             class="form-control mx-1 input-field"
             @input="handleInputChange"
@@ -36,8 +37,9 @@
                 shown: isShowHints,
                 triggers: [],
                 delay: 0,
-              }"
-          />
+                }"
+            />
+
           <span v-if="results[sentenceIndex][partIndex] !== undefined" class="position-absolute result-icon">
             <font-awesome-icon 
               :icon="results[sentenceIndex][partIndex] ? ['fas', 'check'] : ['fas', 'xmark']" 
@@ -82,61 +84,67 @@
       };
     },
     computed: {
-      parsedText() {
-        if (!this.exercise.data.text) {
-          return [];
-        }
-        const regex = /\[(\d+)\*:([^\]]+)\]/g;
-  
-        return this.exercise.data.text.map((sentence) => {
-          const parts = [];
-          let lastIndex = 0;
-          let match;
-  
-          while ((match = regex.exec(sentence)) !== null) {
+        parsedText() {
+    if (!this.exercise.data.text) {
+        return [];
+    }
+    const regex = /\[(\d+)\*:([^\]{]+)({[^}]+})?\]/g;
+
+    return this.exercise.data.text.map((sentence) => {
+        const parts = [];
+        let lastIndex = 0;
+        let match;
+
+        while ((match = regex.exec(sentence)) !== null) {
             if (match.index > lastIndex) {
-              parts.push({
-                type: 'text',
-                value: sentence.slice(lastIndex, match.index),
-              });
+                parts.push({
+                    type: 'text',
+                    value: sentence.slice(lastIndex, match.index),
+                });
             }
-  
+
+            const prefilledValue = match[3] ? match[3].slice(1, -1) : '';
+
             parts.push({
-              type: 'blank',
-              id: match[1], // Идентификатор пропуска
-              placeholderLength: Number(match[1])+2, // Длина строки в квадратных скобках
-              correctAnswer: match[2], // Правильный ответ
+                type: 'blank',
+                id: match[1], // Идентификатор пропуска
+                placeholderLength: Number(match[1])+2, // Длина строки в квадратных скобках
+                correctAnswer: match[2], // Правильный ответ
+                prefilledValue: prefilledValue, // Предзаполненное значение
             });
-  
+
             lastIndex = match.index + match[0].length;
-          }
-          if (lastIndex < sentence.length) {
+        }
+        if (lastIndex < sentence.length) {
             parts.push({
-              type: 'text',
-              value: sentence.slice(lastIndex),
+                type: 'text',
+                value: sentence.slice(lastIndex),
             });
-          }
-  
-          return parts;
-        });
-      },
+        }
+
+        return parts;
+    });
+}
+
     },
     methods: {
-      parseData() {
-        this.userAnswers = this.parsedText.map((sentence) => sentence.map(() => ''));
-        this.results = this.parsedText.map((sentence) => sentence.map(() => undefined));
-      },
-      clearResult() {
-        this.results = this.parsedText.map((sentence) => sentence.map(() => undefined));
-      },
-      checkAnswers() {
-        this.parsedText.forEach((sentence, sentenceIndex) => {
-          sentence.forEach((part, partIndex) => {
-            if (part.type === 'blank') {
-              const userAnswer = this.userAnswers[sentenceIndex][partIndex]?.toLowerCase();
-              const isCorrect = part.correctAnswer === userAnswer;
-              this.results[sentenceIndex][partIndex] = isCorrect;
-            }
+        parseData() {
+            this.userAnswers = this.parsedText.map((sentence) => 
+                sentence.map((part) => (part.type === 'blank' ? part.prefilledValue : ''))
+            );
+            this.results = this.parsedText.map((sentence) => sentence.map(() => undefined));
+        },
+        clearResult() {
+            this.results = this.parsedText.map((sentence) => sentence.map(() => undefined));
+        },
+        checkAnswers() {
+            this.parsedText.forEach((sentence, sentenceIndex) => {
+            sentence.forEach((part, partIndex) => {
+                if (part.type === 'blank') {
+                    const userAnswer = this.userAnswers[sentenceIndex][partIndex]?.toLowerCase();
+                    const isCorrect = part.correctAnswer === userAnswer;
+                    this.results[sentenceIndex][partIndex] = isCorrect;
+                }
           });
         });
       },
