@@ -4,7 +4,7 @@ from enum import Enum
 
 
 class ExerciseType(Enum):
-    
+
     ''' 
         A fill-in-the-blank exercise where users 
         complete words by filling in missing parts.
@@ -28,6 +28,12 @@ class ExerciseType(Enum):
         by arranging given words in the correct order.
     '''
     SENTENCE_ASSEMBLY = ("SentenceAssembly", "Sentence Assembly")
+    
+    ''' 
+        A match-the-pair exercise where users find the 
+        corresponding pair for a given word.
+    '''
+    MATCH_PAIR = ("MatchPair", "Match the Pair")
 
     def __init__(self, value, label):
         self._value_ = value

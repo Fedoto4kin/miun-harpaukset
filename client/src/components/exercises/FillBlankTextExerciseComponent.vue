@@ -1,14 +1,5 @@
 <template>
   <div class="fill-blank-text-exercise">
-    <div class="d-flex flex-row-reverse">
-      <button 
-        class="btn btn-outline-primary"
-        @click="checkAnswers"
-        title="Kuotele otviettua"
-      >
-        <font-awesome-icon :icon="['fas', 'spell-check']" />
-      </button>
-    </div>
     <div v-if="parsedExample.length" class="example-section">
       <div class="example-text">
         <div v-for="(sentence, sentenceIndex) in parsedExample" 
@@ -74,7 +65,16 @@
       <div class="btn-group">
         <SpecialCharsButtons @diacrt-click="handleDiacrtButtonClick" />
       </div>
+      <div class="btn-group">
       <HintButton @show-hint="isShowHints = $event" />
+      <button 
+        class="btn btn-outline-primary"
+        @click="checkAnswers"
+        title="Kuotele otviettua"
+      >
+        <font-awesome-icon :icon="['fas', 'spell-check']" />
+      </button>
+      </div>
     </div>
   </div>
 </template>
@@ -90,7 +90,7 @@ export default {
     HintButton,
   },
   props: {
-    exercise: {
+    data: {
       type: Object,
       required: true,
     },
@@ -107,13 +107,13 @@ export default {
   },
   computed: {
     parsedExample() {
-      return this.exercise.data.example ? this.parseText([this.exercise.data.example]) : [];
+      return this.data.example ? this.parseText([this.data.example]) : [];
     },
     parsedTexts() {
-      if (!this.exercise.data.texts) {
+      if (!this.data.texts) {
         return [];
       }
-      return this.exercise.data.texts.map((textObj) => ({
+      return this.data.texts.map((textObj) => ({
         hint: textObj.hint,
         text: this.parseText(textObj.text),
       }));

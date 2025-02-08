@@ -4,7 +4,7 @@
         <div
           v-for="(question, questionIndex) in parsedQuestions"
           :key="questionIndex"
-          class="w-auto mb-3 px-3"
+          class="w-auto mb-2 px-3"
         >
           <div class="card bg-light px-3 w-auto d-flex">
             <div class="d-flex justify-content-center align-items-center position-relative">
@@ -71,9 +71,7 @@
         </div>
       </div>
       <div class="d-flex justify-content-end">
-        <div class="btn-group">
           <HintButton @show-hint="isShowHints = $event" />
-        </div>
       </div>
     </div>
   </template>
@@ -88,7 +86,7 @@
       HintButton,
     },
     props: {
-      exercise: {
+      data: {
         type: Object,
         required: true,
       },
@@ -105,7 +103,7 @@
     methods: {
       // Парсинг данных задания
       parseData() {
-        this.parsedQuestions = this.exercise.data.questions.map((question) => ({
+        this.parsedQuestions = this.data.questions.map((question) => ({
           syllables: question.syllables,
           word: question.word,
         }));

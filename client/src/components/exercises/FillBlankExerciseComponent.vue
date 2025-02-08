@@ -65,7 +65,7 @@ export default {
     HintButton,
   },
   props: {
-    exercise: {
+    data: {
       type: Object,
       required: false,
     },
@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     parseData() {
-      const sortedGroups = [...this.exercise.data].sort((a, b) => a.order - b.order);
+      const sortedGroups = [...this.data].sort((a, b) => a.order - b.order);
 
       this.parsedGroups = sortedGroups.map(group => ({
         instructions: group.text ?? null,

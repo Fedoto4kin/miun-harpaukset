@@ -1,14 +1,6 @@
 <template>
   <div class="sentence-assembly-exercise">
-    <div class="d-flex flex-row-reverse">
-      <button
-        class="btn btn-outline-primary"
-        @click="checkAnswers"
-        title="Kuotele otviettua"
-      >
-        <font-awesome-icon :icon="['fas', 'spell-check']" />
-      </button>
-    </div>
+
     <div class="mb-2" v-for="(group, groupIndex) in groups" :key="groupIndex">
       <div class="words-container">
         <button
@@ -38,7 +30,7 @@
       >
         <span
           :class="{
-            'card bg-light text-center': true,
+            'word-slot card bg-light text-center': true,
             'active-slot': isActiveSlot(sentenceIndex, slotIndex),
             'text-success': checkResult && isCorrectWord(sentenceIndex, slotIndex),
             'text-danger': checkResult && !isCorrectWord(sentenceIndex, slotIndex) && word,
@@ -67,6 +59,15 @@
         />
       </span>
     </div>
+    <div class="d-flex flex-row-reverse mt-3">
+      <button
+        class="btn btn-outline-primary"
+        @click="checkAnswers"
+        title="Kuotele otviettua"
+      >
+        <font-awesome-icon :icon="['fas', 'spell-check']" />
+      </button>
+    </div>
   </div>
 </template>
 
@@ -79,7 +80,7 @@ export default {
     FontAwesomeIcon,
   },
   props: {
-    exercise: {
+    data: {
       type: Object,
       required: true,
     },
@@ -94,7 +95,7 @@ export default {
   },
   computed: {
     groups() {
-      return this.exercise.data.groups.map((group) => ({
+      return this.data.groups.map((group) => ({
         ...group,
         words: group.words.map((word) => ({
           text: word,
@@ -103,10 +104,10 @@ export default {
       }));
     },
     answers() {
-      return this.exercise.data.answers;
+      return this.data.answers;
     },
     template() {
-      return this.exercise.data.template;
+      return this.data.template;
     },
   },
   methods: {
@@ -139,7 +140,7 @@ export default {
       return this.slots[sentenceIndex].some((slot) => slot);
     },
     selectWord(groupIndex, wordIndex) {
-      this.checkResult = false; // Сбросить результаты проверки
+      this.checkResult = false;
 
       const word = this.groups[groupIndex].words[wordIndex].text;
 
@@ -164,7 +165,7 @@ export default {
       }
     },
     clearSlot(sentenceIndex) {
-      this.checkResult = false; // Сбросить результаты проверки
+      this.checkResult = false;
 
       this.slots[sentenceIndex].forEach((word) => {
         if (word) {
@@ -228,6 +229,11 @@ export default {
   gap: 0.2rem;
   justify-content: left;
 }
+
+.word-slot {
+    border: 1px dashed #ddd;
+    text-align: center;
+  }
 
 .active-slot {
   border: 2px solid #007bff !important;
