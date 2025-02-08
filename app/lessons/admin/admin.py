@@ -1,3 +1,4 @@
+from nested_admin import NestedModelAdmin
 from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
@@ -14,7 +15,7 @@ class LessonSpeechAdmin(admin.ModelAdmin):
     form = LessonSpeechForm
 
     def content_object_link(self, obj):
-        if (obj.content_object):
+        if obj.content_object:
             return format_html('<a href="{}">{}</a>', reverse(f'admin:lessons_{obj.content_object._meta.model_name}_change', args=(obj.content_object.id,)), str(obj.content_object))
         return "No linked object"
     content_object_link.short_description = 'Linked Object'
@@ -49,7 +50,7 @@ class LessonSpeechAdmin(admin.ModelAdmin):
             extra_context['linked_object_name'] = initial_data.get('linked_object_name', '')
         return super().changeform_view(request, object_id, form_url, extra_context)
 
-class ModuleAdmin(admin.ModelAdmin):
+class ModuleAdmin(NestedModelAdmin):
     list_display = ('number', 'lesson', 'upload_sound_button')
     search_fields = ('lesson__title', 'number')
     ordering = ['lesson', 'number']
@@ -66,10 +67,10 @@ class ModuleAdmin(admin.ModelAdmin):
     upload_sound_button.short_description = 'Pagina'
     upload_sound_button.allow_tags = True
 
-class LessonAdmin(admin.ModelAdmin):
+class LessonAdmin(NestedModelAdmin):
     list_display = ('__str__', 'description', 'upload_sound_button')
-    inlines = [ModuleInline]
-    
+    inlines = [ModuleInline]  # Включите ModuleInline, который содержит LessonSpeechInline
+
     def upload_sound_button(self, obj):
         if obj.lesson_speeches.exists():
             return obj.lesson_speeches.first().code

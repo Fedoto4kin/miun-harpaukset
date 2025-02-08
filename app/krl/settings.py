@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_json_widget',
     'corsheaders',
+    'nested_admin',
     'ckeditor',
     'ckeditor_uploader',
 ]
@@ -161,16 +162,16 @@ CKEDITOR_CONFIGS = {
             ['Bold', 'Italic', 'Underline'],
             ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
             ['InsertBadge'],
-            ['Image', 'UploadImage', 'Table', 'HorizontalRule'],  # Добавьте 'UploadImage' здесь
+            ['Image', 'UploadImage', 'Table', 'HorizontalRule'],
             ['TextColor', 'BGColor'],
             ['Format', 'FontSize', 'Styles'],
             ['RemoveFormat', 'Source'],
         ],
         'format_tags': 'p;h3;h4;h5;h6',
-        'extraPlugins': 'uploadimage,stylescombo,font,table,krl_insertbadge',
+        'extraPlugins': 'uploadimage,stylescombo,font,krl_insertbadge,table', # 'krl_table'
         'uploadUrl': '/ckeditor/upload/',
-        'filebrowserUploadUrl': '/ckeditor/upload/',  # Важно
-        'filebrowserImageUploadUrl': '/ckeditor/upload/',  # Важно для изображений
+        'filebrowserUploadUrl': '/ckeditor/upload/',
+        'filebrowserImageUploadUrl': '/ckeditor/upload/',
         'height': 400,
         'width': '100%',
         'contentsCss': '/static/css/bootstrap.min.css',

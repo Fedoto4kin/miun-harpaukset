@@ -1,23 +1,37 @@
-from django.contrib.contenttypes.admin import GenericTabularInline
+from django.urls import reverse
+from django.utils.html import format_html
+from nested_admin import NestedGenericTabularInline, NestedStackedInline
 from django.contrib import admin
 from ..models import LessonSpeech, Module, Exercise
 from .forms import ExerciseForm
 
-class LessonSpeechInline(GenericTabularInline):
+class LessonSpeechInline(NestedGenericTabularInline):  # Используйте NestedGenericTabularInline здесь
     model = LessonSpeech
-    extra = 1
-    extra_num = 0
+    ct_field = "content_type"
+    ct_fk_field = "object_id"
+    extra = 0
     max_num = 1
     fields = ('code', 'mp3', 'text')
 
-class ModuleInline(admin.TabularInline):
-    model = Module
-    extra = 1
-    fields = ('number', 'html_content', 'tags')
-
-class ExerciseInline(admin.StackedInline):
+class ExerciseInline(NestedStackedInline):
     model = Exercise
     form = ExerciseForm
     extra = 0
     fields = ('exercise_type', 'data')
-    
+
+class ModuleInline(NestedStackedInline):
+    model = Module
+    extra = 1
+    fields = ('number', 'html_content', 'tags', 'edit_link')
+    inlines = [LessonSpeechInline]
+
+    readonly_fields = ('edit_link',)
+
+    def edit_link(self, obj):
+        if obj.id:
+            url = reverse('admin:lessons_module_change', args=[obj.id])
+            return format_html('<a href="{}">Edit</a>', url)
+        return ""
+
+    edit_link.short_description = 'Edit Link'  # Задайте описание для столбца
+    edit_link.allow_tags = True  
