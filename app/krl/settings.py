@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_json_widget',
     'corsheaders',
     'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -160,7 +161,7 @@ CKEDITOR_CONFIGS = {
             ['Bold', 'Italic', 'Underline'],
             ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
             ['InsertBadge'],
-            ['Image', 'Table', 'HorizontalRule'],
+            ['Image', 'UploadImage', 'Table', 'HorizontalRule'],  # Добавьте 'UploadImage' здесь
             ['TextColor', 'BGColor'],
             ['Format', 'FontSize', 'Styles'],
             ['RemoveFormat', 'Source'],
@@ -168,6 +169,8 @@ CKEDITOR_CONFIGS = {
         'format_tags': 'p;h3;h4;h5;h6',
         'extraPlugins': 'uploadimage,stylescombo,font,table,krl_insertbadge',
         'uploadUrl': '/ckeditor/upload/',
+        'filebrowserUploadUrl': '/ckeditor/upload/',  # Важно
+        'filebrowserImageUploadUrl': '/ckeditor/upload/',  # Важно для изображений
         'height': 400,
         'width': '100%',
         'contentsCss': '/static/css/bootstrap.min.css',
@@ -181,5 +184,3 @@ CKEDITOR_CONFIGS = {
         'extraAllowedContent': 'span[class](*)'
     },
 }
-
-
