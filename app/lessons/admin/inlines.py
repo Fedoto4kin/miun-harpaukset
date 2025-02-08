@@ -4,8 +4,18 @@ from nested_admin import NestedGenericTabularInline, NestedStackedInline
 from django.contrib import admin
 from ..models import LessonSpeech, Module, Exercise
 from .forms import ExerciseForm
+from django.contrib.contenttypes.admin import GenericTabularInline
 
-class LessonSpeechInline(NestedGenericTabularInline):  # Используйте NestedGenericTabularInline здесь
+
+class LessonSpeechSimpleInline(NestedGenericTabularInline):  # Используйте NestedGenericTabularInline здесь
+    model = LessonSpeech
+    ct_field = "content_type"
+    ct_fk_field = "object_id"
+    extra = 0
+    max_num = 1
+    fields = ('code', 'mp3', 'text')
+
+class LessonSpeechNestedInline(NestedGenericTabularInline):  # Используйте NestedGenericTabularInline здесь
     model = LessonSpeech
     ct_field = "content_type"
     ct_fk_field = "object_id"
@@ -23,7 +33,7 @@ class ModuleInline(NestedStackedInline):
     model = Module
     extra = 1
     fields = ('number', 'html_content', 'tags', 'edit_link')
-    inlines = [LessonSpeechInline]
+    inlines = [LessonSpeechNestedInline]
 
     readonly_fields = ('edit_link',)
 

@@ -4,9 +4,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from django.utils.html import format_html
 from django import forms
-from ..models import Lesson, LessonSpeech, Module, Exercise, Tag
+from ..models import Lesson, LessonSpeech, Module
 from .forms import LessonSpeechForm, ModuleForm
-from .inlines import LessonSpeechInline, ModuleInline, ExerciseInline
+from .inlines import LessonSpeechNestedInline, ModuleInline, ExerciseInline
 
 class LessonSpeechAdmin(admin.ModelAdmin):
     list_display = ('code', 'mp3', 'content_object_link')
@@ -54,7 +54,7 @@ class ModuleAdmin(NestedModelAdmin):
     list_display = ('number', 'lesson', 'upload_sound_button')
     search_fields = ('lesson__title', 'number')
     ordering = ['lesson', 'number']
-    inlines = [LessonSpeechInline, ExerciseInline]
+    inlines = [LessonSpeechNestedInline, ExerciseInline]
     list_filter = ('lesson', 'tags')
     form = ModuleForm
 
@@ -69,7 +69,7 @@ class ModuleAdmin(NestedModelAdmin):
 
 class LessonAdmin(NestedModelAdmin):
     list_display = ('__str__', 'description', 'upload_sound_button')
-    inlines = [ModuleInline]  # Включите ModuleInline, который содержит LessonSpeechInline
+    inlines = [LessonSpeechNestedInline, ModuleInline]
 
     def upload_sound_button(self, obj):
         if obj.lesson_speeches.exists():
