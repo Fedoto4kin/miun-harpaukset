@@ -8,7 +8,7 @@ class HideListenTagWidget(forms.CheckboxSelectMultiple):
         if value is None:
             value = []
         hidden_tags = [tag for tag in all_tags if tag.code in ['listen', 'key'] and tag.pk in value]
-        visible_tags = [tag for tag in all_tags if tag.code not in ['listen', 'key'] or tag.pk not in value]
+        visible_tags = [tag for tag in all_tags if tag.code not in ['listen', 'key']]
         
         self.choices = [(tag.pk, tag.name) for tag in visible_tags]
         visible_output = super().render(name, value, attrs, renderer)

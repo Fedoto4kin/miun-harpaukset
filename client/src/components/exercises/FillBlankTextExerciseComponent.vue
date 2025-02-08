@@ -66,14 +66,14 @@
         <SpecialCharsButtons @diacrt-click="handleDiacrtButtonClick" />
       </div>
       <div class="btn-group">
-      <HintButton @show-hint="isShowHints = $event" />
-      <button 
-        class="btn btn-outline-primary"
-        @click="checkAnswers"
-        title="Kuotele otviettua"
-      >
-        <font-awesome-icon :icon="['fas', 'spell-check']" />
-      </button>
+        <HintButton @show-hint="isShowHints = $event" />
+        <button 
+          class="btn btn-outline-primary"
+          @click="checkAnswers"
+          title="Kuotele otviettua"
+        >
+          <font-awesome-icon :icon="['fas', 'spell-check']" />
+        </button>
       </div>
     </div>
   </div>
