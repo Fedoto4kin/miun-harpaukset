@@ -21,7 +21,7 @@
             <span v-if="part.type === 'text'">{{ part.value }}</span>
             <input
               v-else
-              :value="part.correctAnswer"
+              :value="part.correctAnswers.join('|')"
               :style="{ width: `${part.placeholderLength * 0.6}em` }"
               class="form-control mx-1 input-field"
               disabled
@@ -54,7 +54,7 @@
             @input="handleInputChange"
             @focus="handleFocus(textIndex, sentenceIndex, partIndex)"
             v-tooltip.right="{
-                content: part.correctAnswer,
+                content: part.correctAnswers.join(', '),
                 shown: isShowHints,
                 triggers: [],
                 delay: 0,
@@ -106,11 +106,9 @@ export default {
     };
   },
   computed: {
-    // Парсинг примера
     parsedExample() {
       return this.exercise.data.example ? this.parseText([this.exercise.data.example]) : [];
     },
-    // Парсинг текстов
     parsedTexts() {
       if (!this.exercise.data.texts) {
         return [];
@@ -140,7 +138,7 @@ export default {
             type: 'blank',
             id: match[1],
             placeholderLength: Number(match[1]) + 2,
-            correctAnswer: match[2],
+            correctAnswers: match[2].split('|'),
             prefilledValue: prefilledValue,
           });
           lastIndex = match.index + match[0].length;
@@ -179,7 +177,7 @@ export default {
           sentence.forEach((part, partIndex) => {
             if (part.type === 'blank') {
               const userAnswer = this.userAnswers[textIndex][sentenceIndex][partIndex]?.toLowerCase();
-              const isCorrect = part.correctAnswer.toLowerCase() === userAnswer;
+              const isCorrect = part.correctAnswers.map(ans => ans.toLowerCase()).includes(userAnswer);
               this.results[textIndex][sentenceIndex][partIndex] = isCorrect;
             }
           });
