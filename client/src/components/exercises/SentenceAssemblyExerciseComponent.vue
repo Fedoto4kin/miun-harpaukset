@@ -72,17 +72,18 @@
 </template>
 
 <script>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 export default {
   name: 'SentenceAssemblyExercise',
-  components: {
-    FontAwesomeIcon,
-  },
   props: {
     data: {
       type: Object,
       required: true,
+    },
+    hasCheck: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
   data() {

@@ -69,6 +69,11 @@ export default {
       type: Object,
       required: false,
     },
+    hasCheck: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
   data() {
     return {

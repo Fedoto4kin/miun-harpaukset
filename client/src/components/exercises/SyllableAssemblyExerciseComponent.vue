@@ -90,6 +90,11 @@
         type: Object,
         required: true,
       },
+      hasCheck: {
+        type: Boolean,
+        required: false,
+        default: true,
+      },
     },
     data() {
       return {

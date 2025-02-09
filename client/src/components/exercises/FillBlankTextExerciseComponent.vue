@@ -25,7 +25,7 @@
       <div 
         v-for="(sentence, sentenceIndex) in textObj.text" 
         :key="sentenceIndex" 
-        class="sentence d-inline-flex flex-wrap pe-2 mb-2"
+        class="d-inline-flex flex-wrap pe-2 mb-2"
       >
         <div 
           v-for="(part, partIndex) in sentence" 
@@ -60,12 +60,16 @@
         </div>
       </div>
     </div>
+    <div v-if="parsedAterWord" class="afterwords-section">
+        <hr/>
+        <div v-html="parsedAterWord"></div>
+    </div>
   
     <div class="d-flex justify-content-between mt-3">
       <div class="btn-group">
         <SpecialCharsButtons @diacrt-click="handleDiacrtButtonClick" />
       </div>
-      <div class="btn-group">
+      <div v-if="hasCheck" class="btn-group">
         <HintButton @show-hint="isShowHints = $event" />
         <button 
           class="btn btn-outline-primary"
@@ -94,6 +98,11 @@ export default {
       type: Object,
       required: true,
     },
+    hasCheck: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
   data() {
     return {
@@ -108,6 +117,9 @@ export default {
   computed: {
     parsedExample() {
       return this.data.example ? this.parseText([this.data.example]) : [];
+    },
+    parsedAterWord() {
+      return this.data.afterWord ?? null;
     },
     parsedTexts() {
       if (!this.data.texts) {

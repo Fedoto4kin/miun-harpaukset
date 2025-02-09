@@ -2,6 +2,7 @@
   <component
     :is="getComponent(exercise.exercise_type)"
     :data="exercise.data"
+    :hasCheck="exercise.has_answers_check"
     v-if="getComponent(exercise.exercise_type)"
   />
 </template>

@@ -100,18 +100,23 @@
         type: Object,
         required: true,
       },
+      hasCheck: {
+        type: Boolean,
+        required: false,
+        default: true,
+      },
     },
     data() {
       return {
-        selectedWordIndex: 0, // По умолчанию выбрано первое слово
+        selectedWordIndex: 0,
         selectedPairIndex: null,
         checkResult: false,
         shuffledWords: [],
         shuffledPairs: [],
         userAnswers: [],
         isShowHints: false,
-        pairsEnabled: true, // Кнопки с парами активны по умолчанию
-        results: [], // Добавляем массив для хранения результатов проверки
+        pairsEnabled: true, 
+        results: [],
       };
     },
     computed: {
@@ -229,6 +234,10 @@
   .word-button.btn-selected {
     background-color: #e9f5ff;
     border-color: #007bff;
+  }
+
+  .word-button.btn-selected:hover {
+    background-color: rgba(var(--bs-secondary-rgb)) !important;
   }
   
   .pair-slot-container {

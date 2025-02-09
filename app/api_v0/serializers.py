@@ -81,7 +81,7 @@ class TagSerializer(serializers.ModelSerializer):
 class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercise
-        fields = ['id', 'exercise_type', 'data']
+        fields = ['id', 'exercise_type', 'data', 'has_answers_check']
 
 
 class ModuleSerializer(serializers.ModelSerializer):
