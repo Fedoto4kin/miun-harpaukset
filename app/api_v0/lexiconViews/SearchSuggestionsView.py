@@ -15,6 +15,7 @@ class SearchSuggestionsView(APIView):
                 {
                     "word": _.word.replace('|', ''),
                     "word_id": _.id,
+                    "pos": _.pos.abbr,
                 } for _ in suggestions
             ]
             return Response(suggestions_list)

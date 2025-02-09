@@ -26,13 +26,13 @@
               <li 
                 v-for="(suggestion, index) in suggestions" 
                 :key="suggestion.word_id" 
-                class="list-group-item list-item"
+                class="list-group-item list-item d-flex justify-content-between"
                 @click="selectWord(suggestion.word_id)"
                 @mouseover="hoveredIndex = index"
                 @mouseout="hoveredIndex = -1"
                 :class="{ 'list-item-hover': hoveredIndex === index, 'list-item-hover': selectedIndex === index }"
               >
-                {{ suggestion.word }}
+                <span>{{ suggestion.word }}</span> <span class="badge bg-secondary">{{ suggestion.pos }}</span>
               </li>
             </ul>
           </div>
