@@ -18,7 +18,7 @@ class ExerciseInline(NestedStackedInline):
     model = Exercise
     form = ExerciseForm
     extra = 0
-    fields = ('exercise_type', 'data')
+    fields = ('exercise_type', 'data', 'has_answers_check')
 
 class ModuleInline(NestedStackedInline):
     model = Module

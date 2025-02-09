@@ -59,6 +59,7 @@ class Exercise(models.Model):
         default=dict,
         blank=True
     )
+    has_answers_check = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = 'Annanda'
