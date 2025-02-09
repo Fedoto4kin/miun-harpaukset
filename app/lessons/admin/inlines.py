@@ -6,7 +6,7 @@ from ..models import LessonSpeech, Module, Exercise
 from .forms import ExerciseForm, ModuleForm
 
 
-class LessonSpeechNestedInline(NestedGenericTabularInline):  # Используйте NestedGenericTabularInline здесь
+class LessonSpeechNestedInline(NestedGenericTabularInline):
     model = LessonSpeech
     ct_field = "content_type"
     ct_fk_field = "object_id"
@@ -35,5 +35,5 @@ class ModuleInline(NestedStackedInline):
             return format_html('<a href="{}">Edit</a>', url)
         return ""
 
-    edit_link.short_description = 'Edit Link'  # Задайте описание для столбца
+    edit_link.short_description = 'Edit Link'
     edit_link.allow_tags = True  

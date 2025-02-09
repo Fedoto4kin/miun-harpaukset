@@ -99,7 +99,8 @@ export default {
     const fetchSuggestions = async () => {
       if (searchText.value.length >= 2) {
         try {
-          suggestions.value = await fetchSearchSuggestions(searchText.value, reverse.value); 
+          const data = await fetchSearchSuggestions(searchText.value, reverse.value); 
+          suggestions.value = data.map(item => item.word);
         } catch (error) {
           console.error('Failed to fetch suggestions:', error);
           suggestions.value = [];
@@ -107,7 +108,8 @@ export default {
       } else {
         suggestions.value = [];
       }
-    };
+  };
+
 
     const handleSearchButtonClick = () => {
       if (!searchText.value.trim()) {

@@ -1,5 +1,4 @@
 <template>
-  <div class="col-md-4 mb-4">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title d-flex justify-content-between align-items-center">
@@ -41,7 +40,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>

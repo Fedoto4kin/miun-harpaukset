@@ -20,6 +20,11 @@ urlpatterns = [
         ReverseSearchSuggestionsView.as_view(),
         name='search-suggestions-reverse'
     ),
+    path(
+        'lexicon/word-card/<int:word_id>/',
+        WordCardView.as_view(),
+        name='word-card'
+    ),
     re_path(r'^lexicon/search/$', SearchViewList.as_view(), name='search-view'),
     re_path(r'^lexicon/reverse/$', SearchReverseViewList.as_view(), name='search-reverse-view'),
     path('modules/<int:module_id>/content/', ModuleContentView.as_view(), name='module-content'),

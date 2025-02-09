@@ -11,6 +11,11 @@ class SearchSuggestionsView(APIView):
             suggestions = Word.objects.filter(
                 word_clean__startswith=Word.search_prepare(string=search)
             )[:10]
-            suggestions_list = [suggestion.word.replace('|', '') for suggestion in suggestions]
+            suggestions_list = [
+                {
+                    "word": _.word.replace('|', ''),
+                    "word_id": _.id,
+                } for _ in suggestions
+            ]
             return Response(suggestions_list)
         return Response([])

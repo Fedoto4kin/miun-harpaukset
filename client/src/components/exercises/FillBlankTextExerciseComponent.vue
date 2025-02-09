@@ -10,13 +10,13 @@
               :key="partIndex" 
               class="d-inline position-relative">
             <span v-if="part.type === 'text'">{{ part.value }}</span>
-            <input
+            <span
               v-else
               :value="part.correctAnswers.join('|')"
               :style="{ width: `${part.placeholderLength * 0.6}em` }"
               class="form-control mx-1 input-field"
               disabled
-            />
+            >{{ part.correctAnswers.join('|') }}</span>
           </div>
         </div>
       </div>

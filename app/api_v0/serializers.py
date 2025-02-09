@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from lexicon.models import Word, Definition, Pos, Base
-from lessons.models import Lesson, LessonSpeech, Module, Tag, Exercise
+from lessons.models import Lesson, Module, Tag, Exercise
 
 
 class BaseSerializer(serializers.ModelSerializer):
@@ -8,26 +8,22 @@ class BaseSerializer(serializers.ModelSerializer):
         model = Base
         fields = ['id', 'base',]
 
-
-class WordAliasSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Word
-        fields = ['id', 'word',]
-
-
 class DefinitionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Definition
         fields = ['lang', 'definition']
 
+class WordAliasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Word
+        fields = ['id', 'word']
 
 class WordPreviewSerializer(serializers.ModelSerializer):
-
-    definition = DefinitionSerializer(many=True, source='definition_set') 
+    definition = DefinitionSerializer(many=True, source='definition_set')
     pos = serializers.CharField(source='pos.abbr', read_only=True)
     pos_name_ru = serializers.CharField(source='pos.name_ru', read_only=True)
     pos_name_fi = serializers.CharField(source='pos.name_fi', read_only=True)
-    speech = serializers.FileField(source='speech.media', read_only=True)
+    speech = serializers.SerializerMethodField()
     alias_words = WordAliasSerializer(many=True, source='alias')
 
     class Meta:
@@ -43,20 +39,11 @@ class WordPreviewSerializer(serializers.ModelSerializer):
             'alias_words'
         ]
 
-
-class WordDetailSerializer(serializers.ModelSerializer):
-    
-    definition = DefinitionSerializer(many=True, source='definition_set') 
-    pos = serializers.CharField(source='pos.abbr', read_only=True)
-
-    class Meta:
-        model = Word
-        fields = [
-            'id',
-            'word',
-            'pos',
-            'definition',
-        ]
+    def get_speech(self, obj):
+        request = self.context.get('request')
+        if obj.speech and obj.speech.media:
+            return request.build_absolute_uri(obj.speech.media.url)
+        return None
 
 
 class PosSerializer(serializers.ModelSerializer):

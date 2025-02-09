@@ -1,33 +1,48 @@
 <template>
-    <div v-if="lesson" class="position-relative">
-      <div v-if="lesson.speech" class="audio-container">
-        <audio controls class="audio-player" :key="lesson.id">
-          <source :src="lesson.speech" type="audio/mpeg" />
-        </audio>
-      </div>
-      <h4 class="border-bottom pb-2 px-2">
-        {{ lesson.full_name }}
-      </h4>
+  <div v-if="lesson" class="position-relative">
+    <div v-if="lesson.speech" class="audio-container">
+      <audio controls class="audio-player" :key="lesson.id">
+        <source :src="lesson.speech" type="audio/mpeg" />
+      </audio>
+    </div>
+    <h4 class="border-bottom pb-2 px-2">
+      {{ lesson.full_name }}
+    </h4>
+    <div class="d-flex align-items-center justify-content-between">
       <h3 class="px-3">
         {{ lesson.slogan }}
       </h3>
+      <button class="btn mt-n1 btn-outline-secondary" @click="showPopup = true">
+        <font-awesome-icon :icon="['fas', 'book']" />
+      </button>
     </div>
-  </template>
-  
+    <SearchPopupComponent :show="showPopup" @close="showPopup = false" />
+  </div>
+</template>
+
 <script>
+import SearchPopupComponent from './SearchPopupComponent.vue';
+
 export default {
-name: 'LessonHeaderComponent',
-props: {
+  name: 'LessonHeaderComponent',
+  components: {
+    SearchPopupComponent,
+  },
+  props: {
     lesson: {
-    type: Object,
-    required: true,
+      type: Object,
+      required: true,
     },
-},
+  },
+  data() {
+    return {
+      showPopup: false,
+    };
+  },
 };
 </script>
 
 <style scoped>
-
 .audio-container {
   position: absolute;
   right: 0;
