@@ -7,9 +7,11 @@
                             <template v-for="(fragment, fragmentIndex) in parseContent(cell.content)"
                                 :key="fragmentIndex">
                                 <span v-if="fragment.type === 'text'" v-html="fragment.value" />
-                                <span v-else-if="fragment.type === 'span'" class="form-control mx-1 input-field">
-                                    &nbsp;{{ fragment.value }}
-                                </span>
+                                <span v-else-if="fragment.type === 'span'" 
+                                      class="form-control mx-1 input-field"
+                                      :style="{width: `${calculateExampleStringField(fragment.value ?? '')}em`}"
+                                      v-html="fragment.value ?? '&nbsp;'" 
+                                      />
                                 <span  v-else class="position-relative">
                                 <input v-model="userAnswers[rowIndex][colIndex][fragmentIndex]"
                                     :ref="'inputField' + rowIndex + '-' + colIndex + '-' + fragmentIndex" :style="{
@@ -81,6 +83,9 @@ export default {
         };
     },
     methods: {
+        calculateExampleStringField(exampleString) {
+            return exampleString.length * 0.5;
+        },
         getPlaceholderLength(content) {
             const match = content.match(/\[(\d+)\*:/);
             return match ? Number(match[1]) + 2 : content.length;
