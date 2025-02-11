@@ -178,15 +178,6 @@ export default {
 
             this.slots[sentenceIndex].forEach((word, slotIndex) => {
                 if (word && (!this.template.prefillers || !this.template.prefillers[sentenceIndex] || !this.template.prefillers[sentenceIndex][slotIndex])) {
-                    const groupIndex = this.groups.findIndex((group) =>
-                        group.words.some((w) => w.text === word)
-                    );
-                    const wordIndex = this.groups[groupIndex].words.findIndex(
-                        (w) => w.text === word
-                    );
-                    if (groupIndex !== -1 && wordIndex !== -1) {
-                        this.groups[groupIndex].words[wordIndex].disabled = false;
-                    }
                     this.slots[sentenceIndex][slotIndex] = '';
                 }
             });
