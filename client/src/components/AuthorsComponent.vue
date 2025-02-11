@@ -13,7 +13,7 @@
             <tr>
               <th scope="row">Web-programmista:</th>
               <td>
-                <b>Anatolii Fedotočkin</b> 
+                <a href="https://github.com/Fedoto4kin/" target="_blank"><b>Anatolii Fedotočkin</b></a>
                 (<a href="mailto:fedoto4kin@gmail.com">fedoto4kin@gmail.com</a>)
               </td>
             </tr>

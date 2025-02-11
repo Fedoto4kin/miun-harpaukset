@@ -196,7 +196,7 @@ export default {
         let isCorrect = false;
 
         for (let answer of this.answers) {
-          const answerWords = answer.split(' ');
+          const answerWords = answer.split('|');
 
           for (let i = 0; i < slot.length; i++) {
             if (slot[i] === answerWords[i] && slot.slice(0, i + 1).every((word, index) => word === answerWords[index])) {

@@ -12,6 +12,7 @@ import FillBlankExercise from './FillBlankExerciseComponent.vue';
 import SyllableAssemblyExercise from './SyllableAssemblyExerciseComponent.vue';
 import FillBlankTextExercise from './FillBlankTextExerciseComponent.vue';
 import SentenceAssemblyExercise from './SentenceAssemblyExerciseComponent.vue';
+import SentenceAssemblyPrefilledExercise from './SentenceAssemblyPrefilledComponent.vue';
 import MatchPairExercise from './MatchPairExerciseComponent.vue';
 import FillBlankTableExercise from './FillBlankTableExerciseComponent.vue';
 
@@ -34,9 +35,11 @@ export default {
           return FillBlankTextExercise;
         case 'SentenceAssembly':
           return SentenceAssemblyExercise;
+        case 'SentenceAssemblyPrefilled':
+          return SentenceAssemblyPrefilledExercise;  
         case 'MatchPair':
           return MatchPairExercise;
-        case 'FillBlankTable': // Новый тип задания
+        case 'FillBlankTable':
           return FillBlankTableExercise;
         default:
           return null;

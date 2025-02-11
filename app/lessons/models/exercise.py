@@ -28,6 +28,13 @@ class ExerciseType(Enum):
         by arranging given words in the correct order.
     '''
     SENTENCE_ASSEMBLY = ("SentenceAssembly", "Sentence Assembly")
+
+    '''
+        A sentence assembly exercise with pre-filled slots where users
+        construct a sentence by arranging given words in the correct order,
+        while some slots are pre-filled.
+    '''
+    SENTENCE_ASSEMBLY_WITH_PREFILL = ("SentenceAssemblyPrefilled", "Sentence Assembly with Prefill")
     
     ''' 
         A match-the-pair exercise where users find the 
@@ -40,6 +47,7 @@ class ExerciseType(Enum):
         in missing words in a given table.
     '''
     FILL_BLANK_TABLE = ("FillBlankTable", "Fill in the Blank Table")
+
 
     def __init__(self, value, label):
         self._value_ = value

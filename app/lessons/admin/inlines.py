@@ -23,7 +23,7 @@ class ExerciseInline(NestedStackedInline):
 class ModuleInline(NestedStackedInline):
     model = Module
     form=ModuleForm
-    extra = 1
+    extra = 0
     fields = ('number', 'html_content', 'tags', 'edit_link')
     inlines = [LessonSpeechNestedInline]
 
