@@ -13,6 +13,7 @@ import SyllableAssemblyExercise from './SyllableAssemblyExerciseComponent.vue';
 import FillBlankTextExercise from './FillBlankTextExerciseComponent.vue';
 import SentenceAssemblyExercise from './SentenceAssemblyExerciseComponent.vue';
 import MatchPairExercise from './MatchPairExerciseComponent.vue';
+import FillBlankTableExercise from './FillBlankTableExerciseComponent.vue';
 
 export default {
   name: 'ExerciseFactory',
@@ -35,6 +36,8 @@ export default {
           return SentenceAssemblyExercise;
         case 'MatchPair':
           return MatchPairExercise;
+        case 'FillBlankTable': // Новый тип задания
+          return FillBlankTableExercise;
         default:
           return null;
       }

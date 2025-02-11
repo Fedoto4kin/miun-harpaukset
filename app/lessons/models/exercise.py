@@ -34,6 +34,12 @@ class ExerciseType(Enum):
         corresponding pair for a given word.
     '''
     MATCH_PAIR = ("MatchPair", "Match the Pair")
+    
+    ''' 
+        A fill-in-the-blank exercise where users fill 
+        in missing words in a given table.
+    '''
+    FILL_BLANK_TABLE = ("FillBlankTable", "Fill in the Blank Table")
 
     def __init__(self, value, label):
         self._value_ = value
