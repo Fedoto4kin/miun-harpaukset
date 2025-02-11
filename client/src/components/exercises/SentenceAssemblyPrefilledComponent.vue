@@ -5,8 +5,7 @@
                 <div class="words-container">
                     <button v-for="(word, wordIndex) in group.words" :key="wordIndex"
                         @click="selectWord(groupIndex, wordIndex)" :disabled="word.disabled"
-                        class="btn btn-outline-secondary btn-sm">
-                        {{ word.text }}
+                        class="btn btn-outline-secondary btn-sm" v-html="word.text">
                     </button>
                 </div>
             </div>
@@ -149,7 +148,11 @@ export default {
         selectWord(groupIndex, wordIndex) {
             this.checkResult = false;
 
-            const word = this.groups[groupIndex]?.words[wordIndex]?.text;
+            const word = this.groups[groupIndex]
+                            ?.words[wordIndex]
+                            ?.text
+                            .replace(/<\/?[^>]+(>|$)/g, "");
+
 
             if (
                 this.activeSlot.sentenceIndex !== null &&
