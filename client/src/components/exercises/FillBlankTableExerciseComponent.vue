@@ -8,7 +8,7 @@
                                 :key="fragmentIndex">
                                 <span v-if="fragment.type === 'text'" v-html="fragment.value" />
                                 <span v-else-if="fragment.type === 'span'" 
-                                      class="form-control mx-1 input-field"
+                                      class="form-control mx-1 input-field text-wrap"
                                       :style="{width: `${calculateExampleStringField(fragment.value ?? '')}em`}"
                                       v-html="fragment.value ?? '&nbsp;'" 
                                       />
@@ -84,7 +84,7 @@ export default {
     },
     methods: {
         calculateExampleStringField(exampleString) {
-            return exampleString.length * 0.5;
+            return exampleString.replace(/<\/?[^>]+(>|$)/g, "").length * 0.7;
         },
         getPlaceholderLength(content) {
             const match = content.match(/\[(\d+)\*:/);
