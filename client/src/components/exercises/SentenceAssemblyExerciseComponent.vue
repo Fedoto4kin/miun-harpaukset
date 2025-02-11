@@ -120,13 +120,16 @@ export default {
     },
     setFirstAvailableSlot() {
       for (let sentenceIndex = 0; sentenceIndex < this.slots.length; sentenceIndex++) {
-        for (let slotIndex = 0; slotIndex < this.slots[sentenceIndex].length; slotIndex++) {
-          if (!this.slots[sentenceIndex][slotIndex]) {
-            this.activeSlot = { sentenceIndex, slotIndex };
-            return;
+          for (let slotIndex = 0; slotIndex < this.slots[sentenceIndex].length; slotIndex++) {
+              if (!this.slots[sentenceIndex][slotIndex]) {
+                  this.activeSlot = { sentenceIndex, slotIndex };
+                  return;
+              }
           }
-        }
       }
+
+      // Если пустых слотов не найдено
+      this.activeSlot = { sentenceIndex: null, slotIndex: null };
     },
     setActiveSlot(sentenceIndex, slotIndex) {
       this.activeSlot = { sentenceIndex, slotIndex };
@@ -182,7 +185,17 @@ export default {
         }
       });
       this.slots[sentenceIndex] = Array(this.template.slots).fill('');
-      this.setFirstAvailableSlot();
+      
+      // Устанавливаем активным первый слот в очищенном ряду
+      for (let slotIndex = 0; slotIndex < this.slots[sentenceIndex].length; slotIndex++) {
+        if (!this.slots[sentenceIndex][slotIndex]) {
+          this.activeSlot = { sentenceIndex, slotIndex };
+          return;
+        }
+      }
+
+      // Если пустых слотов не найдено, устанавливаем значение по умолчанию
+      this.activeSlot = { sentenceIndex: null, slotIndex: null };
     },
     isCorrectWord(sentenceIndex, slotIndex) {
       if (!this.results[sentenceIndex]) {

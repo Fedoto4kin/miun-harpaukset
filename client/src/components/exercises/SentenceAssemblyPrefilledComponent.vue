@@ -116,14 +116,61 @@ export default {
                     ? [...this.template.prefillers[i]]
                     : Array(this.template.slots).fill('')
             );
-            this.setFirstAvailableSlot();
+
+            // По умолчанию устанавливаем активный слот на первый свободный
+            let nextSentenceIndex = 0;
+            let nextSlotIndex = 0;
+
+            while (nextSentenceIndex < this.slots.length) {
+                if (this.slots[nextSentenceIndex]) {
+                    if (nextSlotIndex < this.slots[nextSentenceIndex].length) {
+                        if (!this.slots[nextSentenceIndex][nextSlotIndex]) {
+                            this.activeSlot = { sentenceIndex: nextSentenceIndex, slotIndex: nextSlotIndex };
+                            return;
+                        }
+                        nextSlotIndex++;
+                    } else {
+                        nextSentenceIndex++;
+                        nextSlotIndex = 0;
+                    }
+                } else {
+                    nextSentenceIndex++;
+                    nextSlotIndex = 0;
+                }
+            }
+
+            // Если пустые слоты не найдены, устанавливаем значение по умолчанию
+            this.activeSlot = { sentenceIndex: null, slotIndex: null };
         },
+
         setFirstAvailableSlot() {
+            let nextSentenceIndex = this.activeSlot ? this.activeSlot.sentenceIndex : 0;
+            let nextSlotIndex = this.activeSlot ? this.activeSlot.slotIndex + 1 : 0;
+
+            while (nextSentenceIndex < this.slots.length) {
+                if (this.slots[nextSentenceIndex]) {
+                    if (nextSlotIndex < this.slots[nextSentenceIndex].length) {
+                        if (!this.slots[nextSentenceIndex][nextSlotIndex]) {
+                            this.activeSlot = { sentenceIndex: nextSentenceIndex, slotIndex: nextSlotIndex };
+                            return;
+                        }
+                        nextSlotIndex++;
+                    } else {
+                        nextSentenceIndex++;
+                        nextSlotIndex = 0;
+                    }
+                } else {
+                    nextSentenceIndex++;
+                    nextSlotIndex = 0;
+                }
+            }
             for (let sentenceIndex = 0; sentenceIndex < this.slots.length; sentenceIndex++) {
-                for (let slotIndex = 0; slotIndex < this.slots[sentenceIndex].length; slotIndex++) {
-                    if (!this.slots[sentenceIndex][slotIndex]) {
-                        this.activeSlot = { sentenceIndex, slotIndex };
-                        return;
+                if (this.slots[sentenceIndex]) {
+                    for (let slotIndex = 0; slotIndex < this.slots[sentenceIndex].length; slotIndex++) {
+                        if (!this.slots[sentenceIndex][slotIndex]) {
+                            this.activeSlot = { sentenceIndex, slotIndex };
+                            return;
+                        }
                     }
                 }
             }
@@ -149,10 +196,9 @@ export default {
             this.checkResult = false;
 
             const word = this.groups[groupIndex]
-                            ?.words[wordIndex]
-                            ?.text
-                            .replace(/<\/?[^>]+(>|$)/g, "");
-
+                ?.words[wordIndex]
+                ?.text
+                .replace(/<\/?[^>]+(>|$)/g, "");
 
             if (
                 this.activeSlot.sentenceIndex !== null &&
@@ -181,7 +227,13 @@ export default {
                     this.slots[sentenceIndex][slotIndex] = '';
                 }
             });
-            this.setFirstAvailableSlot();
+
+            for (let slotIndex = 0; slotIndex < this.slots[sentenceIndex].length; slotIndex++) {
+                if (!this.slots[sentenceIndex][slotIndex]) {
+                    this.activeSlot = { sentenceIndex, slotIndex };
+                    return;
+                }
+            }
         },
         isCorrectWord(sentenceIndex, slotIndex) {
             if (!this.results[sentenceIndex] || !this.results[sentenceIndex].correctWords) {
