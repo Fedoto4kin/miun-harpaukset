@@ -19,3 +19,10 @@ class HideListenTagWidget(forms.CheckboxSelectMultiple):
                 hidden_output += f'<input type="hidden" name="{name}" value="{tag.pk}" />'
 
         return mark_safe(visible_output + hidden_output)
+
+
+class LinkToFrontendWidget(forms.Widget):
+    def render(self, name, value, attrs=None, renderer=None):
+        if value:
+            return mark_safe(f'<a href="{value}" target="_blank">SHOW PAGE</a>')
+        return mark_safe('')

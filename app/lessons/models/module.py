@@ -6,6 +6,7 @@ from .tag import Tag  # Import the Tag model
 from .lesson_speech import LessonSpeech
 
 class Module(models.Model):
+    # Ваши поля модели
     lesson = models.ForeignKey(
         Lesson,
         on_delete=models.CASCADE,
@@ -43,12 +44,17 @@ class Module(models.Model):
         if hasattr(self, 'exercise'):
             return self.exercise
         return None
+    
+    @property
+    def site_url(self):
+        return f"{self.lesson.number}/{self.id}"
 
     def __str__(self):
         return f'{self.lesson.title} - {self.lesson.number}.{self.number}'
-
+    
     class Meta:
         verbose_name = 'Модуль'
         verbose_name_plural = 'Модули'
         unique_together = ('lesson', 'number')
         ordering = ['number']
+

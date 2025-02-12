@@ -50,6 +50,7 @@ class LessonSpeechAdmin(admin.ModelAdmin):
             extra_context['linked_object_name'] = initial_data.get('linked_object_name', '')
         return super().changeform_view(request, object_id, form_url, extra_context)
 
+
 class ModuleAdmin(NestedModelAdmin):
     list_display = ('number', 'lesson', 'upload_sound_button')
     search_fields = ('lesson__title', 'number')
