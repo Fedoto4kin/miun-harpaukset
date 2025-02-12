@@ -246,7 +246,7 @@
   }
   
   .pair-slot {
-    border: 1px dashed #ddd;
+    border: 1px dashed #ddd !important;
     padding: 0.25rem 0.5rem;
     text-align: center;
     margin-right: 0.5rem;

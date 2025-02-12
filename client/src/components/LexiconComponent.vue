@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row my-4">
-      <h1 class="mt-4 col-6">
+      <h1 class="mt-4 col-6 d-none d-md-block">
         <font-awesome-icon icon="book" class="text-success" />
         {{ title }}
       </h1>
