@@ -1,37 +1,5 @@
 <template>
-  <div>
-    <div class="module-navigation d-flex justify-content-between mb-4">
-      <button 
-        class="btn btn-primary"
-        :style="{ visibility: hasPreviousModule ? 'visible' : 'hidden' }"
-        @click="goToPreviousModule"
-      >
-        <span class="badge badge-light bg-light">
-          <font-awesome-icon :icon="['fas', 'arrow-left']" class="text-primary" />
-        </span>
-        Tagah
-      </button>
-      <button 
-        class="btn btn-primary"
-        :style="{ visibility: hasNextModule ? 'visible' : 'hidden' }"
-        @click="goToNextModule"
-      >
-        Edeh 
-        <span class="badge badge-light bg-light">
-          <font-awesome-icon :icon="['fas', 'arrow-right']" class="text-primary" />
-        </span>
-      </button>
-      <button 
-        class="btn btn-success"
-        v-if="!hasNextModule && nextLesson"
-        @click="goToNextLesson"
-      >{{ nextLesson?.full_name }}
-      <span class="badge badge-light bg-light">
-        <font-awesome-icon :icon="['fas', 'right-from-bracket']" class="text-success" />
-      </span>
-      </button>
-    </div>
-    
+  <div>    
     <div class="lesson-content" v-if="html_content">
       <div class="content-container">
         <div class="table-responsive" v-html="html_content"></div>
@@ -70,24 +38,6 @@ export default {
     html_content: String,
     speech: String,
     exercises: Array,
-    hasPreviousModule: Boolean,
-    hasNextModule: Boolean,
-    nextLesson: Object,
-    previousLesson: Object,
-  },
-  methods: {
-    goToPreviousModule() {
-      this.$emit('previous-module');
-    },
-    goToNextModule() {
-      this.$emit('next-module');
-    },
-    goToNextLesson() {
-      this.$emit('next-lesson');
-    },
-    goToPreviousLesson() {
-      this.$emit('previous-lesson');
-    },
   },
 };
 </script>

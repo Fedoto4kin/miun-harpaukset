@@ -6,13 +6,20 @@
         :isModulesByLessonLoading="isModulesByLessonLoading" :modules="modules" :selectedModuleId="selectedModuleId"
         @module-clicked="loadModuleContent" />
       <div class="col-lg-9 col-sm-12 mt-2" id="lesson-frame">
-        <LessonHeaderComponent :lesson="activeLesson" v-bind="filterModuleData(['number', 'tags'])"
-          v-if="activeLesson" />
+        <LessonHeaderComponent :lesson="activeLesson" 
+                                v-bind="filterModuleData(['number', 'tags'])"
+                                v-if="activeLesson"
+                                :hasPreviousModule="hasPreviousModule" 
+                                :hasNextModule="hasNextModule" 
+                                :nextLesson="nextLesson"
+                                :previousLesson="previousLesson" 
+                                @previous-module="goToPreviousModule" 
+                                @next-module="goToNextModule"
+                                @next-lesson="goToNextLesson" 
+                                @previous-lesson="goToPreviousLesson"
+                                 />
         <div v-if="activeLesson && !isContentLoading && moduleData.html_content" class="mt-md-5 mx-md-5">
-          <ModuleContentComponent v-bind="filterModuleData(['html_content', 'exercises', 'speech'])"
-            :hasPreviousModule="hasPreviousModule" :hasNextModule="hasNextModule" :nextLesson="nextLesson"
-            :previousLesson="previousLesson" @previous-module="goToPreviousModule" @next-module="goToNextModule"
-            @next-lesson="goToNextLesson" @previous-lesson="goToPreviousLesson" />
+          <ModuleContentComponent v-bind="filterModuleData(['html_content', 'exercises', 'speech'])" />
         </div>
         <div v-else>
           <h3 class="text-center">
