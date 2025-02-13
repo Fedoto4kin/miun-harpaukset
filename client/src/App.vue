@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container">
+      <div class="container-lg">
         <router-link class="navbar-brand" to="/">Miun harpaukšet Karielan Kieleh</router-link>
         <button
           class="navbar-toggler"

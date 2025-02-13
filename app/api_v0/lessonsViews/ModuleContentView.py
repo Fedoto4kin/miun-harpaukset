@@ -7,8 +7,6 @@ from ..serializers import ModuleSerializer
 
 class ModuleContentView(APIView):
         
-    pagination_class = None
-    queryset = Module.objects.all()
 
     def get(self, request, module_id):
         try:
@@ -22,5 +20,5 @@ class ModuleContentView(APIView):
         return ModuleSerializer
 
     def get_queryset(self):
-        queryset = Module.objects.all()
-        return queryset
+        return Module.objects.all()
+

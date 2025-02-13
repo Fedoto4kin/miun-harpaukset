@@ -197,7 +197,7 @@
     outline: none;
     box-shadow: none;
     padding: 0 5px;
-    font-size: 1.75em;
+    font-size: 1.35em;
     text-align: center;
     margin-bottom: 0.5em;
     margin-left: 1rem !important;
@@ -211,7 +211,7 @@
   
  .btn-clear {
     padding: 0 0.2em;
-    margin-top: 0.7em;
+    margin-top: 0.5em;
   }
 
   .btn-link {

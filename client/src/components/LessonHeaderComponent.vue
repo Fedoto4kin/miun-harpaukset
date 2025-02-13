@@ -1,27 +1,18 @@
 <template>
   <div :class="['sticky-lesson', { 'compact': isCompact }]">
     <div>
-      <div class="d-flex align-items-center justify-content-between border-bottom px-2 mb-3">
+      <div class="d-flex align-items-center justify-content-between border-bottom px-2 py-2" :class="[isCompact ? '' : 'mb-3' ]">
         <h4 class="">
           {{ lesson.full_name }}
         </h4>
-        <div v-if="lesson.speech" class="audio-container">
-          <audio controls class="audio-player" :key="lesson.id">
-            <source :src="lesson.speech" type="audio/mpeg" />
-          </audio>
-        </div>
-        <button class="btn my-1 btn-outline-secondary" @click="showPopup = true" :class="[isCompact ? 'd-block btn-sm' : 'd-none']">
+        <button class="btn my-1 btn-outline-secondary" @click="showPopup = true" :class="[{'btn-sm' : isCompact }]">
           <font-awesome-icon :icon="['fas', 'book']" />
         </button>
-
       </div>
       <div class="d-flex align-items-center justify-content-between" :class="[{ 'd-none': isCompact }]">
         <h3 class="px-3">
           {{ lesson.slogan }}
         </h3>
-        <button class="btn mt-n1 btn-outline-secondary" @click="showPopup = true">
-          <font-awesome-icon :icon="['fas', 'book']" />
-        </button>
       </div>
       <SearchPopupComponent :show="showPopup" @close="showPopup = false" />
     </div>
@@ -77,7 +68,7 @@ export default {
   methods: {
     handleScroll() {
       const offset = window.pageYOffset;
-      this.isCompact = offset > 140; // Установите значение в пикселях, когда компонент должен стать компактным
+      this.isCompact = offset > 150; 
     }
   }
 };
@@ -108,8 +99,7 @@ export default {
 
 .sticky-lesson.compact {
   padding: 0.5rem;
-  font-size: 0.9rem;
-  background-color: #f8f9fa;
+  font-size: 0.8rem;
 }
 
 

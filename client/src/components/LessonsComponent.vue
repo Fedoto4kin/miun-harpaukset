@@ -1,72 +1,18 @@
 <template>
-  <div class="container pb-5">
+  <div class="container-lg pb-5">
     <div class="row">
-      <div class="col-lg-3 d-none d-lg-block" id="lesson-list">
-        <h1 class="mt-2 mb-4">
-          <font-awesome-icon :icon="['fas', 'star']" class="text-success" />
-          {{ title }}
-        </h1>
-        <div v-if="loading">
-          <h3>
-            <font-awesome-icon :icon="['fas', 'spinner']" spin />
-          </h3>
-        </div>
-        <div v-else>
-          <div class="accordion pb-5" id="lessonsAccordion">
-            <div class="accordion-item" v-for="lesson in lessons" :key="lesson.id">
-              <h2 class="accordion-header" :id="'heading' + lesson.id">
-                <button
-                  class="accordion-button"
-                  :class="{ collapsed: !isLessonActive(lesson), disabled: !lesson.is_enabled }"
-                  type="button"
-                  @click="toggleLesson(lesson)"
-                  :disabled="!lesson.is_enabled"
-                >
-                  <div class="d-flex flex-column">
-                    <small class="text-muted" v-html="formatDescription(lesson)"></small>
-                  </div>
-                </button>
-              </h2>
-              <div
-                :id="'collapse' + lesson.id"
-                class="accordion-collapse collapse"
-                :class="{ show: isLessonActive(lesson) }"
-                :aria-labelledby="'heading' + lesson.id"
-              >
-                <div class="accordion-body p-0" v-if="lesson.is_enabled">
-                  <div v-if="isModulesByLessonLoading">
-                    <font-awesome-icon :icon="['fas', 'spinner']" spin />
-                  </div>
-                  <ModuleList
-                    v-else
-                    :modules="modules"
-                    :selected-module-id="selectedModuleId"
-                    @module-clicked="loadModuleContent"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <LessonListComponent :title="title" :loading="loading" :lessons="lessons" :isLessonActive="isLessonActive"
+        :toggleLesson="toggleLesson" :formatDescription="formatDescription"
+        :isModulesByLessonLoading="isModulesByLessonLoading" :modules="modules" :selectedModuleId="selectedModuleId"
+        @module-clicked="loadModuleContent" />
       <div class="col-lg-9 col-sm-12 mt-2" id="lesson-frame">
-          <LessonHeaderComponent 
-            :lesson="activeLesson"   
-            v-bind="filterModuleData(['number', 'tags'])"         
-            v-if="activeLesson"
-             />
+        <LessonHeaderComponent :lesson="activeLesson" v-bind="filterModuleData(['number', 'tags'])"
+          v-if="activeLesson" />
         <div v-if="activeLesson && !isContentLoading && moduleData.html_content" class="mt-md-5 mx-md-5">
-          <ModuleContentComponent
-            v-bind="filterModuleData(['html_content', 'exercises', 'speech'])"
-            :hasPreviousModule="hasPreviousModule"
-            :hasNextModule="hasNextModule"
-            :nextLesson="nextLesson"
-            :previousLesson="previousLesson"
-            @previous-module="goToPreviousModule"
-            @next-module="goToNextModule"
-            @next-lesson="goToNextLesson"
-            @previous-lesson="goToPreviousLesson"
-          />
+          <ModuleContentComponent v-bind="filterModuleData(['html_content', 'exercises', 'speech'])"
+            :hasPreviousModule="hasPreviousModule" :hasNextModule="hasNextModule" :nextLesson="nextLesson"
+            :previousLesson="previousLesson" @previous-module="goToPreviousModule" @next-module="goToNextModule"
+            @next-lesson="goToNextLesson" @previous-lesson="goToPreviousLesson" />
         </div>
         <div v-else>
           <h3 class="text-center">
@@ -79,19 +25,19 @@
 </template>
 
 <script>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { createApp, h } from 'vue';
 import { getLessons, getModulesByLesson, getModuleContent } from '../services/lessonsService.js';
-import ModuleList from '@/components/ModuleListComponent.vue'; 
 import ModuleContentComponent from '@/components/ModuleContentComponent.vue';
 import LessonHeaderComponent from '@/components/LessonHeaderComponent.vue';
+import LessonListComponent from '@/components/LessonListComponent.vue';
+import LessonCoverContent from '@/components/LessonCoverContentComponent.vue';
 
 export default {
   name: 'LessonsComponent',
   components: {
-    FontAwesomeIcon,
-    ModuleList,
     ModuleContentComponent,
     LessonHeaderComponent,
+    LessonListComponent,
   },
   data() {
     return {
@@ -111,7 +57,7 @@ export default {
         exercises: null,
         tags: [],
         number: null,
-      }, 
+      },
     };
   },
   async mounted() {
@@ -162,8 +108,8 @@ export default {
       this.activeLesson = lesson;
       const currentLessonIndex = this.getLessonIndex();
       this.nextLesson = this.checkLessonIsEnable(this.lessons[currentLessonIndex + 1]) ?
-                        this.lessons[currentLessonIndex + 1] : 
-                        null;
+        this.lessons[currentLessonIndex + 1] :
+        null;
       this.$router.push({ path: `/lessons/${lesson.number}` });
     },
     handleRoute() {
@@ -176,21 +122,21 @@ export default {
         if (!lesson || !lesson.is_enabled) {
           this.$router.replace({ path: '/lessons/1' });
         } else {
-            this.setActiveLesson(lesson);
-            this.loadModules().then(() => {
-              if (this.modules.length === 0) {
-                this.isContentLoading = false;
-                return;
-              }
-              const moduleExists = this.modules.some(module => module.id == moduleId);
-              if (moduleId && moduleExists) {
-                this.loadModuleContent(moduleId);
-              } else  {
-                this.loadModuleContent(this.modules[0].id);
-              }
+          this.setActiveLesson(lesson);
+          this.loadModules().then(() => {
+            if (this.modules.length === 0) {
+              this.isContentLoading = false;
+              return;
             }
+            const moduleExists = this.modules.some(module => module.id == moduleId);
+            if (moduleId && moduleExists) {
+              this.loadModuleContent(moduleId);
+            } else {
+              this.loadModuleContent(this.modules[0].id);
+            }
+          }
           );
-        } 
+        }
       }
     },
     async loadModules() {
@@ -211,7 +157,7 @@ export default {
       this.isContentLoading = true;
       try {
         this.selectedModuleId = Number(moduleId);
-        this.$router.replace({path: `/lessons/${this.activeLesson.id}/${this.selectedModuleId}`});
+        this.$router.replace({ path: `/lessons/${this.activeLesson.id}/${this.selectedModuleId}` });
         this.moduleData = {
           number: null,
           html_content: null,
@@ -220,13 +166,7 @@ export default {
           tags: []
         };
         const response = await getModuleContent(moduleId);
-        this.moduleData = {
-          html_content: response.html_content,
-          speech: response.speech || null,
-          exercises: response.exercises || null,
-          tags: response.tags || [],
-          number: response.number || null,
-        };
+        this.moduleData = this.buildModuleData(response);
       } catch (error) {
         console.error('Error loading module content:', error);
         this.moduleData = {}
@@ -234,7 +174,33 @@ export default {
       } finally {
         this.isContentLoading = false;
       }
+    },
 
+    buildModuleData(response) {
+      if (response.html_content.includes('[[widget:lesson_cover]]')) {
+        const tempContainer = document.createElement('div');
+        const app = createApp({
+          render: () => h(LessonCoverContent, { lesson: this.activeLesson }),
+        });
+        app.mount(tempContainer);
+        const htmlContent = tempContainer.innerHTML;
+        app.unmount();
+
+        return {
+          html_content: htmlContent,
+          speech: this.activeLesson.speech,
+          exercises: null,
+          tags: [],
+        };
+      }
+
+      return {
+        html_content: response.html_content,
+        speech: response.speech || null,
+        exercises: response.exercises || null,
+        tags: response.tags || [],
+        number: response.number || null,
+      };
     },
     formatDescription(lesson) {
       return lesson.number + '. ' + lesson.description.replace(/\n/g, '<br>');
@@ -254,7 +220,7 @@ export default {
     goToNextLesson() {
       const currentLessonIndex = this.getLessonIndex();
       const nextLesson = this.lessons[currentLessonIndex + 1];
-      if (currentLessonIndex >= 0 && currentLessonIndex < this.lessons.length - 1) {        
+      if (currentLessonIndex >= 0 && currentLessonIndex < this.lessons.length - 1) {
         if (nextLesson.is_enabled) {
           this.setActiveLesson(nextLesson);
           this.loadModules();
@@ -277,18 +243,18 @@ export default {
       }
       return false;
     },
-  filterModuleData(keys) {
-    if (this.moduleData === null) {
-      return null;
-    }
-    const filteredData = {};
-    keys.forEach(key => {
-      if (key in this.moduleData) {
-        filteredData[key] = this.moduleData[key];
+    filterModuleData(keys) {
+      if (this.moduleData === null) {
+        return null;
       }
-    });
-    return filteredData;
-}
+      const filteredData = {};
+      keys.forEach(key => {
+        if (key in this.moduleData) {
+          filteredData[key] = this.moduleData[key];
+        }
+      });
+      return filteredData;
+    }
 
   },
 };
@@ -307,79 +273,10 @@ export default {
   margin-right: 16px;
 }
 
-.accordion-button {
-  font-weight: bold;
-  background-color: #d4edda; /* Green color for accordion button */
-  color: #155724; /* Dark green text color */
-  display: flex;
-  align-items: flex-start;
-  padding: 1rem;
-}
-
-.accordion-button:not(.collapsed) {
-  background-color: #fff3cd; /* Yellow color for active button */
-  color: #856404; /* Dark yellow text color */
-}
-
-.accordion-button.disabled {
-  background-color: #f8f9fa; /* Gray color for disabled button */
-  color: #6c757d; /* Gray text color */
-  cursor: not-allowed;
-}
-
-.accordion-body {
-  background-color: #f8f9fa; /* Light background for accordion body */
-}
-
-.accordion-button h5 {
-  margin-bottom: 0.25rem;
-}
-
-.accordion-button small {
-  font-size: 0.875rem;
-  color: #6c757d; /* Gray text color */
-}
-
 .sticky-lesson {
   position: sticky;
   top: 0;
   overflow-y: auto;
   background-color: #fff;
-}
-
-
-#lesson-list {
-  height: calc(100vh); 
-  overflow-y: auto;
-}
-
-.lesson-content {
-  margin-top: 0.5rem;
-  padding-left: 1.5rem;
-}
-
-.list-group-item {
-  cursor: pointer;
-  border: none;
-  background-color: #f8f9fa; 
-  transition: background-color 0.2s ease;
-}
-
-.list-group-item:hover {
-  background-color: #e9ecef;
-}
-
-.active-module {
-  background-color: white !important;
-  font-weight: bold;
-}
-
-.custom-badge {
-  font-size: 0.9rem;
-  padding: 0.25rem 0.5rem;
-}
-
-.shadow-sm {
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 </style>
