@@ -7,7 +7,7 @@
             <SwitchButton :checked="reverse" offLabel="Karielan šana" onLabel="Kiännökšeššä" @change="toggleReverse" />
           </span>
           <input type="text" class="form-control search-bar-input" placeholder="" v-model="searchText" ref="searchInput"
-            @input="fetchSuggestions" @keyup.enter="handleSearchButtonClick" autofocus />
+            @input="handleInput" @keyup.enter="handleSearchButtonClick" autofocus />
           <div class="input-group-append d-md-none">
             <div class="btn-group">
               <button class="navbar-toggler diacritic-button" type="button" @click="toggleMobileChars">
@@ -152,6 +152,13 @@ export default {
       showMobileChars.value = !showMobileChars.value;
     };
 
+    const handleInput = () => {
+      if (inputTimeout) clearTimeout(inputTimeout);
+      inputTimeout = setTimeout(() => {
+        fetchSuggestions();
+      }, 300); // 300ms delay to debounce input
+    };
+
     return {
       searchText,
       reverse,
@@ -165,7 +172,8 @@ export default {
       handleDiacrtButtonClick,
       toggleReverse,
       toggleMobileChars,
-      faSearch
+      faSearch,
+      handleInput
     };
   }
 };
