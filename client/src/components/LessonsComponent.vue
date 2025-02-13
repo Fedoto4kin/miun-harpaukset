@@ -1,7 +1,7 @@
 <template>
   <div class="container pb-5">
     <div class="row">
-      <div class="col-md-3 d-none d-md-block" id="lesson-list">
+      <div class="col-lg-3 d-none d-lg-block" id="lesson-list">
         <h1 class="mt-2 mb-4">
           <font-awesome-icon :icon="['fas', 'star']" class="text-success" />
           {{ title }}
@@ -49,7 +49,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-9 col-sm-12 mt-2" id="lesson-frame">
+      <div class="col-lg-9 col-sm-12 mt-2" id="lesson-frame">
           <LessonHeaderComponent 
             :lesson="activeLesson"   
             v-bind="filterModuleData(['number', 'tags'])"         

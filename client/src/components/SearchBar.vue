@@ -1,83 +1,45 @@
 <template>
-  <div class="search-bar-container my-md-3 my-sm-1 col-md-6 col-sm-12">
+  <div class="search-bar-container my-lg-3 my-sm-1 col-lg-6 col-md-12">
     <form @submit.prevent="handleSearchButtonClick">
-      <div class="form-group position-relative">
-        <div class="input-group">
+      <div class="position-relative">
+        <div class="input-group align-item-center">
           <span class="search-bar-switcher mx-2 d-md-block d-none">
-            <SwitchButton
-              :checked="reverse"
-              offLabel="Karielan šana"
-              onLabel="Kiännökšeššä"
-              @change="toggleReverse"
-            />
+            <SwitchButton :checked="reverse" offLabel="Karielan šana" onLabel="Kiännökšeššä" @change="toggleReverse" />
           </span>
-          <input
-            type="text"
-            class="form-control search-bar-input"
-            placeholder=""
-            v-model="searchText"
-            ref="searchInput"
-            @input="fetchSuggestions"
-            @keyup.enter="handleSearchButtonClick"
-            autofocus
-          />
+          <input type="text" class="form-control search-bar-input" placeholder="" v-model="searchText" ref="searchInput"
+            @input="fetchSuggestions" @keyup.enter="handleSearchButtonClick" autofocus />
           <div class="input-group-append d-md-none">
             <div class="btn-group">
-            <button
-              class="navbar-toggler diacritic-button"
-              type="button"
-              @click="toggleMobileChars"
-              aria-expanded="false"
-              aria-label="Toggle special characters"
-            >
-              <span class="diacritic-top">ˇ</span>
-              <span class="diacritic-middle muted">/</span>
-              <span class="diacritic-bottom">¨</span>
-            </button>
-            <button
-                class="btn btn-light border-dark search-run"
-                type="button"
-                @click="handleSearchButtonClick"
-                :disabled="!searchText.length"
-              >
+              <button class="navbar-toggler diacritic-button" type="button" @click="toggleMobileChars">
+                <span class="diacritic-top">ˇ</span>
+                <span class="diacritic-middle muted">/</span>
+                <span class="diacritic-bottom">¨</span>
+              </button>
+              <div v-if="showMobileChars" class="mobile-chars d-md-none">
+                <SpecialCharsButtons :searchText="searchText" @diacrt-click="handleDiacrtButtonClick" :btn-class="[]" />
+              </div>
+              <button class="btn btn-light border-dark search-run" type="button" @click="handleSearchButtonClick"
+                :disabled="!searchText.length">
                 <font-awesome-icon :icon="faSearch" />
               </button>
-              </div>
+            </div>
           </div>
           <div class="input-group-append d-none d-md-block krl-letters">
             <div class="btn-group">
-              <SpecialCharsButtons
-                :searchText="searchText"
-                @diacrt-click="handleDiacrtButtonClick"
-              />
-              <button
-                class="btn btn-light border-dark search-run"
-                type="button"
-                @click="handleSearchButtonClick"
-                :disabled="!searchText.length"
-              >
+              <SpecialCharsButtons :searchText="searchText" @diacrt-click="handleDiacrtButtonClick" />
+              <button class="btn btn-light border-dark search-run" type="button" @click="handleSearchButtonClick"
+                :disabled="!searchText.length">
                 <font-awesome-icon :icon="faSearch" />
               </button>
             </div>
           </div>
         </div>
         <ul v-if="suggestions.length" class="list-group mt-2 suggestions">
-          <li
-            v-for="suggestion in suggestions"
-            :key="suggestion"
-            class="list-group-item"
-            @click="handleSuggestionClick(suggestion)"
-          >
+          <li v-for="suggestion in suggestions" :key="suggestion" class="list-group-item"
+            @click="handleSuggestionClick(suggestion)">
             {{ suggestion }}
           </li>
         </ul>
-        <div v-if="showMobileChars" class="mobile-chars d-md-none">
-          <SpecialCharsButtons
-            :searchText="searchText"
-            @diacrt-click="handleDiacrtButtonClick"
-            :btn-class="[]"
-          />
-        </div>
       </div>
       <div class="text-muted text-center">Zavodikkua kirjuttua täššä, štobi löydiä šanan šanakniigašta</div>
     </form>
@@ -131,7 +93,7 @@ export default {
     const fetchSuggestions = async () => {
       if (searchText.value.length >= 2) {
         try {
-          const data = await fetchSearchSuggestions(searchText.value, reverse.value); 
+          const data = await fetchSearchSuggestions(searchText.value, reverse.value);
           suggestions.value = data.map(item => item.word);
         } catch (error) {
           console.error('Failed to fetch suggestions:', error);
@@ -237,19 +199,14 @@ export default {
 .mobile-chars {
   position: absolute;
   right: 3.5em;
-  top: 2.5rem; /* Adjust according to your layout */
+  top: 2.5rem;
+  /* Adjust according to your layout */
   z-index: 2000;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   padding: 2px;
-}
-
-@media (min-width: 768px) {
-  .mobile-chars {
-    display: none;
-  }
 }
 
 .diacritic-button {
@@ -265,25 +222,27 @@ export default {
 
 .diacritic-top {
   position: absolute;
-  top: 0.35em; /* Adjust to position the diacritic properly */
+  top: 0.35em;
+  /* Adjust to position the diacritic properly */
   left: 50%;
   transform: translateX(-140%);
-  font-size: 32px; /* Increased size */
+  font-size: 32px;
+  /* Increased size */
 }
 
 .diacritic-middle {
   font-size: 0.8em;
   position: relative;
-  color:#999;
+  color: #999;
   z-index: 1;
 }
 
 .diacritic-bottom {
   position: absolute;
-  bottom: -0.35em; /* Adjust to position the diacritic properly */
+  bottom: -0.35em;
+  /* Adjust to position the diacritic properly */
   left: 65%;
-  font-size: 32px; /* Increased size */
+  font-size: 32px;
+  /* Increased size */
 }
-
-
 </style>

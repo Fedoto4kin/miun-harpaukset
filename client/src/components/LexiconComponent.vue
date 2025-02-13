@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="row my-md-4 my-sm-2">
-      <h1 class="mt-md-4 col-md-6 col-sm-12 d-flex align-items-center">
+    <div class="row my-lg-4 my-sm-2">
+      <h1 class="mt-lg-4 col-lg-6 col-sm-12 d-flex align-items-center mt-0" >
         <font-awesome-icon icon="book" class="text-success" />
         <span class="mx-2">{{ title }}</span>
         <select class="form-select ml-3 d-sm-block d-md-none" v-model="selectedOption" @change="handleSelectChange">
