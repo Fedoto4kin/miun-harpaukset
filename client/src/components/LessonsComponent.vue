@@ -191,6 +191,7 @@ export default {
           speech: this.activeLesson.speech,
           exercises: null,
           tags: [],
+          number: response.number || null,
         };
       }
 

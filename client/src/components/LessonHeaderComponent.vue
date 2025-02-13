@@ -1,18 +1,13 @@
 <template>
   <div :class="['sticky-lesson', { 'compact': isCompact }]">
     <div>
-      <div class="d-flex align-items-center justify-content-between border-bottom px-2 py-2" :class="[isCompact ? '' : 'mb-3' ]">
+      <div class="d-flex align-items-center justify-content-between border-bottom px-2 py-2" :class="[isCompact ? '' : 'mb-lg-3' ]">
         <h4 class="">
           {{ lesson.full_name }}
         </h4>
         <button class="btn my-1 btn-outline-secondary" @click="showPopup = true" :class="[{'btn-sm' : isCompact }]">
           <font-awesome-icon :icon="['fas', 'book']" />
         </button>
-      </div>
-      <div class="d-flex align-items-center justify-content-between" :class="[{ 'd-none': isCompact }]">
-        <h3 class="px-3">
-          {{ lesson.slogan }}
-        </h3>
       </div>
       <SearchPopupComponent :show="showPopup" @close="showPopup = false" />
     </div>

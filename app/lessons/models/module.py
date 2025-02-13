@@ -5,6 +5,7 @@ from .lesson import Lesson  # Import the Lesson model
 from .tag import Tag  # Import the Tag model
 from .lesson_speech import LessonSpeech
 
+
 class Module(models.Model):
     # Ваши поля модели
     lesson = models.ForeignKey(
@@ -18,7 +19,8 @@ class Module(models.Model):
         verbose_name='HTML',
         blank=True,
         null=True,
-        default=None
+        default=None,
+        help_text="HTML content of the module. Use '[[widget:lesson_cover]]' to render the lesson cover component."
     )
     tags = models.ManyToManyField(
         Tag,
@@ -26,7 +28,6 @@ class Module(models.Model):
         blank=True,
         verbose_name='Znakut'
     )
-
     module_speeches = GenericRelation(
         LessonSpeech,
         content_type_field='content_type',
@@ -37,24 +38,23 @@ class Module(models.Model):
     @property
     def speech(self):
         return self.module_speeches.first()
-    
+
     @property
     def exercise(self):
         """Return module Exercise if exists"""
         if hasattr(self, 'exercise'):
             return self.exercise
         return None
-    
+
     @property
     def site_url(self):
         return f"{self.lesson.number}/{self.id}"
 
     def __str__(self):
         return f'{self.lesson.title} - {self.lesson.number}.{self.number}'
-    
+
     class Meta:
         verbose_name = 'Модуль'
         verbose_name_plural = 'Модули'
         unique_together = ('lesson', 'number')
         ordering = ['number']
-
