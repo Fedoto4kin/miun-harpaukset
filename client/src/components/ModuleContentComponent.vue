@@ -31,23 +31,27 @@
       </span>
       </button>
     </div>
-    <div class="lesson-content" v-if="moduleData.html_content">
-      <div v-html="moduleData.html_content"></div>
-      <div v-if="moduleData.exercises && moduleData.exercises.length > 0" class="exercise-container mt-2">
-        <ExerciseFactory 
-          v-for="(exercise, index) in moduleData.exercises" 
-          :key="index" 
-          :exercise="exercise" 
-        />
-      </div>
-      <div v-if="moduleData.speech" class="mt-4">
-        <div class="mb-3 d-flex justify-content-center">
-          <audio controls class="audio-player" :key="moduleData.speech">
-            <source :src="moduleData.speech" type="audio/mpeg" />
-          </audio>
+    
+    <div class="lesson-content" v-if="html_content">
+      <div class="content-container">
+        <div class="table-responsive" v-html="html_content"></div>
+        <div v-if="exercises && exercises.length > 0" class="exercise-container mt-2">
+          <ExerciseFactory 
+            v-for="(exercise, index) in exercises" 
+            :key="index" 
+            :exercise="exercise" 
+          />
+        </div>
+        <div v-if="speech" class="mt-4">
+          <div class="mb-3 d-flex justify-content-center">
+            <audio controls class="audio-player" :key="speech">
+              <source :src="speech" type="audio/mpeg" />
+            </audio>
+          </div>
         </div>
       </div>
     </div>
+
     <div class="lesson-content" v-else>
       ...tulošša piäh
     </div>
@@ -63,7 +67,9 @@ export default {
     ExerciseFactory,
   },
   props: {
-    moduleData: Object,
+    html_content: String,
+    speech: String,
+    exercises: Array,
     hasPreviousModule: Boolean,
     hasNextModule: Boolean,
     nextLesson: Object,
@@ -89,5 +95,24 @@ export default {
 <style scoped>
 .audio-player {
   width: 100%;
+}
+
+.lesson-content {
+  overflow-x: auto;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.exercise-container {
+  min-width: 650px;
+}
+
+@media (max-width: 600px) {
+  .module-navigation button {
+    font-size: 0.8rem;
+  }
 }
 </style>

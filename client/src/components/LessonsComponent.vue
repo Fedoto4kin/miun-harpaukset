@@ -1,7 +1,7 @@
 <template>
   <div class="container pb-5">
     <div class="row">
-      <div class="col-3" id="lesson-list">
+      <div class="col-md-3 d-none d-md-block" id="lesson-list">
         <h1 class="mt-2 mb-4">
           <font-awesome-icon :icon="['fas', 'star']" class="text-success" />
           {{ title }}
@@ -49,13 +49,15 @@
           </div>
         </div>
       </div>
-      <div class="col-9 mt-2" id="lesson-frame">
-        <div class="sticky-lesson pt-5">  
-          <LessonHeaderComponent :lesson="activeLesson" v-if="activeLesson" />
-        </div>
-        <div v-if="!isContentLoading" class="mt-5 mx-5">
+      <div class="col-md-9 col-sm-12 mt-2" id="lesson-frame">
+          <LessonHeaderComponent 
+            :lesson="activeLesson"   
+            v-bind="filterModuleData(['number', 'tags'])"         
+            v-if="activeLesson"
+             />
+        <div v-if="activeLesson && !isContentLoading && moduleData.html_content" class="mt-md-5 mx-md-5">
           <ModuleContentComponent
-            :moduleData="moduleData"
+            v-bind="filterModuleData(['html_content', 'exercises', 'speech'])"
             :hasPreviousModule="hasPreviousModule"
             :hasNextModule="hasNextModule"
             :nextLesson="nextLesson"
@@ -100,14 +102,15 @@ export default {
       modules: [],
       isContentLoading: false,
       isModulesByLessonLoading: false,
-      
       selectedModuleId: null,
       nextLesson: null,
       previousLesson: null,
       moduleData: {
         html_content: null,
         speech: null,
-        exercises: null
+        exercises: null,
+        tags: [],
+        number: null,
       }, 
     };
   },
@@ -210,15 +213,19 @@ export default {
         this.selectedModuleId = Number(moduleId);
         this.$router.replace({path: `/lessons/${this.activeLesson.id}/${this.selectedModuleId}`});
         this.moduleData = {
+          number: null,
           html_content: null,
           speech: null,
-          exercises: null
+          exercises: null,
+          tags: []
         };
         const response = await getModuleContent(moduleId);
         this.moduleData = {
           html_content: response.html_content,
           speech: response.speech || null,
-          exercises: response.exercises || null
+          exercises: response.exercises || null,
+          tags: response.tags || [],
+          number: response.number || null,
         };
       } catch (error) {
         console.error('Error loading module content:', error);
@@ -270,7 +277,19 @@ export default {
       }
       return false;
     },
-    
+  filterModuleData(keys) {
+    if (this.moduleData === null) {
+      return null;
+    }
+    const filteredData = {};
+    keys.forEach(key => {
+      if (key in this.moduleData) {
+        filteredData[key] = this.moduleData[key];
+      }
+    });
+    return filteredData;
+}
+
   },
 };
 </script>
@@ -327,6 +346,7 @@ export default {
   overflow-y: auto;
   background-color: #fff;
 }
+
 
 #lesson-list {
   height: calc(100vh); 

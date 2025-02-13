@@ -289,6 +289,8 @@ export default {
 
 
 .word-slot {
+    border: 1px dashed #ddd;
+    text-align: center;
     cursor: pointer;
 }
 
