@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row my-lg-4 my-sm-2">
-      <h1 class="mt-lg-4 col-lg-6 col-sm-12 d-flex align-items-center mt-0" >
+      <h1 class="mt-lg-4 col-lg-6 col-sm-12 d-flex align-items-center mt-0">
         <font-awesome-icon icon="book" class="text-success" />
         <span class="mx-2">{{ title }}</span>
         <select class="form-select ml-3 d-sm-block d-md-none" v-model="selectedOption" @change="handleSelectChange">
@@ -9,12 +9,24 @@
           <option value="Kiännökšeššä">Kiännökšeššä</option>
         </select>
       </h1>
-      <SearchBar 
-        ref="searchBar" 
-        :reverse-prop="reverse"
-        @pushSearchStr="getWordsBySearch" 
-        @pushClear="getWordsByLetter"
-        />
+      <SearchBar ref="searchBar" 
+                :reverse-prop="reverse" 
+                @pushSearchStr="getWordsBySearch" @pushClear="getWordsByLetter" />
+    </div>
+    <div class="d-flex bg-light p-2">
+      <button class="btn btn-light border-secondary me-2 flex-shrink-0 align-self-start d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#abc"
+        aria-controls="abc" aria-expanded="false" aria-label="Toggle navigation">
+        <span v-if="letter">{{  letter }}</span>
+        <span v-else ><font-awesome-icon icon="ellipsis" /></span>
+      </button>
+      <div class="collapse navbar-collapse flex-grow-1 d-lg-block" id="abc">
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+          <span v-for="l in abc.split('')" :key="l" :class="['nav-item', 'my-1', { active: l == letter }]"
+            @click="handleLetterClick(l)" class="btn btn-primary">
+            {{ l }}
+          </span>
+        </div>
+      </div>
     </div>
 
     <div v-if="message" class="row">
@@ -24,26 +36,13 @@
         </div>
       </div>
     </div>
-
-    <div class="navbar">
-      <span
-        v-for="l in abc.split('')"
-        :key="l"
-        :class="['nav-item', 'my-1', { active: l == letter }]"
-        @click="handleLetterClick(l)"
-        class="btn btn-primary mx-1"
-      >
-        {{ l }}
-      </span>
-    </div>
-
     <LoadingSpinner v-if="loading" />
 
     <ScrollToTopButton />
-    
+
     <div class="row mt-4">
-      <div v-for="word in words" class="col-md-6 col-lg-4 mb-4" :key="word.id" >
-          <WordCard :word="word" />
+      <div v-for="word in words" class="col-md-6 col-lg-4 mb-4" :key="word.id">
+        <WordCard :word="word" />
       </div>
     </div>
   </div>
@@ -165,5 +164,26 @@ export default {
   right: 1%;
   padding: 10px 15px;
   z-index: 1000;
+}
+
+/* Новые стили для кнопки и контейнера */
+.btn-abc {
+  flex-shrink: 0; /* Запрещаем кнопке изменять размер */
+  white-space: nowrap; /* Запрещаем перенос текста */
+}
+
+.collapse.navbar-collapse {
+  flex-grow: 1; /* Алфавит занимает оставшееся пространство */
+}
+
+/* Центрирование букв алфавита и перенос на новую строку */
+.d-flex.flex-wrap.justify-content-center {
+  width: 100%;
+  gap: 0.5rem; /* Отступ между кнопками */
+}
+
+/* Фикс для вертикального выравнивания кнопки */
+.align-self-start {
+  align-self: flex-start !important;
 }
 </style>

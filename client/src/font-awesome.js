@@ -27,7 +27,8 @@ import {
     faXmark,
     faRightFromBracket,
     faDeleteLeft,
-    faSpellCheck
+    faSpellCheck,
+    faEllipsis
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -59,7 +60,8 @@ library.add(
     faXmark,
     faRightFromBracket,
     faDeleteLeft,
-    faSpellCheck
+    faSpellCheck,
+    faEllipsis
 );
 
 export { FontAwesomeIcon };

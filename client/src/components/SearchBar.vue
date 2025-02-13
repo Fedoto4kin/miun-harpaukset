@@ -6,8 +6,18 @@
           <span class="search-bar-switcher mx-2 d-md-block d-none">
             <SwitchButton :checked="reverse" offLabel="Karielan šana" onLabel="Kiännökšeššä" @change="toggleReverse" />
           </span>
-          <input type="text" class="form-control search-bar-input" placeholder="" v-model="searchText" ref="searchInput"
-            @input="handleInput" @keyup.enter="handleSearchButtonClick" autofocus />
+          <input
+            type="text"
+            class="form-control search-bar-input"
+            placeholder=""
+            v-model="searchText"
+            ref="searchInput"
+            @input="handleInput"
+            @keyup.enter="handleSearchButtonClick"
+            @keydown.down="handleKeyDown"
+            @keydown.up="handleKeyUp"
+            autofocus
+          />
           <div class="input-group-append d-md-none">
             <div class="btn-group">
               <button class="navbar-toggler diacritic-button" type="button" @click="toggleMobileChars">
@@ -35,8 +45,13 @@
           </div>
         </div>
         <ul v-if="suggestions.length" class="list-group mt-2 suggestions">
-          <li v-for="suggestion in suggestions" :key="suggestion" class="list-group-item"
-            @click="handleSuggestionClick(suggestion)">
+          <li
+            v-for="(suggestion, index) in suggestions"
+            :key="suggestion"
+            class="list-group-item"
+            :class="{ 'list-group-item-hover': index === highlightedIndex }"
+            @click="handleSuggestionClick(suggestion)"
+          >
             {{ suggestion }}
           </li>
         </ul>
@@ -50,7 +65,7 @@
 import { ref, watch, onMounted, nextTick } from 'vue';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import SwitchButton from './SwitchButton.vue';
-import { fetchSearchSuggestions } from '../services/searchService';
+import { fetchSearchSuggestionsGrouped } from '../services/searchService';
 import SpecialCharsButtons from '@/components/ui/SpecialCharsButtons.vue';
 
 export default {
@@ -75,11 +90,13 @@ export default {
     const searchInput = ref(null);
     const suggestions = ref([]);
     const showMobileChars = ref(false);
+    const highlightedIndex = ref(-1); // Индекс подсвеченного элемента
     let inputTimeout = null;
 
     const clearSearchText = () => {
       searchText.value = '';
       suggestions.value = [];
+      highlightedIndex.value = -1; // Сброс подсветки
     };
 
     watch(() => props.search, (newSearch) => {
@@ -94,8 +111,9 @@ export default {
     const fetchSuggestions = async () => {
       if (searchText.value.length >= 2) {
         try {
-          const data = await fetchSearchSuggestions(searchText.value, reverse.value);
+          const data = await fetchSearchSuggestionsGrouped(searchText.value, reverse.value);
           suggestions.value = data.map(item => item.word);
+          highlightedIndex.value = -1; // Сброс подсветки при новом запросе
         } catch (error) {
           console.error('Failed to fetch suggestions:', error);
           suggestions.value = [];
@@ -141,6 +159,26 @@ export default {
       });
     };
 
+    const handleKeyDown = (event) => {
+      if (suggestions.value.length > 0) {
+        event.preventDefault();
+        highlightedIndex.value = Math.min(highlightedIndex.value + 1, suggestions.value.length - 1);
+      }
+    };
+
+    const handleKeyUp = (event) => {
+      if (suggestions.value.length > 0) {
+        event.preventDefault();
+        highlightedIndex.value = Math.max(highlightedIndex.value - 1, 0);
+      }
+    };
+
+    const handleEnter = () => {
+      if (highlightedIndex.value !== -1 && suggestions.value[highlightedIndex.value]) {
+        handleSuggestionClick(suggestions.value[highlightedIndex.value]);
+      }
+    };
+
     onMounted(() => {
       searchInput.value.focus();
     });
@@ -166,6 +204,7 @@ export default {
       searchInput,
       suggestions,
       showMobileChars,
+      highlightedIndex,
       clearSearchText,
       fetchSuggestions,
       handleSearchButtonClick,
@@ -174,7 +213,10 @@ export default {
       toggleReverse,
       toggleMobileChars,
       faSearch,
-      handleInput
+      handleInput,
+      handleKeyDown,
+      handleKeyUp,
+      handleEnter,
     };
   }
 };
@@ -189,8 +231,21 @@ export default {
   max-width: 250px;
 }
 
+.list-group {
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1060;
+}
+
 .list-group-item {
   cursor: pointer;
+}
+
+.list-group-item:hover,
+.list-group-item-hover {
+  cursor: pointer;
+  color: var(--bs-list-group-action-active-color);
+  background-color: var(--bs-list-group-action-active-bg);
 }
 
 .suggestions {
@@ -209,7 +264,6 @@ export default {
   position: absolute;
   right: 3.5em;
   top: 2.5rem;
-  /* Adjust according to your layout */
   z-index: 2000;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -232,11 +286,9 @@ export default {
 .diacritic-top {
   position: absolute;
   top: 0.35em;
-  /* Adjust to position the diacritic properly */
   left: 50%;
   transform: translateX(-140%);
   font-size: 32px;
-  /* Increased size */
 }
 
 .diacritic-middle {
@@ -249,9 +301,7 @@ export default {
 .diacritic-bottom {
   position: absolute;
   bottom: -0.35em;
-  /* Adjust to position the diacritic properly */
   left: 65%;
   font-size: 32px;
-  /* Increased size */
 }
 </style>
