@@ -1,12 +1,17 @@
 <template>
   <div class="container">
-    <div class="row my-4">
-      <h1 class="mt-4 col-6 d-none d-md-block">
+    <div class="row my-md-4 my-sm-2">
+      <h1 class="mt-md-4 col-md-6 col-sm-12 d-flex align-items-center">
         <font-awesome-icon icon="book" class="text-success" />
-        {{ title }}
+        <span class="mx-2">{{ title }}</span>
+        <select class="form-select ml-3 d-sm-block d-md-none" v-model="selectedOption" @change="handleSelectChange">
+          <option value="Karielan šana">Karielan šana</option>
+          <option value="Kiännökšeššä">Kiännökšeššä</option>
+        </select>
       </h1>
       <SearchBar 
         ref="searchBar" 
+        :reverse-prop="reverse"
         @pushSearchStr="getWordsBySearch" 
         @pushClear="getWordsByLetter"
         />
@@ -61,6 +66,8 @@ export default {
   },
   data() {
     return {
+      selectedOption: 'Karielan šana',
+      reverse: false,
       title: 'Šanakniiga',
       words: [],
       letter: 'A',
@@ -123,6 +130,9 @@ export default {
       } else {
         this.message = ''; // Reset message if search is not active
       }
+    },
+    handleSelectChange() {
+      this.reverse = this.selectedOption === 'Kiännökšeššä';
     }
   },
   created() {
