@@ -13,7 +13,7 @@
             v-model="searchText"
             ref="searchInput"
             @input="handleInput"
-            @keyup.enter="handleSearchButtonClick"
+            @keydown.enter="handleEnter"
             @keydown.down="handleKeyDown"
             @keydown.up="handleKeyUp"
             autofocus
@@ -96,7 +96,7 @@ export default {
     const clearSearchText = () => {
       searchText.value = '';
       suggestions.value = [];
-      highlightedIndex.value = -1; // Сброс подсветки
+      highlightedIndex.value = -1;
     };
 
     watch(() => props.search, (newSearch) => {
@@ -173,9 +173,12 @@ export default {
       }
     };
 
-    const handleEnter = () => {
+    const handleEnter = (event) => {
       if (highlightedIndex.value !== -1 && suggestions.value[highlightedIndex.value]) {
+        event.preventDefault(); // Предотвращаем стандартное поведение формы
         handleSuggestionClick(suggestions.value[highlightedIndex.value]);
+      } else {
+        handleSearchButtonClick(); // Если нет подсвеченного предложения, выполняем поиск по текущему значению
       }
     };
 
