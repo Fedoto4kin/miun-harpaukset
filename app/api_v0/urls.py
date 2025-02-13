@@ -16,6 +16,11 @@ urlpatterns = [
         name='search-suggestions'
     ),
     path(
+        'lexicon/grouped-search-suggestions/',
+        GroupedSearchSuggestionsView.as_view(),
+        name='grouped-search-suggestions'
+    ),
+    path(
         'lexicon/reverse-search-suggestions/',
         ReverseSearchSuggestionsView.as_view(),
         name='search-suggestions-reverse'
