@@ -54,8 +54,8 @@ if [ $? -ne 0 ]; then
 fi
 echo "Static files collected successfully."
 
-echo "Restarting containers..."
-docker compose -f docker-compose-prod.yml restart
+echo "Restarting containers and removing orphans..."
+docker compose -f docker-compose-prod.yml restart --remove-orphans
 if [ $? -ne 0 ]; then
   echo "Restarting containers failed!"
   exit 1
