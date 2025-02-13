@@ -107,7 +107,7 @@ export default {
 }
 
 .exercise-container {
-  min-width: 650px;
+  min-width: 700px;
 }
 
 @media (max-width: 600px) {
