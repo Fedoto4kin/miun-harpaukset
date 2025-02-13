@@ -75,6 +75,7 @@ export default {
     const searchInput = ref(null);
     const suggestions = ref([]);
     const showMobileChars = ref(false);
+    let inputTimeout = null;
 
     const clearSearchText = () => {
       searchText.value = '';

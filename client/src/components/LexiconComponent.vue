@@ -42,7 +42,7 @@
     <ScrollToTopButton />
     
     <div class="row mt-4">
-      <div v-for="word in words" class="col-md-4 mb-4" :key="word.id" >
+      <div v-for="word in words" class="col-md-6 col-lg-4 mb-4" :key="word.id" >
           <WordCard :word="word" />
       </div>
     </div>
