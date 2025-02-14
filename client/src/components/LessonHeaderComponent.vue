@@ -8,7 +8,7 @@
       <button class="btn my-1 btn-outline-secondary" @click="showPopup = true" :class="[{'btn-sm' : isCompact }]">
           <font-awesome-icon :icon="['fas', 'book']" />
         </button>
-      <SearchPopupComponent :show="showPopup" @close="showPopup = false" />
+
     </div>
     <div class="d-flex align-items-center justify-content-between px-2 py-2">
       <div class="d-flex align-items-center gap-2">
@@ -26,8 +26,6 @@
           </span>
         </span>
       </div>
-
-      <!-- Кнопки навигации (справа) -->
       <div class="d-flex gap-2">
         <button
           class="btn btn-primary btn-sm"
@@ -37,14 +35,14 @@
           <span class="badge badge-light bg-light">
             <font-awesome-icon :icon="['fas', 'arrow-left']" class="text-primary" />
           </span>
-          Tagah
+          <span class="d-none d-md-inline">&nbsp;Tagah</span>
         </button>
         <button
           class="btn btn-primary btn-sm"
           :style="{ visibility: hasNextModule ? 'visible' : 'hidden' }"
           @click="goToNextModule"
         >
-          Edeh
+        <span class="d-none d-md-inline">&nbsp;Edeh</span>
           <span class="badge badge-light bg-light">
             <font-awesome-icon :icon="['fas', 'arrow-right']" class="text-primary" />
           </span>
@@ -62,6 +60,7 @@
       </div>
     </div>
   </div>
+  <SearchPopupComponent :show="showPopup" @close="showPopup = false" />
 </template>
 
 <script>
@@ -120,24 +119,12 @@ export default {
 </script>
 
 <style scoped>
-.audio-container {
-  right: 0;
-  top: -0.5rem;
-  width: 22em;
-  z-index: 1000;
-}
-
-.audio-player {
-  width: 100%;
-  transform: scale(0.75);
-  transform-origin: top right;
-}
 
 .sticky-lesson {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  z-index: 999999;
+  z-index: 55555;
   background: white;
   transition: all 0.3s ease;
 }

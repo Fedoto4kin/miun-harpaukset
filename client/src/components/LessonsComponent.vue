@@ -317,7 +317,7 @@ export default {
     height: 100vh;
     overflow-y: auto;
     background-color: #fff;
-    z-index: 1100;
+    z-index: 88888;
     transition: left 0.3s ease;
   }
 
@@ -325,7 +325,6 @@ export default {
     left: 0; /* Показываем сайдбар */
   }
 
-  /* Затемнение основного контента при открытом сайдбаре */
   .lesson-list.active ~ #lesson-frame::before {
     content: '';
     position: fixed;
@@ -334,7 +333,7 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    z-index: 77777;
   }
 
   .lesson-list.active  .sidebar-toggle {
@@ -347,7 +346,7 @@ export default {
     position: fixed;
     bottom: 40%;
     left: 0px;
-    z-index: -100;
+    z-index: 1;
     padding: 0.5em;
     background-color: #fff;
     box-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
@@ -356,6 +355,7 @@ export default {
     border-color: rgba(var(--bs-emphasis-color-rgb), 0.15);
     color: #999;
     font-weight: bold;
+    font-size: 1.25em;
   }
 }
 
@@ -384,18 +384,8 @@ export default {
   margin-top: 20px;
 }
 
-.sticky-lesson {
-  z-index: 999;
-}
-
 .fa-spinner {
   margin-right: 16px;
 }
 
-.sticky-lesson {
-  position: sticky;
-  top: 0;
-  overflow-y: auto;
-  background-color: #fff;
-}
 </style>

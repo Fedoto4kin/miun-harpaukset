@@ -1,6 +1,6 @@
 <template>
   <div v-if="show" class="modal" tabindex="-1" @click.self="closePopup">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <div class="position-relative">
@@ -152,7 +152,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1050;
+    z-index: 999999;
   }
   
   .modal-dialog {
@@ -167,7 +167,6 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     position: relative;
     min-height: 100px;
-    width: 500px;
   }
   
   .modal-header {
@@ -190,7 +189,6 @@
   .list-group {
     max-height: 200px;
     overflow-y: auto;
-    z-index: 1060;
   }
   
   .list-item {
