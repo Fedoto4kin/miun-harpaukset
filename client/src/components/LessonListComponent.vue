@@ -1,5 +1,4 @@
 <template>
-  <div class="col-lg-3 d-none d-lg-block" id="lesson-list">
     <h1 class="mt-2 mb-4">
       <font-awesome-icon :icon="['fas', 'star']" class="text-success" />
       {{ title }}
@@ -46,7 +45,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -119,18 +117,6 @@ export default {
   font-size: 0.875rem;
   color: #6c757d;
   /* Gray text color */
-}
-
-
-#lesson-list {
-  height: calc(100vh);
-  overflow-y: auto;
-  min-height: 900px;
-}
-
-.lesson-content {
-  margin-top: 0.5rem;
-  padding-left: 1.5rem;
 }
 
 .list-group-item {

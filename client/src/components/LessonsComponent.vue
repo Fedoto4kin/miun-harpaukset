@@ -1,23 +1,37 @@
 <template>
   <div class="container-lg pb-5">
     <div class="row">
-      <LessonListComponent :title="title" :loading="loading" :lessons="lessons" :isLessonActive="isLessonActive"
-        :toggleLesson="toggleLesson" :formatDescription="formatDescription"
-        :isModulesByLessonLoading="isModulesByLessonLoading" :modules="modules" :selectedModuleId="selectedModuleId"
-        @module-clicked="loadModuleContent" />
-      <div class="col-lg-9 col-sm-12 mt-2" id="lesson-frame">
-        <LessonHeaderComponent :lesson="activeLesson" 
-                                v-bind="filterModuleData(['number', 'tags'])"
-                                v-if="activeLesson"
-                                :hasPreviousModule="hasPreviousModule" 
-                                :hasNextModule="hasNextModule" 
-                                :nextLesson="nextLesson"
-                                :previousLesson="previousLesson" 
-                                @previous-module="goToPreviousModule" 
-                                @next-module="goToNextModule"
-                                @next-lesson="goToNextLesson" 
-                                @previous-lesson="goToPreviousLesson"
-                                 />
+      <div 
+        :class="['lesson-list', { 'active': isSidebarOpen }]" 
+        id="lesson-list"
+        v-click-outside="closeSidebar"
+      >
+        <button class="d-lg-none sidebar-toggle" @click="toggleSidebar">
+           <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" /> 
+        </button>
+        <LessonListComponent 
+          :title="title" :loading="loading" :lessons="lessons" :isLessonActive="isLessonActive"
+          :toggleLesson="toggleLesson" :formatDescription="formatDescription"
+          :isModulesByLessonLoading="isModulesByLessonLoading" 
+          :modules="modules" :selectedModuleId="selectedModuleId"
+          @module-clicked="loadModuleContent" 
+        />
+      </div>
+      <!-- Основной контент -->
+      <div class="col-lg-9 col-md-12 mt-2" id="lesson-frame">
+        <LessonHeaderComponent 
+          :lesson="activeLesson" 
+          v-bind="filterModuleData(['number', 'tags'])"
+          v-if="activeLesson"
+          :hasPreviousModule="hasPreviousModule" 
+          :hasNextModule="hasNextModule" 
+          :nextLesson="nextLesson"
+          :previousLesson="previousLesson" 
+          @previous-module="goToPreviousModule" 
+          @next-module="goToNextModule"
+          @next-lesson="goToNextLesson" 
+          @previous-lesson="goToPreviousLesson"
+        />
         <div v-if="activeLesson && !isContentLoading && moduleData.html_content" class="mt-md-5 mx-md-5">
           <ModuleContentComponent v-bind="filterModuleData(['html_content', 'exercises', 'speech'])" />
         </div>
@@ -65,6 +79,7 @@ export default {
         tags: [],
         number: null,
       },
+      isSidebarOpen: false,
     };
   },
   async mounted() {
@@ -93,6 +108,14 @@ export default {
     '$route.params.id': 'handleRoute',
   },
   methods: {
+    toggleSidebar() {
+      this.isSidebarOpen = !this.isSidebarOpen;
+    },
+    closeSidebar() {
+      if (this.isSidebarOpen && window.innerWidth < 992) {
+        this.isSidebarOpen = false;
+      }
+    },
     isLessonActive(lesson) {
       return (this.activeLesson && this.activeLesson.id === lesson.id);
     },
@@ -180,6 +203,7 @@ export default {
         this.selectedModuleId = null;
       } finally {
         this.isContentLoading = false;
+        this.closeSidebar();
       }
     },
 
@@ -263,12 +287,99 @@ export default {
       });
       return filteredData;
     }
-
+  },
+  directives: {
+    'click-outside': {
+      beforeMount(el, binding) {
+        el.clickOutsideEvent = function (event) {
+          if (!(el === event.target || el.contains(event.target))) {
+            binding.value();
+          }
+        };
+        document.addEventListener('click', el.clickOutsideEvent);
+      },
+      unmounted(el) {
+        document.removeEventListener('click', el.clickOutsideEvent);
+      },
+    },
   },
 };
 </script>
 
 <style scoped>
+/* Стили для сайдбара на маленьких экранах */
+@media (max-width: 991.98px) {
+  .lesson-list {
+    position: fixed;
+    top: 0;
+    left: -300px; /* Скрываем сайдбар за пределами экрана */
+    width: 300px;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #fff;
+    z-index: 1100;
+    transition: left 0.3s ease;
+  }
+
+  .lesson-list.active {
+    left: 0; /* Показываем сайдбар */
+  }
+
+  /* Затемнение основного контента при открытом сайдбаре */
+  .lesson-list.active ~ #lesson-frame::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+
+  .lesson-list.active  .sidebar-toggle {
+    left: 300px;
+    transition: left 0.3s ease;
+  }
+
+  /* Кнопка для открытия сайдбара */
+  .sidebar-toggle {
+    position: fixed;
+    bottom: 40%;
+    left: 0px;
+    z-index: -100;
+    padding: 0.5em;
+    background-color: #fff;
+    box-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border-radius: 0 var(--bs-border-radius) var(--bs-border-radius) 0;
+    border-left: 0;
+    border-color: rgba(var(--bs-emphasis-color-rgb), 0.15);
+    color: #999;
+    font-weight: bold;
+  }
+}
+
+/* Стили для сайдбара на больших экранах */
+@media (min-width: 992px) {
+  .lesson-list {
+    position: static;
+    width: 25%; /* Соответствует col-lg-3 */
+    height: auto;
+    background-color: transparent;
+  }
+
+  .sidebar-toggle {
+    display: none;
+  }
+}
+
+/* Остальные стили */
+#lesson-list {
+  height: calc(100vh);
+  overflow-y: auto;
+  min-height: 900px;
+}
+
 .container {
   margin-top: 20px;
 }
