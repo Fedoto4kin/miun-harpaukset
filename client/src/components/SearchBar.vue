@@ -4,7 +4,10 @@
       <div class="position-relative">
         <div class="input-group align-item-center">
           <span class="search-bar-switcher mx-2 d-md-block d-none">
-            <SwitchButton :checked="reverse" offLabel="Karielan šana" onLabel="Kiännökšeššä" @change="toggleReverse" />
+            <SwitchButton :checked="reverse" 
+            offLabel="Karielan šana" 
+            onLabel="Kiännökšeššä" 
+            @change="toggleReverse" />
           </span>
           <input
             type="text"

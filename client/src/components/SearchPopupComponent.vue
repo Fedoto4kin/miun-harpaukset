@@ -160,6 +160,11 @@
     min-height: 500px;
     margin: auto;
   }
+
+  .modal-dialog input::placeholder {
+    font-size: 0.85em;
+    font-style: italic;
+  }
   
   .modal-content {
     background: #fff;

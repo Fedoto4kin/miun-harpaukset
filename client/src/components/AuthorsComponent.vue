@@ -1,10 +1,7 @@
 <template>
   <div class="container">
     <div class="row my-4">
-      <h1 class="mt-4 col-6">
-        <font-awesome-icon :icon="['fas', 'users']" class="text-success" />
-        {{ title }}
-      </h1>
+      <h1 class="mt-4 col-6">{{ title }}</h1>
     </div>
     <div>
       <div class="content">

@@ -1,10 +1,10 @@
 <template>
     <div class="container">
       <div class="row">
-        <div class="col-sm-4 d-flex align-items-center">
-            <img src="/img/book.jpg" class="my-5" />
+        <div class="col-md-4 align-items-center">
+            <img src="/img/book.jpg" class="my-5 w-100" />
         </div>
-        <div class="col-sm-6">
+        <div class="col-md-6">
           <div class="row">
             <div class="row mt-5">
               <audio controls>
@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="row mt-3">
-            <div class="col-sm-12">
+            <div class="col-md-12">
               <h6 class="ps-4">Hyvä tverinkarielan opaštuja!</h6>
               <p class="justify-content-between" style="text-indent: 1.5em;">
                 Šiun käzissä on Miun harpaukšet karielan kieleh -kniiga, kumbazen avulla voit opaštuo tädä šomua tverinkerielan kieldä.

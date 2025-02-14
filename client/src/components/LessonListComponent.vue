@@ -1,7 +1,7 @@
 <template>
     <h1 class="mt-2 mb-4">
-      <font-awesome-icon :icon="['fas', 'star']" class="text-success" />
-      {{ title }}
+      <img src="/android-chrome-192x192.png" width="52" alt="">
+      <span class="align-bottom">&nbsp;{{ title }}</span>
     </h1>
     <div v-if="loading">
       <h3 class="m-5">

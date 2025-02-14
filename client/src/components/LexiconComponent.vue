@@ -2,7 +2,6 @@
   <div class="container">
     <div class="row my-lg-4 my-sm-2">
       <h1 class="mt-lg-4 col-lg-6 col-sm-12 d-flex align-items-center mt-0">
-        <font-awesome-icon icon="book" class="text-success" />
         <span class="mx-2">{{ title }}</span>
         <select class="form-select ml-3 d-sm-block d-md-none" v-model="selectedOption" @change="handleSelectChange">
           <option value="Karielan šana">Karielan šana</option>
@@ -30,7 +29,7 @@
     </div>
 
     <div v-if="message" class="row">
-      <div class="col-12">
+      <div class="col-12 mt-2">
         <div :class="['alert', alertClass]" role="alert">
           {{ message }}
         </div>
@@ -40,7 +39,7 @@
 
     <ScrollToTopButton />
 
-    <div class="row mt-4">
+    <div class="row mt-2">
       <div v-for="word in words" class="col-md-6 col-lg-4 mb-4" :key="word.id">
         <WordCard :word="word" />
       </div>

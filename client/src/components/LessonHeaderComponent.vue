@@ -5,10 +5,12 @@
       <h4 class="mb-0">
         {{ lesson.full_name }}
       </h4>
-      <button class="btn my-1 btn-outline-secondary" @click="showPopup = true" :class="[{'btn-sm' : isCompact }]">
-          <font-awesome-icon :icon="['fas', 'book']" />
+        <button class="btn my-1 btn-outline-secondary" 
+                @click="showPopup = true" :class="[{'btn-sm' : isCompact }]"
+                title='Löydiä šanan šanakniigašta'
+        >
+            <font-awesome-icon :icon="['fas', 'book']" />
         </button>
-
     </div>
     <div class="d-flex align-items-center justify-content-between px-2 py-2">
       <div class="d-flex align-items-center gap-2">
@@ -42,7 +44,7 @@
           :style="{ visibility: hasNextModule ? 'visible' : 'hidden' }"
           @click="goToNextModule"
         >
-        <span class="d-none d-md-inline">&nbsp;Edeh</span>
+        <span class="d-none d-md-inline">Edeh&nbsp;</span>
           <span class="badge badge-light bg-light">
             <font-awesome-icon :icon="['fas', 'arrow-right']" class="text-primary" />
           </span>
