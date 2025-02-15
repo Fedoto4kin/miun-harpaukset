@@ -47,10 +47,10 @@
 <script>
 import { createApp, h } from 'vue';
 import { getLessons, getModulesByLesson, getModuleContent } from '../services/lessonsService.js';
-import ModuleContentComponent from '@/components/ModuleContentComponent.vue';
-import LessonHeaderComponent from '@/components/LessonHeaderComponent.vue';
-import LessonListComponent from '@/components/LessonListComponent.vue';
-import LessonCoverContent from '@/components/LessonCoverContentComponent.vue';
+import ModuleContentComponent from '@/components/lessons/ModuleContentComponent.vue';
+import LessonHeaderComponent from '@/components/lessons/LessonHeaderComponent.vue';
+import LessonListComponent from '@/components/lessons/LessonListComponent.vue';
+import LessonCoverContent from '@/components/lessons/LessonCoverContentComponent.vue';
 
 export default {
   name: 'LessonsComponent',

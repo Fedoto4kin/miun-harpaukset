@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import ExerciseFactory from '@/components/exercises/ExerciseFabricComponent.vue';
+import ExerciseFactory from '@/components/lessons/exercises/ExerciseFabricComponent.vue';
 
 export default {
   name: 'ModuleContentComponent',

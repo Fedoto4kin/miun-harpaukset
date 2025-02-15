@@ -17,7 +17,7 @@
           </div>
           <div class="row mt-3">
             <div class="col-md-12">
-              <h6 class="ps-4">Hyvä tverinkarielan opaštuja!</h6>
+              <h5 class="ps-4 mb-3">Hyvä tverinkarielan opaštuja!</h5>
               <p class="justify-content-between" style="text-indent: 1.5em;">
                 Šiun käzissä on Miun harpaukšet karielan kieleh -kniiga, kumbazen avulla voit opaštuo tädä šomua tverinkerielan kieldä.
                 Tverinkarielakši paissah karielazet, kumbazet jo enämbi nelliä vuožišadua eletäh Tverin mualla. Voit olla tämä pagina ei ole
@@ -50,6 +50,7 @@
   </script>
   
   <style scoped>
+
   .justify-content-between {
     text-indent: 1.5em;
   }

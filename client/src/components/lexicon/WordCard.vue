@@ -1,7 +1,7 @@
 <template>
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title d-flex justify-content-between align-items-center">
+        <p class="card-title d-flex justify-content-between align-items-center">
           <span>
             {{ word.word ? word.word.replace('|', '') : '' }}
             <span 
@@ -18,7 +18,7 @@
           >
             <font-awesome-icon icon="volume-up" />
           </button>
-        </h5>
+        </p>
         <ul class="list-group list-group-flush">
           <li v-for="(def, lang) in definition(word.definition)" :key="lang" class="list-group-item">
             <div class="d-flex align-items-center">
@@ -83,6 +83,9 @@ export default {
 .card-body {
   display: flex;
   flex-direction: column;
+}
+.card-title {
+  font-size: larger;
 }
 .definition-content {
   margin-left: 0.5rem;

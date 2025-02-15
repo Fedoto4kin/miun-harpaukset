@@ -43,6 +43,7 @@ export default {
 </script>
 
 <style>
+@import './assets/css/fonts.css';
 nav ul {
   list-style-type: none;
   padding: 0;

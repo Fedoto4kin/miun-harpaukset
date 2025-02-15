@@ -48,8 +48,8 @@
 </template>
 
 <script>
-import WordCard from './WordCard.vue';
-import SearchBar from './SearchBar.vue';
+import WordCard from './lexicon/WordCard.vue';
+import SearchBar from './lexicon/SearchBar.vue';
 import ScrollToTopButton from './ui/ScrollToTopButton.vue';
 import LoadingSpinner from './ui/LoadingDots.vue';
 import { fetchWordsByLetter, fetchWordsBySearch } from '../services/lexiconService';

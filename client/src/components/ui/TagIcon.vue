@@ -2,7 +2,7 @@
     <VTooltip>
         <font-awesome-icon :icon="getTagIcon(tagCode)" class="custom-icon" />
         <template #popper>
-          <h6 class="px-1">&bullet;&nbsp;{{ tagName }}</h6>
+          <span class="px-1 title">&bullet;&nbsp;{{ tagName }}</span>
             <ul class="my-0 list-unstyled">
                 <li>
                     <span><img :src="'/img/ru-xs.png'" alt="ru" class="me-2" />{{ hintRussian }}</span>
@@ -66,5 +66,8 @@
     font-size: 1.5em;
     margin-right: 0.5rem;
     color: #495057;
+  }
+  .title {
+    font-size: large;
   }
   </style>

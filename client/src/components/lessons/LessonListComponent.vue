@@ -1,6 +1,6 @@
 <template>
     <h1 class="mt-2 mb-4">
-      <img src="/android-chrome-192x192.png" width="52" alt="">
+      <img src="/img/lessons-icon.svg" width="52" alt="">
       <span class="align-bottom">&nbsp;{{ title }}</span>
     </h1>
     <div v-if="loading">
@@ -48,13 +48,11 @@
 </template>
 
 <script>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import ModuleList from '@/components/ModuleListComponent.vue';
+import ModuleList from '@/components/lessons/ModuleListComponent.vue';
 
 export default {
   name: 'LessonListComponent',
   components: {
-    FontAwesomeIcon,
     ModuleList,
   },
   props: {

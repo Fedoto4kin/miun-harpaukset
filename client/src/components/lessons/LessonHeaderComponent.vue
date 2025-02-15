@@ -66,8 +66,8 @@
 </template>
 
 <script>
-import SearchPopupComponent from './SearchPopupComponent.vue';
-import TagIcon from './ui/TagIcon.vue';
+import SearchPopupComponent from '@/components/lessons/SearchPopupComponent.vue';
+import TagIcon from '@/components/ui/TagIcon.vue';
 
 export default {
   name: 'LessonHeaderComponent',

@@ -52,7 +52,7 @@
   import { nextTick } from 'vue';
   import { fetchSearchSuggestions, fetchWordCard } from '@/services/searchService';
   import SpecialCharsButtons from '@/components/ui/SpecialCharsButtons.vue';
-  import WordCard from './WordCard.vue';
+  import WordCard from '@/components/lexicon/WordCard.vue';
   
   export default {
     name: 'SearchPopupComponent',
