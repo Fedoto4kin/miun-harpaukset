@@ -17,7 +17,6 @@
           @module-clicked="loadModuleContent" 
         />
       </div>
-      <!-- Основной контент -->
       <div class="col-lg-9 col-md-12 mt-2" id="lesson-frame">
         <LessonHeaderComponent 
           :lesson="activeLesson" 
