@@ -1,36 +1,20 @@
 <template>
   <div class="container-lg pb-5">
     <div class="row">
-      <div 
-        :class="['lesson-list', { 'active': isSidebarOpen }]" 
-        id="lesson-list"
-        v-click-outside="closeSidebar"
-      >
+      <div :class="['lesson-list', { 'active': isSidebarOpen }]" id="lesson-list" v-click-outside="closeSidebar">
         <button class="d-lg-none sidebar-toggle" @click="toggleSidebar">
-           <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" /> 
+          <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
         </button>
-        <LessonListComponent 
-          :title="title" :loading="loading" :lessons="lessons" :isLessonActive="isLessonActive"
+        <LessonListComponent :title="title" :loading="loading" :lessons="lessons" :isLessonActive="isLessonActive"
           :toggleLesson="toggleLesson" :formatDescription="formatDescription"
-          :isModulesByLessonLoading="isModulesByLessonLoading" 
-          :modules="modules" :selectedModuleId="selectedModuleId"
-          @module-clicked="loadModuleContent" 
-        />
+          :isModulesByLessonLoading="isModulesByLessonLoading" :modules="modules" :selectedModuleId="selectedModuleId"
+          @module-clicked="loadModuleContent" />
       </div>
-      <div class="col-lg-9 col-md-12 mt-2" id="lesson-frame">
-        <LessonHeaderComponent 
-          :lesson="activeLesson" 
-          v-bind="filterModuleData(['number', 'tags'])"
-          v-if="activeLesson"
-          :hasPreviousModule="hasPreviousModule" 
-          :hasNextModule="hasNextModule" 
-          :nextLesson="nextLesson"
-          :previousLesson="previousLesson" 
-          @previous-module="goToPreviousModule" 
-          @next-module="goToNextModule"
-          @next-lesson="goToNextLesson" 
-          @previous-lesson="goToPreviousLesson"
-        />
+      <div class="col-md-12 mt-2" id="lesson-frame">
+        <LessonHeaderComponent :lesson="activeLesson" v-bind="filterModuleData(['number', 'tags'])" v-if="activeLesson"
+          :hasPreviousModule="hasPreviousModule" :hasNextModule="hasNextModule" :nextLesson="nextLesson"
+          :previousLesson="previousLesson" @previous-module="goToPreviousModule" @next-module="goToNextModule"
+          @next-lesson="goToNextLesson" @previous-lesson="goToPreviousLesson" />
         <div v-if="activeLesson && !isContentLoading && moduleData.html_content" class="mt-md-5 mx-md-5">
           <ModuleContentComponent v-bind="filterModuleData(['html_content', 'exercises', 'speech'])" />
         </div>
@@ -311,8 +295,9 @@ export default {
   .lesson-list {
     position: fixed;
     top: 0;
-    left: -300px; /* Скрываем сайдбар за пределами экрана */
-    width: 300px;
+    left: -240px;
+    /* Скрываем сайдбар за пределами экрана */
+    width: 240px;
     height: 100vh;
     overflow-y: auto;
     background-color: #fff;
@@ -321,10 +306,11 @@ export default {
   }
 
   .lesson-list.active {
-    left: 0; /* Показываем сайдбар */
+    left: 0;
+    /* Показываем сайдбар */
   }
 
-  .lesson-list.active ~ #lesson-frame::before {
+  .lesson-list.active~#lesson-frame::before {
     content: '';
     position: fixed;
     top: 0;
@@ -335,17 +321,15 @@ export default {
     z-index: 77777;
   }
 
-  .lesson-list.active  .sidebar-toggle {
-    left: 300px;
+  .lesson-list.active .sidebar-toggle {
+    left: 240px;
     transition: left 0.3s ease;
   }
 
-  /* Кнопка для открытия сайдбара */
   .sidebar-toggle {
     position: fixed;
     bottom: 40%;
     left: 0px;
-    z-index: 1;
     padding: 0.5em;
     background-color: #fff;
     box-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
@@ -362,13 +346,17 @@ export default {
 @media (min-width: 992px) {
   .lesson-list {
     position: static;
-    width: 25%; /* Соответствует col-lg-3 */
+    width: 20%;
     height: auto;
     background-color: transparent;
   }
 
   .sidebar-toggle {
     display: none;
+  }
+
+  #lesson-frame {
+    width: 80%;
   }
 }
 
@@ -386,5 +374,4 @@ export default {
 .fa-spinner {
   margin-right: 16px;
 }
-
 </style>

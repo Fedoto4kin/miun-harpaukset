@@ -67,7 +67,7 @@
 <script>
 import { ref, watch, onMounted, nextTick } from 'vue';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import SwitchButton from './SwitchButton.vue';
+import SwitchButton from '@/components/lexicon/SwitchButton.vue';
 import { fetchSearchSuggestionsGrouped } from '@/services/searchService';
 import SpecialCharsButtons from '@/components/ui/SpecialCharsButtons.vue';
 
