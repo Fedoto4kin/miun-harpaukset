@@ -60,11 +60,7 @@
         </button>
       </div>
     </div>
-    <div v-if="speech" class="d-flex audio-container justify-content-center mt-1 mb-1">
-        <audio controls class="audio-player" :key="speech">
-          <source :src="speech" type="audio/mpeg" />
-        </audio>
-    </div>
+
   </div>
   <SearchPopupComponent :show="showPopup" @close="showPopup = false" />
 </template>
@@ -86,7 +82,6 @@ export default {
     },
     number: Number,
     tags: Array,
-    speech: String,
     hasPreviousModule: Boolean,
     hasNextModule: Boolean,
     nextLesson: Object,
@@ -150,12 +145,5 @@ export default {
   display: none;
 }
 
-.audio-container {
-  transform: scale(0.75); 
-  transform-origin: center top;
-}
 
-.audio-player {
-  width: 70%; 
-}
 </style>

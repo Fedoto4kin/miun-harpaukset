@@ -1,5 +1,5 @@
 <template>
-  <VTooltip :distance="16" placement="bottom" :disabled="disabled">
+  <VTooltip :distance="16" placement="bottom" :disabled="disabled" >
     <font-awesome-icon :icon="getTagIcon(tagCode)" class="custom-icon" />
     <template #popper>
       <span class="px-1 title">&bullet;&nbsp;{{ tagName }}</span>
@@ -70,10 +70,15 @@ export default {
   font-size: 1.5em;
   margin-right: 0.5rem;
   color: #495057;
+
 }
 
 .title {
   font-size: large;
+}
+
+.v-popper {
+  z-index: 99999999 !important;
 }
 
 </style>
