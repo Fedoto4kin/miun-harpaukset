@@ -153,11 +153,13 @@ export default {
                         if (fragment.type === 'input') {
                             const userAnswer = this.userAnswers[rowIndex][colIndex][fragmentIndex]
                                 ?.toLowerCase()
-                                .replace(/['’]/g, "'");
+                                .replaceAll(/['’ʼ]/g, "'");
+                            console.log(userAnswer)
 
                             const correctAnswers = this.getCorrectAnswers(fragment.value).map(ans =>
-                                ans.toLowerCase().replace(/['’]/g, "'")
+                                ans.toLowerCase().replaceAll(/['’ʼ]/g, "'")
                             );
+                            console.log(correctAnswers)
                             const isCorrect = correctAnswers.includes(userAnswer);
                             this.results[rowIndex][colIndex][fragmentIndex] = isCorrect;
                         }
@@ -165,6 +167,7 @@ export default {
                 });
             });
         },
+
         handleFocus(rowIndex, colIndex, fragmentIndex) {
             this.activeRowIndex = rowIndex;
             this.activeColIndex = colIndex;
