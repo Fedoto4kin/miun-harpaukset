@@ -8,7 +8,7 @@
               <input 
                 type="text" 
                 class="form-control" 
-                placeholder="Löydiä šanan šanakniigašta..." 
+                placeholder="Löydiä šana šanakniigašta..." 
                 v-model="searchText" 
                 ref="searchInput"
                 @input="fetchSuggestions"
@@ -156,14 +156,12 @@
   }
   
   .modal-dialog {
-    max-width: 500px;
     min-height: 500px;
     margin: auto;
   }
 
   .modal-dialog input::placeholder {
-    font-size: 0.85em;
-    font-style: italic;
+    font-size: 0.7em;
   }
   
   .modal-content {

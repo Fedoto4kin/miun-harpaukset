@@ -35,7 +35,7 @@
               </td>
             </tr>
             <tr>
-              <th scope="row">Soittaja(kandeleh):</th>
+              <th scope="row">Soittaja (kandeleh):</th>
               <td>
                 <b>Kegri</b><br />
               </td>

@@ -6,7 +6,7 @@
           <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
         </button>
         <LessonListComponent :title="title" :loading="loading" :lessons="lessons" :isLessonActive="isLessonActive"
-          :toggleLesson="toggleLesson" :formatDescription="formatDescription"
+          :toggleLesson="toggleLesson"
           :isModulesByLessonLoading="isModulesByLessonLoading" :modules="modules" :selectedModuleId="selectedModuleId"
           @module-clicked="loadModuleContent" />
       </div>
@@ -216,9 +216,6 @@ export default {
         tags: response.tags || [],
         number: response.number || null,
       };
-    },
-    formatDescription(lesson) {
-      return lesson.number + '. ' + lesson.description.replace(/\n/g, '<br>');
     },
     goToPreviousModule() {
       if (this.hasPreviousModule) {

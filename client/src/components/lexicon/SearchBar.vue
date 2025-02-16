@@ -59,7 +59,7 @@
           </li>
         </ul>
       </div>
-      <div class="text-muted text-center">Zavodikkua kirjuttua täššä, štobi löydiä šanan šanakniigašta</div>
+      <div class="mt-1 text-muted text-center small">Zavodikkua kirjuttua täššä, štobi löydiä šana šanakniigašta</div>
     </form>
   </div>
 </template>

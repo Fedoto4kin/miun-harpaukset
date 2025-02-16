@@ -2,7 +2,7 @@
   <div id="app">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-lg">
-        <router-link class="navbar-brand" to="/">Miun harpaukšet Karielan Kieleh</router-link>
+        <router-link class="navbar-brand" to="/">Miun harpaukšet karielan kieleh</router-link>
         <button
           class="navbar-toggler"
           type="button"

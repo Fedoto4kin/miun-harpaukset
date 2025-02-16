@@ -61,7 +61,6 @@ export default {
     lessons: Array,
     isLessonActive: Function,
     toggleLesson: Function,
-    formatDescription: Function,
     isModulesByLessonLoading: Boolean,
     modules: Array,
     selectedModuleId: Number,
@@ -69,6 +68,9 @@ export default {
   methods: {
     loadModuleContent(moduleId) {
       this.$emit('module-clicked', moduleId);
+    },
+    formatDescription(lesson) {
+      return lesson.number + '. ' + lesson.description.replace(/\n/g, '<br>');
     },
   },
 };

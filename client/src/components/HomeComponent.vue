@@ -24,7 +24,7 @@
                 vieraš šiula varoin. Paissahgo karielakši šiun vanhemmat? Paistihgo buabot da diedot? Maltatgo iče karielua ali tahot opaštuo
                 maltamah da pagizomah?
             </p>
-                <p style="text-indent: 1.5em;">Tverinkarielan algukursa auttau šiula luadie enžimmäzet harpaukšet karielan kieleh. Kniigašša on
+                <p style="text-indent: 1.5em;">Tverinkarielan algukursa auttau šiula luadie enžimäzet harpaukšet karielan kieleh. Kniigašša on
                 <a href="/lessons/">25 urokkua</a>. Jogohizešta löyvät uužie šanoida, grammatikkua, annandoida da kaikenmuozie tekstoida. 
                 Štobi šiula olisʼ kebiembi
                 opaštuo pagizomah oigieh, myö kirjuttima DVD-diskan, kumbazešta voiččou kuunnella kuin pagizou tovelline karielane.

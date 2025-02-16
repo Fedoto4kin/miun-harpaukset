@@ -9,9 +9,7 @@
             </blockquote>
         </div>
         <div class="card lesson-description text-center mb-3">
-            <div class="card-header">
-                {{ lesson.description }}
-            </div>
+            <div class="card-header" v-html="lesson.description.replace(/\n/g, '<br>')" />
         </div>
     </div>
   </template>

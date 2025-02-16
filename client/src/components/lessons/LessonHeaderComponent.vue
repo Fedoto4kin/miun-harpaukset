@@ -132,7 +132,6 @@ export default {
 }
 
 .sticky-lesson.compact {
-  padding: 0.5rem;
   font-size: 0.8rem;
 }
 
