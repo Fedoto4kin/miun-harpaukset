@@ -2,6 +2,13 @@
   <div>    
     <div class="lesson-content" v-if="html_content">
       <div class="content-container">
+        <div v-if="speech" class="mb-lg-3">
+          <div class="d-flex justify-content-start audio-container">
+            <audio controls class="audio-player" :key="speech">
+              <source :src="speech" type="audio/mpeg" />
+            </audio>
+          </div>
+        </div>
         <div class="table-responsive" v-html="html_content"></div>
         <div v-if="exercises && exercises.length > 0" class="exercise-container mt-2">
           <ExerciseFactory 
@@ -10,16 +17,8 @@
             :exercise="exercise" 
           />
         </div>
-        <div v-if="speech" class="mt-4">
-          <div class="mb-3 d-flex justify-content-center">
-            <audio controls class="audio-player" :key="speech">
-              <source :src="speech" type="audio/mpeg" />
-            </audio>
-          </div>
-        </div>
       </div>
     </div>
-
     <div class="lesson-content" v-else>
       ...tulošša piäh
     </div>
@@ -43,8 +42,13 @@ export default {
 </script>
 
 <style scoped>
+.audio-container {
+  transform: scale(0.75); /* Масштабируем контейнер с аудиоплеером */
+  transform-origin: center top; /* Точка трансформации — левый верхний угол */
+}
+
 .audio-player {
-  width: 100%;
+  width: 100%; 
 }
 
 .lesson-content {
@@ -58,7 +62,7 @@ export default {
 
 .exercise-container {
   min-width: 700px;
-  width: 90%;
+  width: 95%;
 }
 
 @media (max-width: 600px) {
