@@ -4,9 +4,7 @@
       <div class="content-container">
         <div v-if="speech" class="mb-lg-3">
           <div class="d-flex justify-content-start audio-container">
-            <audio controls class="audio-player" :key="speech">
-              <source :src="speech" type="audio/mpeg" />
-            </audio>
+          
           </div>
         </div>
         <div class="table-responsive" v-html="html_content"></div>
@@ -42,14 +40,6 @@ export default {
 </script>
 
 <style scoped>
-.audio-container {
-  transform: scale(0.75); /* Масштабируем контейнер с аудиоплеером */
-  transform-origin: center top; /* Точка трансформации — левый верхний угол */
-}
-
-.audio-player {
-  width: 100%; 
-}
 
 .lesson-content {
   overflow-x: auto;

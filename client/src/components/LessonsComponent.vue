@@ -11,12 +11,12 @@
           @module-clicked="loadModuleContent" />
       </div>
       <div class="col-md-12 mt-2" id="lesson-frame">
-        <LessonHeaderComponent :lesson="activeLesson" v-bind="filterModuleData(['number', 'tags'])" v-if="activeLesson"
+        <LessonHeaderComponent :lesson="activeLesson" v-bind="filterModuleData(['number', 'tags', 'speech'])" v-if="activeLesson"
           :hasPreviousModule="hasPreviousModule" :hasNextModule="hasNextModule" :nextLesson="nextLesson"
           :previousLesson="previousLesson" @previous-module="goToPreviousModule" @next-module="goToNextModule"
           @next-lesson="goToNextLesson" @previous-lesson="goToPreviousLesson" />
         <div v-if="activeLesson && !isContentLoading && moduleData.html_content" class="mt-3 mx-md-5">
-          <ModuleContentComponent v-bind="filterModuleData(['html_content', 'exercises', 'speech'])" />
+          <ModuleContentComponent v-bind="filterModuleData(['html_content', 'exercises'])" />
         </div>
         <div v-else>
           <h3 class="text-center">
