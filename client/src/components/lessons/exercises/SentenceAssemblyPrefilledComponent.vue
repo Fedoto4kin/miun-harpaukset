@@ -3,7 +3,6 @@
         
         <div v-if="examples.length" class="example-container">
             <div class="row align-items-center" v-for="(example, i) in examples" :key="i">
-                <div class="col-1"></div>
                 <div class="col" v-for="(word, j) in example" :key="j">
                     <span class="word-slot card bg-light text-center bg-white">
                         {{ word ? word : '&nbsp;' }}
@@ -15,9 +14,6 @@
 
         <div v-for="(slot, sentenceIndex) in slots" :key="sentenceIndex"
             class="row mt-1 align-items-center position-relative">
-            <div class="col-1 text-right">
-                <span class="badge badge-secondary bg-secondary">{{ sentenceIndex + 1 }}</span>
-            </div>
             <div class="col" v-for="(word, slotIndex) in slot" :key="slotIndex"
                 @click="!isPrefilled(sentenceIndex, slotIndex) && setActiveSlot(sentenceIndex, slotIndex,)">
                 <span :class="{
@@ -42,8 +38,8 @@
                     :class="results[sentenceIndex].correct ? 'text-success' : 'text-danger'" />
             </span>
         </div>
-
-        <div class="chioses-container mt-4">
+        <div class="divider mt-1"><hr /></div>
+        <div class="chioses-container mt-1">
             <div class="mb-2" v-for="(group, groupIndex) in groups" :key="groupIndex">
                 <div class="words-container">
                     <button v-for="(word, wordIndex) in group.words" :key="wordIndex"

@@ -1,27 +1,10 @@
 <template>
   <div class="sentence-assembly-exercise">
-
-    <div class="mb-2" v-for="(group, groupIndex) in groups" :key="groupIndex">
-      <div class="words-container">
-        <button
-          v-for="(word, wordIndex) in group.words"
-          :key="wordIndex"
-          @click="selectWord(groupIndex, wordIndex)"
-          :disabled="word.disabled"
-          class="btn btn-outline-secondary btn-sm"
-        >
-          {{ word.text }}
-        </button>
-      </div>
-    </div>
     <div
       v-for="(slot, sentenceIndex) in slots"
       :key="sentenceIndex"
       class="row mt-1 align-items-center position-relative"
     >
-      <div class="col-1 text-right">
-        <span class="badge badge-secondary bg-secondary">{{ sentenceIndex + 1 }}</span>
-      </div>
       <div
         class="col"
         v-for="(word, slotIndex) in slot"
@@ -59,7 +42,21 @@
         />
       </span>
     </div>
-    <div class="d-flex flex-row-reverse mt-3">
+    <div class="divider mt-1"><hr /></div>
+    <div class="mt-1" v-for="(group, groupIndex) in groups" :key="groupIndex">
+      <div class="words-container">
+        <button
+          v-for="(word, wordIndex) in group.words"
+          :key="wordIndex"
+          @click="selectWord(groupIndex, wordIndex)"
+          :disabled="word.disabled"
+          class="btn btn-outline-secondary btn-sm"
+        >
+          {{ word.text }}
+        </button>
+      </div>
+    </div>
+    <div class="d-flex flex-row-reverse">
       <button
         class="btn btn-outline-primary"
         @click="checkAnswers"
