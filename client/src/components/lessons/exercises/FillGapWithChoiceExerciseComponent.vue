@@ -1,28 +1,26 @@
 <template>
     <div class="fill-gap-with-choice-exercise">
-        <div v-for="(question, index) in questions" :key="index" class="mb-2">
-            <div class="d-inline-flex flex-wrap question-text mb-1">
+        <div v-for="(question, questionIndex) in questions" :key="questionIndex" class="mb-2">
+            <div class="d-inline-flex flex-wrap question-text mb-1 position-relative">
                 <span v-for="(part, partIndex) in getQuestionParts(question)" :key="partIndex">
-                    <span v-if="part.isGap" class="form-control mx-1 input-field"
-                          v-html="getGapContent(question)"
-                    /> <!-- todo: hint tooltip-->
+                    <span v-if="part.isGap" class="form-control mx-1 input-field" 
+                          :style="{ color: !checkResult ? 'black' : results[questionIndex] ? 'green' : 'red' }"
+                          v-html="selectedVariants[question.text] ? selectedVariants[question.text] : '&nbsp;' "
+                          />
                     <span v-else>
                         {{ part.text }}
+                    </span>
+                    <span v-if="checkResult && results[questionIndex] !== undefined" class="position-absolute result-icon">
+                        <font-awesome-icon :icon="results[questionIndex] ? ['fas', 'check'] : ['fas', 'xmark']" :class="results[questionIndex] ? 'text-success' : 'text-danger'" />
                     </span>
                 </span>
             </div>
             <div class="variants">
-                <button v-for="(variant, variantIndex) in question.variants" :key="variantIndex"
-                    class="btn btn-outline-secondary btn-sm" :disabled="isVariantSelected(question, variant)"
-                    @click="selectVariant(question, variant)"
-                    v-html="variant"
-                    >
-                </button>
+                <button v-for="(variant, variantIndex) in question.variants" :key="variantIndex" class="btn btn-outline-secondary btn-sm" :disabled="isVariantSelected(question, variant)" @click="selectVariant(question, variant)" v-html="variant"></button>
             </div>
         </div>
         <div class="d-flex justify-content-end mt-2">
             <div v-if="hasCheck" class="btn-group">
-                <HintButton @show-hint="isShowHints = $event" />
                 <button class="btn btn-outline-primary" @click="checkAnswers" title="Kuotele otviettua">
                     <font-awesome-icon :icon="['fas', 'spell-check']" />
                 </button>
@@ -31,14 +29,12 @@
     </div>
 </template>
 
+
 <script>
-import HintButton from '@/components/ui/HintButtonComponent.vue';
 
 export default {
     name: 'FillGapWithChoiceExercise',
-    components: {
-        HintButton
-    },
+    components: {},
     props: {
         data: {
             type: Object,
@@ -53,6 +49,8 @@ export default {
         return {
             questions: this.data.questions || [],
             selectedVariants: {},
+            results: [],
+            checkResult: false,
         };
     },
     methods: {
@@ -79,8 +77,13 @@ export default {
         },
 
         getGapLength(question) {
-            const match = question.text.match(/\[\*(\d+):/);
-            return match ? parseInt(match[1], 10) : 4;
+            const match = question.text.match(/\[\*\d+:/);
+            return match ? parseInt(match[0].match(/\d+/)[0], 10) : 4;
+        },
+
+        extractCorrectAnswers(question) {
+            const match = question.text.match(/\[\*\d+:([^\]]+)\]/);
+            return match ? match[1].split('|') : [];
         },
 
         isVariantSelected(question, variant) {
@@ -107,10 +110,35 @@ export default {
                     this.selectedVariants[question.text].splice(index, 1);
                 }
             }
+            this.checkResult = false;
         },
 
         checkAnswers() {
-            // todo
+            this.results = this.questions.map((question) => {
+                const correctAnswers = this.extractCorrectAnswers(question);
+                const selected = this.selectedVariants[question.text];
+                this.checkResult = true;
+
+                if (question.type === 'radio') {
+                    return correctAnswers.includes(selected);
+                } else if (question.type === 'checkbox') {
+                    return Array.isArray(selected) &&
+                        selected.length === correctAnswers.length &&
+                        selected.every(variant => correctAnswers.includes(variant));
+                } else {
+                    // For slot-based answers
+                    return correctAnswers.includes(selected);
+                }
+               
+            });
+
+            this.results.forEach((result, index) => {
+                if (result) {
+                    console.log(`Question ${index + 1}: Correct`);
+                } else {
+                    console.log(`Question ${index + 1}: Incorrect`);
+                }
+            });
         },
     },
 };
@@ -120,7 +148,6 @@ export default {
 .question-text {
     font-size: 1.125em;
 }
-
 
 .input-field {
     display: inline-block;
@@ -147,5 +174,12 @@ export default {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+}
+
+.result-icon {
+    width: 1.5em;
+    top: 50%;
+    right: -1.5em;
+    transform: translateY(-50%);
 }
 </style>
