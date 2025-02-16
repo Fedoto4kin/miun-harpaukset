@@ -40,7 +40,7 @@
         </button>
         <button
           class="btn btn-primary btn-sm"
-          :style="{ visibility: hasNextModule ? 'visible' : 'hidden' }"
+          v-if="hasNextModule"
           @click="goToNextModule"
         >
         <span class="d-none d-md-inline">Edeh&nbsp;</span>

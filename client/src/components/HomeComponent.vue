@@ -11,7 +11,7 @@
                 <source src="/media/intro.mp3" type="audio/mpeg">
                 Your browser does not support the audio tag.
               </audio>
-              <h3 class="ps-4 mt-3">Miun harpaukšet Karielan Kieleh</h3>
+              <h3 class="ps-4 mt-3">Miun harpaukšet karielan kieleh</h3>
               <h4 class="ps-4">Tverinkarielan algukursa</h4>
             </div>
           </div>
