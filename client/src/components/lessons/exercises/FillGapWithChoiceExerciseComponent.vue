@@ -3,9 +3,9 @@
         <div v-for="(question, index) in questions" :key="index" class="mb-2">
             <div class="d-inline-flex flex-wrap question-text mb-1">
                 <span v-for="(part, partIndex) in getQuestionParts(question)" :key="partIndex">
-                    <span v-if="part.isGap" class="form-control mx-1 input-field">
-                        {{ getGapContent(question) }} <!-- todo: hint tooltip-->
-                    </span>
+                    <span v-if="part.isGap" class="form-control mx-1 input-field"
+                          v-html="getGapContent(question)"
+                    /> <!-- todo: hint tooltip-->
                     <span v-else>
                         {{ part.text }}
                     </span>
@@ -14,8 +14,9 @@
             <div class="variants">
                 <button v-for="(variant, variantIndex) in question.variants" :key="variantIndex"
                     class="btn btn-outline-secondary btn-sm" :disabled="isVariantSelected(question, variant)"
-                    @click="selectVariant(question, variant)">
-                    {{ variant }}
+                    @click="selectVariant(question, variant)"
+                    v-html="variant"
+                    >
                 </button>
             </div>
         </div>
