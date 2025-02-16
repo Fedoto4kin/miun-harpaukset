@@ -78,7 +78,7 @@
   
 <script>
 
-  import HintButton from '@/components/ui/HintButtonCompponent.vue';
+  import HintButton from '@/components/ui/HintButtonComponent.vue';
 
   export default {
     name: 'SyllableAssemblyExercise',
