@@ -4,15 +4,12 @@
             <tbody>
                 <tr v-for="(row, rowIndex) in data.table" :key="rowIndex">
                     <td v-for="(cell, colIndex) in row" :key="colIndex" :class="cell.class">
-                            <template v-for="(fragment, fragmentIndex) in parseContent(cell.content)"
-                                :key="fragmentIndex">
-                                <span v-if="fragment.type === 'text'" v-html="fragment.value" />
-                                <span v-else-if="fragment.type === 'span'" 
-                                      class="form-control mx-1 input-field text-wrap"
-                                      :style="{width: `${calculateExampleStringField(fragment.value ?? '')}em`}"
-                                      v-html="fragment.value ?? '&nbsp;'" 
-                                      />
-                                <span  v-else class="position-relative">
+                        <template v-for="(fragment, fragmentIndex) in parseContent(cell.content)" :key="fragmentIndex">
+                            <span v-if="fragment.type === 'text'" v-html="fragment.value" />
+                            <span v-else-if="fragment.type === 'span'" class="form-control mx-1 input-field text-wrap"
+                                :style="{ width: `${calculateExampleStringField(fragment.value ?? '')}em` }"
+                                v-html="fragment.value ?? '&nbsp;'" />
+                            <span v-else class="position-relative">
                                 <input v-model="userAnswers[rowIndex][colIndex][fragmentIndex]"
                                     :ref="'inputField' + rowIndex + '-' + colIndex + '-' + fragmentIndex" :style="{
                                         width: `${getPlaceholderLength(fragment.value)}em`,
@@ -30,8 +27,8 @@
                                         :icon="results[rowIndex][colIndex][fragmentIndex] ? ['fas', 'check'] : ['fas', 'xmark']"
                                         :class="results[rowIndex][colIndex][fragmentIndex] ? 'text-success' : 'text-danger'" />
                                 </span>
-                                </span>
-                            </template>
+                            </span>
+                        </template>
                     </td>
                 </tr>
             </tbody>
@@ -154,8 +151,13 @@ export default {
                 row.forEach((cell, colIndex) => {
                     this.parseContent(cell.content).forEach((fragment, fragmentIndex) => {
                         if (fragment.type === 'input') {
-                            const userAnswer = this.userAnswers[rowIndex][colIndex][fragmentIndex]?.toLowerCase();
-                            const correctAnswers = this.getCorrectAnswers(fragment.value).map(ans => ans.toLowerCase());
+                            const userAnswer = this.userAnswers[rowIndex][colIndex][fragmentIndex]
+                                ?.toLowerCase()
+                                .replace(/['’]/g, "'");
+
+                            const correctAnswers = this.getCorrectAnswers(fragment.value).map(ans =>
+                                ans.toLowerCase().replace(/['’]/g, "'")
+                            );
                             const isCorrect = correctAnswers.includes(userAnswer);
                             this.results[rowIndex][colIndex][fragmentIndex] = isCorrect;
                         }
