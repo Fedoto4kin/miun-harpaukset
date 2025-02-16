@@ -4,7 +4,6 @@ from enum import Enum
 
 
 class ExerciseType(Enum):
-
     ''' 
         A fill-in-the-blank exercise where users 
         complete words by filling in missing parts.
@@ -48,6 +47,12 @@ class ExerciseType(Enum):
     '''
     FILL_BLANK_TABLE = ("FillBlankTable", "Fill in the Blank Table")
 
+    ''' 
+        A fill-in-the-blank exercise where users fill 
+        in missing parts of a text by selecting the correct
+        answer from provided options.
+    '''
+    FILL_GAP_WITH_CHOICE = ("FillGapWithChoice", "Fill Gap with Choice")
 
     def __init__(self, value, label):
         self._value_ = value

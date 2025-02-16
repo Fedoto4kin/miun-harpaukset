@@ -76,7 +76,4 @@ export default {
   font-size: large;
 }
 
-.tooltip-over-all {
-  z-index: 999999 !important;
-}
 </style>
