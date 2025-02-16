@@ -1,16 +1,6 @@
 <template>
     <div class="sentence-assembly-exercise">
-        <div class="chioses-container mb-4">
-            <div class="mb-2" v-for="(group, groupIndex) in groups" :key="groupIndex">
-                <div class="words-container">
-                    <button v-for="(word, wordIndex) in group.words" :key="wordIndex"
-                        @click="selectWord(groupIndex, wordIndex)" :disabled="word.disabled"
-                        class="btn btn-outline-secondary btn-sm" v-html="word.text">
-                    </button>
-                </div>
-            </div>
-        </div>
-
+        
         <div v-if="examples.length" class="example-container">
             <div class="row align-items-center" v-for="(example, i) in examples" :key="i">
                 <div class="col-1"></div>
@@ -53,7 +43,19 @@
             </span>
         </div>
 
-        <div class="d-flex flex-row-reverse mt-3">
+        <div class="chioses-container mt-4">
+            <div class="mb-2" v-for="(group, groupIndex) in groups" :key="groupIndex">
+                <div class="words-container">
+                    <button v-for="(word, wordIndex) in group.words" :key="wordIndex"
+                        @click="selectWord(groupIndex, wordIndex)" :disabled="word.disabled"
+                        class="btn btn-outline-secondary btn-sm" v-html="word.text">
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="d-flex flex-row-reverse mt-1">
             <button class="btn btn-outline-primary" @click="checkAnswers" title="Kuotele otviettua">
                 <font-awesome-icon :icon="['fas', 'spell-check']" />
             </button>
