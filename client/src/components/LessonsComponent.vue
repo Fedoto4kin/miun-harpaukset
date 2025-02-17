@@ -5,7 +5,7 @@
         <button class="d-lg-none sidebar-toggle" @click="toggleSidebar">
           <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
         </button>
-        <LessonListComponent :title="title" :loading="loading" :lessons="lessons" :isLessonActive="isLessonActive"
+        <LessonListComponent title="Urokat" :loading="loading" :lessons="lessons" :isLessonActive="isLessonActive"
           :toggleLesson="toggleLesson"
           :isModulesByLessonLoading="isModulesByLessonLoading" :modules="modules" :selectedModuleId="selectedModuleId"
           @module-clicked="loadModuleContent" />
@@ -65,8 +65,7 @@ export default {
       isSidebarOpen: false,
     };
   },
-  async mounted() {
-    document.title = 'Urokat';
+  async mounted() {   
     try {
       this.lessons = await getLessons();
       this.handleRoute();
@@ -74,6 +73,7 @@ export default {
       console.error('Error loading lessons:', error);
     } finally {
       this.loading = false;
+      document.title = this.title;
     }
   },
   computed: {
@@ -124,6 +124,7 @@ export default {
         this.lessons[currentLessonIndex + 1] :
         null;
       this.$router.push({ path: `/lessons/${lesson.number}` });
+      document.title = lesson.full_name;
     },
     handleRoute() {
       const lessonId = this.$route.params.id;

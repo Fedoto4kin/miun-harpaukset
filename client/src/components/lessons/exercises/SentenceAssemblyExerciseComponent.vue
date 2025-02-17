@@ -124,8 +124,6 @@ export default {
               }
           }
       }
-
-      // Если пустых слотов не найдено
       this.activeSlot = { sentenceIndex: null, slotIndex: null };
     },
     setActiveSlot(sentenceIndex, slotIndex) {
