@@ -5,7 +5,7 @@
                 <span v-for="(part, partIndex) in getQuestionParts(question)" :key="partIndex">
                     <span v-if="part.isGap" class="form-control mx-1 input-field" 
                           :style="{ color: !checkResult ? 'black' : results[questionIndex] ? 'green' : 'red' }"
-                          v-html="selectedVariants[question.text] ? selectedVariants[question.text] : '&nbsp;' "
+                          v-html="selectedVariants[question.text] ? getGapContent(question) : '&nbsp;' "
                           />
                     <span v-else>
                         {{ part.text }}
