@@ -1,23 +1,27 @@
 <template>
     <div id="scene" @mouseleave="onMouseUp">
-        <div class="container">
-            <div class="field">
-                <div v-for="(row, rowIndex) in scene" :key="rowIndex" class="row">
-                    <div class="cell"
-                        :class="{ active: cell.active, hover: isHovered(rowIndex, cellIndex), prefilled: cell.prefilled }"
-                        :data-row="rowIndex" :data-cell="cellIndex" @mouseover="onMouseOver" @mouseenter="onMouseEnter"
-                        @mouseleave="onMouseLeave" @mousedown="onMouseDown" @mouseup="onMouseUp"
-                        v-for="(cell, cellIndex) in row" :key="cellIndex">{{ cell.char }}</div>
+            <div class="row">
+                <div class="col-8">
+                    <div class="field">
+                        <div v-for="(row, rowIndex) in scene" :key="rowIndex" class="field-row">
+                            <div class="cell"
+                                :class="{ active: cell.active, hover: isHovered(rowIndex, cellIndex), prefilled: cell.prefilled }"
+                                :data-row="rowIndex" :data-cell="cellIndex" @mouseover="onMouseOver"
+                                @mouseenter="onMouseEnter" @mouseleave="onMouseLeave" @mousedown="onMouseDown"
+                                @mouseup="onMouseUp" v-for="(cell, cellIndex) in row" :key="cellIndex">{{ cell.char }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="found-words">
+                        <ol class="list-group list-group-numbered">
+                            <li class="list-group-item" v-for="(word, index) in found" :key="index">{{ word }}</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
-            <div class="found-words">
-                <div v-for="(word, index) in found" :key="index">{{ index + 1 }}. {{ word }}</div>
-            </div>
         </div>
-        <div class="words">
-            <div v-for="word in words" :key="word">{{ word }}</div>
-        </div>
-    </div>
 </template>
 
 <script>
@@ -249,12 +253,13 @@ export default {
     align-items: flex-start;
 }
 
-.field {
+.field-row {
     display: grid;
     user-select: none;
+    min-width: 75%;
 }
 
-.row {
+.field-row {
     display: grid;
     /* 11 it's hardcode, should calculate by gived field */
     grid-template-columns: repeat(11, 40px);
@@ -289,12 +294,4 @@ export default {
     /* Запрещаем взаимодействие */
 }
 
-.found-words {
-    margin-left: 20px;
-    list-style-type: none;
-}
-
-.words {
-    margin-top: 20px;
-}
 </style>
