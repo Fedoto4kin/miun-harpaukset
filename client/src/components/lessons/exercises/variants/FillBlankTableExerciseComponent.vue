@@ -51,9 +51,11 @@
 <script>
 import SpecialCharsButtons from '@/components/ui/SpecialCharsButtons.vue';
 import HintButton from '@/components/ui/HintButtonComponent.vue';
+import { confettiMixin } from '@/mixins/confettiMixin.js';
 
 export default {
     name: 'FillBlankTableExerciseComponent',
+    mixins: [confettiMixin],
     components: {
         SpecialCharsButtons,
         HintButton,
@@ -147,6 +149,7 @@ export default {
             );
         },
         checkAnswers() {
+            this.clearResult();
             this.data.table.forEach((row, rowIndex) => {
                 row.forEach((cell, colIndex) => {
                     this.parseContent(cell.content).forEach((fragment, fragmentIndex) => {
@@ -154,19 +157,30 @@ export default {
                             const userAnswer = this.userAnswers[rowIndex][colIndex][fragmentIndex]
                                 ?.toLowerCase()
                                 .replaceAll(/['’ʼ]/g, "'");
-                            console.log(userAnswer)
+                            console.log(`User answer for row ${rowIndex}, col ${colIndex}, fragment ${fragmentIndex}: ${userAnswer}`);
 
                             const correctAnswers = this.getCorrectAnswers(fragment.value).map(ans =>
                                 ans.toLowerCase().replaceAll(/['’ʼ]/g, "'")
                             );
-                            console.log(correctAnswers)
+                            console.log(`Correct answers for row ${rowIndex}, col ${colIndex}, fragment ${fragmentIndex}: ${correctAnswers}`);
+
                             const isCorrect = correctAnswers.includes(userAnswer);
+                            console.log(`Is correct for row ${rowIndex}, col ${colIndex}, fragment ${fragmentIndex}: ${isCorrect}`);
+
                             this.results[rowIndex][colIndex][fragmentIndex] = isCorrect;
                         }
                     });
                 });
             });
+
+            const allCorrect = this.results.flat().every(result => result.every(res => res === true));
+            console.log(`All correct: ${allCorrect}`);
+
+            if (allCorrect) {
+                this.launchConfetti();
+            }
         },
+
 
         handleFocus(rowIndex, colIndex, fragmentIndex) {
             this.activeRowIndex = rowIndex;
