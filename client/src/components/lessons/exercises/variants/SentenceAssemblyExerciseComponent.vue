@@ -69,9 +69,11 @@
 </template>
 
 <script>
+import { confettiMixin } from '@/mixins/confettiMixin.js';
 
 export default {
   name: 'SentenceAssemblyExercise',
+  mixins: [confettiMixin],
   props: {
     data: {
       type: Object,
@@ -117,12 +119,12 @@ export default {
     },
     setFirstAvailableSlot() {
       for (let sentenceIndex = 0; sentenceIndex < this.slots.length; sentenceIndex++) {
-          for (let slotIndex = 0; slotIndex < this.slots[sentenceIndex].length; slotIndex++) {
-              if (!this.slots[sentenceIndex][slotIndex]) {
-                  this.activeSlot = { sentenceIndex, slotIndex };
-                  return;
-              }
+        for (let slotIndex = 0; slotIndex < this.slots[sentenceIndex].length; slotIndex++) {
+          if (!this.slots[sentenceIndex][slotIndex]) {
+            this.activeSlot = { sentenceIndex, slotIndex };
+            return;
           }
+        }
       }
       this.activeSlot = { sentenceIndex: null, slotIndex: null };
     },
@@ -160,7 +162,21 @@ export default {
         }
         this.slots[sentenceIndex][slotIndex] = word;
         this.groups[groupIndex].words[wordIndex].disabled = true;
-        this.setFirstAvailableSlot();
+
+        // Find the next available slot after the current one
+        let nextSlotFound = false;
+        for (let i = slotIndex + 1; i < this.slots[sentenceIndex].length; i++) {
+          if (!this.slots[sentenceIndex][i]) {
+            this.activeSlot = { sentenceIndex, slotIndex: i };
+            nextSlotFound = true;
+            break;
+          }
+        }
+
+        // If no available slot found after the current one, set the first available slot
+        if (!nextSlotFound) {
+          this.setFirstAvailableSlot();
+        }
       }
     },
     clearSlot(sentenceIndex) {
@@ -180,8 +196,8 @@ export default {
         }
       });
       this.slots[sentenceIndex] = Array(this.template.slots).fill('');
-      
-      // Устанавливаем активным первый слот в очищенном ряду
+
+      // Set the active slot to the first slot in the cleared row
       for (let slotIndex = 0; slotIndex < this.slots[sentenceIndex].length; slotIndex++) {
         if (!this.slots[sentenceIndex][slotIndex]) {
           this.activeSlot = { sentenceIndex, slotIndex };
@@ -189,7 +205,7 @@ export default {
         }
       }
 
-      // Если пустых слотов не найдено, устанавливаем значение по умолчанию
+      // If no empty slots found, set the default value
       this.activeSlot = { sentenceIndex: null, slotIndex: null };
     },
     isCorrectWord(sentenceIndex, slotIndex) {
@@ -223,6 +239,10 @@ export default {
         };
       });
       this.checkResult = true;
+
+      if (this.results.every(result => result.correct)) {
+        this.launchConfetti();
+      }
     },
   },
   created() {

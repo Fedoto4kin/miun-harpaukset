@@ -64,7 +64,6 @@ import HintButton from '@/components/ui/HintButtonComponent.vue';
 import { confettiMixin } from '@/mixins/confettiMixin.js';
 
 
-
 export default {
   name: 'MatchPairExercise',
   mixins: [confettiMixin],
@@ -128,62 +127,57 @@ export default {
       this.resetResults();
     },
     selectPair(index) {
-  if (this.selectedWordIndex !== null) {
-    const currentPair = this.userAnswers[this.selectedQuestionIndex][this.selectedWordIndex];
-    if (currentPair) {
-      this.shuffledPairs.push(currentPair);
-    }
+      if (this.selectedWordIndex !== null) {
+        const currentPair = this.userAnswers[this.selectedQuestionIndex][this.selectedWordIndex];
+        if (currentPair) {
+          this.shuffledPairs.push(currentPair);
+        }
 
-    this.userAnswers[this.selectedQuestionIndex][this.selectedWordIndex] = this.shuffledPairs[index];
-    this.shuffledPairs.splice(index, 1);
+        this.userAnswers[this.selectedQuestionIndex][this.selectedWordIndex] = this.shuffledPairs[index];
+        this.shuffledPairs.splice(index, 1);
 
-    let nextEmptySlotIndex = null;
+        let nextEmptySlotIndex = null;
 
-    // Найти следующий доступный слот после текущего
-    for (let i = this.selectedWordIndex + 1; i < this.userAnswers[this.selectedQuestionIndex].length; i++) {
-      if (this.userAnswers[this.selectedQuestionIndex][i] === '') {
-        nextEmptySlotIndex = i;
-        break;
-      }
-    }
+        for (let i = this.selectedWordIndex + 1; i < this.userAnswers[this.selectedQuestionIndex].length; i++) {
+          if (this.userAnswers[this.selectedQuestionIndex][i] === '') {
+            nextEmptySlotIndex = i;
+            break;
+          }
+        }
 
-    // Если нет доступного слота после текущего, найти первый доступный в текущем вопросе
-    if (nextEmptySlotIndex === null) {
-      nextEmptySlotIndex = this.userAnswers[this.selectedQuestionIndex].findIndex(answer => answer === '');
-    }
+        if (nextEmptySlotIndex === null) {
+          nextEmptySlotIndex = this.userAnswers[this.selectedQuestionIndex].findIndex(answer => answer === '');
+        }
 
-    // Если нет доступного слота в текущем вопросе, искать в следующем вопросе
-    if (nextEmptySlotIndex === -1) {
-      for (let i = this.selectedQuestionIndex + 1; i < this.userAnswers.length; i++) {
-        nextEmptySlotIndex = this.userAnswers[i].findIndex(answer => answer === '');
+
+        if (nextEmptySlotIndex === -1) {
+          for (let i = this.selectedQuestionIndex + 1; i < this.userAnswers.length; i++) {
+            nextEmptySlotIndex = this.userAnswers[i].findIndex(answer => answer === '');
+            if (nextEmptySlotIndex !== -1) {
+              this.selectedQuestionIndex = i;
+              break;
+            }
+          }
+        }
+
+        if (nextEmptySlotIndex === -1) {
+          for (let i = 0; i <= this.selectedQuestionIndex; i++) {
+            nextEmptySlotIndex = this.userAnswers[i].findIndex(answer => answer === '');
+            if (nextEmptySlotIndex !== -1) {
+              this.selectedQuestionIndex = i;
+              break;
+            }
+          }
+        }
+
         if (nextEmptySlotIndex !== -1) {
-          this.selectedQuestionIndex = i;
-          break;
+          this.selectedWordIndex = nextEmptySlotIndex;
+        } else {
+          this.pairsEnabled = false;
         }
       }
-    }
-
-    // Если нет доступного слота в следующих вопросах, искать сначала
-    if (nextEmptySlotIndex === -1) {
-      for (let i = 0; i <= this.selectedQuestionIndex; i++) {
-        nextEmptySlotIndex = this.userAnswers[i].findIndex(answer => answer === '');
-        if (nextEmptySlotIndex !== -1) {
-          this.selectedQuestionIndex = i;
-          break;
-        }
-      }
-    }
-
-    if (nextEmptySlotIndex !== -1) {
-      this.selectedWordIndex = nextEmptySlotIndex;
-    } else {
-      this.pairsEnabled = false; // Если доступных слотов нет, отключаем кнопки выбора пар
-    }
-  }
-  this.resetResults();
-},
-
-
+      this.resetResults();
+    },
     clearSlot(questionIndex, index) {
       const removedPair = this.userAnswers[questionIndex][index];
       if (removedPair) {

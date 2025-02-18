@@ -60,13 +60,11 @@
 </template>
 
 <script>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { confettiMixin } from '@/mixins/confettiMixin.js';
 
 export default {
     name: 'SentenceAssemblyPrefilledExercise',
-    components: {
-        FontAwesomeIcon
-    },
+    mixins: [confettiMixin],
     props: {
         data: {
             type: Object,
@@ -267,6 +265,10 @@ export default {
                 };
             });
             this.checkResult = true;
+
+            if (this.results.every(result => result.correct)) {
+                this.launchConfetti();
+            }
         },
     },
     created() {
