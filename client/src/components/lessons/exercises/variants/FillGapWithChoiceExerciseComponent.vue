@@ -31,9 +31,11 @@
 
 
 <script>
+import { confettiMixin } from '@/mixins/confettiMixin.js';
 
 export default {
     name: 'FillGapWithChoiceExercise',
+    mixins: [confettiMixin],
     components: {},
     props: {
         data: {
@@ -132,13 +134,10 @@ export default {
                
             });
 
-            this.results.forEach((result, index) => {
-                if (result) {
-                    console.log(`Question ${index + 1}: Correct`);
-                } else {
-                    console.log(`Question ${index + 1}: Incorrect`);
-                }
-            });
+            const allCorrect = this.results.flat().every(result => result === true);
+            if (allCorrect) {
+                this.launchConfetti();
+            }
         },
     },
 };

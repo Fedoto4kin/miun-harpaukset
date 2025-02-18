@@ -12,7 +12,7 @@
                 :reverse-prop="reverse" 
                 @pushSearchStr="getWordsBySearch" @pushClear="getWordsByLetter" />
     </div>
-    <div class="d-flex bg-light p-2">
+    <div class="d-flex bg-light rounded-pill p-2">
       <button class="btn btn-light border-secondary me-2 flex-shrink-0 align-self-start d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#abc"
         aria-controls="abc" aria-expanded="false" aria-label="Toggle navigation">
         <span v-if="letter">{{  letter }}</span>

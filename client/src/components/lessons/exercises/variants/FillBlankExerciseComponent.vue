@@ -7,35 +7,25 @@
       <div class="row justify-content-center">
         <div v-for="(item, itemIndex) in group.questions" :key="itemIndex" class="w-auto mb-2 px-3">
           <div class="card bg-light py-2 px-3 text-center">
-            <div 
-              class="d-flex justify-content-center align-items-center position-relative"
-              v-tooltip="{
-                content: item.answersHint,
-                shown: isShowHints,
-                triggers: [],
-                delay: 0
-              }"
-            >
+            <div class="d-flex justify-content-center align-items-center position-relative" v-tooltip="{
+              content: item.answersHint,
+              shown: isShowHints,
+              triggers: [],
+              delay: 0
+            }">
               <span>{{ item.textBefore }}</span>
               <div class="position-relative d-flex align-items-center">
-                <input 
-                  :ref="'inputField' + groupIndex + '-' + itemIndex"
-                  v-model="userAnswers[groupIndex][itemIndex]" 
-                  :style="{ 
-                    width: `${item.placeholderLength * 0.5}em`, 
-                    color: results[groupIndex][itemIndex] === undefined ? 'black' : results[groupIndex][itemIndex] ? 'green' : 'red' 
-                  }" 
-                  class="form-control mx-1 input-field" 
-                  @input="checkAnswer(groupIndex, itemIndex)"
-                  @focus="handleFocus(groupIndex, itemIndex)"
-                />
+                <input :ref="'inputField' + groupIndex + '-' + itemIndex" v-model="userAnswers[groupIndex][itemIndex]"
+                  :style="{
+                    width: `${item.placeholderLength * 0.5}em`,
+                    color: results[groupIndex][itemIndex] === undefined ? 'black' : results[groupIndex][itemIndex] ? 'green' : 'red'
+                  }" class="form-control mx-1 input-field" @input="checkAnswer(groupIndex, itemIndex)"
+                  @focus="handleFocus(groupIndex, itemIndex)" />
               </div>
               <span v-if="item.textAfter">{{ item.textAfter }}</span>
               <span v-if="results[groupIndex][itemIndex] !== undefined" class="position-absolute result-icon">
-                <font-awesome-icon 
-                  :icon="results[groupIndex][itemIndex] ? ['fas', 'check'] : ['fas', 'xmark']" 
-                  :class="results[groupIndex][itemIndex] ? 'text-success' : 'text-danger'" 
-                />
+                <font-awesome-icon :icon="results[groupIndex][itemIndex] ? ['fas', 'check'] : ['fas', 'xmark']"
+                  :class="results[groupIndex][itemIndex] ? 'text-success' : 'text-danger'" />
               </span>
             </div>
           </div>
@@ -44,9 +34,7 @@
     </div>
     <div class="d-flex justify-content-between mt-3">
       <div class="btn-group">
-        <SpecialCharsButtons
-          @diacrt-click="handleDiacrtButtonClick"            
-        />
+        <SpecialCharsButtons @diacrt-click="handleDiacrtButtonClick" />
       </div>
       <HintButton @show-hint="isShowHints = $event" />
     </div>
@@ -57,9 +45,11 @@
 <script>
 import SpecialCharsButtons from '@/components/ui/SpecialCharsButtons.vue';
 import HintButton from '@/components/ui/HintButtonComponent.vue';
+import { confettiMixin } from '@/mixins/confettiMixin.js';
 
 export default {
   name: 'FillBlankExercise',
+  mixins: [confettiMixin],
   components: {
     SpecialCharsButtons,
     HintButton,
@@ -77,8 +67,8 @@ export default {
   },
   data() {
     return {
-      userAnswers: [], 
-      results: [], 
+      userAnswers: [],
+      results: [],
       parsedGroups: [],
       isShowHints: false,
       activeGroupIndex: null,
@@ -116,7 +106,13 @@ export default {
       const userAnswer = this.userAnswers[groupIndex][itemIndex].toLowerCase();
       const isCorrect = correctAnswers.includes(userAnswer);
       this.results[groupIndex][itemIndex] = isCorrect;
-    },    
+
+      const allCorrect = this.results.flat().every(result => result === true);
+      if (allCorrect) {
+        this.launchConfetti();
+      }
+    },
+
     handleFocus(groupIndex, itemIndex) {
       this.activeGroupIndex = groupIndex;
       this.activeItemIndex = itemIndex;
@@ -129,7 +125,7 @@ export default {
 
       const char = event.target.dataset.char;
       const activeElement = this.$refs[`inputField${this.activeGroupIndex}-${this.activeItemIndex}`][0];
-      
+
       if (activeElement) {
         const position = activeElement.selectionStart;
         const updatedText = [
@@ -158,16 +154,17 @@ export default {
 .fill-blank-exercise {
   font-size: 1.1em;
 }
+
 .input-field {
   display: inline-block;
   width: auto;
   min-width: 40px;
-  border: none; 
-  border-bottom: 1px solid #ccc; 
+  border: none;
+  border-bottom: 1px solid #ccc;
   outline: none;
   box-shadow: none;
   padding: 0 5px;
-  font-size: 1.1em; 
+  font-size: 1.1em;
   text-align: center;
 }
 

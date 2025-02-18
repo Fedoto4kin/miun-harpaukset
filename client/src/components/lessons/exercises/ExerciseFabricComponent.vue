@@ -8,14 +8,15 @@
 </template>
 
 <script>
-import FillBlankExercise from './FillBlankExerciseComponent.vue';
-import SyllableAssemblyExercise from './SyllableAssemblyExerciseComponent.vue';
-import FillBlankTextExercise from './FillBlankTextExerciseComponent.vue';
-import SentenceAssemblyExercise from './SentenceAssemblyExerciseComponent.vue';
-import SentenceAssemblyPrefilledExercise from './SentenceAssemblyPrefilledComponent.vue';
-import MatchPairExercise from './MatchPairExerciseComponent.vue';
-import FillBlankTableExercise from './FillBlankTableExerciseComponent.vue';
-import FillGapWithChoiceExercise from './FillGapWithChoiceExerciseComponent.vue'; // Новый компонент
+import FillBlankExercise from './variants/FillBlankExerciseComponent.vue';
+import SyllableAssemblyExercise from './variants/SyllableAssemblyExerciseComponent.vue';
+import FillBlankTextExercise from './variants/FillBlankTextExerciseComponent.vue';
+import SentenceAssemblyExercise from './variants/SentenceAssemblyExerciseComponent.vue';
+import SentenceAssemblyPrefilledExercise from './variants/SentenceAssemblyPrefilledComponent.vue';
+import MatchPairExercise from './variants/MatchPairExerciseComponent.vue';
+import FillBlankTableExercise from './variants/FillBlankTableExerciseComponent.vue';
+import FillGapWithChoiceExercise from './variants/FillGapWithChoiceExerciseComponent.vue';
+
 
 export default {
   name: 'ExerciseFactory',
@@ -42,7 +43,7 @@ export default {
           return MatchPairExercise;
         case 'FillBlankTable':
           return FillBlankTableExercise;
-        case 'FillGapWithChoice': // Новый тип задания
+        case 'FillGapWithChoice':
           return FillGapWithChoiceExercise;
         default:
           return null;
