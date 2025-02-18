@@ -73,7 +73,7 @@ export default {
       console.error('Error loading lessons:', error);
     } finally {
       this.loading = false;
-      document.title =  this.activeLesson.full_name;
+      document.title =  this.activeLesson?.full_name ?? this.title;
     }
   },
   computed: {

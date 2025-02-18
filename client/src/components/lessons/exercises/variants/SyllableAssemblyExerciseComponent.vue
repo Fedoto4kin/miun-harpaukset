@@ -100,22 +100,20 @@
     },
     data() {
       return {
-        userAnswers: [], // Ответы пользователя
-        results: [], // Результаты проверки
-        parsedQuestions: [], // Парсированные вопросы
-        isShowHints: false, // Показывать ли подсказки
-        activeQuestionIndex: null, // Активный вопрос
+        userAnswers: [],
+        results: [], 
+        parsedQuestions: [], 
+        isShowHints: false,
+        activeQuestionIndex: null, 
       };
     },
     methods: {
-      // Парсинг данных задания
       parseData() {
         this.parsedQuestions = this.data.questions.map((question) => ({
           syllables: question.syllables,
           word: question.word,
         }));
       },
-      // Проверка ответа
       checkAnswer(questionIndex) {
         const userAnswer = this.userAnswers[questionIndex];
         const correctAnswer = this.parsedQuestions[questionIndex].word;
