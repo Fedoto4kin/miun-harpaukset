@@ -79,9 +79,11 @@
 <script>
 
   import HintButton from '@/components/ui/HintButtonComponent.vue';
+  import { confettiMixin } from '@/mixins/confettiMixin.js';
 
   export default {
     name: 'SyllableAssemblyExercise',
+    mixins: [confettiMixin],
     components: {
       HintButton,
     },
@@ -118,12 +120,16 @@
         const userAnswer = this.userAnswers[questionIndex];
         const correctAnswer = this.parsedQuestions[questionIndex].word;
   
-        // Проверка только если введено >= символов, чем в правильном ответе
         if (userAnswer.length >= correctAnswer.length) {
           const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
           this.results[questionIndex] = isCorrect;
         } else {
-          this.results[questionIndex] = undefined; // Сброс результата, если символов недостаточно
+          this.results[questionIndex] = undefined;
+        }
+
+        const allCorrect = this.results.flat().every(result => result === true);
+        if (allCorrect) {
+          this.launchConfetti();
         }
       },
       // Выбор слога

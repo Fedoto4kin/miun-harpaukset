@@ -2,80 +2,52 @@
   <div class="fill-blank-text-exercise">
     <div v-if="parsedExample.length" class="example-section">
       <div class="example-text">
-        <div v-for="(sentence, sentenceIndex) in parsedExample" 
-            :key="sentenceIndex" 
-            class="sentence d-inline-flex flex-wrap pe-2 mb-2">
-          <div 
-              v-for="(part, partIndex) in sentence" 
-              :key="partIndex" 
-              class="d-inline position-relative">
+        <div v-for="(sentence, sentenceIndex) in parsedExample" :key="sentenceIndex"
+          class="sentence d-inline-flex flex-wrap pe-2 mb-2">
+          <div v-for="(part, partIndex) in sentence" :key="partIndex" class="d-inline position-relative">
             <span v-if="part.type === 'text'">{{ part.value }}</span>
-            <span
-              v-else
-              :value="part.correctAnswers.join('|')"
-              :style="{ width: `${part.placeholderLength * 0.6}em` }"
-              class="form-control mx-1 input-field"
-              disabled
-            >{{ part.correctAnswers.join('|') }}</span>
+            <span v-else :value="part.correctAnswers.join('|')" :style="{ width: `${part.placeholderLength * 0.6}em` }"
+              class="form-control mx-1 input-field" disabled>{{ part.correctAnswers.join('|') }}</span>
           </div>
         </div>
       </div>
     </div>
     <div v-for="(textObj, textIndex) in parsedTexts" :key="textIndex" class="text-section">
-      <div 
-        v-for="(sentence, sentenceIndex) in textObj.text" 
-        :key="sentenceIndex" 
-        class="d-inline-flex flex-wrap pe-2 mb-2"
-      >
-        <div 
-          v-for="(part, partIndex) in sentence" 
-          :key="partIndex" 
-          class="d-inline position-relative"
-        >
+      <div v-for="(sentence, sentenceIndex) in textObj.text" :key="sentenceIndex"
+        class="d-inline-flex flex-wrap pe-2 mb-2">
+        <div v-for="(part, partIndex) in sentence" :key="partIndex" class="d-inline position-relative">
           <span v-if="part.type === 'text'">{{ part.value }}</span>
-          <input
-            v-else
-            v-model="userAnswers[textIndex][sentenceIndex][partIndex]"
-            :ref="'inputField' + textIndex + '-' + sentenceIndex + '-' + partIndex"
-            :style="{ 
-                width: `${part.placeholderLength * 0.6}em`, 
-                color: results[textIndex][sentenceIndex][partIndex] === undefined ? 'black' : results[textIndex][sentenceIndex][partIndex] ? 'green' : 'red' 
-            }"
-            class="form-control mx-1 input-field"
-            @input="handleInputChange"
-            @focus="handleFocus(textIndex, sentenceIndex, partIndex)"
-            v-tooltip.right="{
-                content: part.correctAnswers.join(', '),
-                shown: isShowHints,
-                triggers: [],
-                delay: 0,
-            }"
-          />
+          <input v-else v-model="userAnswers[textIndex][sentenceIndex][partIndex]"
+            :ref="'inputField' + textIndex + '-' + sentenceIndex + '-' + partIndex" :style="{
+              width: `${part.placeholderLength * 0.6}em`,
+              color: results[textIndex][sentenceIndex][partIndex] === undefined ? 'black' : results[textIndex][sentenceIndex][partIndex] ? 'green' : 'red'
+            }" class="form-control mx-1 input-field" @input="handleInputChange"
+            @focus="handleFocus(textIndex, sentenceIndex, partIndex)" v-tooltip.right="{
+              content: part.correctAnswers.join(', '),
+              shown: isShowHints,
+              triggers: [],
+              delay: 0,
+            }" />
           <span v-if="results[textIndex][sentenceIndex][partIndex] !== undefined" class="position-absolute result-icon">
-            <font-awesome-icon 
-              :icon="results[textIndex][sentenceIndex][partIndex] ? ['fas', 'check'] : ['fas', 'xmark']" 
-              :class="results[textIndex][sentenceIndex][partIndex] ? 'text-success' : 'text-danger'" 
-            />
+            <font-awesome-icon
+              :icon="results[textIndex][sentenceIndex][partIndex] ? ['fas', 'check'] : ['fas', 'xmark']"
+              :class="results[textIndex][sentenceIndex][partIndex] ? 'text-success' : 'text-danger'" />
           </span>
         </div>
       </div>
     </div>
     <div v-if="parsedAterWord" class="afterwords-section">
-        <hr/>
-        <div v-html="parsedAterWord"></div>
+      <hr />
+      <div v-html="parsedAterWord"></div>
     </div>
-  
+
     <div class="d-flex justify-content-between mt-3">
       <div class="btn-group">
         <SpecialCharsButtons @diacrt-click="handleDiacrtButtonClick" />
       </div>
       <div v-if="hasCheck" class="btn-group">
         <HintButton @show-hint="isShowHints = $event" />
-        <button 
-          class="btn btn-outline-primary"
-          @click="checkAnswers"
-          title="Kuotele otviettua"
-        >
+        <button class="btn btn-outline-primary" @click="checkAnswers" title="Kuotele otviettua">
           <font-awesome-icon :icon="['fas', 'spell-check']" />
         </button>
       </div>
@@ -86,9 +58,11 @@
 <script>
 import SpecialCharsButtons from '@/components/ui/SpecialCharsButtons.vue';
 import HintButton from '@/components/ui/HintButtonComponent.vue';
+import { confettiMixin } from '@/mixins/confettiMixin.js';
 
 export default {
   name: 'FillBlankTextExercise',
+  mixins: [confettiMixin],
   components: {
     SpecialCharsButtons,
     HintButton,
@@ -165,25 +139,27 @@ export default {
       });
     },
     parseData() {
-      this.userAnswers = this.parsedTexts.map((textObj) => 
-        textObj.text.map((sentence) => 
+      this.userAnswers = this.parsedTexts.map((textObj) =>
+        textObj.text.map((sentence) =>
           sentence.map((part) => (part.type === 'blank' ? part.prefilledValue : ''))
         )
       );
-      this.results = this.parsedTexts.map((textObj) => 
-        textObj.text.map((sentence) => 
+      this.results = this.parsedTexts.map((textObj) =>
+        textObj.text.map((sentence) =>
           sentence.map(() => undefined)
         )
       );
     },
     clearResult() {
-      this.results = this.parsedTexts.map((textObj) => 
-        textObj.text.map((sentence) => 
+      this.results = this.parsedTexts.map((textObj) =>
+        textObj.text.map((sentence) =>
           sentence.map(() => undefined)
         )
       );
     },
     checkAnswers() {
+      this.clearResult();
+      let allCorrect = true;
       this.parsedTexts.forEach((textObj, textIndex) => {
         textObj.text.forEach((sentence, sentenceIndex) => {
           sentence.forEach((part, partIndex) => {
@@ -191,10 +167,16 @@ export default {
               const userAnswer = this.userAnswers[textIndex][sentenceIndex][partIndex]?.toLowerCase();
               const isCorrect = part.correctAnswers.map(ans => ans.toLowerCase()).includes(userAnswer);
               this.results[textIndex][sentenceIndex][partIndex] = isCorrect;
+              if (!isCorrect) {
+                allCorrect = isCorrect;
+              }
             }
           });
         });
       });
+      if (allCorrect) {
+        this.launchConfetti();
+      }
     },
     handleFocus(textIndex, sentenceIndex, partIndex) {
       this.activeTextIndex = textIndex;
