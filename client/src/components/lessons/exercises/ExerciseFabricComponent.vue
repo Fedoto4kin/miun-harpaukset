@@ -16,7 +16,7 @@ import SentenceAssemblyPrefilledExercise from './variants/SentenceAssemblyPrefil
 import MatchPairExercise from './variants/MatchPairExerciseComponent.vue';
 import FillBlankTableExercise from './variants/FillBlankTableExerciseComponent.vue';
 import FillGapWithChoiceExercise from './variants/FillGapWithChoiceExerciseComponent.vue';
-
+import FillWordExercise from './variants/FillWordExerciseComponent.vue';
 
 export default {
   name: 'ExerciseFactory',
@@ -45,6 +45,8 @@ export default {
           return FillBlankTableExercise;
         case 'FillGapWithChoice':
           return FillGapWithChoiceExercise;
+        case 'FillWord':
+          return FillWordExercise;
         default:
           return null;
       }
