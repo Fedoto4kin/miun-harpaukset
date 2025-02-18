@@ -1,3 +1,12 @@
+## TO-DO
+
+
+* Show exercices in admin panel 
+* Filter exercices in admin by type, by lesson number
+* Fill table exercise json generator(command line)
+* dump fixtures and add uploaded files to git
+
+
 
 ### Dev Help
 ```bash

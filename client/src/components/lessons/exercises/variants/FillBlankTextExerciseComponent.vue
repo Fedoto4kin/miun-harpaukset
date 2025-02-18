@@ -164,8 +164,8 @@ export default {
         textObj.text.forEach((sentence, sentenceIndex) => {
           sentence.forEach((part, partIndex) => {
             if (part.type === 'blank') {
-              const userAnswer = this.userAnswers[textIndex][sentenceIndex][partIndex]?.toLowerCase();
-              const isCorrect = part.correctAnswers.map(ans => ans.toLowerCase()).includes(userAnswer);
+              const userAnswer = this.userAnswers[textIndex][sentenceIndex][partIndex]?.toLowerCase().replaceAll(/['’ʼ]/g, "'");
+              const isCorrect = part.correctAnswers.map(ans => ans.toLowerCase().replaceAll(/['’ʼ]/g, "'")).includes(userAnswer);
               this.results[textIndex][sentenceIndex][partIndex] = isCorrect;
               if (!isCorrect) {
                 allCorrect = isCorrect;
