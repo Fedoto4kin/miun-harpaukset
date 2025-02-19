@@ -26,7 +26,7 @@ def check_and_update_listen_tag(module):
             'hint_finnish': 'Kuuntele ja toista / Kuuntele oikea vaihtoehto'
         }
     )
-    if module.lessonspeech_set.exists():
+    if module.module_speeches.exists():
         module.tags.add(tell_tag)
     else:
         module.tags.remove(tell_tag)
@@ -37,10 +37,10 @@ def add_key_tag(sender, instance, created, **kwargs):
         code=KEY_TAG_CODE,
         defaults={
             'code': KEY_TAG_CODE,
-                'name': 'Avuan',
-                'hint_russian': 'Ключ',
-                'hint_finnish': 'Avain'
-            }
+            'name': 'Avuan',
+            'hint_russian': 'Ключ',
+            'hint_finnish': 'Avain'
+        }
     )
     if instance.has_answers_check:
         instance.module.tags.add(key_tag)
