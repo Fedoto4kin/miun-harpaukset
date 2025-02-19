@@ -1,9 +1,86 @@
 [
 {
+    "model": "lessons.lessonspeech",
+    "pk": 6,
+    "fields": {
+        "text": "Enžimäne urokka. \r\nIgä elä, igä opaššu.",
+        "mp3": "lessons/1/21fb2a27-290b-4436-8497-9738a8444e0a.MP3",
+        "content_type": 14,
+        "object_id": 1,
+        "code": "1.0"
+    }
+},
+{
+    "model": "lessons.lessonspeech",
+    "pk": 7,
+    "fields": {
+        "text": "Karielan alfavitta",
+        "mp3": "lessons/1/13e01eaf-46c9-4439-af92-28cc539dfbef.MP3",
+        "content_type": 16,
+        "object_id": 1,
+        "code": "1.1"
+    }
+},
+{
+    "model": "lessons.lessonspeech",
+    "pk": 28,
+    "fields": {
+        "text": "",
+        "mp3": "lessons/1/5682b8ba-afed-41ad-b46a-279baa3999de.MP3",
+        "content_type": 16,
+        "object_id": 8,
+        "code": "1.8"
+    }
+},
+{
+    "model": "lessons.lessonspeech",
+    "pk": 29,
+    "fields": {
+        "text": "",
+        "mp3": "lessons/1/cb4651ba-31c7-489a-9ffc-29011bf1d6f1.MP3",
+        "content_type": 16,
+        "object_id": 2,
+        "code": "1.2"
+    }
+},
+{
+    "model": "lessons.lessonspeech",
+    "pk": 30,
+    "fields": {
+        "text": "",
+        "mp3": "lessons/1/e7ae9bc0-4d40-4cdc-a488-de630493061d.MP3",
+        "content_type": 16,
+        "object_id": 3,
+        "code": "1.3"
+    }
+},
+{
+    "model": "lessons.lessonspeech",
+    "pk": 31,
+    "fields": {
+        "text": "",
+        "mp3": "lessons/1/a9237989-d962-4d54-92a5-e30d14df525a.MP3",
+        "content_type": 16,
+        "object_id": 4,
+        "code": "1.4"
+    }
+},
+{
+    "model": "lessons.lessonspeech",
+    "pk": 32,
+    "fields": {
+        "text": "",
+        "mp3": "lessons/3/fe3119b6-acd4-43ad-8c96-2b4e063bfa53.MP3",
+        "content_type": 16,
+        "object_id": 10,
+        "code": "3.8"
+    }
+},
+{
     "model": "lessons.lesson",
     "pk": 1,
     "fields": {
-        "num": 1,
+        "number": 1,
         "title": "(enžimäne) urokka",
         "slogan": "Igä elä, igä opaššu",
         "description": "Alfavitta. Vokalit, pität vokalit, diftongat, triftongat. Vokaliloin šobu",
@@ -14,7 +91,7 @@
     "model": "lessons.lesson",
     "pk": 2,
     "fields": {
-        "num": 2,
+        "number": 2,
         "title": "(toine) urokka",
         "slogan": "Ruattu eu muattu",
         "description": "Paginaetiketta\r\nKonsonantat. Pehmiet konsonantat. Geminatat",
@@ -25,10 +102,10 @@
     "model": "lessons.lesson",
     "pk": 3,
     "fields": {
-        "num": 3,
+        "number": 3,
         "title": "(kolmaš) urokka",
         "slogan": "Ei nimi mieštä riko",
-        "description": "Kuin šilma kučutah? Tverinkarielazet nimet\r\nAziešanoin muuttuačenda. Inessiva (Missä?). Translativa (Miksi?)",
+        "description": "Kuin šilma kučutah? Tverinkarielazet nimet.\r\nAziešanoin muuttuačenda. Inessiva (Missä?). Translativa (Miksi?)",
         "is_enabled": true
     }
 },
@@ -36,7 +113,7 @@
     "model": "lessons.lesson",
     "pk": 4,
     "fields": {
-        "num": 4,
+        "number": 4,
         "title": "(nelläš) urokka",
         "slogan": "Yheštä opaštunnuošta kolmie opaštumatonda ei pie",
         "description": "Äijägo vuotta on?\r\nLugušanat",
@@ -47,7 +124,7 @@
     "model": "lessons.lesson",
     "pk": 5,
     "fields": {
-        "num": 5,
+        "number": 5,
         "title": "(viiješ) urokka",
         "slogan": "Ken ruaduo varajau, a kedä i ruado",
         "description": "Mi / Ken tämä on? Mit / Ket nämä ollah?\r\nMonikon nominativa (Ket? Mit?). Konsonantoin vaihoš",
@@ -58,7 +135,7 @@
     "model": "lessons.lesson",
     "pk": 6,
     "fields": {
-        "num": 6,
+        "number": 6,
         "title": "(kuuveš) urokka",
         "slogan": "Veri on vettä šagiembi",
         "description": "Pereh (nimišanat, tunnuššanat)\r\nGenetiva (Kenen?). Adessiva (Kellä?)",
@@ -69,7 +146,7 @@
     "model": "lessons.lesson",
     "pk": 7,
     "fields": {
-        "num": 7,
+        "number": 7,
         "title": "(šeiččimeš) urokka",
         "slogan": "Rodu eu redu",
         "description": "Omahizet (nimišanat, aziešanat)\r\nGenetiva (Kenen?). Adessiva (Kellä?). Aziešanoin muuttuačenda",
@@ -80,7 +157,7 @@
     "model": "lessons.lesson",
     "pk": 8,
     "fields": {
-        "num": 8,
+        "number": 8,
         "title": "(kahekšaš) urokka",
         "slogan": "Eu kaikki puut mečäššä yhenmuozet, ei što rahvaš",
         "description": "Ulgonägö. Cvietut\r\nMonikon nominativa. Adessiva (Kellä?)",
@@ -91,7 +168,7 @@
     "model": "lessons.lesson",
     "pk": 9,
     "fields": {
-        "num": 9,
+        "number": 9,
         "title": "(yhekšäš) urokka",
         "slogan": "Kuin elät, niin i kuulut",
         "description": "Ristikanžan taba\r\nTunnuššana (Mityš?). Komparativa. Superlativa",
@@ -102,7 +179,7 @@
     "model": "lessons.lesson",
     "pk": 10,
     "fields": {
-        "num": 10,
+        "number": 10,
         "title": "(kymmeneš) urokka",
         "slogan": "Ruado mieštä ei riko",
         "description": "Ruado\r\nEssiva (Kenä?). Translativa (Kekši?)",
@@ -113,7 +190,7 @@
     "model": "lessons.lesson",
     "pk": 11,
     "fields": {
-        "num": 11,
+        "number": 11,
         "title": "(yheštoista) urokka",
         "slogan": "Midä i maha – kaikki godiečou",
         "description": "Aziešanat\r\nAziešanoin muuttuačenda",
@@ -124,7 +201,7 @@
     "model": "lessons.lesson",
     "pk": 12,
     "fields": {
-        "num": 12,
+        "number": 12,
         "title": "(kaheštoista) urokka",
         "slogan": "Kanoinke laškieče, kukkoloinke nouže",
         "description": "Aiga. Ruadopäivä\r\nAziešanoin muuttuačenda. Iččiehizet aziešanat",
@@ -135,7 +212,7 @@
     "model": "lessons.lesson",
     "pk": 13,
     "fields": {
-        "num": 13,
+        "number": 13,
         "title": "(kolmaštoista) urokka",
         "slogan": "Tervehyš on kuldua kallehembi",
         "description": "Tervehyš\r\nPartitiva (Midä?)",
@@ -146,7 +223,7 @@
     "model": "lessons.lesson",
     "pk": 14,
     "fields": {
-        "num": 14,
+        "number": 14,
         "title": "(nelläštoista) urokka",
         "slogan": "Vuotta myöt’ lindu laulau",
         "description": "Šiä. Vuuven aijat. Kuut. Nedelin päivät. Suutkat. Konža?\r\nEssiva, adessiva. Aziešanoin muuttuačenda. Translativa (Miksi?)",
@@ -157,7 +234,7 @@
     "model": "lessons.lesson",
     "pk": 15,
     "fields": {
-        "num": 15,
+        "number": 15,
         "title": "(viiještoista) urokka",
         "slogan": "Čirozešša on hyvä, vielä parembi on omalla mualla",
         "description": "Kylä. Puut. Žiivatat da zvierit, linnut\r\nPaikkamuutokšet",
@@ -168,7 +245,7 @@
     "model": "lessons.lesson",
     "pk": 16,
     "fields": {
-        "num": 16,
+        "number": 16,
         "title": "(kuuveštoista) urokka",
         "slogan": "Jogo linnulla on oma pežo kallisʼ",
         "description": "Muutokšet. Abessiva (Kettä? Mittä?). Komitativa (Kenenke? Minke?)",
@@ -179,7 +256,7 @@
     "model": "lessons.lesson",
     "pk": 17,
     "fields": {
-        "num": 17,
+        "number": 17,
         "title": "(šeiččimeštoista) urokka",
         "slogan": "Koissa i šeinät paissah",
         "description": "Talo. Fatera. Miebeli\r\nEzi- da jälgišanat",
@@ -190,7 +267,7 @@
     "model": "lessons.lesson",
     "pk": 18,
     "fields": {
-        "num": 18,
+        "number": 18,
         "title": "(kahekšaštoista) urokka",
         "slogan": "Vuatteida myöten vaššatah, a hajuo myöten šuatetah",
         "description": "Vuattiet\r\nMuutokšet. Monikko",
@@ -201,7 +278,7 @@
     "model": "lessons.lesson",
     "pk": 19,
     "fields": {
-        "num": 19,
+        "number": 19,
         "title": "(yhekšäštoista) urokka",
         "slogan": "Kuni jalgane kapšau, šini šuuhut n’apšau",
         "description": "Kalat, marjat, šienet da gribat\r\nImperfekta. Neuvondašana (Konža?)",
@@ -212,7 +289,7 @@
     "model": "lessons.lesson",
     "pk": 20,
     "fields": {
-        "num": 20,
+        "number": 20,
         "title": "(kaheškymmeneš) urokka",
         "slogan": "Eu kaikki šuuh, midä šilmä nägöy",
         "description": "Šyömizet. Einehet da fruuktat\r\nObjektan muutokšet (akkuzativa da partitiva)",
@@ -223,7 +300,7 @@
     "model": "lessons.lesson",
     "pk": 21,
     "fields": {
-        "num": 21,
+        "number": 21,
         "title": "(kaheškymmenešenžimäne) urokka",
         "slogan": "Paistua vois’, vain mistä ois’",
         "description": "Šyömizen varuššanda\r\nAziešanoin muuttuačenda. Imperativa. Objekta",
@@ -234,7 +311,7 @@
     "model": "lessons.lesson",
     "pk": 22,
     "fields": {
-        "num": 22,
+        "number": 22,
         "title": "(kaheškymmeneštoine) urokka",
         "slogan": "Gostʼa kahičči ihaššuttau: tullešša da lähtiessä",
         "description": "Gostissa\r\nEzi- da jälgišanat. Neuvondašanat",
@@ -245,7 +322,7 @@
     "model": "lessons.lesson",
     "pk": 23,
     "fields": {
-        "num": 23,
+        "number": 23,
         "title": "(kaheškymmeneškolmaš) urokka",
         "slogan": "Mierošša kuin mereššä – kaikkie on",
         "description": "Matkuššanda\r\nKondicionala",
@@ -256,7 +333,7 @@
     "model": "lessons.lesson",
     "pk": 24,
     "fields": {
-        "num": 24,
+        "number": 24,
         "title": "(kaheškymmenešnelläš) urokka",
         "slogan": "Lebävö luuda ei katkua",
         "description": "Pruazniekat\r\nInfinitivat. Pričastijat",
@@ -267,61 +344,11 @@
     "model": "lessons.lesson",
     "pk": 25,
     "fields": {
-        "num": 25,
+        "number": 25,
         "title": "(kaheškymmenešviiješ) urokka",
         "slogan": "Hyvin ruata – uniloitta muata",
         "description": "Lopun harpauš",
         "is_enabled": true
-    }
-},
-{
-    "model": "lessons.lessonspeech",
-    "pk": 1,
-    "fields": {
-        "text": "Enžimäne urokka.\r\nIgä elä, igä opaššu",
-        "mp3": "lessons/1/fe9b1e8a-9e5b-48b2-89ea-36031e72f8c7.MP3",
-        "lesson": 1,
-        "code": "1.0"
-    }
-},
-{
-    "model": "lessons.lessonspeech",
-    "pk": 2,
-    "fields": {
-        "text": "Kaheškymmeneštoine urokka.\r\nGostʼa kahičči ihaššuttau: tullešša da lähtiessä",
-        "mp3": "lessons/22/5cac9053-aa7b-426f-8db2-282238c92c67.MP3",
-        "lesson": 22,
-        "code": "22.0"
-    }
-},
-{
-    "model": "lessons.lessonspeech",
-    "pk": 3,
-    "fields": {
-        "text": "Kahekšaštoista urokka.\r\nVuatteida myöten vaššatah, a hajuo myöten šuatetah",
-        "mp3": "lessons/18/8c89c39d-7ab1-4abe-8209-6e15d0bdd8f9.MP3",
-        "lesson": 18,
-        "code": "18.0"
-    }
-},
-{
-    "model": "lessons.lessonspeech",
-    "pk": 4,
-    "fields": {
-        "text": "Nelläš urokka.\r\nYheštä opaštunnuošta kolmie opaštumatonda ei pie",
-        "mp3": "lessons/4/45b0eb41-84e8-4be2-baec-7d57c008aa82.MP3",
-        "lesson": 4,
-        "code": "4.0"
-    }
-},
-{
-    "model": "lessons.lessonspeech",
-    "pk": 5,
-    "fields": {
-        "text": "Kahekšaš urokka.\r\nEu kaikki puut mečäššä yhenmuozet, ei što rahvaš",
-        "mp3": "lessons/8/178132db-1608-46e7-86ea-50bfa0626a2d.MP3",
-        "lesson": 8,
-        "code": "8.0"
     }
 },
 {
@@ -479,9 +506,12 @@
     "pk": 1,
     "fields": {
         "lesson": 1,
-        "number": 1,
-        "html_content": "",
-        "tags": []
+        "number": 2,
+        "html_content": "<h3 style=\"text-align:center\"><strong>Karielan alfavitta</strong></h3>\r\n\r\n<table align=\"center\" class=\"table table-bordered\" style=\"width:100%\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td class=\"table-info\" style=\"text-align:center\">\r\n\t\t\t<p><strong>Bukva</strong></p>\r\n\t\t\t</td>\r\n\t\t\t<td class=\"table-info\" style=\"text-align:center\">\r\n\t\t\t<p><strong>&Scaron;ana</strong></p>\r\n\t\t\t</td>\r\n\t\t\t<td class=\"table-info\" style=\"text-align:center\">\r\n\t\t\t<p><strong>Bukva</strong></p>\r\n\t\t\t</td>\r\n\t\t\t<td class=\"table-info\" style=\"text-align:center\">\r\n\t\t\t<p><strong>&Scaron;ana</strong></p>\r\n\t\t\t</td>\r\n\t\t\t<td class=\"table-info\" style=\"text-align:center\">\r\n\t\t\t<p><strong>Bukva</strong></p>\r\n\t\t\t</td>\r\n\t\t\t<td class=\"table-info\" style=\"text-align:center\">\r\n\t\t\t<p><strong>&Scaron;ana</strong></p>\r\n\t\t\t</td>\r\n\t\t\t<td class=\"table-info\" style=\"text-align:center\">\r\n\t\t\t<p><strong>Bukva</strong></p>\r\n\t\t\t</td>\r\n\t\t\t<td class=\"table-info\" style=\"text-align:center\">\r\n\t\t\t<p><strong>&Scaron;ana</strong></p>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Аа<br />\r\n\t\t\t[aa]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>a</strong>l<strong>a</strong>ne<br />\r\n\t\t\t<strong>a</strong>ig<strong>a</strong></td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Gg<br />\r\n\t\t\t[gee]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>g</strong>riba<br />\r\n\t\t\t<strong>g</strong>ul&rsquo;u</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Nn<br />\r\n\t\t\t[en]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>n</strong>ai<strong>n</strong>e<br />\r\n\t\t\t<strong>n</strong>imi</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Žž<br />\r\n\t\t\t[žee]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>ž</strong>ent&auml;n<br />\r\n\t\t\t<strong>ž</strong>iivatta</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Bb<br />\r\n\t\t\t[bee]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>b</strong>ua<strong>b</strong>o<br />\r\n\t\t\t<strong>b</strong>o<strong>b</strong>o</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Hh<br />\r\n\t\t\t[hoo]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>h</strong>erne<strong>h</strong><br />\r\n\t\t\t<strong>h</strong>iiri</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Oo<br />\r\n\t\t\t[oo]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>o</strong>lgi<br />\r\n\t\t\t<strong>o</strong>rava</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Tt<br />\r\n\t\t\t[tee]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>t</strong>y<strong>tt</strong>&ouml;<br />\r\n\t\t\t<strong>t</strong>aba</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Cc<br />\r\n\t\t\t[cee]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>c</strong>arica<br />\r\n\t\t\t<strong>c</strong>ap</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Ii<br />\r\n\t\t\t[ii]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>i</strong>če<br />\r\n\t\t\t<strong>i</strong>g&auml;</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Pp<br />\r\n\t\t\t[pee]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>p</strong>a<strong>pp</strong>i<br />\r\n\t\t\t<strong>p</strong>eldo</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Uu<br />\r\n\t\t\t[uu]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>u</strong>kko<br />\r\n\t\t\t<strong>u</strong>ni</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Čč<br />\r\n\t\t\t[čee]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>č</strong>ir<strong>č</strong>u<br />\r\n\t\t\t<strong>č</strong>iba</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Jj<br />\r\n\t\t\t[jii]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>j</strong>alga<br />\r\n\t\t\t<strong>j</strong>auho</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Rr<br />\r\n\t\t\t[er]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>r</strong>anda<br />\r\n\t\t\t<strong>r</strong>uado</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Vv<br />\r\n\t\t\t[vee]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>v</strong>&auml;<strong>v</strong>y<br />\r\n\t\t\t<strong>v</strong>iel&auml;</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Dd<br />\r\n\t\t\t[dee]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>d</strong>ie<strong>d</strong>o<br />\r\n\t\t\t<strong>d</strong>oi<strong>d</strong>ie</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Kk<br />\r\n\t\t\t[koo]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>k</strong>ai<strong>kk</strong>i<br />\r\n\t\t\t<strong>k</strong>u<strong>kk</strong>o</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Ss<br />\r\n\t\t\t[es]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>s</strong>iemen<br />\r\n\t\t\t<strong>s</strong>tola</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Yy<br />\r\n\t\t\t[yy]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>y</strong>ksi<br />\r\n\t\t\t<strong>y</strong>&ouml;</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Ee<br />\r\n\t\t\t[ee]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>e</strong>čči<strong>e</strong><br />\r\n\t\t\t<strong>e</strong>gl<strong>e</strong>in</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Ll<br />\r\n\t\t\t[el]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>l</strong>u<strong>ll</strong>u<br />\r\n\t\t\t<strong>l</strong>&ouml;y<strong>l</strong>y</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">&Scaron;&scaron;<br />\r\n\t\t\t[&scaron;ee]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>&scaron;</strong>avika<strong>&scaron;</strong><br />\r\n\t\t\t<strong>&scaron;</strong>ana</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">&Auml;&auml;<br />\r\n\t\t\t[&auml;&auml;]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>&auml;</strong>gie<br />\r\n\t\t\t<strong>&auml;</strong>ij<strong>&auml;</strong></td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Ff<br />\r\n\t\t\t[ef]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>f</strong>amil&rsquo;ja<br />\r\n\t\t\t<strong>f</strong>atera</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Mm<br />\r\n\t\t\t[em]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>m</strong>ua<strong>m</strong>o<br />\r\n\t\t\t<strong>m</strong>&auml;<strong>mm</strong>i</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">Zz<br />\r\n\t\t\t[zee]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>z</strong>elʼonane<br />\r\n\t\t\t<strong>z</strong>irkalo</td>\r\n\t\t\t<td class=\"table-warning\" style=\"text-align:center\">&Ouml;&ouml;<br />\r\n\t\t\t[&ouml;&ouml;]</td>\r\n\t\t\t<td style=\"text-align:center\"><strong>&ouml;</strong>giss&auml;<br />\r\n\t\t\t<strong>&ouml;</strong>hki&auml;</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p style=\"text-align:center\">ʼ &ndash; pehmitt&auml;j&auml; znuakku</p>",
+        "tags": [
+            10,
+            13
+        ]
     }
 },
 {
@@ -489,9 +519,13 @@
     "pk": 2,
     "fields": {
         "lesson": 1,
-        "number": 2,
-        "html_content": "",
-        "tags": []
+        "number": 3,
+        "html_content": "<table border=\"0\" cellpadding=\"1\" cellspacing=\"1\" style=\"width:500px\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td rowspan=\"2\">***<br />\r\n\t\t\t<span style=\"font-size:1.12em;\">Pet&rsquo;u, Pet&rsquo;u, pehmie,<br />\r\n\t\t\tAja mi&auml;n lehmie<br />\r\n\t\t\tPellon per&auml;h,<br />\r\n\t\t\tAijan tagah.</span></td>\r\n\t\t\t<td rowspan=\"2\">***<br />\r\n\t\t\t<span style=\"font-size:1.12em;\">Yttin, tottin,<br />\r\n\t\t\tTordin, mordin,<br />\r\n\t\t\tVieduh, luaduh,<br />\r\n\t\t\tR&auml;stih, bukkih,<br />\r\n\t\t\tPois&rsquo;!</span></td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p>&nbsp;</p>",
+        "tags": [
+            9,
+            13,
+            15
+        ]
     }
 },
 {
@@ -499,9 +533,11 @@
     "pk": 3,
     "fields": {
         "lesson": 1,
-        "number": 3,
-        "html_content": "",
-        "tags": []
+        "number": 4,
+        "html_content": "<table align=\"center\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\" class=\"table table-bordered\" style=\"width:600px;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td class=\"table-info\" colspan=\"6\" style=\"text-align:center\"><strong>Pit&auml;t vokalit</strong></td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td class=\"table-warning\"><strong>uu</strong></td>\r\n\t\t\t<td style=\"text-align:center\"><em>huuli<br />\r\n\t\t\tkuudoma<br />\r\n\t\t\tluu<br />\r\n\t\t\tuuži</em></td>\r\n\t\t\t<td class=\"table-warning\"><strong>yy</strong></td>\r\n\t\t\t<td style=\"text-align:center\"><em>kyynelʼ<br />\r\n\t\t\tpyy<br />\r\n\t\t\ttyyni<br />\r\n\t\t\t&scaron;yyv&auml;</em></td>\r\n\t\t\t<td class=\"table-warning\"><strong>ii</strong></td>\r\n\t\t\t<td style=\"text-align:center\"><em>hiili<br />\r\n\t\t\tniitti&auml;<br />\r\n\t\t\tpii<br />\r\n\t\t\tviizi</em></td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p>&nbsp;</p>",
+        "tags": [
+            13
+        ]
     }
 },
 {
@@ -509,9 +545,13 @@
     "pk": 4,
     "fields": {
         "lesson": 1,
-        "number": 4,
-        "html_content": "",
-        "tags": []
+        "number": 5,
+        "html_content": "<table align=\"center\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\" class=\"table\" style=\"width:300px;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td class=\"table-info\" style=\"text-align: center;\"><span style=\"font-size:1.25em\">tuli &ndash; tuuli<br />\r\n\t\t\trida &ndash; riida<br />\r\n\t\t\tlukku &ndash; luukku</span></td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p>&nbsp;</p>",
+        "tags": [
+            5,
+            7,
+            13
+        ]
     }
 },
 {
@@ -519,9 +559,12 @@
     "pk": 5,
     "fields": {
         "lesson": 1,
-        "number": 5,
-        "html_content": "",
-        "tags": []
+        "number": 6,
+        "html_content": "<p><span style=\"font-size:1.25em;\"><strong><span class=\"badge badge-secondary bg-secondary\">1.</span>&nbsp;L&ouml;yv&auml; da kirjuta pit&auml;t vokalit. Kačo &scaron;anakniiga&scaron;ta, ongo &scaron;iel&auml; n&auml;m&auml; &scaron;anat.</strong></span></p>\r\n\r\n<p>&nbsp;</p>",
+        "tags": [
+            11,
+            15
+        ]
     }
 },
 {
@@ -529,9 +572,12 @@
     "pk": 6,
     "fields": {
         "lesson": 1,
-        "number": 6,
-        "html_content": "",
-        "tags": []
+        "number": 7,
+        "html_content": "<p>Kuundele da tačkuta.</p>",
+        "tags": [
+            13,
+            15
+        ]
     }
 },
 {
@@ -539,9 +585,12 @@
     "pk": 7,
     "fields": {
         "lesson": 1,
-        "number": 7,
-        "html_content": "",
-        "tags": []
+        "number": 8,
+        "html_content": "<p><strong><span style=\"font-size:1.25em;\"><span class=\"badge badge-secondary bg-secondary\">3.</span>&nbsp;Luaji &scaron;anat. Kačo &scaron;anakniiga&scaron;ta, ongo &scaron;iel&auml; n&auml;m&auml; &scaron;anat.</span></strong></p>\r\n\r\n<p><img alt=\"\" class=\"img-thumbnail\" src=\"/media/uploads/2025/02/08/c376cf4f6e8426859e827bf2017c98ea.jpg\" style=\"width: 200px; height: 211px;\" /></p>",
+        "tags": [
+            7,
+            15
+        ]
     }
 },
 {
@@ -549,9 +598,12 @@
     "pk": 8,
     "fields": {
         "lesson": 1,
-        "number": 8,
-        "html_content": "",
-        "tags": []
+        "number": 9,
+        "html_content": "<p>1235</p>",
+        "tags": [
+            13,
+            15
+        ]
     }
 },
 {
@@ -559,9 +611,13 @@
     "pk": 9,
     "fields": {
         "lesson": 1,
-        "number": 9,
-        "html_content": "",
-        "tags": []
+        "number": 10,
+        "html_content": "<p><span style=\"font-size:1.25em;\"><span class=\"badge badge-secondary bg-secondary\">4.</span>&nbsp;&nbsp;<strong>L&ouml;yv&auml; da kirjuta diftongat. Kačo &scaron;anakniiga&scaron;ta, ongo &scaron;iel&auml; n&auml;m&auml; &scaron;anat</strong></span></p>",
+        "tags": [
+            7,
+            8,
+            15
+        ]
     }
 },
 {
@@ -569,9 +625,13 @@
     "pk": 10,
     "fields": {
         "lesson": 1,
-        "number": 10,
-        "html_content": "",
-        "tags": []
+        "number": 11,
+        "html_content": "<p><span style=\"font-size:1.25em;\"><strong><span class=\"badge badge-secondary bg-secondary\">4.</span>&nbsp;Muuta <em>olla</em>-azie&scaron;ana.</strong></span></p>",
+        "tags": [
+            11,
+            13,
+            15
+        ]
     }
 },
 {
@@ -579,9 +639,11 @@
     "pk": 11,
     "fields": {
         "lesson": 1,
-        "number": 11,
-        "html_content": "",
-        "tags": []
+        "number": 12,
+        "html_content": "<p>1</p>",
+        "tags": [
+            15
+        ]
     }
 },
 {
@@ -589,9 +651,11 @@
     "pk": 12,
     "fields": {
         "lesson": 1,
-        "number": 12,
-        "html_content": "",
-        "tags": []
+        "number": 13,
+        "html_content": "<p>2</p>",
+        "tags": [
+            15
+        ]
     }
 },
 {
@@ -599,9 +663,11 @@
     "pk": 13,
     "fields": {
         "lesson": 1,
-        "number": 13,
-        "html_content": "",
-        "tags": []
+        "number": 14,
+        "html_content": "<p>1</p>",
+        "tags": [
+            15
+        ]
     }
 },
 {
@@ -609,9 +675,11 @@
     "pk": 14,
     "fields": {
         "lesson": 1,
-        "number": 14,
-        "html_content": "",
-        "tags": []
+        "number": 15,
+        "html_content": "<p>21</p>",
+        "tags": [
+            15
+        ]
     }
 },
 {
@@ -619,9 +687,11 @@
     "pk": 15,
     "fields": {
         "lesson": 1,
-        "number": 15,
-        "html_content": "",
-        "tags": []
+        "number": 16,
+        "html_content": "<p>3222<span class=\"badge badge-secondary bg-secondary\">1.</span>&nbsp;</p>",
+        "tags": [
+            15
+        ]
     }
 },
 {
@@ -629,9 +699,1259 @@
     "pk": 16,
     "fields": {
         "lesson": 1,
-        "number": 16,
-        "html_content": "",
+        "number": 17,
+        "html_content": "ottuaeliä1\r\nmieota-nelä-n\r\nšieota-telä-t\r\nhiänotta-uelä-y\r\nmyöota-mmaelä-mmä\r\ntyöota-ttaelä-ttä\r\nhyöote-ta-hele-tä-h",
+        "tags": [
+            1,
+            13
+        ]
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 18,
+    "fields": {
+        "lesson": 2,
+        "number": 2,
+        "html_content": "<p>qqqqqqqq</p>",
         "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 19,
+    "fields": {
+        "lesson": 1,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 20,
+    "fields": {
+        "lesson": 2,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 21,
+    "fields": {
+        "lesson": 3,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 22,
+    "fields": {
+        "lesson": 4,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 23,
+    "fields": {
+        "lesson": 5,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 24,
+    "fields": {
+        "lesson": 6,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 25,
+    "fields": {
+        "lesson": 7,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 26,
+    "fields": {
+        "lesson": 8,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 27,
+    "fields": {
+        "lesson": 9,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 28,
+    "fields": {
+        "lesson": 10,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 29,
+    "fields": {
+        "lesson": 11,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 30,
+    "fields": {
+        "lesson": 12,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 31,
+    "fields": {
+        "lesson": 13,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 32,
+    "fields": {
+        "lesson": 14,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 33,
+    "fields": {
+        "lesson": 15,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 34,
+    "fields": {
+        "lesson": 16,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 35,
+    "fields": {
+        "lesson": 17,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 36,
+    "fields": {
+        "lesson": 18,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 37,
+    "fields": {
+        "lesson": 19,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 38,
+    "fields": {
+        "lesson": 20,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 39,
+    "fields": {
+        "lesson": 21,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 40,
+    "fields": {
+        "lesson": 22,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 41,
+    "fields": {
+        "lesson": 23,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 42,
+    "fields": {
+        "lesson": 24,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.module",
+    "pk": 43,
+    "fields": {
+        "lesson": 25,
+        "number": 1,
+        "html_content": "<p>[[widget:lesson_cover]]</p>",
+        "tags": []
+    }
+},
+{
+    "model": "lessons.exercise",
+    "pk": 6,
+    "fields": {
+        "module": 7,
+        "exercise_type": "SyllableAssembly",
+        "data": {
+            "questions": [
+                {
+                    "word": "talo",
+                    "syllables": [
+                        "lo",
+                        "ta"
+                    ]
+                },
+                {
+                    "word": "šukši",
+                    "syllables": [
+                        "ši",
+                        "šuk"
+                    ]
+                },
+                {
+                    "word": "kazi",
+                    "syllables": [
+                        "zi",
+                        "ka"
+                    ]
+                },
+                {
+                    "word": "murgina",
+                    "syllables": [
+                        "na",
+                        "mur",
+                        "gi"
+                    ]
+                },
+                {
+                    "word": "vavarno",
+                    "syllables": [
+                        "var",
+                        "va",
+                        "no"
+                    ]
+                },
+                {
+                    "word": "ruveta",
+                    "syllables": [
+                        "ru",
+                        "ta",
+                        "ve"
+                    ]
+                },
+                {
+                    "word": "edähänä",
+                    "syllables": [
+                        "dä",
+                        "hä",
+                        "e",
+                        "nä"
+                    ]
+                },
+                {
+                    "word": "ristikanža",
+                    "syllables": [
+                        "ti",
+                        "ža",
+                        "ris",
+                        "kan"
+                    ]
+                },
+                {
+                    "word": "omahine",
+                    "syllables": [
+                        "ne",
+                        "o",
+                        "hi",
+                        "ma"
+                    ]
+                }
+            ]
+        },
+        "has_answers_check": true
+    }
+},
+{
+    "model": "lessons.exercise",
+    "pk": 11,
+    "fields": {
+        "module": 9,
+        "exercise_type": "FillBlankText",
+        "data": {
+            "texts": [
+                {
+                    "text": [
+                        "Katti [6*:on] linnašša.",
+                        "Mie [6*:olen] karielane.",
+                        "Hyö [6*:ollah] koissa.",
+                        "Šie [6*:olet] šoma.",
+                        "Myö [6*:olemma] täššä.",
+                        "Muamo [6*:on] vrača.",
+                        "Työ [6*:oletta] Šuomešša.",
+                        "Lapšet [6*:ollah] školašša.",
+                        "Turki [6*:on] škuapašša."
+                    ]
+                }
+            ]
+        },
+        "has_answers_check": true
+    }
+},
+{
+    "model": "lessons.exercise",
+    "pk": 12,
+    "fields": {
+        "module": 11,
+        "exercise_type": "FillWord",
+        "data": {
+            "field": [
+                "rdapitčolis",
+                "arupzekakvk",
+                "pavruuaglaa",
+                "ktkohletlut",
+                "ušnkielitot",
+                "ruänenukame",
+                "vuvötättäht",
+                "ičaččathami",
+                "sutopčimlba",
+                "aukriltäišh",
+                "tlmateugata"
+            ],
+            "words": [
+                "usat",
+                "ruppizet",
+                "kulmat",
+                "parda",
+                "luomet",
+                "viskat",
+                "nävöt",
+                "tähti",
+                "hambahat",
+                "tukat",
+                "očča",
+                "ripčit",
+                "šilmät",
+                "korvat",
+                "nenä",
+                "kieli",
+                "kagla",
+                "leuga",
+                "šuu",
+                "huulet"
+            ],
+            "prefilledWords": {
+                "čolka": [
+                    "1:7",
+                    "1:8",
+                    "1:9",
+                    "2:8",
+                    "2:9"
+                ],
+                "kurvičat": [
+                    "4:1",
+                    "5:1",
+                    "6:1",
+                    "7:1",
+                    "8:1",
+                    "8:2",
+                    "8:3",
+                    "9:3"
+                ]
+            }
+        },
+        "has_answers_check": true
+    }
+},
+{
+    "model": "lessons.exercise",
+    "pk": 13,
+    "fields": {
+        "module": 12,
+        "exercise_type": "FillGapWithChoice",
+        "data": {
+            "questions": [
+                {
+                    "text": "Oks’o Smirnova eläy [*4:Kozlovalla].",
+                    "type": "radio",
+                    "variants": [
+                        "Kozlovalla",
+                        "Mikul’n’alla",
+                        "Kagrapuussalla"
+                    ]
+                },
+                {
+                    "text": "Oks’o on miehellä [*2:10] vuotta.",
+                    "type": "radio",
+                    "variants": [
+                        "9",
+                        "10",
+                        "11"
+                    ]
+                },
+                {
+                    "text": "Hänen mužikkua kučutah [*5:Jyrgi].",
+                    "type": "radio",
+                    "variants": [
+                        "Sergo",
+                        "Kir’u",
+                        "Jyrgi"
+                    ]
+                },
+                {
+                    "text": "Hänellä on [*2:37] vuotta.",
+                    "type": "radio",
+                    "variants": [
+                        "35",
+                        "37",
+                        "39"
+                    ]
+                },
+                {
+                    "text": "Heilä on kakši lašta: [*4:poiga da tytär].",
+                    "type": "radio",
+                    "variants": [
+                        "poijat kakšozet",
+                        "kakši tytärdä",
+                        "poiga da tytär"
+                    ]
+                },
+                {
+                    "text": "Yhen katokšen alla perehenke eletäh [*4:mužikan vanhemmat].",
+                    "type": "radio",
+                    "variants": [
+                        "mužikan vanhemmat",
+                        "naizen vanhemmat",
+                        "mužikan velli"
+                    ]
+                },
+                {
+                    "text": "Kirʼu on [*4:yksinäne].",
+                    "type": "radio",
+                    "variants": [
+                        "yksinäne",
+                        "naizissa",
+                        "eronnun"
+                    ]
+                },
+                {
+                    "text": "Smirnovilla on [*4:kazi da koira].",
+                    "type": "radio",
+                    "variants": [
+                        "kazi da koira",
+                        "kolme kazie",
+                        "kakši koirua"
+                    ]
+                },
+                {
+                    "text": "Smirnovat pijetäh [*4:lehmiä|poččie|kanua].",
+                    "type": "checkbox",
+                    "variants": [
+                        "lehmiä",
+                        "hevost’a",
+                        "lammašta",
+                        "čibua",
+                        "poččie",
+                        "kanua",
+                        "ut’ua"
+                    ]
+                },
+                {
+                    "text": "Smirnovin pereh on [*4:ožakaš].",
+                    "type": "radio",
+                    "variants": [
+                        "ožakaš",
+                        "ožatoin",
+                        "pieni"
+                    ]
+                }
+            ]
+        },
+        "has_answers_check": true
+    }
+},
+{
+    "model": "lessons.exercise",
+    "pk": 14,
+    "fields": {
+        "module": 13,
+        "exercise_type": "MatchPairSentenceSlot",
+        "data": {
+            "variants": [
+                "Nadʼo",
+                "Sergo",
+                "Riigo",
+                "Dar’u",
+                "Mar’u",
+                "Ondrei",
+                "Oksʼo",
+                "Jyrgi",
+                "Kirʼu",
+                "Onto",
+                "Anni",
+                "Mikki",
+                "Ol’o",
+                "Arsʼo"
+            ],
+            "questions": [
+                {
+                    "pairs": [
+                        {
+                            "pair": "Onto",
+                            "sentence": "Hiän on Dar’un da Riigon vunukka, Ondrein da Mar’un lapši, Oks’on plemännikkä, Ol’on da Ars’on dvoirodnoi velli, Annin da Mikin rodnoi velli."
+                        }
+                    ]
+                },
+                {
+                    "pairs": [
+                        {
+                            "pair": "Ondrei",
+                            "sentence": "Hiän on Riigon da Dar’un lapši, Sergon da Nad’on suatto, Jyrrin niälä, Ol’on da Ars’on diädö, Mar’un mužikka."
+                        }
+                    ]
+                },
+                {
+                    "pairs": [
+                        {
+                            "pair": "Ol’o",
+                            "sentence": "Hiän on Riigon, Dar’un, Sergon da Nad’on vunukka, Oks’on da Jyrrin lapši, Kir’un da Ondrein plemännikkä, Onton, Annin da Mikin dvoirodnoi čikko, Ars’on rodnoi čikko."
+                        }
+                    ]
+                },
+                {
+                    "pairs": [
+                        {
+                            "pair": "Dar’u",
+                            "sentence": "Hiän on Ol’on da Ars’on buabo, Sergon suat’a, Jyrrin anoppi, Mar’un muatko, Riigon naine."
+                        }
+                    ]
+                }
+            ]
+        },
+        "has_answers_check": true
+    }
+},
+{
+    "model": "lessons.exercise",
+    "pk": 15,
+    "fields": {
+        "module": 10,
+        "exercise_type": "FillGapWithChoice",
+        "data": {
+            "questions": [
+                {
+                    "text": "1. Hänen nimi on Oks’o. [*1:&#10003;]",
+                    "type": "radio",
+                    "variants": [
+                        "&#10003;",
+                        "&#10007;"
+                    ]
+                },
+                {
+                    "text": "2. Hänen famil’ja on Ivanova. [*1:&#10007;]",
+                    "type": "radio",
+                    "variants": [
+                        "&#10003;",
+                        "&#10007;"
+                    ]
+                },
+                {
+                    "text": "3. Hiän on tverinkariela. [*1:&#10003;]",
+                    "type": "radio",
+                    "variants": [
+                        "&#10003;",
+                        "&#10007;"
+                    ]
+                },
+                {
+                    "text": "4. Hiän pagizou šuomekši. [*1:&#10007;]",
+                    "type": "radio",
+                    "variants": [
+                        "&#10003;",
+                        "&#10007;"
+                    ]
+                },
+                {
+                    "text": "5. Hiän pagizou angliskoiksi. [*1:&#10007;]",
+                    "type": "radio",
+                    "variants": [
+                        "&#10003;",
+                        "&#10007;"
+                    ]
+                },
+                {
+                    "text": "6. Hiän šyndy Kozlovalla. [*1:&#10007;]",
+                    "type": "radio",
+                    "variants": [
+                        "&#10003;",
+                        "&#10007;"
+                    ]
+                },
+                {
+                    "text": "7. Hiän eläy Mikul’nʼalla. [*1:&#10007;]",
+                    "type": "radio",
+                    "variants": [
+                        "&#10003;",
+                        "&#10007;"
+                    ]
+                },
+                {
+                    "text": "8. Mikul’nʼa on karielane kylä. [*1:&#10003;]",
+                    "type": "radio",
+                    "variants": [
+                        "&#10003;",
+                        "&#10007;"
+                    ]
+                },
+                {
+                    "text": "9. Mikul’nʼa on nuori kylä. [*1:&#10007;]",
+                    "type": "radio",
+                    "variants": [
+                        "&#10003;",
+                        "&#10007;"
+                    ]
+                }
+            ]
+        },
+        "has_answers_check": true
+    }
+},
+{
+    "model": "lessons.exercise",
+    "pk": 18,
+    "fields": {
+        "module": 6,
+        "exercise_type": "FillBlankTable",
+        "data": {
+            "cols": 2,
+            "rows": 3,
+            "class": [
+                "table-borderless"
+            ],
+            "table": [
+                [
+                    {
+                        "content": "Ken on Ol’on muamo? [9*:Ol’on muamo on Oksʼo]."
+                    },
+                    {
+                        "content": "Ken on Ol’on muamo? [9*:Ol’on muamo on Oksʼo]."
+                    }
+                ]
+            ]
+        },
+        "has_answers_check": true
+    }
+},
+{
+    "model": "lessons.exercise",
+    "pk": 20,
+    "fields": {
+        "module": 8,
+        "exercise_type": "FillBlankTable",
+        "data": {
+            "cols": 7,
+            "rows": 3,
+            "class": [
+                "table-bordered text-center align-middle"
+            ],
+            "table": [
+                [
+                    {
+                        "content": ""
+                    },
+                    {
+                        "class": [
+                            "table-info",
+                            "align-middle"
+                        ],
+                        "content": "<b>šuata</b>"
+                    },
+                    {
+                        "class": [
+                            "align-middle"
+                        ],
+                        "content": "<b>mieldyö</b><br>(perehtyö, šyndyö)"
+                    },
+                    {
+                        "class": [
+                            "table-info",
+                            "align-middle"
+                        ],
+                        "content": "<b>männä</b>"
+                    },
+                    {
+                        "class": [
+                            "align-middle"
+                        ],
+                        "content": "<b>naija</b>"
+                    },
+                    {
+                        "class": [
+                            "table-info",
+                            "align-middle"
+                        ],
+                        "content": "<b>erota<b>"
+                    },
+                    {
+                        "class": [
+                            "align-middle"
+                        ],
+                        "content": "<b>šynnyttiä</b>"
+                    }
+                ],
+                [
+                    {
+                        "content": "<b>mie</b>"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "šua<b>č</b>e<mark>n</mark>"
+                    },
+                    {
+                        "content": "mie<b>ll</b>y<mark>n</mark>"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "[4*:mänen]"
+                    },
+                    {
+                        "content": "[4*:naičen]"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "[4*:eruon]"
+                    },
+                    {
+                        "content": "šynny<b>t</b>ä<mark>n</mark>"
+                    }
+                ],
+                [
+                    {
+                        "content": "<b>šie</b>"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "šua<b>č</b>e<mark>t</mark>"
+                    },
+                    {
+                        "content": "[4*:miellyt]"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "mäne<mark>t</mark>"
+                    },
+                    {
+                        "content": "[4*:naičet]"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "[4*:eruot]"
+                    },
+                    {
+                        "content": "[4*:šynnytät]"
+                    }
+                ],
+                [
+                    {
+                        "content": "<b>hiän</b>"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "šua<b>čč</b>o<mark>u</mark>"
+                    },
+                    {
+                        "content": "mie<b>ld</b>y<mark>y</mark>"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "mänö<mark>y</mark>"
+                    },
+                    {
+                        "content": "nai<b>čč</b>o<mark>u</mark>"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "eruo<mark>u</mark>"
+                    },
+                    {
+                        "content": "šynny<b>tt</b>ä<mark>y</mark>"
+                    }
+                ],
+                [
+                    {
+                        "content": "<b>myö</b>"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "šua<b>č</b>e<mark>mma</mark>"
+                    },
+                    {
+                        "content": "[4*:miellymmä]"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "[4*:mänemmä]"
+                    },
+                    {
+                        "content": "nai<b>č</b>e<mark>mma</mark>"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "[4*:eruomma]"
+                    },
+                    {
+                        "content": "[4*:šynnytämmä]"
+                    }
+                ],
+                [
+                    {
+                        "content": "<b>työ</b>"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "šua<b>č</b>e<mark>tta</mark>"
+                    },
+                    {
+                        "content": "[4*:miellyttä]"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "[4*:mänettä]"
+                    },
+                    {
+                        "content": "[4*:naičetta]"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "eruo<mark>tta</mark>"
+                    },
+                    {
+                        "content": "[4*:šynnytättä]"
+                    }
+                ],
+                [
+                    {
+                        "content": "<b>hyö</b>"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "šuata<mark>h</mark>"
+                    },
+                    {
+                        "content": "mie<b>ll</b>y<mark>täh</mark>"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "männä<mark>h</mark>"
+                    },
+                    {
+                        "content": "naija<mark>h</mark>"
+                    },
+                    {
+                        "class": [
+                            "table-info"
+                        ],
+                        "content": "erota<mark>h</mark>"
+                    },
+                    {
+                        "content": "šynny<b>t</b>e<mark>täh</mark>"
+                    }
+                ]
+            ]
+        },
+        "has_answers_check": true
+    }
+},
+{
+    "model": "lessons.exercise",
+    "pk": 21,
+    "fields": {
+        "module": 5,
+        "exercise_type": "SentenceAssembly",
+        "data": {
+            "groups": [
+                {
+                    "group": 1,
+                    "words": [
+                        "Mie",
+                        "Šie",
+                        "Muamo",
+                        "Myö",
+                        "Työ",
+                        "Ristikanžat"
+                    ]
+                },
+                {
+                    "group": 2,
+                    "words": [
+                        "pagizet",
+                        "olemma",
+                        "paissah",
+                        "elän",
+                        "on",
+                        "elättä"
+                    ]
+                },
+                {
+                    "group": 3,
+                    "words": [
+                        "Tolmačušša.",
+                        "šuomekši.",
+                        "karielakši.",
+                        "opaštaja.",
+                        "Moskušša.",
+                        "veniäläzet."
+                    ]
+                }
+            ],
+            "answers": [
+                "Mie|elän|Moskušša.",
+                "Mie|elän|Tolmačušša.",
+                "Šie|pagizet|karielakši.",
+                "Šie|pagizet|šuomekši.",
+                "Muamo|on|opaštaja.",
+                "Myö|olemma|veniäläzet.",
+                "Työ|elättä|Moskušša.",
+                "Työ|elättä|Tolmačušša.",
+                "Ristikanžat|paissah|karielakši.",
+                "Ristikanžat|paissah|šuomekši."
+            ],
+            "template": {
+                "count": 6,
+                "slots": 3
+            }
+        },
+        "has_answers_check": true
+    }
+},
+{
+    "model": "lessons.exercise",
+    "pk": 22,
+    "fields": {
+        "module": 2,
+        "exercise_type": "FillBlank",
+        "data": [
+            {
+                "order": 1,
+                "questions": [
+                    {
+                        "question": "h[**:ii|uu]li"
+                    },
+                    {
+                        "question": "k[**:uu]ži"
+                    },
+                    {
+                        "question": "h[**:ii]ri"
+                    },
+                    {
+                        "question": "j[**:uu]ri"
+                    },
+                    {
+                        "question": "k[**:yy]nelʼ"
+                    },
+                    {
+                        "question": "p[**:ii|uu|yy]"
+                    }
+                ]
+            }
+        ],
+        "has_answers_check": true
+    }
+},
+{
+    "model": "lessons.exercise",
+    "pk": 23,
+    "fields": {
+        "module": 14,
+        "exercise_type": "SentenceAssemblyPrefilled",
+        "data": {
+            "groups": [
+                {
+                    "group": 1,
+                    "words": [
+                        "buabo<b>n</b> ali diedo<b>n</b>",
+                        "poija<b>n</b> ali tyttäre<b>n</b>",
+                        "muamo<b>n</b> ali tuato<b>n</b>",
+                        "velle<b>n</b> ali čiko<b>n</b>",
+                        "vunuka<b>n</b>"
+                    ]
+                },
+                {
+                    "group": 2,
+                    "words": [
+                        "muamo.",
+                        "velli.",
+                        "tuatto.",
+                        "čikko.",
+                        "lapši."
+                    ]
+                }
+            ],
+            "answers": [
+                "Diedo|on|muamon ali tuaton|tuatto.",
+                "Prabuabo|on|buabon ali diedon|muamo.",
+                "Pradiedo|on|buabon ali diedon|tuatto.",
+                "Diädö|on|muamon ali tuaton|velli.",
+                "Tʼota|on|muamon ali tuaton|čikko.",
+                "Plemännikkä|on|vellen ali čikon|lapši.",
+                "Vunukka|on|poijan ali tyttären|lapši.",
+                "Pravnukka|on|vunukan|lapši."
+            ],
+            "template": {
+                "count": 8,
+                "slots": 4,
+                "examples": [
+                    [
+                        "Buabo",
+                        "on",
+                        "muamon ali tuaton",
+                        "muamo."
+                    ]
+                ],
+                "prefillers": [
+                    [
+                        "Diedo",
+                        "on",
+                        "",
+                        ""
+                    ],
+                    [
+                        "Prabuabo",
+                        "on",
+                        "",
+                        ""
+                    ],
+                    [
+                        "Pradiedo",
+                        "on",
+                        "",
+                        ""
+                    ],
+                    [
+                        "Diädö",
+                        "on",
+                        "",
+                        ""
+                    ],
+                    [
+                        "Tʼota",
+                        "on",
+                        "",
+                        ""
+                    ],
+                    [
+                        "Plemännikkä",
+                        "on",
+                        "",
+                        ""
+                    ],
+                    [
+                        "Vunukka",
+                        "on",
+                        "",
+                        ""
+                    ],
+                    [
+                        "Pravnukka",
+                        "on",
+                        "",
+                        ""
+                    ]
+                ]
+            }
+        },
+        "has_answers_check": true
+    }
+},
+{
+    "model": "lessons.exercise",
+    "pk": 24,
+    "fields": {
+        "module": 15,
+        "exercise_type": "MatchPairSentenceSlot",
+        "data": {
+            "questions": [
+                {
+                    "pairs": [
+                        {
+                            "pair": "paha – da oma.",
+                            "word": "Hyvä – da vieraš,"
+                        }
+                    ]
+                },
+                {
+                    "pairs": [
+                        {
+                            "pair": "yhen äijyöldi kivistäy.",
+                            "word": "Kummas’t’a šormie i pure:"
+                        }
+                    ]
+                },
+                {
+                    "pairs": [
+                        {
+                            "pair": "i huolet kažvetah.",
+                            "word": "Lapšet kažvetah"
+                        }
+                    ]
+                },
+                {
+                    "pairs": [
+                        {
+                            "pair": "tuaton šana raudane.",
+                            "word": "Muamon vičča villane,"
+                        }
+                    ]
+                },
+                {
+                    "pairs": [
+                        {
+                            "pair": "muozet i vežat.",
+                            "word": "Mittyöt kannot,"
+                        }
+                    ]
+                },
+                {
+                    "pairs": [
+                        {
+                            "pair": "mi yksi nado.",
+                            "word": "Parembi yhekšän kydyö,"
+                        }
+                    ]
+                },
+                {
+                    "pairs": [
+                        {
+                            "pair": "da omua puolissa.",
+                            "word": "Šuuda viärissä,"
+                        }
+                    ]
+                },
+                {
+                    "pairs": [
+                        {
+                            "pair": "i pereh eläy.",
+                            "word": "Lapšen ožalla"
+                        }
+                    ]
+                }
+            ]
+        },
+        "has_answers_check": true
     }
 }
 ]
