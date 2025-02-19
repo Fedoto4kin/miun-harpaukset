@@ -15,6 +15,12 @@ def update_listen_tag_on_speech_change(sender, instance, **kwargs):
 @receiver(post_save, sender=Module)
 def update_listen_tag_on_module_save(sender, instance, **kwargs):
     check_and_update_listen_tag(instance)
+    check_and_update_key_tag(instance)
+
+@receiver(post_save, sender=Exercise)
+@receiver(post_delete, sender=Exercise)
+def update_key_tag_on_exercise_change(sender, instance, **kwargs):
+    check_and_update_key_tag(instance.module)
 
 def check_and_update_listen_tag(module):
     tell_tag, _ = Tag.objects.get_or_create(
@@ -31,8 +37,7 @@ def check_and_update_listen_tag(module):
     else:
         module.tags.remove(tell_tag)
 
-@receiver(post_save, sender=Exercise)
-def add_key_tag(sender, instance, created, **kwargs):
+def check_and_update_key_tag(module):
     key_tag, _ = Tag.objects.get_or_create(
         code=KEY_TAG_CODE,
         defaults={
@@ -42,18 +47,7 @@ def add_key_tag(sender, instance, created, **kwargs):
             'hint_finnish': 'Avain'
         }
     )
-    if instance.has_answers_check:
-        instance.module.tags.add(key_tag)
-    check_and_update_key_tag(instance.module)
-
-@receiver(post_delete, sender=Exercise)
-def remove_key_tag(sender, instance, **kwargs):
-    check_and_update_key_tag(instance.module)
-
-def check_and_update_key_tag(module):
-    key_tag = Tag.objects.filter(code=KEY_TAG_CODE).first()
-    if key_tag:
-        if module.exercises.filter(has_answers_check=True).exists():
-            module.tags.add(key_tag)
-        else:
-            module.tags.remove(key_tag)
+    if module.exercises.filter(has_answers_check=True).exists():
+        module.tags.add(key_tag)
+    else:
+        module.tags.remove(key_tag)
