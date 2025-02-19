@@ -29,10 +29,10 @@ class ModuleForm(forms.ModelForm):
 
 
 class ExerciseForm(forms.ModelForm):
-    
     class Meta:
         model = Exercise
         fields = '__all__'
         widgets = {
-            'data': JSONEditorWidget(attrs={'class': 'json-editor'}),
+            'data': JSONEditorWidget(attrs={'class': 'json-editor'})
         }
+

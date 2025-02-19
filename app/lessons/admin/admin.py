@@ -1,11 +1,12 @@
 from nested_admin import NestedModelAdmin
 from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
-from django.urls import reverse
+from django.urls import reverse, path
 from django.utils.html import format_html
+from django.http import HttpResponseRedirect
 from django import forms
-from ..models import Lesson, LessonSpeech, Module
-from .forms import LessonSpeechForm, ModuleForm
+from ..models import Lesson, LessonSpeech, Module, Exercise
+from .forms import LessonSpeechForm, ModuleForm, ExerciseForm
 from .inlines import LessonSpeechNestedInline, ModuleInline, ExerciseInline
 
 class LessonSpeechAdmin(admin.ModelAdmin):
@@ -50,7 +51,6 @@ class LessonSpeechAdmin(admin.ModelAdmin):
             extra_context['linked_object_name'] = initial_data.get('linked_object_name', '')
         return super().changeform_view(request, object_id, form_url, extra_context)
 
-
 class ModuleAdmin(NestedModelAdmin):
     list_display = ('number', 'lesson', 'upload_sound_button')
     search_fields = ('lesson__title', 'number')
@@ -81,6 +81,14 @@ class LessonAdmin(NestedModelAdmin):
     upload_sound_button.short_description = 'Pagina'
     upload_sound_button.allow_tags = True
 
+class ExerciseAdmin(admin.ModelAdmin):
+    form = ExerciseForm
+    list_display = ('module', 'exercise_type', 'has_answers_check')
+    list_filter = ('exercise_type',)
+    search_fields = ('module__name',)
+
+
+admin.site.register(Exercise, ExerciseAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(LessonSpeech, LessonSpeechAdmin)
 admin.site.register(Module, ModuleAdmin)
