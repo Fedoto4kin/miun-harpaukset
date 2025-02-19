@@ -1,5 +1,6 @@
-services:
+version: '3.8'
 
+services:
   nginx:
     container_name: mhkk_nginx
     restart: "always"
@@ -80,3 +81,6 @@ services:
 networks:
   mhkk-net:
     driver: bridge
+
+env_file:
+  - .env
