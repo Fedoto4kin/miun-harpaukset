@@ -14,19 +14,23 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="found-words">
-                        <ol class="list-group list-group-numbered">
-                            <li class="list-group-item" v-for="(word, index) in found" :key="index">{{ word }}</li>
-                        </ol>
+                    <div class="found-words  align-items-center d-flex gap-2">
+                        <span class="found-word btn btn-outline-secondary btn-lg hover no-pointer" 
+                              v-for="(word, index) in found" :key="index">
+                           {{ word }}
+                        </span>
                     </div>
-                </div>
+                </div> 
             </div>
         </div>
 </template>
 
 <script>
+import { confettiMixin } from '@/mixins/confettiMixin.js';
+
 export default {
-    name: 'WordSearchExercise',
+    name: 'FillWord',
+    mixins: [confettiMixin],
     props: {
         data: {
             type: Object,
@@ -47,6 +51,11 @@ export default {
             draw: false,
             hoveredCell: null
         };
+    },
+    computed: {
+        foundCount() {
+            return this.found.length;
+        }
     },
     watch: {
         data: {
@@ -86,13 +95,13 @@ export default {
             if (word) {
                 this.line = [];
                 const foundWord = this.word.join("").toLowerCase();
-                this.found.push(foundWord);
+                this.found.unshift(foundWord);
                 this.words = this.words.filter(w => w.toLowerCase() !== foundWord);
                 
                 this.clearWord();
 
                 if (this.isEndGame()) {
-                    // todo: call win event
+                    this.launchConfetti();
                 }
             } else {
                 this.deactivateTimeline();
@@ -185,6 +194,7 @@ export default {
             })[0];
         },
         isEndGame() {
+            console.log(this.words);
             return this.words.length === 0
         },
         makeEmptyScene() {
@@ -279,19 +289,26 @@ export default {
 }
 
 .cell.hover {
-    background-color: #e0e0e0;
+    background-color: #abebff;
 }
 
 .cell.active {
-    background-color: #b0c4de;
-    /* Подсветка при выделении */
+    background-color: #d4edda;
 }
 
 .cell.prefilled {
     background-color: #d3d3d3;
-    /* Серый цвет для предзаполненных ячеек */
     pointer-events: none;
-    /* Запрещаем взаимодействие */
 }
 
+
+.no-pointer {
+    pointer-events: none; /* Запретить действия с кнопками */
+}
+
+.found-words {
+    display: flex;
+    gap: 0.5rem; /* Расстояние между кнопками */
+    flex-wrap: wrap; /* Перенос кнопок на новую линию, если не помещаются */
+}
 </style>
