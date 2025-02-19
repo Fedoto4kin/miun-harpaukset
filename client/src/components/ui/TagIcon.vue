@@ -48,7 +48,7 @@ export default {
         vocabulary: ['fas', 'book'],
         dialogue: ['fas', 'comments'],
         remember: ['fas', 'brain'],
-        proverbs: ['fas', 'book-open-reader'],
+        proverbs: ['fas', 'stroopwafel'],
         task: ['fas', 'question-circle'],
         game: ['fas', 'face-grin-stars'],
         read: ['fas', 'book-open'],
