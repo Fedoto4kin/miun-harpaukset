@@ -6,7 +6,7 @@
           <h1>404 - Ei ole lehtie</h1>
         </div>
       </div>
-    </div>  
+    </div>
   </template>
   
   <script>
@@ -21,7 +21,7 @@
     background-image: url('@/assets/img/pieni-musta-kazi.png');
     background-size: cover;
     background-position: top;
-    min-height: 100vh; 
+    min-height: 100vh;
     background-size: 50% auto;
     background-repeat: no-repeat;
     position: relative;

@@ -60,6 +60,12 @@ class ExerciseType(Enum):
     '''
     FILL_GAP_WITH_CHOICE = ("FillGapWithChoice", "Fill Gap with Choice")
 
+    '''
+        A word search exercise where users find 
+        and select words hidden in a grid of letters.
+    '''
+    FILL_WORD = ("FillWord", "Fillword Game")
+
     def __init__(self, value, label):
         self._value_ = value
         self.label = label

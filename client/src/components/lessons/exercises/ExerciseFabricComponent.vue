@@ -17,7 +17,7 @@ import MatchPairExercise from './variants/MatchPairExerciseComponent.vue';
 import FillBlankTableExercise from './variants/FillBlankTableExerciseComponent.vue';
 import FillGapWithChoiceExercise from './variants/FillGapWithChoiceExerciseComponent.vue';
 import MatchPairSentenceSlotExercise from './variants/MatchPairSentenceSlotExerciseComponent.vue';
-
+import FillWordExercise from './variants/FillWordExerciseComponent.vue';
 
 export default {
   name: 'ExerciseFactory',
@@ -45,9 +45,11 @@ export default {
         case 'FillBlankTable':
           return FillBlankTableExercise;
         case 'MatchPairSentenceSlot':
-          return MatchPairSentenceSlotExercise;  
+          return MatchPairSentenceSlotExercise;
         case 'FillGapWithChoice':
           return FillGapWithChoiceExercise;
+        case 'FillWord':
+          return FillWordExercise;
         default:
           return null;
       }
