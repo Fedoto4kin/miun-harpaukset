@@ -113,7 +113,6 @@ export default {
                     : Array(this.template.slots).fill('')
             );
 
-            // По умолчанию устанавливаем активный слот на первый свободный
             let nextSentenceIndex = 0;
             let nextSlotIndex = 0;
 

@@ -16,6 +16,7 @@ import SentenceAssemblyPrefilledExercise from './variants/SentenceAssemblyPrefil
 import MatchPairExercise from './variants/MatchPairExerciseComponent.vue';
 import FillBlankTableExercise from './variants/FillBlankTableExerciseComponent.vue';
 import FillGapWithChoiceExercise from './variants/FillGapWithChoiceExerciseComponent.vue';
+import MatchPairSentenceSlotExercise from './variants/MatchPairSentenceSlotExerciseComponent.vue';
 
 
 export default {
@@ -43,6 +44,8 @@ export default {
           return MatchPairExercise;
         case 'FillBlankTable':
           return FillBlankTableExercise;
+        case 'MatchPairSentenceSlot':
+          return MatchPairSentenceSlotExercise;  
         case 'FillGapWithChoice':
           return FillGapWithChoiceExercise;
         default:

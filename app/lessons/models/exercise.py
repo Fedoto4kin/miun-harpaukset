@@ -48,6 +48,12 @@ class ExerciseType(Enum):
     FILL_BLANK_TABLE = ("FillBlankTable", "Fill in the Blank Table")
 
     ''' 
+        A match-the-pair exercise where users find the 
+        corresponding pair for a given word.
+    '''
+    MATCH_PAIR_SLOTS = ("MatchPairSentenceSlot", "Match the Pair with slots for sentantions")
+
+    ''' 
         A fill-in-the-blank exercise where users fill 
         in missing parts of a text by selecting the correct
         answer from provided options.
