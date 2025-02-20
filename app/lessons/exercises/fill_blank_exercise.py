@@ -1,51 +1,23 @@
 from .base_exercise import ExerciseSchema
-import json  # Добавим импорт модуля json
+import json
 
 class FillBlankExercise(ExerciseSchema):
     @property
     def schema(self):
-        """
-        Schema for 'Fill in the blank' exercises.
-
-        Example data for FillBlank schema:
-
-        [
-            {
-                "text": "ua, uo, iä, ie, yö:",
-                "order": 10,
-                "questions": [
-                    {"question": "l[**:iä]vä"},
-                    {"question": "n[**:uo]ri"},
-                    {"question": "m[**:yö]hä"},
-                    {"question": "m[**:ua]mo"},
-                    {"question": "n[**:ie|ua]gla"}
-                ]
-            },
-            ...
-        ]
-
-        Format of the question string:
-        - The string represents a sentence with missing parts that users must fill in.
-        - The missing part is indicated by the pattern [**:ANSWERS], where:
-            - ** - represents the length of the missing part.
-            - ANSWERS - possible answers separated by the '|' symbol.
-        - Example: "l[**:iä]vä" means that the missing part is 2 characters 
-        long and the possible answer is "iä".
-        """
         return {
             "$schema": "http://json-schema.org/draft-07/schema#",
             "description": """
-                Schema for 'Fill in the blank' exercises.
-                It may contain more than one block of questions, ordered by order ASC.
-                Text of the question block is shown before questions.
+    Schema for 'Fill in the blank' exercises.
+    It may contain more than one block of questions, ordered by order ASC.
+    Text of the question block is shown before questions.
 
-                Format of the question string:
-                - The string represents a sentence with missing parts that users must fill in.
-                - The missing part is indicated by the pattern [**:ANSWERS], where:
-                    - ** - represents the length of the missing part.
-                    - ANSWERS - possible answers separated by the '|' symbol.
-                - Example: "l[**:iä]vä" means that the missing part is 2 characters 
-                long and the possible answer is "iä".
+    Format of the question string:
+    - The string represents a sentence with missing parts that users must fill in.
+    - The missing part is indicated by the pattern [**:ANSWERS], where:
+        - ** - represents the length of the missing part.
+        - ANSWERS - possible answers separated by the '|' symbol.
+    - Example: "l[**:iä]vä" means that the missing part is 2 characters 
+    long and the possible answer is "iä".
             """,
             "type": "array",
             "items": {
@@ -143,7 +115,6 @@ class FillBlankExercise(ExerciseSchema):
                 continue
             # If the user entered 'q', finish
             elif question.lower() == 'q':
-                command.clear_screen()
                 break
 
         return data

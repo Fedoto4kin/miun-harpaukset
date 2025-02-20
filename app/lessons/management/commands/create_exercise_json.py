@@ -68,9 +68,6 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.ERROR("Ошибка: Упражнение не найдено."))
                 continue  # Return to exercise selection
 
-            # Clear the screen after selecting an exercise
-            self.clear_screen()
-
             # Create an instance of the exercise
             exercise = exercise_class()
 
