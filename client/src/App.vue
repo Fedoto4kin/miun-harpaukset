@@ -17,7 +17,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link class="nav-link" to="/lessons" exact-active-class="active">Urokat</router-link>
+              <router-link class="nav-link" to="/lessons" :class="{ active: isLessonsActive }">Urokat</router-link>
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/lexicon" exact-active-class="active">Šanakniiga</router-link>
@@ -38,7 +38,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 export default {
-  name: 'App'
+  name: 'App',
+  computed: {
+    isLessonsActive() {
+      return this.$route.path.startsWith('/lessons');
+    },
+  },
 };
 </script>
 
