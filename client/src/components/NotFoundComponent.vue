@@ -19,19 +19,34 @@
   /* Стили для компонента */
   .container-404 {
     background-image: url('@/assets/img/pieni-musta-kazi.png');
-    background-size: cover;
     background-position: top;
     min-height: 100vh;
-    background-size: 50% auto;
     background-repeat: no-repeat;
     position: relative;
     overflow: hidden;
   }
+  
   .container-404 .row {
     background: rgba(255, 255, 255, 0.8);
     padding: 20px;
     z-index: 10;
     position: relative;
+  }
+  
+  .container-404 {
+    background-size: 100% auto;
+  }
+  
+  @media (min-width: 768px) {
+    .container-404 {
+      background-size: 50% auto;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .container-404 {
+      background-size: 25% auto;
+    }
   }
   </style>
   

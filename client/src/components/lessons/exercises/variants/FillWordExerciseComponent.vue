@@ -1,28 +1,36 @@
 <template>
     <div id="scene" @mouseleave="onMouseUp">
-            <div class="row">
-                <div class="col-8">
-                    <div class="field">
-                        <div v-for="(row, rowIndex) in scene" :key="rowIndex" class="field-row">
-                            <div class="cell"
-                                :class="{ active: cell.active, hover: isHovered(rowIndex, cellIndex), prefilled: cell.prefilled }"
-                                :data-row="rowIndex" :data-cell="cellIndex" @mouseover="onMouseOver"
-                                @mouseenter="onMouseEnter" @mouseleave="onMouseLeave" @mousedown="onMouseDown"
-                                @mouseup="onMouseUp" v-for="(cell, cellIndex) in row" :key="cellIndex">{{ cell.char }}
-                            </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="field">
+                    <div v-for="(row, rowIndex) in scene" :key="rowIndex" class="field-row">
+                        <div class="cell"
+                            :class="{ active: cell.active, hover: isHovered(rowIndex, cellIndex), prefilled: cell.prefilled }"
+                            :data-row="rowIndex" :data-cell="cellIndex" 
+                            @mouseover="onMouseOver"
+                            @mouseenter="onMouseEnter" 
+                            @mouseleave="onMouseLeave" 
+                            @mousedown="onMouseDown"
+                            @mouseup="onMouseUp"
+                            @touchstart="onTouchStart"
+                            @touchmove="onTouchMove"
+                            @touchend="onTouchEnd"
+                            v-for="(cell, cellIndex) in row" :key="cellIndex">
+                            {{ cell.char }}
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="found-words  align-items-center d-flex gap-2">
-                        <span class="found-word btn btn-outline-secondary btn-lg hover no-pointer" 
-                              v-for="(word, index) in found" :key="index">
-                           {{ word }}
-                        </span>
-                    </div>
-                </div> 
             </div>
+            <div class="col-4">
+                <div class="found-words align-items-center d-flex gap-2">
+                    <span class="found-word btn btn-outline-secondary btn-lg hover no-pointer" 
+                          v-for="(word, index) in found" :key="index">
+                       {{ word }}
+                    </span>
+                </div>
+            </div> 
         </div>
+    </div>
 </template>
 
 <script>
@@ -49,7 +57,8 @@ export default {
             line: [],
             word: [],
             draw: false,
-            hoveredCell: null
+            hoveredCell: null,
+            isTouching: false // Флаг для отслеживания касания
         };
     },
     computed: {
@@ -68,6 +77,7 @@ export default {
         }
     },
     methods: {
+        // Обработка событий мыши
         onMouseEnter({ target }) {
             let row = +target.dataset.row;
             let cell = +target.dataset.cell;
@@ -90,28 +100,10 @@ export default {
         },
         onMouseUp() {
             this.draw = false;
-            let word = this.hasWord();
-
-            if (word) {
-                this.line = [];
-                const foundWord = this.word.join("").toLowerCase();
-                this.found.unshift(foundWord);
-                this.words = this.words.filter(w => w.toLowerCase() !== foundWord);
-                
-                this.clearWord();
-
-                if (this.isEndGame()) {
-                    this.launchConfetti();
-                }
-            } else {
-                this.deactivateTimeline();
-            }
-
-            this.clearWord();
-            this.$forceUpdate();
+            this.checkWord();
         },
         onMouseOver({ target }) {
-            if (!this.draw || target.classList.contains('prefilled')) return; // Запрещаем взаимодействие
+            if (!this.draw || target.classList.contains('prefilled')) return;
 
             let row = +target.dataset.row;
             let cell = +target.dataset.cell;
@@ -125,6 +117,35 @@ export default {
 
             this.$forceUpdate();
         },
+
+        // Обработка сенсорных событий
+        onTouchStart(event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение
+            this.isTouching = true;
+
+            const touch = event.touches[0];
+            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+
+            if (target && target.classList.contains('cell')) {
+                this.onMouseDown({ target });
+            }
+        },
+        onTouchMove(event) {
+            if (!this.isTouching) return;
+
+            const touch = event.touches[0];
+            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+
+            if (target && target.classList.contains('cell')) {
+                this.onMouseOver({ target });
+            }
+        },
+        onTouchEnd() {
+            this.isTouching = false;
+            this.onMouseUp();
+        },
+
+        // Общие методы
         isHovered(row, cell) {
             return this.hoveredCell && this.hoveredCell.row === row && this.hoveredCell.cell === cell;
         },
@@ -188,18 +209,37 @@ export default {
         clearWord() {
             this.word = [];
         },
+        checkWord() {
+            let word = this.hasWord();
+
+            if (word) {
+                this.line = [];
+                const foundWord = this.word.join("").toLowerCase();
+                this.found.unshift(foundWord);
+                this.words = this.words.filter(w => w.toLowerCase() !== foundWord);
+                
+                this.clearWord();
+
+                if (this.isEndGame()) {
+                    this.launchConfetti();
+                }
+            } else {
+                this.deactivateTimeline();
+            }
+
+            this.clearWord();
+            this.$forceUpdate();
+        },
         hasWord() {
             return this.words.filter(word => {
                 return this.word.join("") === word.toUpperCase();
             })[0];
         },
         isEndGame() {
-            console.log(this.words);
-            return this.words.length === 0
+            return this.words.length === 0;
         },
         makeEmptyScene() {
             this.scene = [];
-            // 11 it's hardcode, should calculate by gived field
             for (let row = 0; row < 11; row++) {
                 let line = [];
 
@@ -271,7 +311,6 @@ export default {
 
 .field-row {
     display: grid;
-    /* 11 it's hardcode, should calculate by gived field */
     grid-template-columns: repeat(11, 40px);
     padding-left: 1em;
 }
@@ -301,14 +340,13 @@ export default {
     pointer-events: none;
 }
 
-
 .no-pointer {
-    pointer-events: none; /* Запретить действия с кнопками */
+    pointer-events: none;
 }
 
 .found-words {
     display: flex;
-    gap: 0.5rem; /* Расстояние между кнопками */
-    flex-wrap: wrap; /* Перенос кнопок на новую линию, если не помещаются */
+    gap: 0.5rem;
+    flex-wrap: wrap;
 }
 </style>
