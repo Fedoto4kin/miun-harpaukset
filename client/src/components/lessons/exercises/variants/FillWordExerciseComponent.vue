@@ -1,34 +1,34 @@
 <template>
-    <div id="scene" @mouseleave="onMouseUp">
-        <div class="row">
-            <div class="col-8">
-                <div class="field">
-                    <div v-for="(row, rowIndex) in scene" :key="rowIndex" class="field-row">
-                        <div class="cell"
-                            :class="{ active: cell.active, hover: isHovered(rowIndex, cellIndex), prefilled: cell.prefilled }"
-                            :data-row="rowIndex" :data-cell="cellIndex" 
-                            @mouseover="onMouseOver"
-                            @mouseenter="onMouseEnter" 
-                            @mouseleave="onMouseLeave" 
-                            @mousedown="onMouseDown"
-                            @mouseup="onMouseUp"
-                            @touchstart="onTouchStart"
-                            @touchmove="onTouchMove"
-                            @touchend="onTouchEnd"
-                            v-for="(cell, cellIndex) in row" :key="cellIndex">
-                            {{ cell.char }}
+    <div>
+        <!-- Контейнер для анимации слова -->
+        <div v-if="animatedWord" class="animated-word" :style="animatedWordStyle">
+            {{ animatedWord }}
+        </div>
+        <div id="scene" class="position-relative" @mouseleave="onMouseUp">
+            <div class="row">
+                <div class="col-8">
+                    <div class="field">
+                        <div v-for="(row, rowIndex) in scene" :key="rowIndex" class="field-row">
+                            <div class="cell"
+                                :class="{ active: cell.active, hover: isHovered(rowIndex, cellIndex), prefilled: cell.prefilled }"
+                                :data-row="rowIndex" :data-cell="cellIndex" @mouseover="onMouseOver"
+                                @mouseenter="onMouseEnter" @mouseleave="onMouseLeave" @mousedown="onMouseDown"
+                                @mouseup="onMouseUp" @touchstart="onTouchStart" @touchmove="onTouchMove"
+                                @touchend="onTouchEnd" v-for="(cell, cellIndex) in row" :key="cellIndex">
+                                {{ cell.char }}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-4">
-                <div class="found-words align-items-center d-flex gap-2">
-                    <span class="found-word btn btn-outline-secondary btn-lg hover no-pointer" 
-                          v-for="(word, index) in found" :key="index">
-                       {{ word }}
-                    </span>
+                <div class="col-4">
+                    <div class="found-words align-items-center d-flex gap-2">
+                        <span class="found-word btn btn-outline-secondary btn-lg hover no-pointer"
+                            v-for="(word, index) in found" :key="index">
+                            {{ word }}
+                        </span>
+                    </div>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
 </template>
@@ -58,12 +58,20 @@ export default {
             word: [],
             draw: false,
             hoveredCell: null,
-            isTouching: false // Флаг для отслеживания касания
+            isTouching: false,
+            animatedWord: null,
+            lastCellCoords: { top: 0, left: 0 }
         };
     },
     computed: {
         foundCount() {
             return this.found.length;
+        },
+        animatedWordStyle() {
+            return {
+                top: `${this.lastCellCoords.top}px`,
+                left: `${this.lastCellCoords.left}px`
+            };
         }
     },
     watch: {
@@ -118,9 +126,8 @@ export default {
             this.$forceUpdate();
         },
 
-        // Обработка сенсорных событий
         onTouchStart(event) {
-            event.preventDefault(); // Предотвращаем стандартное поведение
+            event.preventDefault();
             this.isTouching = true;
 
             const touch = event.touches[0];
@@ -213,16 +220,40 @@ export default {
             let word = this.hasWord();
 
             if (word) {
-                this.line = [];
                 const foundWord = this.word.join("").toLowerCase();
-                this.found.unshift(foundWord);
-                this.words = this.words.filter(w => w.toLowerCase() !== foundWord);
-                
+
+                // Получаем последнюю ячейку
+                const lastCell = this.lastCell();
+                if (lastCell) {
+                    const cellElement = document.querySelector(
+                        `.cell[data-row="${lastCell.row}"][data-cell="${lastCell.cell}"]`
+                    );
+
+                    if (cellElement) {
+                        const rect = cellElement.getBoundingClientRect();
+                        this.lastCellCoords = {
+                            top: rect.top + window.scrollY,
+                            left: rect.left + window.scrollX
+                        };
+                    }
+                }
+
+                // Запуск анимации
+                this.animateWord(foundWord);
+
+                // Очистка выделения и слова
+                this.line = [];
                 this.clearWord();
 
-                if (this.isEndGame()) {
-                    this.launchConfetti();
-                }
+                // После завершения анимации добавляем слово в список
+                setTimeout(() => {
+                    this.found.unshift(foundWord);
+                    this.words = this.words.filter(w => w.toLowerCase() !== foundWord);
+
+                    if (this.isEndGame()) {
+                        this.launchConfetti();
+                    }
+                }, 1500);
             } else {
                 this.deactivateTimeline();
             }
@@ -252,7 +283,7 @@ export default {
         },
         markPrefilledCells() {
             if (this.data.prefilledWords) {
-                this.found = []; 
+                this.found = [];
 
                 Object.entries(this.data.prefilledWords).forEach(([word, coordinates]) => {
                     if (!this.found.includes(word)) {
@@ -260,12 +291,12 @@ export default {
                     }
                     coordinates.forEach(coord => {
                         const [x, y] = coord.split(':').map(Number);
-                        const row = x - 1; // Нумерация с 0
-                        const cell = y - 1; // Нумерация с 0
+                        const row = x - 1;
+                        const cell = y - 1;
 
                         if (this.scene[row] && this.scene[row][cell]) {
-                            this.scene[row][cell].active = true; // Закрашиваем ячейку
-                            this.scene[row][cell].prefilled = true; // Помечаем как предзаполненную
+                            this.scene[row][cell].active = true;
+                            this.scene[row][cell].prefilled = true;
                         }
                     });
                 });
@@ -281,6 +312,12 @@ export default {
             } else {
                 console.error("Data is not available or has incorrect structure");
             }
+        },
+        animateWord(word) {
+            this.animatedWord = word.toUpperCase();
+            setTimeout(() => {
+                this.animatedWord = null;
+            }, 1500);
         }
     },
     created() {
@@ -348,5 +385,35 @@ export default {
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
+}
+
+.field {
+    position: relative;
+}
+
+.animated-word {
+    position: absolute;
+    font-size: 3em;
+    font-weight: bold;
+    color: #17a2b8;
+    opacity: 1;
+    animation: wordAnimation 2s ease-out;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes wordAnimation {
+    0% {
+        font-size: 1em;
+        opacity: 0;
+    }
+    50% {
+        font-size: 3em;
+        opacity: 1;
+    }
+    100% {
+        font-size: 1em;
+        opacity: 0;
+    }
 }
 </style>
