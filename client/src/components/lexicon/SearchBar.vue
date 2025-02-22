@@ -138,13 +138,14 @@ export default {
       }
       emit('pushSearchStr', params);
       suggestions.value = [];
-      searchInput.value.focus();
+      searchInput.value.blur(); // Убираем фокус с поля ввода
     };
 
     const handleSuggestionClick = (suggestion) => {
       searchText.value = suggestion;
       suggestions.value = [];
       handleSearchButtonClick();
+      searchInput.value.blur(); // Убираем фокус с поля ввода
     };
 
     const handleDiacrtButtonClick = (e) => {
@@ -183,6 +184,7 @@ export default {
       } else {
         handleSearchButtonClick(); // Если нет подсвеченного предложения, выполняем поиск по текущему значению
       }
+      searchInput.value.blur(); // Убираем фокус с поля ввода
     };
 
     onMounted(() => {
