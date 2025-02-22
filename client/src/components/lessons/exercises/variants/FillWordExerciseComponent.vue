@@ -6,6 +6,9 @@
         </div>
         <div id="scene" class="position-relative" @mouseleave="onMouseUp">
             <div class="row">
+                <div class="col-12">&nbsp;</div>
+            </div>
+            <div class="row">                
                 <div class="col-8">
                     <div class="field">
                         <div v-for="(row, rowIndex) in scene" :key="rowIndex" class="field-row">
@@ -28,6 +31,9 @@
                         </span>
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-12">&nbsp;</div>
             </div>
         </div>
     </div>
@@ -253,7 +259,7 @@ export default {
                     if (this.isEndGame()) {
                         this.launchConfetti();
                     }
-                }, 1500);
+                }, 1000);
             } else {
                 this.deactivateTimeline();
             }
