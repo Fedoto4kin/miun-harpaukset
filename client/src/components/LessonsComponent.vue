@@ -188,6 +188,7 @@ export default {
       } finally {
         this.isContentLoading = false;
         this.closeSidebar();
+        window.scrollTo(0, 0);
       }
     },
 
