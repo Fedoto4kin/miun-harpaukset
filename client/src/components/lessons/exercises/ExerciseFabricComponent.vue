@@ -1,10 +1,6 @@
 <template>
-  <component
-    :is="getComponent(exercise.exercise_type)"
-    :data="exercise.data"
-    :hasCheck="exercise.has_answers_check"
-    v-if="getComponent(exercise.exercise_type)"
-  />
+  <component :is="getComponent(exercise.exercise_type)" :data="exercise.data" :hasCheck="exercise.has_answers_check"
+    v-if="getComponent(exercise.exercise_type)" />
 </template>
 
 <script>
@@ -19,6 +15,7 @@ import FillGapWithChoiceExercise from './variants/FillGapWithChoiceExerciseCompo
 import MatchPairSentenceSlotExercise from './variants/MatchPairSentenceSlotExerciseComponent.vue';
 import FillWordExercise from './variants/FillWordExerciseComponent.vue';
 import MatchPairMultiplyExercise from './variants/MatchPairMultiplyExerciseComponent.vue';
+import InteractiveHintExercise from'./variants/InteractiveHintExerciseComponent.vue';
 
 export default {
   name: 'ExerciseFactory',
@@ -31,6 +28,8 @@ export default {
   methods: {
     getComponent(type) {
       switch (type) {
+        case 'InteractiveHint':
+          return InteractiveHintExercise;
         case 'FillBlank':
           return FillBlankExercise;
         case 'SyllableAssembly':
@@ -40,7 +39,7 @@ export default {
         case 'SentenceAssembly':
           return SentenceAssemblyExercise;
         case 'SentenceAssemblyPrefilled':
-          return SentenceAssemblyPrefilledExercise;  
+          return SentenceAssemblyPrefilledExercise;
         case 'MatchPair':
           return MatchPairExercise;
         case 'MatchPairMultiple':

@@ -4,6 +4,11 @@ from enum import Enum
 
 
 class ExerciseType(Enum):
+
+    ''' 
+        Interactive hint exercise - shows text with clickable hints
+    '''
+    INTERACTIVE_HINT = ("InteractiveHint", "Interactive Hints")
     ''' 
         A fill-in-the-blank exercise where users 
         complete words by filling in missing parts.
