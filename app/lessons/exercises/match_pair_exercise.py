@@ -9,6 +9,7 @@ class MatchPairExercise(ExerciseSchema):
         Example data for MatchPair schema:
 
         {
+            "title": "Löyvä vaštamielizet tunnuššanat",
             "questions": [
                 {
                     "pairs": [
@@ -27,6 +28,7 @@ class MatchPairExercise(ExerciseSchema):
         }
 
         Explanation of the data format:
+        - "title" (optional): заголовок упражнения
         - The "questions" array contains objects with "pairs".
         - Each "pair" object includes a "pair" and its corresponding "word".
         """
@@ -34,6 +36,9 @@ class MatchPairExercise(ExerciseSchema):
             "$schema": "http://json-schema.org/draft-07/schema#",
             "type": "object",
             "properties": {
+                "title": {
+                    "type": "string"
+                },
                 "questions": {
                     "type": "array",
                     "items": {

@@ -1,5 +1,10 @@
 <template>
   <div class="match-pair-exercise">
+    <!-- Заголовок упражнения -->
+    <h5 v-if="data.title" class="exercise-title mb-3">
+      {{ data.title }}
+    </h5>
+    
     <div v-for="(question, questionIndex) in data.questions" :key="questionIndex" class="words-pairs-container">
       <div class="words-container">
         <div v-for="(word, index) in shuffledWords[questionIndex]" :key="index"
@@ -233,8 +238,12 @@ export default {
 };
 </script>
 
-
 <style scoped>
+.exercise-title {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
 .words-pairs-container {
   display: flex;
   flex-direction: column;
@@ -250,7 +259,7 @@ export default {
 }
 
 .pairs-container.fixed-height {
-  min-height: 5em;
+  min-height: 2.5em;
   align-items: flex-start;
 }
 
@@ -285,7 +294,6 @@ export default {
   width: 100%;
   text-align: center;
 }
-
 
 .result-icon {
   width: 1.5em;
