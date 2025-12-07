@@ -9,3 +9,4 @@ from .match_pair_exercise import MatchPairExercise
 from .sentence_assembly_prefilled_exercise import SentenceAssemblyPrefilledExercise
 from .sentence_assembly_simple_exercise import SentenceAssemblySimpleExercise
 from .syllable_assembly_exercise import SyllableAssemblyExercise
+from .match_pair_multiply_exercise import MatchPairMultipleExercise

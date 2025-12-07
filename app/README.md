@@ -1,11 +1,10 @@
 ## TO-DO
 
 
-* Show exercices in admin panel 
+* Show exercices in an admin panel 
 * Filter exercices in admin by type, by lesson number
-* Fill table exercise json generator(command line)
+* Fill table exercise JSON generator(command line)
 * dump fixtures and add uploaded files to git
-
 
 
 ### Dev Help
@@ -21,7 +20,7 @@ E.g. Lesson 1 create 5 modules
 `docker compose exec -it web python manage.py create_modules 1 5`
 
 
-Clear lesson speeche files(deattched)
+Clear lesson speeches files (deattached)
 `docker compose exec -it web python manage.py clear_lesson_speeches`
 
 
@@ -37,6 +36,7 @@ Set up certbot (?)
  `docker exec -it mhkk_django python manage.py migrate`
 2. Upload fixtures  
 `docker exec -it mhkk_django python manage.py loaddata lexicon/fixtures/whole_lexicon.json`
+`docker exec -it mhkk_django python manage.py loaddata lexicon/fixtures/lessons.json`
 3. Init admin
 `docker exec -it mhkk_django python manage.py createsuperuser`
 
@@ -49,7 +49,7 @@ Set up certbot (?)
 1. `cd /home/mhkk/miun-harpaukset`
 2. `git pull`
 3. `bash ./upgrade.sh`
-4. [optional] Upload fixtures, if need
+4. [optional] Upload fixtures, if you need
 
 
 ### Data upload
@@ -63,6 +63,6 @@ Set up certbot (?)
 3. Clear lessons_* tables
 4. Run on server
     * Lessons:
-`docker exec -it mhkk_django python manage.py loaddata app/lessons/fixtures/lessons.json`
+`docker exec -it mhkk_django python manage.py loaddata lessons/fixtures/lessons.json`
     * Lexicon
-`docker compose exec -it web python manage.py dumpdata lexixon --indent 4 > app/lexicon/fixtures/lexicon.json`    
+`docker compose exec -it web python manage.py loaddata lexicon/fixtures/lexicon.json`    

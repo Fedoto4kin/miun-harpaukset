@@ -40,6 +40,16 @@ class ExerciseType(Enum):
         corresponding pair for a given word.
     '''
     MATCH_PAIR = ("MatchPair", "Match the Pair")
+
+    ''' 
+        A match-the-pair exercise where pair/word can have multiple 
+        correct answers and selected options don't disappear.
+    '''
+    MATCH_PAIR_MULTIPLE = ("MatchPairMultiple", "Match the Pair (Multiple)")
+
+    def __init__(self, value, label):
+        self._value_ = value
+        self.label = label
     
     ''' 
         A fill-in-the-blank exercise where users fill 
@@ -66,9 +76,6 @@ class ExerciseType(Enum):
     '''
     FILL_WORD = ("FillWord", "Fillword Game")
 
-    def __init__(self, value, label):
-        self._value_ = value
-        self.label = label
 
     @classmethod
     def choices(cls):

@@ -11,6 +11,7 @@ from lessons.exercises import (
     SentenceAssemblyPrefilledExercise,
     SentenceAssemblySimpleExercise,
     SyllableAssemblyExercise,
+    MatchPairMultipleExercise,
 )
 from lessons.models.exercise import ExerciseType  # Import ExerciseType from your models/exercise.py file
 
@@ -24,6 +25,7 @@ EXERCISE_CLASSES = {
     ExerciseType.SENTENCE_ASSEMBLY_WITH_PREFILL.value: SentenceAssemblyPrefilledExercise,
     ExerciseType.MATCH_PAIR.value: MatchPairExercise,
     ExerciseType.MATCH_PAIR_SLOTS.value: MatchPairExercise,  # Use the same class if the logic matches
+    ExerciseType.MATCH_PAIR_MULTIPLE.value: MatchPairMultipleExercise,
     ExerciseType.FILL_GAP_WITH_CHOICE.value: FillGapWithChoiceExercise,
     ExerciseType.FILL_WORD.value: FillWordExercise,
 }
@@ -33,10 +35,7 @@ class Command(BaseCommand):
 
     def clear_screen(self):
         """Clear the terminal screen."""
-        if os.name == 'nt':  # For Windows
-            os.system('cls')
-        else:  # For Unix-like systems (Linux, macOS)
-            os.system('clear')
+        os.system('clear')
 
     def handle(self, *args, **kwargs):
         while True:  # Main loop to allow returning to exercise selection
