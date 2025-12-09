@@ -7,7 +7,6 @@ from .lesson_speech import LessonSpeech
 
 
 class Module(models.Model):
-    # Ваши поля модели
     lesson = models.ForeignKey(
         Lesson,
         on_delete=models.CASCADE,

@@ -32,10 +32,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'lexicon.apps.LexiconConfig',
-    'api_v0.apps.ApiV0Config',
-    'lessons.apps.LessonsConfig',
-    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,10 +39,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_json_widget',
+
+    'rest_framework',
+    
     'corsheaders',
     'nested_admin',
     'ckeditor',
     'ckeditor_uploader',
+
+    'lexicon.apps.LexiconConfig',
+    'api_v0.apps.ApiV0Config',
+    'lessons.apps.LessonsConfig',
+    'grammar.apps.GrammarConfig',
 ]
 
 MIDDLEWARE = [

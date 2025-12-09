@@ -29,7 +29,7 @@
                 Štobi šiula olisʼ kebiembi
                 opaštuo pagizomah oigieh, myö kirjuttima DVD-diskan, kumbazešta voiččou kuunnella kuin pagizou tovelline karielane.
                 Tämä kniiga on yksikieline, ka šiula avukši ollah veniälänkielizet kommentarijat, avuamet, 
-                grammatičeskoit tabličat da kariela–veniälä–šuomi šanakniiga.
+                grammatičeskoit tabličat da <a href="/lexicon/">kariela–veniälä–šuomi šanakniiga</a>.
                 </p>
                 <p style="text-indent: 1.5em;">Hyviä opaššundua šiula! Rubiemma pagizomah karielakši!</p>
                 <p class="text-end">Tervehyzin, kakši Iruo,<br> Šalon da Puasinkoin</p>

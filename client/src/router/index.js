@@ -4,6 +4,7 @@ import LexiconComponent from '../components/LexiconComponent.vue';
 import LessonsComponent from '../components/LessonsComponent.vue';
 import AuthorsComponent from '../components/AuthorsComponent.vue';
 import BooksComponent from '../components/BooksComponent.vue';
+import GrammarTableDetail from '@/components/grammar/GrammarTableDetail.vue';
 import NotFoundComponent from '@/components/NotFoundComponent.vue';
 
 const routes = [
@@ -31,6 +32,12 @@ const routes = [
     path: '/books',
     name: 'Books',
     component: BooksComponent,
+  },
+  {
+    path: '/grammar/:id',
+    name: 'GrammarTableDetail',
+    component: GrammarTableDetail,
+    props: true,
   },
   {
     path: '/:pathMatch(.*)*',

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from lexicon.models import Word, Definition, Pos, Base
 from lessons.models import Lesson, Module, Tag, Exercise
+from grammar.models import GrammarTable
 
 
 class BaseSerializer(serializers.ModelSerializer):
@@ -92,3 +93,16 @@ class ModuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Module
         fields = ['id', 'lesson', 'html_content', 'number', 'tags', 'speech', 'exercises']
+
+class GrammarTableListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GrammarTable
+        fields = ['id', 'title']
+        read_only_fields = ['id']
+
+
+class GrammarTableSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GrammarTable
+        fields = ['id', 'title', 'html_content', 'order', 'is_published']
+        read_only_fields = ['id']
