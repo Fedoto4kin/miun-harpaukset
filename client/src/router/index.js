@@ -3,6 +3,7 @@ import HomeComponent from '../components/HomeComponent.vue';
 import LexiconComponent from '../components/LexiconComponent.vue';
 import LessonsComponent from '../components/LessonsComponent.vue';
 import AuthorsComponent from '../components/AuthorsComponent.vue';
+import BooksComponent from '../components/BooksComponent.vue';
 import NotFoundComponent from '@/components/NotFoundComponent.vue';
 
 const routes = [
@@ -25,6 +26,11 @@ const routes = [
     path: '/authors',
     name: 'Authors',
     component: AuthorsComponent,
+  },
+  {
+    path: '/books',
+    name: 'Books',
+    component: BooksComponent,
   },
   {
     path: '/:pathMatch(.*)*',

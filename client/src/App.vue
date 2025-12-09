@@ -3,15 +3,8 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-lg">
         <router-link class="navbar-brand" to="/">Miun harpaukšet karielan kieleh</router-link>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -21,6 +14,9 @@
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/lexicon" exact-active-class="active">Šanakniiga</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/books" exact-active-class="active">Literatura</router-link>
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/authors" exact-active-class="active">Luadijat</router-link>
