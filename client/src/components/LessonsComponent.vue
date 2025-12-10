@@ -62,13 +62,17 @@ export default {
         tags: [],
         number: null,
       },
-      isSidebarOpen: false,
+      isSidebarOpen: true,
     };
   },
   async mounted() {   
     try {
       this.lessons = await getLessons();
       this.handleRoute();
+
+      setTimeout(() => {
+        this.enableClickOutside = true;
+      }, 200);
     } catch (error) {
       console.error('Error loading lessons:', error);
     } finally {
@@ -95,7 +99,7 @@ export default {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
     closeSidebar() {
-      if (this.isSidebarOpen && window.innerWidth < 992) {
+      if (this.enableClickOutside && this.isSidebarOpen && window.innerWidth < 992) {
         this.isSidebarOpen = false;
       }
     },
@@ -187,7 +191,7 @@ export default {
         this.selectedModuleId = null;
       } finally {
         this.isContentLoading = false;
-        this.closeSidebar();
+      //  this.closeSidebar();
         window.scrollTo(0, 0);
       }
     },
