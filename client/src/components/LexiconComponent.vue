@@ -10,13 +10,13 @@
       </h1>
       <SearchBar ref="searchBar" 
                 :reverse-prop="reverse" 
-                @pushSearchStr="getWordsBySearch" @pushClear="getWordsByLetter" />
+                @pushSearchStr="getWordsBySearch" @pushClear="getWordsByClear" />
     </div>
     <div class="d-flex bg-light rounded-pill p-2">
       <button class="btn btn-light border-secondary me-2 flex-shrink-0 align-self-start d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#abc"
         aria-controls="abc" aria-expanded="false" aria-label="Toggle navigation">
-        <span v-if="letter">{{  letter }}</span>
-        <span v-else ><font-awesome-icon icon="ellipsis" /></span>
+        <span v-if="letter">{{ letter }}</span>
+        <span v-else><font-awesome-icon icon="ellipsis" /></span>
       </button>
       <div class="collapse navbar-collapse flex-grow-1 d-lg-block" id="abc">
         <div class="d-flex flex-wrap justify-content-center gap-2">
@@ -84,9 +84,52 @@ export default {
   methods: {
     // Handle letter click
     async handleLetterClick(letter) {
-      await this.getWordsByLetter(letter); // Fetch words for the selected letter
-      this.$refs.searchBar.clearSearchText(); // Clear the search bar
+      // 1. Сначала закрываем алфавитную панель (мгновенно, без анимации)
+      this.collapseAlphabetWithoutAnimation();
+      
+      // 2. Затем загружаем данные
+      await this.getWordsByLetter(letter);
+      
+      // 3. Очищаем поисковую строку
+      this.$refs.searchBar.clearSearchText();
     },
+    
+    // Метод для сворачивания алфавитной панели на мобильных БЕЗ анимации
+    collapseAlphabetWithoutAnimation() {
+      if (window.innerWidth < 992) {
+        const abcCollapse = document.getElementById('abc');
+        if (abcCollapse && abcCollapse.classList.contains('show')) {
+          // Сохраняем текущие стили transition
+          const originalTransition = abcCollapse.style.transition;
+          const originalWebkitTransition = abcCollapse.style.webkitTransition;
+          
+          // Временно отключаем анимацию
+          abcCollapse.style.transition = 'none';
+          abcCollapse.style.webkitTransition = 'none';
+          
+          // Убираем классы Bootstrap для закрытия
+          abcCollapse.classList.remove('show');
+          abcCollapse.classList.add('collapsing');
+          
+          // Небольшая задержка для обновления DOM
+          setTimeout(() => {
+            abcCollapse.classList.remove('collapsing');
+            abcCollapse.classList.add('collapse');
+            
+            // Восстанавливаем transition
+            abcCollapse.style.transition = originalTransition;
+            abcCollapse.style.webkitTransition = originalWebkitTransition;
+          }, 10);
+          
+          // Обновляем состояние кнопки toggle
+          const toggleButton = document.querySelector('[data-bs-target="#abc"]');
+          if (toggleButton) {
+            toggleButton.setAttribute('aria-expanded', 'false');
+          }
+        }
+      }
+    },
+    
     // Fetch words by letter
     async getWordsByLetter(letter) {
       this.loading = true;
@@ -103,6 +146,7 @@ export default {
         this.loading = false;
       }
     },
+    
     // Fetch words by search query
     async getWordsBySearch(params) {
       this.loading = true;
@@ -118,6 +162,17 @@ export default {
         this.loading = false;
       }
     },
+    
+    // Handle clear search
+    getWordsByClear() {
+      // 1. Сначала закрываем алфавитную панель
+      this.collapseAlphabetWithoutAnimation();
+      
+      // 2. Затем загружаем данные
+      const currentLetter = this.letter || 'A';
+      this.getWordsByLetter(currentLetter);
+    },
+    
     // Update the message based on the number of words found
     updateMessage(wordCount) {
       if (this.searching && wordCount) {
@@ -129,6 +184,7 @@ export default {
         this.message = ''; // Reset message if search is not active
       }
     },
+    
     handleSelectChange() {
       this.reverse = this.selectedOption === 'Kiännökšeššä';
     }
@@ -141,6 +197,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 .navbar {
@@ -184,5 +241,37 @@ export default {
 /* Фикс для вертикального выравнивания кнопки */
 .align-self-start {
   align-self: flex-start !important;
+}
+
+/* Стили для кнопок букв */
+.btn-primary {
+  min-width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+@media (max-width: 991.98px) {
+  #abc.fast-collapse.collapsing {
+    transition: none !important;
+    -webkit-transition: none !important;
+  }
+}
+
+/* На мобильных уменьшаем кнопки */
+@media (max-width: 768px) {
+  .btn-primary {
+    min-width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+  
+  /* Класс для быстрого закрытия без анимации */
+  #abc.fast-collapse.collapsing {
+    transition: none !important;
+    -webkit-transition: none !important;
+  }
 }
 </style>
