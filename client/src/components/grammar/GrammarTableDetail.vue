@@ -43,14 +43,20 @@ export default {
       
       this.loading = true
       this.error = null
+      this.isNotFoundError = false
       
       try {
         const response = await grammarService.getById(this.id)
         this.table = response.data
-        document.title = 'Grammatikka | ' + this.table.title;
+        document.title = 'Grammatikka | ' + this.table.title
       } catch (err) {
-        this.error = 'Ошибка при загрузке таблицы'
-        console.error(err)
+        if (err.response && err.response.status === 404) {
+          this.isNotFoundError = true
+          this.$router.push({ name: 'NotFound' })
+        } else {
+          this.error = 'Error';
+          console.error(err);
+        }
       } finally {
         this.loading = false
       }
@@ -62,13 +68,20 @@ export default {
 <style scoped>
 .grammar-content {
   background: #fff;
-  border-radius: 8px;
   overflow-x: auto;
+  padding: 1rem;
 }
 
 .grammar-content >>> table {
-  width: 100%;
   border-collapse: collapse;
-  margin: 0;
+  margin: 0 auto;
+  min-width: 600px;
+}
+
+.grammar-content >>> table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  max-width: 1200px; /* Максимальная ширина таблицы */
+  width: 100%; /* Растягивается до max-width */
 }
 </style>
