@@ -12,14 +12,14 @@
                 :reverse-prop="reverse" 
                 @pushSearchStr="getWordsBySearch" @pushClear="getWordsByClear" />
     </div>
-    <div class="d-flex bg-light rounded-pill p-2">
+    <div class="d-flex p-2">
       <button class="btn btn-light border-secondary me-2 flex-shrink-0 align-self-start d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#abc"
         aria-controls="abc" aria-expanded="false" aria-label="Toggle navigation">
         <span v-if="letter">{{ letter }}</span>
         <span v-else><font-awesome-icon icon="ellipsis" /></span>
       </button>
       <div class="collapse navbar-collapse flex-grow-1 d-lg-block" id="abc">
-        <div class="d-flex flex-wrap justify-content-center gap-2">
+        <div class="d-flex flex-wrap justify-content-center gap-1">
           <span v-for="l in abc.split('')" :key="l" :class="['nav-item', 'my-1', { active: l == letter }]"
             @click="handleLetterClick(l)" class="btn btn-primary">
             {{ l }}
