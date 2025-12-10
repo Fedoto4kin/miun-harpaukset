@@ -15,19 +15,22 @@
     <div v-for="(textObj, textIndex) in parsedTexts" :key="textIndex" class="text-section">
       <div v-for="(sentence, sentenceIndex) in textObj.text" :key="sentenceIndex"
         class="d-inline-flex flex-wrap pe-2 mb-2">
-        <div v-for="(part, partIndex) in sentence" :key="partIndex" class="d-inline position-relative">
+        <div v-for="(part, partIndex) in sentence" :key="partIndex" class="d-inline position-relative input-wrapper">
           <span v-if="part.type === 'text'">{{ part.value }}</span>
           <input v-else v-model="userAnswers[textIndex][sentenceIndex][partIndex]"
             :ref="'inputField' + textIndex + '-' + sentenceIndex + '-' + partIndex" :style="{
               width: `${part.placeholderLength * 0.6}em`,
               color: results[textIndex][sentenceIndex][partIndex] === undefined ? 'black' : results[textIndex][sentenceIndex][partIndex] ? 'green' : 'red'
             }" class="form-control mx-1 input-field" @input="handleInputChange"
-            @focus="handleFocus(textIndex, sentenceIndex, partIndex)" v-tooltip.right="{
-              content: part.correctAnswers.join(', '),
-              shown: isShowHints,
-              triggers: [],
-              delay: 0,
-            }" />
+            @focus="handleFocus(textIndex, sentenceIndex, partIndex)"
+            @blur="handleBlur(textIndex, sentenceIndex, partIndex)" />
+
+          <!-- Подсказка поверх поля ввода -->
+          <div v-if="isShowHints && hintForField[textIndex]?.[sentenceIndex]?.[partIndex]" class="hint-overlay"
+            :style="{ width: `${part.placeholderLength * 0.6}em` }">
+            {{ part.correctAnswers.join(' | ') }}
+          </div>
+
           <span v-if="results[textIndex][sentenceIndex][partIndex] !== undefined" class="position-absolute result-icon">
             <font-awesome-icon
               :icon="results[textIndex][sentenceIndex][partIndex] ? ['fas', 'check'] : ['fas', 'xmark']"
@@ -46,7 +49,7 @@
         <SpecialCharsButtons @diacrt-click="handleDiacrtButtonClick" />
       </div>
       <div v-if="hasCheck" class="btn-group">
-        <HintButton @show-hint="isShowHints = $event" />
+        <HintButton @show-hint="toggleShowHints" />
         <button class="btn btn-outline-primary" @click="checkAnswers" title="Kuotele otviettua">
           <font-awesome-icon :icon="['fas', 'spell-check']" />
         </button>
@@ -86,6 +89,8 @@ export default {
       activeTextIndex: null,
       activeSentenceIndex: null,
       activePartIndex: null,
+      hintForField: [],
+      focusedFields: []
     };
   },
   computed: {
@@ -149,6 +154,16 @@ export default {
           sentence.map(() => undefined)
         )
       );
+      this.hintForField = this.parsedTexts.map((textObj) =>
+        textObj.text.map((sentence) =>
+          sentence.map(() => false)
+        )
+      );
+      this.focusedFields = this.parsedTexts.map((textObj) =>
+        textObj.text.map((sentence) =>
+          sentence.map(() => false)
+        )
+      );
     },
     clearResult() {
       this.results = this.parsedTexts.map((textObj) =>
@@ -156,6 +171,25 @@ export default {
           sentence.map(() => undefined)
         )
       );
+    },
+    toggleShowHints(show) {
+      this.isShowHints = show;
+
+      if (show) {
+        this.hintForField = this.parsedTexts.map((textObj) =>
+          textObj.text.map((sentence) =>
+            sentence.map((part) =>
+              part.type === 'blank'
+            )
+          )
+        );
+      } else {
+        this.hintForField = this.parsedTexts.map((textObj) =>
+          textObj.text.map((sentence) =>
+            sentence.map(() => false)
+          )
+        );
+      }
     },
     checkAnswers() {
       this.clearResult();
@@ -168,7 +202,7 @@ export default {
               const isCorrect = part.correctAnswers.map(ans => ans.toLowerCase().replaceAll(/['’ʼ]/g, "'")).includes(userAnswer);
               this.results[textIndex][sentenceIndex][partIndex] = isCorrect;
               if (!isCorrect) {
-                allCorrect = isCorrect;
+                allCorrect = false;
               }
             }
           });
@@ -182,6 +216,35 @@ export default {
       this.activeTextIndex = textIndex;
       this.activeSentenceIndex = sentenceIndex;
       this.activePartIndex = partIndex;
+
+      if (!this.focusedFields[textIndex]) {
+        this.focusedFields[textIndex] = [];
+      }
+      if (!this.focusedFields[textIndex][sentenceIndex]) {
+        this.focusedFields[textIndex][sentenceIndex] = [];
+      }
+      this.focusedFields[textIndex][sentenceIndex][partIndex] = true;
+
+      if (this.isShowHints) {
+        if (!this.hintForField[textIndex]) {
+          this.hintForField[textIndex] = [];
+        }
+        if (!this.hintForField[textIndex][sentenceIndex]) {
+          this.hintForField[textIndex][sentenceIndex] = [];
+        }
+        this.hintForField[textIndex][sentenceIndex][partIndex] = true;
+      }
+    },
+    handleBlur(textIndex, sentenceIndex, partIndex) {
+      if (this.focusedFields[textIndex] && this.focusedFields[textIndex][sentenceIndex]) {
+        this.focusedFields[textIndex][sentenceIndex][partIndex] = false;
+      }
+
+      if (this.isShowHints) {
+        if (this.hintForField[textIndex] && this.hintForField[textIndex][sentenceIndex]) {
+          this.hintForField[textIndex][sentenceIndex][partIndex] = false;
+        }
+      }
     },
     handleInputChange() {
       this.clearResult();
@@ -235,12 +298,15 @@ export default {
   padding: 0 5px 0 0.3em;
   font-size: 1em;
   margin: 0 0.2em;
+  position: relative;
+  z-index: 1;
 }
 
 .result-icon {
   top: 50%;
   transform: translateY(-50%);
   right: 0.1em;
+  z-index: 3;
 }
 
 .text-center {

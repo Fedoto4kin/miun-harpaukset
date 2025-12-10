@@ -9,18 +9,22 @@
                             <span v-else-if="fragment.type === 'span'" class="form-control mx-1 input-field text-wrap"
                                 :style="{ width: `${calculateExampleStringField(fragment.value ?? '')}em` }"
                                 v-html="fragment.value ?? '&nbsp;'" />
-                            <span v-else class="position-relative">
+                            <span v-else class="position-relative input-wrapper">
                                 <input v-model="userAnswers[rowIndex][colIndex][fragmentIndex]"
                                     :ref="'inputField' + rowIndex + '-' + colIndex + '-' + fragmentIndex" :style="{
                                         width: `${getPlaceholderLength(fragment.value)}em`,
                                         color: results[rowIndex][colIndex][fragmentIndex] === undefined ? 'black' : results[rowIndex][colIndex][fragmentIndex] ? 'green' : 'red'
                                     }" class="form-control mx-1 input-field" @input="handleInputChange"
-                                    @focus="handleFocus(rowIndex, colIndex, fragmentIndex)" v-tooltip.right="{
-                                        content: getCorrectAnswers(fragment.value).join(', '),
-                                        shown: isShowHints,
-                                        triggers: [],
-                                        delay: 0,
-                                    }" />
+                                    @focus="handleFocus(rowIndex, colIndex, fragmentIndex)"
+                                    @blur="handleBlur(rowIndex, colIndex, fragmentIndex)" />
+
+                                <!-- Подсказка поверх поля ввода -->
+                                <div v-if="isShowHints && hintForField[rowIndex]?.[colIndex]?.[fragmentIndex]"
+                                    class="hint-overlay"
+                                    :style="{ width: `${getPlaceholderLength(fragment.value)}em` }">
+                                    {{ getCorrectAnswers(fragment.value).join(' | ') }}
+                                </div>
+
                                 <span v-if="results[rowIndex][colIndex][fragmentIndex] !== undefined"
                                     class="position-absolute result-icon">
                                     <font-awesome-icon
@@ -39,7 +43,7 @@
             <SpecialCharsButtons @diacrt-click="handleDiacrtButtonClick" />
         </div>
         <div v-if="hasCheck" class="btn-group">
-            <HintButton @show-hint="isShowHints = $event" />
+            <HintButton @show-hint="toggleShowHints" />
             <button class="btn btn-outline-primary" @click="checkAnswers" title="Kuotele otviettua">
                 <font-awesome-icon :icon="['fas', 'spell-check']" />
             </button>
@@ -79,6 +83,8 @@ export default {
             activeRowIndex: null,
             activeColIndex: null,
             activeFragmentIndex: null,
+            hintForField: [],
+            focusedFields: [] // Отслеживаем фокус на полях
         };
     },
     methods: {
@@ -125,8 +131,6 @@ export default {
             return fragments;
         },
 
-
-
         parseData() {
             this.userAnswers = this.data.table.map(row =>
                 row.map(cell =>
@@ -135,12 +139,27 @@ export default {
                     )
                 )
             );
-            this.results = this.data.table.map(row =>
-                row.map(() =>
-                    this.parseContent(row.content).map(() => undefined)
+
+            this.results = this.data.table.map(() =>
+                this.data.table[0].map(() =>
+                    []
+                )
+            );
+
+            // Инициализируем структуру для подсказок
+            this.hintForField = this.data.table.map(() =>
+                this.data.table[0].map(() =>
+                    []
+                )
+            );
+
+            this.focusedFields = this.data.table.map(() =>
+                this.data.table[0].map(() =>
+                    []
                 )
             );
         },
+
         clearResult() {
             this.results = this.data.table.map(row =>
                 row.map(() =>
@@ -148,6 +167,25 @@ export default {
                 )
             );
         },
+
+        toggleShowHints(show) {
+            this.isShowHints = show;
+
+            if (show) {
+                this.hintForField = this.data.table.map(row =>
+                    row.map(cell =>
+                        this.parseContent(cell.content).map(fragment =>
+                            fragment.type === 'input'
+                        )
+                    )
+                );
+            } else {
+                this.hintForField = this.data.table.map(() =>
+                    this.data.table[0].map(() => [])
+                );
+            }
+        },
+
         checkAnswers() {
             this.clearResult();
             this.data.table.forEach((row, rowIndex) => {
@@ -157,16 +195,12 @@ export default {
                             const userAnswer = this.userAnswers[rowIndex][colIndex][fragmentIndex]
                                 ?.toLowerCase()
                                 .replaceAll(/['’ʼ]/g, "'");
-                            console.log(`User answer for row ${rowIndex}, col ${colIndex}, fragment ${fragmentIndex}: ${userAnswer}`);
 
                             const correctAnswers = this.getCorrectAnswers(fragment.value).map(ans =>
                                 ans.toLowerCase().replaceAll(/['’ʼ]/g, "'")
                             );
-                            console.log(`Correct answers for row ${rowIndex}, col ${colIndex}, fragment ${fragmentIndex}: ${correctAnswers}`);
 
                             const isCorrect = correctAnswers.includes(userAnswer);
-                            console.log(`Is correct for row ${rowIndex}, col ${colIndex}, fragment ${fragmentIndex}: ${isCorrect}`);
-
                             this.results[rowIndex][colIndex][fragmentIndex] = isCorrect;
                         }
                     });
@@ -174,22 +208,56 @@ export default {
             });
 
             const allCorrect = this.results.flat().every(result => result.every(res => res === true));
-            console.log(`All correct: ${allCorrect}`);
 
             if (allCorrect) {
                 this.launchConfetti();
             }
         },
 
-
         handleFocus(rowIndex, colIndex, fragmentIndex) {
             this.activeRowIndex = rowIndex;
             this.activeColIndex = colIndex;
             this.activeFragmentIndex = fragmentIndex;
+
+            // Помечаем поле как сфокусированное
+            if (!this.focusedFields[rowIndex]) {
+                this.focusedFields[rowIndex] = [];
+            }
+            if (!this.focusedFields[rowIndex][colIndex]) {
+                this.focusedFields[rowIndex][colIndex] = [];
+            }
+            this.focusedFields[rowIndex][colIndex][fragmentIndex] = true;
+
+            // Показываем подсказку для этого поля, если включены подсказки
+            if (this.isShowHints) {
+                if (!this.hintForField[rowIndex]) {
+                    this.hintForField[rowIndex] = [];
+                }
+                if (!this.hintForField[rowIndex][colIndex]) {
+                    this.hintForField[rowIndex][colIndex] = [];
+                }
+                this.hintForField[rowIndex][colIndex][fragmentIndex] = true;
+            }
         },
+
+        handleBlur(rowIndex, colIndex, fragmentIndex) {
+            // Убираем фокус
+            if (this.focusedFields[rowIndex] && this.focusedFields[rowIndex][colIndex]) {
+                this.focusedFields[rowIndex][colIndex][fragmentIndex] = false;
+            }
+
+            // Убираем подсказку при потере фокуса, если подсказки включены
+            if (this.isShowHints) {
+                if (this.hintForField[rowIndex] && this.hintForField[rowIndex][colIndex]) {
+                    this.hintForField[rowIndex][colIndex][fragmentIndex] = false;
+                }
+            }
+        },
+
         handleInputChange() {
             this.clearResult();
         },
+
         handleDiacrtButtonClick(event) {
             this.clearResult();
             if (this.activeRowIndex === null || this.activeColIndex === null || this.activeFragmentIndex === null) {
@@ -240,11 +308,14 @@ export default {
     font-size: 1em;
     margin: 0 0.2em;
     text-align: center;
+    position: relative;
+    z-index: 1;
 }
 
 .result-icon {
     top: 50%;
     transform: translateY(-50%);
     right: -1em;
+    z-index: 3;
 }
 </style>

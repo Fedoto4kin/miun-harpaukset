@@ -8,19 +8,24 @@
             :class="{ 'btn-selected': selectedWordIndex === index && selectedQuestionIndex === questionIndex }">
             {{ word }}
           </button>
-          <div class="input-group pair-slot-container" v-tooltip="{
-            content: getCorrectPair(word, questionIndex),
-            shown: isShowHints,
-            triggers: [],
-            delay: 0
-          }">
+          <div class="input-group pair-slot-container position-relative input-wrapper">
             <span :style="{
               minWidth: `${longestPairLength}em`,
               color: results[questionIndex][index] === undefined ? 'black' : results[questionIndex][index] ? 'green' : 'red'
             }" class="pair-slot bg-light form-control">
               {{ userAnswers[questionIndex][index] ? userAnswers[questionIndex][index] : '&nbsp;' }}
             </span>
-            <div class="input-group-append">
+            
+            <!-- Подсказка поверх слота -->
+            <div v-if="isShowHints && hintForField[questionIndex]?.[index]"
+              class="hint-overlay"
+              :style="{ minWidth: `${longestPairLength}em` }">
+              <span class="hint-content">
+                {{ getCorrectPairDisplay(word, questionIndex) }}
+              </span>
+            </div>
+            
+            <div class="input-group-append" style="z-index: 3;">
               <button class="btn btn-link btn-clear btn-sm"
                 :class="{ 'text-black': !!userAnswers[questionIndex][index], 'text-secondary': !userAnswers[questionIndex][index] }"
                 :disabled="!userAnswers[questionIndex][index]" @click="clearSlot(questionIndex, index)">
@@ -50,7 +55,7 @@
 
     <div class="d-flex justify-content-end mt-2">
       <div class="btn-group">
-        <HintButton @show-hint="isShowHints = $event" />
+        <HintButton @show-hint="toggleShowHints" />
         <button class="btn btn-outline-primary" @click="checkAnswers" title="Kuotele otviettua">
           <font-awesome-icon :icon="['fas', 'spell-check']" />
         </button>
@@ -62,7 +67,6 @@
 <script>
 import HintButton from '@/components/ui/HintButtonComponent.vue';
 import { confettiMixin } from '@/mixins/confettiMixin.js';
-
 
 export default {
   name: 'MatchPairExercise',
@@ -93,13 +97,18 @@ export default {
       isShowHints: false,
       pairsEnabled: true,
       results: [],
+      hintForField: []
     };
   },
   computed: {
     longestPairLength() {
-      const allPairs = this.data.questions.flatMap(question => question.pairs.map(pair => pair.pair));
+      const allPairs = this.data.questions.flatMap(question => 
+        question.pairs.flatMap(pair => 
+          Array.isArray(pair.pair) ? pair.pair : [pair.pair]
+        )
+      );
       return Math.max(...allPairs.map(pair => pair.length)) * 0.8;
-    },
+    }
   },
   methods: {
     initializeAnswers() {
@@ -114,9 +123,7 @@ export default {
         )
       );
       const uniquePairs = [...new Set(allPairs)];
-
       this.shuffledPairs = this.shuffleArray(uniquePairs);
-      // this.shuffledPairs = this.shuffleArray(allPairs);
     },
     shuffleArray(array) {
       const shuffledArray = array.slice();
@@ -154,7 +161,6 @@ export default {
           nextEmptySlotIndex = this.userAnswers[this.selectedQuestionIndex].findIndex(answer => answer === '');
         }
 
-
         if (nextEmptySlotIndex === -1) {
           for (let i = this.selectedQuestionIndex + 1; i < this.userAnswers.length; i++) {
             nextEmptySlotIndex = this.userAnswers[i].findIndex(answer => answer === '');
@@ -187,18 +193,13 @@ export default {
       const removedPair = this.userAnswers[questionIndex][index];
       if (removedPair) {
         this.userAnswers[questionIndex][index] = '';
-        this.selectedQuestionIndex = questionIndex; // Устанавливаем активный вопрос
-        this.selectedWordIndex = index; // Устанавливаем активный слот
+        this.selectedQuestionIndex = questionIndex;
+        this.selectedWordIndex = index;
         this.pairsEnabled = true;
       }
       this.resetResults();
     },
-    isWordSelected(questionIndex, index) {
-      return !!this.userAnswers[questionIndex][index];
-    },
-    isPairSelected(index) {
-      return this.userAnswers.flat().includes(this.shuffledPairs[index]);
-    },
+    
     checkAnswers() {
       this.resetResults();
       let allCorrect = true;
@@ -212,10 +213,8 @@ export default {
           let isCorrect = false;
           if (pairObj && answer) {
             if (Array.isArray(pairObj.pair)) {
-              // Если pair - массив, проверяем, есть ли ответ в массиве
               isCorrect = pairObj.pair.includes(answer);
             } else {
-              // Если pair - строка, сравниваем как раньше
               isCorrect = pairObj.pair === answer;
             }
           }
@@ -233,32 +232,51 @@ export default {
         this.launchConfetti();
       }
     },
+    
     resetResults() {
       this.checkResult = false;
       this.results = [];
       this.results = this.data.questions.map(() => Array(this.data.questions[0].pairs.length).fill(undefined));
     },
+    
     getCorrectPair(word, questionIndex) {
       const pairObj = this.data.questions[questionIndex].pairs.find(
         pair => pair.word === word
       );
-
       if (!pairObj) return '';
       if (Array.isArray(pairObj.pair)) {
-        return pairObj.pair.join(', ');
+        return pairObj.pair;
       }
-
-      // Если pair - строка, возвращаем как есть
       return pairObj.pair;
+    },
+    
+    getCorrectPairDisplay(word, questionIndex) {
+      const correctPairs = this.getCorrectPair(word, questionIndex);
+      if (Array.isArray(correctPairs)) {
+        return correctPairs.join(', ');
+      }
+      return correctPairs;
+    },
+    
+    toggleShowHints(show) {
+      this.isShowHints = show;
+      
+      if (show) {
+        this.hintForField = this.data.questions.map((question) =>
+          Array(question.pairs.length).fill(true)
+        );
+      } else {
+        this.hintForField = this.data.questions.map(() => []);
+      }
     }
   },
   created() {
     this.initializeAnswers();
     this.resetResults();
+    this.hintForField = this.data.questions.map(() => []);
   }
 };
 </script>
-
 
 <style scoped>
 .words-pairs-container {
@@ -305,6 +323,19 @@ export default {
   padding: 0.25rem 0.5rem;
   text-align: center;
   margin-right: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+
+
+.input-group-append {
+  z-index: 3;
+}
+
+.btn-clear {
+  z-index: 4;
+  position: relative;
 }
 
 .divider {
@@ -312,11 +343,11 @@ export default {
   text-align: center;
 }
 
-
 .result-icon {
   width: 1.5em;
   top: 50%;
   right: 1.0em;
   transform: translateY(-50%);
+  z-index: 5;
 }
 </style>

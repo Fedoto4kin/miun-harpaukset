@@ -4,7 +4,7 @@
     <h5 v-if="data.title" class="exercise-title mb-3">
       {{ data.title }}
     </h5>
-    
+
     <div v-for="(question, questionIndex) in data.questions" :key="questionIndex" class="words-pairs-container">
       <div class="words-container">
         <div v-for="(word, index) in shuffledWords[questionIndex]" :key="index"
@@ -13,18 +13,20 @@
             :class="{ 'btn-selected': selectedWordIndex === index && selectedQuestionIndex === questionIndex }">
             {{ word }}
           </button>
-          <div class="input-group pair-slot-container" v-tooltip="{
-            content: getCorrectPair(word, questionIndex),
-            shown: isShowHints,
-            triggers: [],
-            delay: 0
-          }">
+          <div class="input-group pair-slot-container position-relative input-wrapper">
             <span :style="{
               minWidth: `${longestPairLength}em`,
               color: results[questionIndex][index] === undefined ? 'black' : results[questionIndex][index] ? 'green' : 'red'
             }" class="pair-slot bg-light form-control">
               {{ userAnswers[questionIndex][index] ? userAnswers[questionIndex][index] : '&nbsp;' }}
             </span>
+
+            <!-- Подсказка поверх слота -->
+            <div v-if="isShowHints && hintForField[questionIndex]?.[index]" class="hint-overlay"
+              :style="{ minWidth: `${longestPairLength}em` }">
+              {{ getCorrectPair(word, questionIndex) }}
+            </div>
+
             <div class="input-group-append">
               <button class="btn btn-link btn-clear btn-sm"
                 :class="{ 'text-black': !!userAnswers[questionIndex][index], 'text-secondary': !userAnswers[questionIndex][index] }"
@@ -55,7 +57,7 @@
 
     <div class="d-flex justify-content-end mt-2">
       <div class="btn-group">
-        <HintButton @show-hint="isShowHints = $event" />
+        <HintButton @show-hint="toggleShowHints" />
         <button class="btn btn-outline-primary" @click="checkAnswers" title="Kuotele otviettua">
           <font-awesome-icon :icon="['fas', 'spell-check']" />
         </button>
@@ -67,7 +69,6 @@
 <script>
 import HintButton from '@/components/ui/HintButtonComponent.vue';
 import { confettiMixin } from '@/mixins/confettiMixin.js';
-
 
 export default {
   name: 'MatchPairExercise',
@@ -98,6 +99,8 @@ export default {
       isShowHints: false,
       pairsEnabled: true,
       results: [],
+      hintForField: [],
+      focusedSlots: []
     };
   },
   computed: {
@@ -129,6 +132,12 @@ export default {
       this.selectedQuestionIndex = questionIndex;
       this.selectedWordIndex = index;
       this.pairsEnabled = true;
+
+      // Показываем подсказку для выбранного слота, если включены подсказки
+      if (this.isShowHints) {
+        this.updateHintsForSlot(questionIndex, index);
+      }
+
       this.resetResults();
     },
     selectPair(index) {
@@ -154,7 +163,6 @@ export default {
           nextEmptySlotIndex = this.userAnswers[this.selectedQuestionIndex].findIndex(answer => answer === '');
         }
 
-
         if (nextEmptySlotIndex === -1) {
           for (let i = this.selectedQuestionIndex + 1; i < this.userAnswers.length; i++) {
             nextEmptySlotIndex = this.userAnswers[i].findIndex(answer => answer === '');
@@ -177,6 +185,11 @@ export default {
 
         if (nextEmptySlotIndex !== -1) {
           this.selectedWordIndex = nextEmptySlotIndex;
+
+          // Показываем подсказку для нового выбранного слота, если включены подсказки
+          if (this.isShowHints) {
+            this.updateHintsForSlot(this.selectedQuestionIndex, nextEmptySlotIndex);
+          }
         } else {
           this.pairsEnabled = false;
         }
@@ -188,9 +201,14 @@ export default {
       if (removedPair) {
         this.shuffledPairs.push(removedPair);
         this.userAnswers[questionIndex][index] = '';
-        this.selectedQuestionIndex = questionIndex; // Устанавливаем активный вопрос
-        this.selectedWordIndex = index; // Устанавливаем активный слот
+        this.selectedQuestionIndex = questionIndex;
+        this.selectedWordIndex = index;
         this.pairsEnabled = true;
+
+        // Показываем подсказку для очищенного слота, если включены подсказки
+        if (this.isShowHints) {
+          this.updateHintsForSlot(questionIndex, index);
+        }
       }
       this.resetResults();
     },
@@ -226,14 +244,45 @@ export default {
       this.results = [];
       this.results = this.data.questions.map(() => Array(this.data.questions[0].pairs.length).fill(undefined));
     },
+
     getCorrectPair(word, questionIndex) {
       const pair = this.data.questions[questionIndex].pairs.find(pair => pair.word === word);
       return pair ? pair.pair : '';
+    },
+    toggleShowHints(show) {
+      this.isShowHints = show;
+
+      if (show) {
+        // Показываем подсказки для ВСЕХ слотов
+        this.hintForField = this.data.questions.map((question) =>
+          Array(question.pairs.length).fill(true)
+        );
+      } else {
+        // Скрываем все подсказки
+        this.hintForField = this.data.questions.map(() => []);
+      }
+    },
+
+    updateHintsForSlot(questionIndex, slotIndex) {
+      if (!this.hintForField[questionIndex]) {
+        this.hintForField[questionIndex] = [];
+      }
+
+      // Сбрасываем все подсказки
+      this.hintForField = this.data.questions.map(() => []);
+
+      // Показываем подсказку только для текущего слота
+      if (!this.hintForField[questionIndex]) {
+        this.hintForField[questionIndex] = [];
+      }
+      this.hintForField[questionIndex][slotIndex] = true;
     }
   },
   created() {
     this.initializeAnswers();
     this.resetResults();
+    this.hintForField = this.data.questions.map(() => []);
+    this.focusedSlots = this.data.questions.map(() => []);
   }
 };
 </script>
@@ -288,6 +337,8 @@ export default {
   padding: 0.25rem 0.5rem;
   text-align: center;
   margin-right: 0.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .divider {
@@ -300,5 +351,6 @@ export default {
   top: 50%;
   right: 1.0em;
   transform: translateY(-50%);
+  z-index: 3;
 }
 </style>

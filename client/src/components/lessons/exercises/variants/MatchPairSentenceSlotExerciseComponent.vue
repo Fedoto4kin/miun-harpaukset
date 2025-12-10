@@ -6,25 +6,27 @@
         <div class="sentence">
           <button class="btn btn-outline-secondary btn-sm word-button me-2"
             @click="selectQuestion(questionIndex, index)"
-            :class="{ 'btn-selected': selectedWordIndex === index && selectedQuestionIndex === questionIndex }">{{
-            questionIndex+1. }}</button>
+            :class="{ 'btn-selected': selectedWordIndex === index && selectedQuestionIndex === questionIndex }">
+            {{ questionIndex+1 }}.
+          </button>
           <span class="text-left">{{ sentence }}</span>
         </div>
-        <div class="pair-slot-container  position-relative" v-tooltip="{
-          content: getCorrectPair(sentence, questionIndex),
-          shown: isShowHints,
-          triggers: [],
-          delay: 0
-        }"
-         :style="{ 'width': `${longestPairLength}em`}"
-        
-        >
+        <div class="pair-slot-container position-relative input-wrapper"
+          :style="{ 'width': `${longestPairLength}em` }">
           <span :style="{
             color: results[questionIndex][index] === undefined ? 'black' : results[questionIndex][index] ? 'green' : 'red'
           }" class="pair-slot bg-light form-control">
             {{ userAnswers[questionIndex][index] ? userAnswers[questionIndex][index] : '&nbsp;' }}
           </span>
-          <div>
+          
+          <!-- Подсказка поверх слота -->
+          <div v-if="isShowHints && hintForField[questionIndex]?.[index]"
+            class="hint-overlay"
+            :style="{ width: `${longestPairLength}em` }">
+            {{ getCorrectPair(sentence, questionIndex) }}
+          </div>
+          
+          <div style="z-index: 3;">
             <button class="btn btn-link btn-clear btn-sm"
               :class="{ 'text-black': !!userAnswers[questionIndex][index], 'text-secondary': !userAnswers[questionIndex][index] }"
               :disabled="!userAnswers[questionIndex][index]" @click="clearSlot(questionIndex, index)">
@@ -53,7 +55,7 @@
 
     <div class="d-flex justify-content-end mt-2">
       <div class="btn-group">
-        <HintButton @show-hint="isShowHints = $event" />
+        <HintButton @show-hint="toggleShowHints" />
         <button class="btn btn-outline-primary" @click="checkAnswers" title="Kuotele otviettua">
           <font-awesome-icon :icon="['fas', 'spell-check']" />
         </button>
@@ -65,7 +67,6 @@
 <script>
 import HintButton from '@/components/ui/HintButtonComponent.vue';
 import { confettiMixin } from '@/mixins/confettiMixin.js';
-
 
 export default {
   name: 'MatchPairSentenceSlotExercise',
@@ -96,11 +97,11 @@ export default {
       isShowHints: false,
       pairsEnabled: true,
       results: [],
+      hintForField: []
     };
   },
   computed: {
     longestPairLength() {
-      console.log(Math.max(...this.data.variants.map(pair => pair.length)) * 0.8);
       return Math.max(...this.data.variants.map(pair => pair.length)) + 1;
     },
   },
@@ -131,7 +132,6 @@ export default {
     },
     selectPair(index) {
       if (this.selectedWordIndex !== null) {
-        
         this.userAnswers[this.selectedQuestionIndex][this.selectedWordIndex] = this.shuffledPairs[index];
 
         let nextEmptySlotIndex = null;
@@ -146,7 +146,6 @@ export default {
         if (nextEmptySlotIndex === null) {
           nextEmptySlotIndex = this.userAnswers[this.selectedQuestionIndex].findIndex(answer => answer === '');
         }
-
 
         if (nextEmptySlotIndex === -1) {
           for (let i = this.selectedQuestionIndex + 1; i < this.userAnswers.length; i++) {
@@ -178,8 +177,8 @@ export default {
       const removedPair = this.userAnswers[questionIndex][index];
       if (removedPair) {
         this.userAnswers[questionIndex][index] = '';
-        this.selectedQuestionIndex = questionIndex; // Устанавливаем активный вопрос
-        this.selectedWordIndex = index; // Устанавливаем активный слот
+        this.selectedQuestionIndex = questionIndex;
+        this.selectedWordIndex = index;
         this.pairsEnabled = true;
       }
       this.resetResults();
@@ -188,6 +187,7 @@ export default {
     isWordSelected(questionIndex, index) {
       return !!this.userAnswers[questionIndex][index];
     },
+    
     checkAnswers() {
       this.resetResults();
       let allCorrect = true;
@@ -213,31 +213,44 @@ export default {
       this.results = [];
       this.results = this.data.questions.map(() => Array(this.data.questions[0].pairs.length).fill(undefined));
     },
+    
     getCorrectPair(word, questionIndex) {
       const pair = this.data.questions[questionIndex].pairs.find(pair => pair.sentence === word);
       return pair ? pair.pair : '';
+    },
+    
+    toggleShowHints(show) {
+      this.isShowHints = show;
+      
+      if (show) {
+        this.hintForField = this.data.questions.map((question) =>
+          Array(question.pairs.length).fill(true)
+        );
+      } else {
+        this.hintForField = this.data.questions.map(() => []);
+      }
     }
   },
   created() {
     this.initializeAnswers();
     this.resetResults();
+    this.hintForField = this.data.questions.map(() => []);
   }
 };
 </script>
 
-
 <style scoped>
-.words-pairs-container {
+.sentence-pairs-container {
   display: flex;
   flex-direction: column;
   align-items: start;
   font-size: 1.12em;
-
 }
 
 .sentence-container {
   width: 100%; 
   justify-content: space-between;
+  align-items: center;
 }
 
 .pairs-container {
@@ -265,6 +278,8 @@ export default {
 
 .sentence {
   width: 80%;
+  display: flex;
+  align-items: flex-start;
 }
 
 .word-button.btn-selected:hover {
@@ -272,10 +287,9 @@ export default {
 }
 
 .pair-slot-container {
-  float: right;
   display: flex;
-  align-items: right;
-  justify-content: flex-end; /* Align to the end of the parent container */
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .pair-slot {
@@ -283,6 +297,8 @@ export default {
   padding: 0.25rem 0.5rem;
   text-align: center;
   margin-right: 0.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .divider {
@@ -293,7 +309,8 @@ export default {
 .result-icon {
   width: 1.5em;
   top: 50%;
-  right: 1.0em;
+  right: 0.9em;
   transform: translateY(-50%);
+  z-index: 4;
 }
 </style>

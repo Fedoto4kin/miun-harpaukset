@@ -1,0 +1,26 @@
+/* Общие стили для подсказок поверх полей ввода */
+.hint-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 4px;
+    padding: 0 0.3em;
+    font-size: 0.9em;
+    color: #856404;
+    z-index: 10;
+    text-align: center;
+    pointer-events: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: calc(100% - 2px);
+    line-height: 1.5;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.input-wrapper {
+    position: relative;
+    display: inline-block;
+}

@@ -280,6 +280,7 @@ export default {
 
 <style>
 @import './assets/css/fonts.css';
+@import '@/assets/css/hint-styles.css';
 
 .navbar-nav .nav-link.active {
   font-weight: bold;
