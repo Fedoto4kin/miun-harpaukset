@@ -21,38 +21,41 @@
               </div>
   
               <!-- Поле для сборки слова и кнопка очистки -->
-              <div
-                class="mt-3 d-flex align-items-center"
-                v-tooltip="{
-                  content: question.word,
-                  shown: isShowHints,
-                  triggers: [],
-                  delay: 0,
-                }"
-              >
-                <div class="input-group">
-                  <input
-                    v-model="userAnswers[questionIndex]"
-                    :style="{ 
-                        width: `${question.word.length * 0.65}em`, 
-                        color: results[questionIndex] === undefined ? 'black' : results[questionIndex] ? 'green' : 'red' 
-                    }"
-                    class="form-control mx-1 input-field"
-                    @input="checkAnswer(questionIndex)"
-                  />
-                  <div class="input-group-append">
-                    <button
-                      :class="{
-                        'btn btn-link btn-clear btn-sm': true,
-                        'text-black': userAnswers[questionIndex],
-                        'text-secondary': !userAnswers[questionIndex],
+              <div class="my-2 d-flex align-items-center">
+                <div class="d-inline-flex align-items-center position-relative input-wrapper">
+                  <div class="position-relative">
+                    <input
+                      v-model="userAnswers[questionIndex]"
+                      :ref="'inputField' + questionIndex"
+                      :style="{ 
+                          width: `${question.word.length * 0.7}em`, 
+                          color: results[questionIndex] === undefined ? 'black' : results[questionIndex] ? 'green' : 'red' 
                       }"
-                      :disabled="!userAnswers[questionIndex]"
-                      @click="clearField(questionIndex)"
-                    >
-                      <font-awesome-icon :icon="['fas', 'delete-left']" />
-                    </button>
+                      class="form-control input-field"
+                      @input="checkAnswer(questionIndex)"
+                      @focus="handleFocus(questionIndex)"
+                    />
+                    
+                    <!-- Подсказка поверх поля ввода -->
+                    <div v-if="isShowHints && hintForField[questionIndex]"
+                      class="hint-overlay"
+                      :style="{ width: `${question.word.length * 0.7}em` }">
+                      {{ question.word }}
+                    </div>
                   </div>
+                  
+                  <button
+                    :class="{
+                      'btn btn-link btn-clear btn-sm ms-1': true,
+                      'text-black': userAnswers[questionIndex],
+                      'text-secondary': !userAnswers[questionIndex],
+                    }"
+                    :disabled="!userAnswers[questionIndex]"
+                    @click="clearField(questionIndex)"
+                    style="z-index: 3; position: relative; margin-top: 0;"
+                  >
+                    <font-awesome-icon :icon="['fas', 'delete-left']" />
+                  </button>
                 </div>
               </div>
   
@@ -71,13 +74,12 @@
         </div>
       </div>
       <div class="d-flex justify-content-end">
-          <HintButton @show-hint="isShowHints = $event" />
+        <HintButton @show-hint="toggleShowHints" />
       </div>
     </div>
   </template>
   
 <script>
-
   import HintButton from '@/components/ui/HintButtonComponent.vue';
   import { confettiMixin } from '@/mixins/confettiMixin.js';
 
@@ -104,7 +106,8 @@
         results: [], 
         parsedQuestions: [], 
         isShowHints: false,
-        activeQuestionIndex: null, 
+        activeQuestionIndex: null,
+        hintForField: []
       };
     },
     methods: {
@@ -139,7 +142,7 @@
       // Очистка поля
       clearField(questionIndex) {
         this.userAnswers[questionIndex] = '';
-        this.results[questionIndex] = undefined; // Сброс результата
+        this.results[questionIndex] = undefined;
       },
       // Фокус на поле ввода
       handleFocus(questionIndex) {
@@ -170,17 +173,27 @@
           });
         }
       },
+      
+      toggleShowHints(show) {
+        this.isShowHints = show;
+        
+        if (show) {
+          this.hintForField = this.parsedQuestions.map(() => true);
+        } else {
+          this.hintForField = this.parsedQuestions.map(() => false);
+        }
+      }
     },
     created() {
       this.parseData();
       this.userAnswers = this.parsedQuestions.map(() => '');
       this.results = this.parsedQuestions.map(() => undefined);
+      this.hintForField = this.parsedQuestions.map(() => false);
     },
   };
   </script>
   
   <style scoped>
-  
   .syllable-assembly-exercise {
     font-size: 1em;
   }
@@ -200,22 +213,28 @@
     border-bottom: 1px solid #ccc;
     outline: none;
     box-shadow: none;
-    padding: 0 5px;
+    padding: 4px;
     font-size: 1.35em;
     text-align: center;
-    margin-bottom: 0.5em;
-    margin-left: 1rem !important;
+    position: relative;
+    z-index: 1;
+    height: 1.8em;
+    vertical-align: middle;
   }
   
   .result-icon {
     top: 50%;
     transform: translateY(-50%);
-    right: -1.9em;
+    right: -1em;
+    z-index: 4;
   }
   
- .btn-clear {
-    padding: 0 0.2em;
-    margin-top: 0.5em;
+  .btn-clear {
+    padding: 0.25rem 0.5rem;
+    height: 42px; /* Такая же высота как у input */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .btn-link {
@@ -226,4 +245,25 @@
     cursor: not-allowed;
     opacity: 0.6;
   }
+  
+  .input-wrapper {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 1rem;
+  }
+  
+  .position-relative {
+    position: relative !important;
+  }
+  
+  .hint-overlay {
+    font-size: 1.35em;
+    height: 38px;
+    line-height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  
   </style>

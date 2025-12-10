@@ -2,13 +2,17 @@
     <div class="interactive-hint-exercise">
         <div v-for="(question, index) in data.questions" :key="index" class="hint-question mb-3">
             <div class="question-content">
-                <span v-html="question.text" class="question-text"></span>
-                <span  v-tooltip.left="{
-                    content: question.answer,
-                    shown: activeHintIndex === index,
-                    triggers: [],
-                    delay: 0
-                }">&nbsp;</span>
+                <div class="text-with-hint position-relative d-inline-flex align-items-start">
+
+                    <div class="question-text position-relative">
+                        {{ question.text }}
+                       
+                        <div v-if="activeHintIndex === index" class="hint-overlay hint-left">
+                            {{ question.answer }}
+                        </div>
+                    </div>
+                     <span class="hint-target position-relative d-inline-flex align-items-end"></span>
+                </div>
 
                 <HintButton v-if="question.hint_button !== false" class="ms-2" @pointerdown="showHint(index)"
                     @pointerup="hideHint(index)" @mouseleave="hideHint()" />
@@ -32,7 +36,7 @@ export default {
         },
         hasCheck: {
             type: Boolean,
-            default: false, // Всегда false для этого типа
+            default: false,
         },
     },
     data() {
@@ -41,12 +45,11 @@ export default {
         };
     },
     methods: {
-
         showHint(index) {
             this.activeHintIndex = index;
         },
         hideHint() {
-              this.activeHintIndex = null;
+            this.activeHintIndex = null;
         }
     },
 };
@@ -60,7 +63,7 @@ export default {
 
 .question-content {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
     gap: 8px;
 }
@@ -82,6 +85,10 @@ export default {
     font-size: 0.9em;
     margin: 0 2px;
     vertical-align: middle;
+}
+
+.hint-overlay {
+    right: 0px !important;
 }
 
 </style>

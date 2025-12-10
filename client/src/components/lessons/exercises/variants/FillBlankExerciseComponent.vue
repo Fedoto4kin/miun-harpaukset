@@ -7,20 +7,27 @@
       <div class="row justify-content-center">
         <div v-for="(item, itemIndex) in group.questions" :key="itemIndex" class="w-auto mb-2 px-3">
           <div class="card bg-light py-2 px-3 text-center">
-            <div class="d-flex justify-content-center align-items-center position-relative" v-tooltip="{
-              content: item.answersHint,
-              shown: isShowHints,
-              triggers: [],
-              delay: 0
-            }">
+            <div class="d-flex justify-content-center align-items-center position-relative">
               <span>{{ item.textBefore }}</span>
-              <div class="position-relative d-flex align-items-center">
-                <input :ref="'inputField' + groupIndex + '-' + itemIndex" v-model="userAnswers[groupIndex][itemIndex]"
+              <div class="position-relative input-wrapper">
+                <input :ref="'inputField' + groupIndex + '-' + itemIndex" 
+                  v-model="userAnswers[groupIndex][itemIndex]"
                   :style="{
-                    width: `${item.placeholderLength * 0.5}em`,
+                    width: `${item.placeholderLength * 1.1}em`,
                     color: results[groupIndex][itemIndex] === undefined ? 'black' : results[groupIndex][itemIndex] ? 'green' : 'red'
-                  }" class="form-control mx-1 input-field" @input="checkAnswer(groupIndex, itemIndex)"
+                  }" 
+                  class="form-control mx-1 input-field" 
+                  @input="checkAnswer(groupIndex, itemIndex)"
                   @focus="handleFocus(groupIndex, itemIndex)" />
+                
+                <!-- Подсказка поверх поля ввода -->
+                <div v-if="isShowHints && hintForField[groupIndex]?.[itemIndex]"
+                  class="hint-overlay"
+                  :style="{ width: `${item.placeholderLength * 0.8}em` }">
+                  <span class="hint-content">
+                    {{ getHintDisplay(item.correctAnswers) }}
+                  </span>
+                </div>
               </div>
               <span v-if="item.textAfter">{{ item.textAfter }}</span>
               <span v-if="results[groupIndex][itemIndex] !== undefined" class="position-absolute result-icon">
@@ -36,11 +43,10 @@
       <div class="btn-group">
         <SpecialCharsButtons @diacrt-click="handleDiacrtButtonClick" />
       </div>
-      <HintButton @show-hint="isShowHints = $event" />
+      <HintButton @show-hint="toggleShowHints" />
     </div>
   </div>
 </template>
-
 
 <script>
 import SpecialCharsButtons from '@/components/ui/SpecialCharsButtons.vue';
@@ -73,6 +79,7 @@ export default {
       isShowHints: false,
       activeGroupIndex: null,
       activeItemIndex: null,
+      hintForField: []
     };
   },
   methods: {
@@ -97,6 +104,7 @@ export default {
         })
       }));
     },
+    
     checkAnswer(groupIndex, itemIndex) {
       if (this.userAnswers[groupIndex][itemIndex] === '') {
         this.results[groupIndex][itemIndex] = undefined;
@@ -112,11 +120,28 @@ export default {
         this.launchConfetti();
       }
     },
+    
+    getHintDisplay(correctAnswers) {
+      return correctAnswers.join(', ');
+    },
+    
+    toggleShowHints(show) {
+      this.isShowHints = show;
+      
+      if (show) {
+        this.hintForField = this.parsedGroups.map(() =>
+          this.parsedGroups[0].questions.map(() => true)
+        );
+      } else {
+        this.hintForField = this.parsedGroups.map(() => []);
+      }
+    },
 
     handleFocus(groupIndex, itemIndex) {
       this.activeGroupIndex = groupIndex;
       this.activeItemIndex = itemIndex;
     },
+    
     handleDiacrtButtonClick(event) {
       if (this.activeGroupIndex === null || this.activeItemIndex === null) {
         console.error("No active input field.");
@@ -146,6 +171,7 @@ export default {
     this.parseData();
     this.userAnswers = this.parsedGroups.map(group => group.questions.map(() => ''));
     this.results = this.parsedGroups.map(group => group.questions.map(() => undefined));
+    this.hintForField = this.parsedGroups.map(() => []);
   },
 };
 </script>
@@ -166,6 +192,14 @@ export default {
   padding: 0 5px;
   font-size: 1.1em;
   text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.input-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 
 .position-relative {
@@ -180,9 +214,22 @@ export default {
   top: 50%;
   transform: translateY(-50%);
   right: -1.9em;
+  z-index: 3;
 }
 
 .text-center {
   text-align: center;
 }
+
+.hint-overlay {
+  font-size: 1.1em; 
+  left: 12%;
+  text-align: center;
+  pointer-events: none;
+  overflow: visible;
+  min-height: 100%;
+  line-height: 1.5;
+  min-width: fit-content;
+}
+
 </style>
