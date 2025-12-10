@@ -1,11 +1,11 @@
 <template>
-  <div class="container">
+  <div class="container text-center">
     <div class="row my-4">
-      <h1 class="mt-4 col-6">{{ title }}</h1>
+      <h1 class="mt-1">{{ title }}</h1>
     </div>
     <div>
       <div class="content">
-        <table class="table">
+        <table class="table mx-auto">
           <tbody>
             <tr>
               <th scope="row">Web-programmista:</th>
@@ -65,6 +65,7 @@ export default {
 <style scoped>
 .content {
   margin-bottom: 20px;
+  text-align: center;
 }
 
 h1 {

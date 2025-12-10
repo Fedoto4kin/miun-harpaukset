@@ -2,11 +2,11 @@
     <div class="container">
       <div class="row">
         <div class="col-md-4 align-items-center">
-            <img src="/img/book.jpg" class="my-5 w-100" />
+            <img src="/img/book.jpg" class="mt-3 w-100" />
         </div>
         <div class="col-md-6">
           <div class="row">
-            <div class="row mt-5">
+            <div class="row mt-3">
               <audio controls>
                 <source src="/media/intro.mp3" type="audio/mpeg">
                 Your browser does not support the audio tag.

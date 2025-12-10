@@ -1,11 +1,11 @@
 <template>
-  <div class="container">
+  <div class="container text-center">
     <div class="row my-4">
-      <h1 class="mt-4 col-6">{{ title }}</h1>
+      <h1 class="mt-1">{{ title }}</h1>
     </div>
     <div>
       <div class="content">
-      <ul class="list-group list-group-flush d-inline-block mx-auto">
+      <ul class="list-group list-group-flush d-inline-block mx-auto text-start">
         <li class="list-group-item">Beljakov A., Bubrih D.V. Karielan kielen učebnikka. Mosku, 1934.</li>
         <li class="list-group-item"> Gromova L. Aiga lugie i paissa karielakši. Тверь, 2002.</li>
         <li class="list-group-item">Miloradova A.A., Smirnov P.P. Karielan kielen učebnikka. Mosku, 1933.</li>

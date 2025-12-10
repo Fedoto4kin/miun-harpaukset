@@ -10,7 +10,7 @@
     </div>
     
     <div v-else-if="table">
-      <div class="h2 text-center fw-bold">{{ table.title }}</div>
+      <div class="h2 text-center fw-bold mt-1">{{ table.title }}</div>
       <div class="grammar-content p-4" v-html="table.html_content"></div>
     </div>
   </div>

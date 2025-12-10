@@ -13,7 +13,7 @@
     </div>
     <div class="d-flex align-items-center justify-content-between px-2 py-2">
       <div class="d-flex align-items-center gap-2">
-        <h5 class="mb-0">
+        <h5 class="mb-0 module-num">
           <span class="badge rounded-pill badge-lg bg-primary">{{ number }}</span>
         </h5>
         <span v-if="tags" class="d-flex gap-1">
@@ -29,7 +29,7 @@
       </div>
       <div class="d-flex gap-2">
         <button
-          class="btn btn-primary btn-sm"
+          class="btn btn-primary btn-sm btn-extra-small"
           :style="{ visibility: hasPreviousModule ? 'visible' : 'hidden' }"
           @click="goToPreviousModule"
         >
@@ -39,7 +39,7 @@
           <span class="d-none d-md-inline">&nbsp;Tagah</span>
         </button>
         <button
-          class="btn btn-primary btn-sm"
+          class="btn btn-primary btn-sm btn-extra-small"
           v-if="hasNextModule"
           @click="goToNextModule"
         >
@@ -102,7 +102,7 @@ export default {
   methods: {
     handleScroll() {
       const offset = window.pageYOffset;
-      this.isCompact = offset > 150;
+      this.isCompact = offset > 70;
     },
     goToPreviousModule() {
       this.$emit('previous-module');
@@ -135,14 +135,23 @@ export default {
   font-size: 0.8rem;
 }
 
+.sticky-lesson.compact .btn-extra-small{
+  padding: 0.1rem 0.3rem; /* Adjust padding as needed */
+  font-size: 0.75rem; /* Adjust font size as needed */
+}
+
+
+
 .sticky-lesson.compact h4,
-.sticky-lesson.compact h3 {
+.sticky-lesson.compact h3,
+.sticky-lesson.compact h5 {
   font-size: 1rem;
 }
 
 .sticky-lesson.compact .audio-player {
   display: none;
 }
+
 
 
 </style>

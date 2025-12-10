@@ -1,5 +1,5 @@
 <template>
-    <div class="fill-blank-table-exercise">
+    <div class="fill-blank-table-exercise table-responsive">
         <table class="table table-sm align-bottom mb-5" :class="data.class ? data.class : 'table-bordered'">
             <tbody>
                 <tr v-for="(row, rowIndex) in data.table" :key="rowIndex">
@@ -33,16 +33,16 @@
                 </tr>
             </tbody>
         </table>
-        <div class="d-flex justify-content-between mt-3">
-            <div class="btn-group">
-                <SpecialCharsButtons @diacrt-click="handleDiacrtButtonClick" />
-            </div>
-            <div v-if="hasCheck" class="btn-group">
-                <HintButton @show-hint="isShowHints = $event" />
-                <button class="btn btn-outline-primary" @click="checkAnswers" title="Kuotele otviettua">
-                    <font-awesome-icon :icon="['fas', 'spell-check']" />
-                </button>
-            </div>
+    </div>
+    <div class="d-flex justify-content-between mt-3">
+        <div class="btn-group">
+            <SpecialCharsButtons @diacrt-click="handleDiacrtButtonClick" />
+        </div>
+        <div v-if="hasCheck" class="btn-group">
+            <HintButton @show-hint="isShowHints = $event" />
+            <button class="btn btn-outline-primary" @click="checkAnswers" title="Kuotele otviettua">
+                <font-awesome-icon :icon="['fas', 'spell-check']" />
+            </button>
         </div>
     </div>
 </template>
@@ -222,6 +222,10 @@ export default {
 <style scoped>
 .fill-blank-table-exercise {
     font-size: 1.125em;
+}
+
+.fill-blank-table-exercise table {
+    min-width: 800px;
 }
 
 .input-field {
