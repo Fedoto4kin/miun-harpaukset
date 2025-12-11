@@ -1,33 +1,112 @@
 <!DOCTYPE html>
 <html lang="krl">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <link rel="manifest" href="/site.webmanifest">
-    <title>Miun harpaukšet karielan kieleh</title>
-    <script type="text/javascript" >
-      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-      m[i].l=1*new Date();
-      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <title>Miun harpaukšet karielan kieleh</title>
+
+  <!-- Русский вариант -->
+  <meta name="description"
+    content="Онлайн‑учебник карельского языка (тверской диалект) по книге: «Мои шаги к карельскому» (2019). Уроки, упражнения, словарь, материалы для изучения и практики.">
+  <meta name="keywords"
+    content="карельский язык, тверской диалект, учебник, уроки, упражнения, словарь, обучение, финно‑угорские языки, Новак Ирина, Комиссарова Ирина">
+
+  <!-- Финский вариант -->
+  <meta name="description" lang="fi"
+    content="Karjalan kielen oppikirja (Tverin murre). Verkkosovellus Irina Novakin ja Irina Komissarovan kirjan «Askeleeni karjalaan» (2019) pohjalta. Oppitunnit, harjoitukset, sanasto ja oppimateriaali.">
+  <meta name="keywords" lang="fi"
+    content="karjalan kieli, Tverin murre, oppikirja, verkkosovellus, oppitunnit, harjoitukset, sanasto, oppiminen, suomalais-ugrilaiset kielet">
+
+  <!-- Open Graph для соцсетей -->
+  <meta property="og:title" content="Учебник карельского языка (тверской диалект) — Miun Harpaukset">
+  <meta property="og:description"
+    content="Онлайн‑учебник карельского языка (тверской диалект) по книге «Мои шаги к карельскому» (2019). Уроки и упражнения по тверскому диалекту карельского языка.">
+  <meta property="og:url" content="https://karielankieleh.ru/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="krl">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:locale:alternate" content="fi_FI">
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Miun harpaukšet karielan kieleh — начальный курс тверского диалекта",
+    "description": "Онлайн‑курс карельского языка (тверской диалект) по книге Ирины Новак и Ирины Комиссаровой «Мои шаги к карельскому» (2019). Содержит уроки, упражнения и словарь.",
+    "inLanguage": ["krl", "ru", "fi"],
+    "provider": {
+      "@type": "Organization",
+      "name": "Karielakši Online Initiative",
+      "url": "https://karielankieleh.ru/",
+      "founder": {
+        "@type": "Person",
+        "name": "Федоточкин Анатолий",
+        "url": "https://github.com/Fedoto4kin/miun-harpaukset"
+      }
+    },
+    "courseCode": "KRL-TVER-MH-2022",
+    "educationalCredentialAwarded": "Начальный уровень карельского языка (тверской диалект)",
+    "url": "https://karielankieleh.ru/",
+    "about": {
+      "@type": "Book",
+      "name": "Мои шаги к карельскому: начальный курс тверского говора карельского языка",
+      "alternateName": "Miun arpaukšet karielan kieleh",
+      "author": [
+        { "@type": "Person", "name": "Ирина Новак" },
+        { "@type": "Person", "name": "Ирина Комиссарова" }
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "Периодика",
+        "url": "https://omamedia.ru/",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Петрозаводск",
+          "addressCountry": "Россия"
+        }
+      },
+      "datePublished": "2019",
+      "isbn": "978-5-88170-350-9",
+      "numberOfPages": "222",
+      "inLanguage": ["krl", "ru"]
+    }
+  }
+  </script>
+
+  <!-- /Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function (m, e, t, r, i, k, a) {
+      m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
+      m[i].l = 1 * new Date();
+      for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
+      k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+    })
       (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-      ym(99849973, "init", {
-          clickmap:true,
-          trackLinks:true,
-          accurateTrackBounce:true
-      });
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/99849973" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+    ym(99849973, "init", {
+      clickmap: true,
+      trackLinks: true,
+      accurateTrackBounce: true
+    });
+  </script>
+  <noscript>
+    <div><img src="https://mc.yandex.ru/watch/99849973" style="position:absolute; left:-9999px;" alt="" /></div>
+  </noscript>
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+
 </html>
