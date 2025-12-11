@@ -189,9 +189,9 @@ export default {
         console.error('Error loading module content:', error);
         this.moduleData = {}
         this.selectedModuleId = null;
+        // todo: set title with module num
       } finally {
         this.isContentLoading = false;
-      //  this.closeSidebar();
         window.scrollTo(0, 0);
       }
     },

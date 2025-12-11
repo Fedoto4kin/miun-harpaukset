@@ -1,5 +1,5 @@
 <template>
-    <div class="fill-blank-table-exercise table-responsive">
+    <div class="fill-blank-table-exercise table-responsive mt-2">
         <table class="table table-sm align-bottom mb-5" :class="data.class ? data.class : 'table-bordered'">
             <tbody>
                 <tr v-for="(row, rowIndex) in data.table" :key="rowIndex">
@@ -93,7 +93,7 @@ export default {
         },
         getPlaceholderLength(content) {
             const match = content.match(/\[(\d+)\*:/);
-            return match ? Number(match[1]) + 2 : content.length;
+            return match ? Number(match[1]) + 1 : content.length;
         },
         getCorrectAnswers(content) {
             const match = content.match(/\[(\d+)\*:([^\]{]+)\]/);
@@ -315,7 +315,7 @@ export default {
 .result-icon {
     top: 50%;
     transform: translateY(-50%);
-    right: 0;
+    right: -2px;
     z-index: 3;
 }
 </style>
