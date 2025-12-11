@@ -14,7 +14,8 @@
                                     :ref="'inputField' + rowIndex + '-' + colIndex + '-' + fragmentIndex" :style="{
                                         width: `${getPlaceholderLength(fragment.value)}em`,
                                         color: results[rowIndex][colIndex][fragmentIndex] === undefined ? 'black' : results[rowIndex][colIndex][fragmentIndex] ? 'green' : 'red'
-                                    }" class="form-control mx-1 input-field" @input="handleInputChange"
+                                    }" class="form-control mx-1 input-field" 
+                                    @input="handleInputChange"
                                     @focus="handleFocus(rowIndex, colIndex, fragmentIndex)"
                                     @blur="handleBlur(rowIndex, colIndex, fragmentIndex)" />
 
@@ -139,20 +140,16 @@ export default {
                     )
                 )
             );
-
             this.results = this.data.table.map(() =>
                 this.data.table[0].map(() =>
                     []
                 )
             );
-
-            // Инициализируем структуру для подсказок
             this.hintForField = this.data.table.map(() =>
                 this.data.table[0].map(() =>
                     []
                 )
             );
-
             this.focusedFields = this.data.table.map(() =>
                 this.data.table[0].map(() =>
                     []
@@ -170,6 +167,9 @@ export default {
 
         toggleShowHints(show) {
             this.isShowHints = show;
+            document.querySelectorAll('.input-field').forEach(input => {
+                input.blur();
+            });
 
             if (show) {
                 this.hintForField = this.data.table.map(row =>
