@@ -22,7 +22,7 @@
           <!-- Подсказка поверх слота -->
           <div v-if="isShowHints && hintForField[questionIndex]?.[index]"
             class="hint-overlay"
-            :style="{ width: `${longestPairLength}em` }">
+            :style="{ width: `${longestPairLength * 0.7}em` }">
             {{ getCorrectPair(sentence, questionIndex) }}
           </div>
           
@@ -309,8 +309,14 @@ export default {
 .result-icon {
   width: 1.5em;
   top: 50%;
-  right: 0.9em;
+  right: 1.1em;
   transform: translateY(-50%);
   z-index: 4;
+}
+
+.hint-overlay {
+  font-size: 0.85em;
+  line-height: 2;
+  height: calc(100% - 3px);
 }
 </style>

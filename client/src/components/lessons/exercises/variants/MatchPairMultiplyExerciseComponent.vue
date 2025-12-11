@@ -327,8 +327,6 @@ export default {
   z-index: 1;
 }
 
-
-
 .input-group-append {
   z-index: 3;
 }

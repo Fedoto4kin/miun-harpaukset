@@ -349,8 +349,14 @@ export default {
 .result-icon {
   width: 1.5em;
   top: 50%;
-  right: 1.0em;
+  right: 1.1em;
   transform: translateY(-50%);
   z-index: 3;
+}
+
+.hint-overlay {
+  font-size: 0.9em;
+  line-height: 2;
+  height: calc(100% - 3px);
 }
 </style>

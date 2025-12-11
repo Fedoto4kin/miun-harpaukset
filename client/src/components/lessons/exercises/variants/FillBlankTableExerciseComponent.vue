@@ -21,7 +21,7 @@
                                 <!-- Подсказка поверх поля ввода -->
                                 <div v-if="isShowHints && hintForField[rowIndex]?.[colIndex]?.[fragmentIndex]"
                                     class="hint-overlay"
-                                    :style="{ width: `${getPlaceholderLength(fragment.value)}em` }">
+                                    :style="{ width: `${getPlaceholderLength(fragment.value) * 1.1}em` }">
                                     {{ getCorrectAnswers(fragment.value).join(' | ') }}
                                 </div>
 
@@ -315,7 +315,7 @@ export default {
 .result-icon {
     top: 50%;
     transform: translateY(-50%);
-    right: -1em;
+    right: 0;
     z-index: 3;
 }
 </style>
