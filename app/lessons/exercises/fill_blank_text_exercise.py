@@ -1,5 +1,6 @@
 from .base_exercise import ExerciseSchema
 
+# todo: add title
 class FillBlankTextExercise(ExerciseSchema):
     @property
     def schema(self):

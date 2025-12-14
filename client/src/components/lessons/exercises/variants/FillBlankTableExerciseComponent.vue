@@ -12,7 +12,7 @@
                             <span v-else class="position-relative input-wrapper">
                                 <input v-model="userAnswers[rowIndex][colIndex][fragmentIndex]"
                                     :ref="'inputField' + rowIndex + '-' + colIndex + '-' + fragmentIndex" :style="{
-                                        width: `${getPlaceholderLength(fragment.value)}em`,
+                                        width: `${fragment.placeholderLength}em`,
                                         color: results[rowIndex][colIndex][fragmentIndex] === undefined ? 'black' : results[rowIndex][colIndex][fragmentIndex] ? 'green' : 'red'
                                     }" class="form-control mx-1 input-field" 
                                     @input="handleInputChange"
@@ -22,8 +22,8 @@
                                 <!-- Подсказка поверх поля ввода -->
                                 <div v-if="isShowHints && hintForField[rowIndex]?.[colIndex]?.[fragmentIndex]"
                                     class="hint-overlay"
-                                    :style="{ width: `${getPlaceholderLength(fragment.value) * 1.1}em` }">
-                                    {{ getCorrectAnswers(fragment.value).join(' | ') }}
+                                    :style="{ width: `${fragment.placeholderLength * 1.1}em` }">
+                                    {{ fragment.correctAnswers.join(' | ') }}
                                 </div>
 
                                 <span v-if="results[rowIndex][colIndex][fragmentIndex] !== undefined"
@@ -51,7 +51,6 @@
         </div>
     </div>
 </template>
-
 
 <script>
 import SpecialCharsButtons from '@/components/ui/SpecialCharsButtons.vue';
@@ -92,14 +91,7 @@ export default {
         calculateExampleStringField(exampleString) {
             return exampleString.replace(/<\/?[^>]+(>|$)/g, "").length * 0.7;
         },
-        getPlaceholderLength(content) {
-            const match = content.match(/\[(\d+)\*:/);
-            return match ? Number(match[1]) + 1 : content.length;
-        },
-        getCorrectAnswers(content) {
-            const match = content.match(/\[(\d+)\*:([^\]{]+)\]/);
-            return match ? match[2].split('|') : [];
-        },
+        
         parseContent(content) {
             if (!content) {
                 return [];
@@ -107,7 +99,9 @@ export default {
 
             const fragments = [];
             let remainingContent = content;
-            const regex = /\[(\d+)\*:([^\]{]+)\]|\{([^}]+)}/g;
+            
+            // Обновляем регулярное выражение для поддержки {PREFILLED} после ANSWERS
+            const regex = /\[(\d+)\*:([^\]{]+)({[^}]+})?\]|\{([^}]+)\}/g;
             let match;
 
             while ((match = regex.exec(remainingContent)) !== null) {
@@ -116,10 +110,18 @@ export default {
                     fragments.push({ type: 'text', value: textBefore });
                 }
 
-                if (match[1]) { // Обработка разметки []
-                    fragments.push({ type: 'input', value: match[0] });
-                } else if (match[3]) { // Обработка разметки {}
-                    fragments.push({ type: 'span', value: match[3] });
+                if (match[1]) { // Обработка разметки [n*:ANSWERS{PREFILLED}]
+                    const prefilledValue = match[3] ? match[3].slice(1, -1) : '';
+                    fragments.push({ 
+                        type: 'blank', 
+                        id: match[1],
+                        placeholderLength: Number(match[1]) + 2,
+                        correctAnswers: match[2].split('|'),
+                        prefilledValue: prefilledValue,
+                        value: match[0] // Сохраняем оригинальную строку для обратной совместимости
+                    });
+                } else if (match[4]) { // Обработка разметки {TEXT}
+                    fragments.push({ type: 'span', value: match[4] });
                 }
 
                 remainingContent = remainingContent.slice(match.index + match[0].length);
@@ -132,36 +134,60 @@ export default {
             return fragments;
         },
 
+        getCorrectAnswers(content) {
+            // Для обратной совместимости со старым форматом без prefilled
+            const match = content.match(/\[(\d+)\*:([^\]{]+)\]/);
+            if (match) {
+                return match[2].split('|');
+            }
+            return [];
+        },
+
         parseData() {
             this.userAnswers = this.data.table.map(row =>
-                row.map(cell =>
-                    this.parseContent(cell.content).map(fragment =>
-                        fragment.type === 'input' ? '' : fragment.value
-                    )
-                )
+                row.map(cell => {
+                    const fragments = this.parseContent(cell.content);
+                    return fragments.map(fragment => {
+                        if (fragment.type === 'blank') {
+                            // Используем предзаполненное значение, если оно есть
+                            return fragment.prefilledValue || '';
+                        } else if (fragment.type === 'span') {
+                            return fragment.value;
+                        } else {
+                            return '';
+                        }
+                    });
+                })
             );
-            this.results = this.data.table.map(() =>
-                this.data.table[0].map(() =>
-                    []
-                )
+            
+            this.results = this.data.table.map(row =>
+                row.map(cell => {
+                    const fragments = this.parseContent(cell.content);
+                    return fragments.map(() => undefined);
+                })
             );
-            this.hintForField = this.data.table.map(() =>
-                this.data.table[0].map(() =>
-                    []
-                )
+            
+            this.hintForField = this.data.table.map(row =>
+                row.map(cell => {
+                    const fragments = this.parseContent(cell.content);
+                    return fragments.map(() => false);
+                })
             );
-            this.focusedFields = this.data.table.map(() =>
-                this.data.table[0].map(() =>
-                    []
-                )
+            
+            this.focusedFields = this.data.table.map(row =>
+                row.map(cell => {
+                    const fragments = this.parseContent(cell.content);
+                    return fragments.map(() => false);
+                })
             );
         },
 
         clearResult() {
             this.results = this.data.table.map(row =>
-                row.map(() =>
-                    this.parseContent(row.content).map(() => undefined)
-                )
+                row.map(cell => {
+                    const fragments = this.parseContent(cell.content);
+                    return fragments.map(() => undefined);
+                })
             );
         },
 
@@ -173,11 +199,12 @@ export default {
 
             if (show) {
                 this.hintForField = this.data.table.map(row =>
-                    row.map(cell =>
-                        this.parseContent(cell.content).map(fragment =>
-                            fragment.type === 'input'
-                        )
-                    )
+                    row.map(cell => {
+                        const fragments = this.parseContent(cell.content);
+                        return fragments.map(fragment =>
+                            fragment.type === 'blank'
+                        );
+                    })
                 );
             } else {
                 this.hintForField = this.data.table.map(() =>
@@ -188,26 +215,31 @@ export default {
 
         checkAnswers() {
             this.clearResult();
+            let allCorrect = true;
+            
             this.data.table.forEach((row, rowIndex) => {
                 row.forEach((cell, colIndex) => {
-                    this.parseContent(cell.content).forEach((fragment, fragmentIndex) => {
-                        if (fragment.type === 'input') {
+                    const fragments = this.parseContent(cell.content);
+                    fragments.forEach((fragment, fragmentIndex) => {
+                        if (fragment.type === 'blank') {
                             const userAnswer = this.userAnswers[rowIndex][colIndex][fragmentIndex]
                                 ?.toLowerCase()
                                 .replaceAll(/['’ʼ]/g, "'");
 
-                            const correctAnswers = this.getCorrectAnswers(fragment.value).map(ans =>
+                            const correctAnswers = fragment.correctAnswers.map(ans =>
                                 ans.toLowerCase().replaceAll(/['’ʼ]/g, "'")
                             );
 
                             const isCorrect = correctAnswers.includes(userAnswer);
                             this.results[rowIndex][colIndex][fragmentIndex] = isCorrect;
+                            
+                            if (!isCorrect) {
+                                allCorrect = false;
+                            }
                         }
                     });
                 });
             });
-
-            const allCorrect = this.results.flat().every(result => result.every(res => res === true));
 
             if (allCorrect) {
                 this.launchConfetti();

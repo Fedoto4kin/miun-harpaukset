@@ -17,12 +17,13 @@ class FillBlankTableExercise(ExerciseSchema):
     - "table": represents the content of the table as an array of rows, where each row is an array of cells.
     - Each cell is an object with the following properties:
         - "class": (optional) an array of CSS classes for the cell.
-        - "content": the content of the cell, which may include patterns like [n*:ANSWERS] or {TEXT}.
+        - "content": the content of the cell, which may include patterns like [n*:ANSWERS{PREFILLED}] or {TEXT}.
     - The patterns used in the "content":
         - Allow html tags
-        - [n*:ANSWERS] is used to indicate fill-in-the-blank content, where:
+        - [n*:ANSWERS{PREFILLED}] is used to indicate fill-in-the-blank content, where:
             - n* - represents the placeholder for the missing part.
             - ANSWERS - possible answers separated by the '|' symbol.
+            - {PREFILLED} - (optional) a prefilled value for the blank.
         - {TEXT} is used to indicate span content where:
             - TEXT - represents text that will be displayed inside a span element with a specific class.
             """,
@@ -57,7 +58,7 @@ class FillBlankTableExercise(ExerciseSchema):
                                 },
                                 "content": {
                                     "type": "string",
-                                    "description": "Content of the cell, may include fill-in-the-blank patterns"
+                                    "description": "Content of the cell, may include fill-in-the-blank patterns with optional prefilled values"
                                 }
                             },
                             "required": ["content"]
@@ -92,6 +93,18 @@ class FillBlankTableExercise(ExerciseSchema):
                             }
                         ]
                     ]
+                },
+                {
+                    "rows": 1,
+                    "cols": 1,
+                    "class": "table-borderless",
+                    "table": [
+                        [
+                            {
+                                "content": "Kazi [4*:on{olen}] pertissä."
+                            }
+                        ]
+                    ]
                 }
             ]
         }
@@ -120,7 +133,7 @@ class FillBlankTableExercise(ExerciseSchema):
                 command.stdout.write(f"\nЯчейка [{row + 1}, {col + 1}]:")
                 cell = {}            
                 # Prompt for the cell content
-                cell["content"] = input("Введите содержимое ячейки (например, [1*:ä|ö]): ")
+                cell["content"] = input("Введите содержимое ячейки (например, [1*:ä|ö{ä}]): ")
                 current_row.append(cell)
                 
                 cell_class = input("Введите CSS-классы для ячейки (через пробел или оставьте пустым): ")
@@ -132,4 +145,3 @@ class FillBlankTableExercise(ExerciseSchema):
             command.stdout.write(json.dumps(data, indent=4, ensure_ascii=False))
 
         return data
-
