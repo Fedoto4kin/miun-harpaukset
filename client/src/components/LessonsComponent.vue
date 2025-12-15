@@ -6,9 +6,8 @@
           <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
         </button>
         <LessonListComponent title="Urokat" :loading="loading" :lessons="lessons" :isLessonActive="isLessonActive"
-          :toggleLesson="toggleLesson"
-          :isModulesByLessonLoading="isModulesByLessonLoading" :modules="modules" :selectedModuleId="selectedModuleId"
-          @module-clicked="loadModuleContent" />
+          :toggleLesson="toggleLesson" :isModulesByLessonLoading="isModulesByLessonLoading" :modules="modules"
+          :selectedModuleId="selectedModuleId" @module-clicked="loadModuleContent" />
       </div>
       <div class="col-md-12 mt-2" id="lesson-frame">
         <LessonHeaderComponent :lesson="activeLesson" v-bind="filterModuleData(['number', 'tags'])" v-if="activeLesson"
@@ -65,7 +64,7 @@ export default {
       isSidebarOpen: true,
     };
   },
-  async mounted() {   
+  async mounted() {
     try {
       this.lessons = await getLessons();
       this.handleRoute();
@@ -77,7 +76,7 @@ export default {
       console.error('Error loading lessons:', error);
     } finally {
       this.loading = false;
-      document.title =  this.activeLesson?.full_name ?? this.title;
+      this.updateDocumentTitle();
     }
   },
   computed: {
@@ -192,6 +191,7 @@ export default {
         // todo: set title with module num
       } finally {
         this.isContentLoading = false;
+        this.updateDocumentTitle();
         window.scrollTo(0, 0);
       }
     },
@@ -272,7 +272,16 @@ export default {
         }
       });
       return filteredData;
-    }
+    },
+    updateDocumentTitle() {
+      let title = this.activeLesson?.full_name ?? this.title;
+
+      if (this.moduleData?.number && this.selectedModuleId) {
+        title = `${title} | ${this.moduleData.number}`;
+      }
+
+      document.title = title;
+    },
   },
   directives: {
     'click-outside': {
