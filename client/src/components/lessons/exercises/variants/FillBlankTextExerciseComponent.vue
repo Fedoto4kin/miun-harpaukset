@@ -300,6 +300,7 @@ export default {
   margin: 0 0.2em;
   position: relative;
   z-index: 1;
+  text-align: center;
 }
 
 .result-icon {
