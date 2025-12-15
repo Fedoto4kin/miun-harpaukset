@@ -174,6 +174,9 @@ export default {
     },
     toggleShowHints(show) {
       this.isShowHints = show;
+      document.querySelectorAll('.input-field').forEach(input => {
+        input.blur();
+      });
 
       if (show) {
         this.hintForField = this.parsedTexts.map((textObj) =>
