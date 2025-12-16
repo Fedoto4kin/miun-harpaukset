@@ -7,7 +7,7 @@
 
     <div v-for="(question, questionIndex) in data.questions" :key="questionIndex" class="words-pairs-container">
       <div class="words-container">
-        <div v-for="(word, index) in shuffledWords[questionIndex]" :key="index"
+        <div v-for="(word, index) in words[questionIndex]" :key="index"
           class="d-flex align-items-center mb-2 position-relative">
           <button class="btn btn-outline-secondary btn-sm word-button me-2" @click="selectWord(questionIndex, index)"
             :class="{ 'btn-selected': selectedWordIndex === index && selectedQuestionIndex === questionIndex }">
@@ -93,7 +93,7 @@ export default {
       selectedWordIndex: 0,
       selectedPairIndex: null,
       checkResult: false,
-      shuffledWords: [],
+      words: [],
       shuffledPairs: [],
       userAnswers: [],
       isShowHints: false,
@@ -112,11 +112,11 @@ export default {
   methods: {
     initializeAnswers() {
       this.userAnswers = this.data.questions.map(question => Array(question.pairs.length).fill(''));
-      this.shuffledWords = this.data.questions.map(question => this.shuffleArray(question.pairs.map(pair => pair.word)));
+      this.words = this.data.questions.map(question => question.pairs.map(pair => pair.word));
       this.shuffleData();
     },
     shuffleData() {
-      this.shuffledWords = this.data.questions.map(question => this.shuffleArray(question.pairs.map(pair => pair.word)));
+      this.words = this.data.questions.map(question => question.pairs.map(pair => pair.word));
       const allPairs = this.data.questions.flatMap(question => question.pairs.map(pair => pair.pair));
       this.shuffledPairs = this.shuffleArray(allPairs);
     },
@@ -224,7 +224,7 @@ export default {
       let allCorrect = true;
       this.results = this.userAnswers.map((answers, questionIndex) =>
         answers.map((answer, index) => {
-          const pair = this.data.questions[questionIndex].pairs.find(pair => pair.word === this.shuffledWords[questionIndex][index]);
+          const pair = this.data.questions[questionIndex].pairs.find(pair => pair.word === this.words[questionIndex][index]);
           const isCorrect = pair && pair.pair === answer;
           if (!isCorrect) {
             allCorrect = false;

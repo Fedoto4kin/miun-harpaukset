@@ -54,7 +54,6 @@ export default {
   width: 97%;
 }
 
-
 .audio-player {
   width: 50%; 
 }
