@@ -51,7 +51,7 @@ export default {
 }
 
 .exercise-container {
-  width: 95%;
+  width: 97%;
 }
 
 
