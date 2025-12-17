@@ -49,7 +49,7 @@
                     <li v-for="table in grammarTables" :key="table.id">
                       <router-link class="dropdown-item-custom" 
                         :to="`/grammar/${table.id}`"
-                        :class="{ active: $route.params.id === String(table.id) }"
+                        exact-active-class="active"
                         @click="handleGrammarItemClick">
                         {{ table.title }}
                       </router-link>
