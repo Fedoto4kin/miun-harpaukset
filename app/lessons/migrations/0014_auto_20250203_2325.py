@@ -2,33 +2,60 @@
 
 import ckeditor.fields
 import django.core.serializers.json
-from django.db import migrations, models
 import django.db.models.deletion
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lessons', '0013_alter_module_html_content'),
+        ("lessons", "0013_alter_module_html_content"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='module',
-            name='html_content',
-            field=ckeditor.fields.RichTextField(blank=True, default=None, null=True, verbose_name='HTML'),
+            model_name="module",
+            name="html_content",
+            field=ckeditor.fields.RichTextField(
+                blank=True, default=None, null=True, verbose_name="HTML"
+            ),
         ),
         migrations.CreateModel(
-            name='Exercise',
+            name="Exercise",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('exercise_type', models.CharField(choices=[('FillBlank', 'FILL_BLANK')], max_length=50)),
-                ('data', models.JSONField(encoder=django.core.serializers.json.DjangoJSONEncoder)),
-                ('module', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='exercise', to='lessons.module')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "exercise_type",
+                    models.CharField(
+                        choices=[("FillBlank", "FILL_BLANK")], max_length=50
+                    ),
+                ),
+                (
+                    "data",
+                    models.JSONField(
+                        encoder=django.core.serializers.json.DjangoJSONEncoder
+                    ),
+                ),
+                (
+                    "module",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="exercise",
+                        to="lessons.module",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Annanda',
-                'verbose_name_plural': 'Annandat',
+                "verbose_name": "Annanda",
+                "verbose_name_plural": "Annandat",
             },
         ),
     ]

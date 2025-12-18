@@ -6,13 +6,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lessons', '0004_alter_lesson_num'),
+        ("lessons", "0004_alter_lesson_num"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='lessonspeech',
-            name='code',
-            field=models.CharField(blank=True, help_text='X.Y (1.0, 1.1, 2.1)', max_length=10, null=True, unique=True),
+            model_name="lessonspeech",
+            name="code",
+            field=models.CharField(
+                blank=True,
+                help_text="X.Y (1.0, 1.1, 2.1)",
+                max_length=10,
+                null=True,
+                unique=True,
+            ),
         ),
     ]

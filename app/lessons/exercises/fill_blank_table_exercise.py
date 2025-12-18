@@ -1,5 +1,7 @@
-from .base_exercise import ExerciseSchema
 import json
+
+from .base_exercise import ExerciseSchema
+
 
 class FillBlankTableExercise(ExerciseSchema):
     @property
@@ -30,16 +32,13 @@ class FillBlankTableExercise(ExerciseSchema):
             "properties": {
                 "rows": {
                     "type": "integer",
-                    "description": "Number of rows in the table"
+                    "description": "Number of rows in the table",
                 },
                 "cols": {
                     "type": "integer",
-                    "description": "Number of columns in the table"
+                    "description": "Number of columns in the table",
                 },
-                "class": {
-                    "type": "string",
-                    "description": "CSS classes for the table"
-                },
+                "class": {"type": "string", "description": "CSS classes for the table"},
                 "table": {
                     "type": "array",
                     "description": "Array of rows in the table",
@@ -52,19 +51,17 @@ class FillBlankTableExercise(ExerciseSchema):
                                 "class": {
                                     "type": "array",
                                     "description": "CSS classes for the cell",
-                                    "items": {
-                                        "type": "string"
-                                    }
+                                    "items": {"type": "string"},
                                 },
                                 "content": {
                                     "type": "string",
-                                    "description": "Content of the cell, may include fill-in-the-blank patterns with optional prefilled values"
-                                }
+                                    "description": "Content of the cell, may include fill-in-the-blank patterns with optional prefilled values",
+                                },
                             },
-                            "required": ["content"]
-                        }
-                    }
-                }
+                            "required": ["content"],
+                        },
+                    },
+                },
             },
             "required": ["rows", "cols", "table"],
             "examples": [
@@ -76,39 +73,31 @@ class FillBlankTableExercise(ExerciseSchema):
                         [
                             {
                                 "class": ["table-warning", "fw-bold"],
-                                "content": "Yks. nom."
+                                "content": "Yks. nom.",
                             },
                             {
                                 "class": ["table-warning", "fw-bold"],
-                                "content": "Mon. nom."
-                            }
+                                "content": "Mon. nom.",
+                            },
                         ],
                         [
                             {
                                 "class": ["table-warning", "fw-bold"],
-                                "content": "lämmin alane"
+                                "content": "lämmin alane",
                             },
-                            {
-                                "content": "{lämbimät alazet}"
-                            }
-                        ]
-                    ]
+                            {"content": "{lämbimät alazet}"},
+                        ],
+                    ],
                 },
                 {
                     "rows": 1,
                     "cols": 1,
                     "class": "table-borderless",
-                    "table": [
-                        [
-                            {
-                                "content": "Kazi [4*:on{olen}] pertissä."
-                            }
-                        ]
-                    ]
-                }
-            ]
+                    "table": [[{"content": "Kazi [4*:on{olen}] pertissä."}]],
+                },
+            ],
         }
-    
+
     def construct_data(self, command):
         """
         Step-by-step constructor for creating exercise data.
@@ -120,7 +109,9 @@ class FillBlankTableExercise(ExerciseSchema):
         data["cols"] = int(input("Введите количество столбцов: "))
 
         # Prompt for CSS classes for the table (optional)
-        table_class = input("Введите CSS-классы для таблицы (через пробел или оставьте пустым): ")
+        table_class = input(
+            "Введите CSS-классы для таблицы (через пробел или оставьте пустым): "
+        )
         if table_class:
             data["class"] = table_class
 
@@ -131,12 +122,16 @@ class FillBlankTableExercise(ExerciseSchema):
             current_row = []
             for col in range(data["cols"]):
                 command.stdout.write(f"\nЯчейка [{row + 1}, {col + 1}]:")
-                cell = {}            
+                cell = {}
                 # Prompt for the cell content
-                cell["content"] = input("Введите содержимое ячейки (например, [1*:ä|ö{ä}]): ")
+                cell["content"] = input(
+                    "Введите содержимое ячейки (например, [1*:ä|ö{ä}]): "
+                )
                 current_row.append(cell)
-                
-                cell_class = input("Введите CSS-классы для ячейки (через пробел или оставьте пустым): ")
+
+                cell_class = input(
+                    "Введите CSS-классы для ячейки (через пробел или оставьте пустым): "
+                )
                 if cell_class:
                     cell["class"] = cell_class.split()
 

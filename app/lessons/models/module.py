@@ -1,37 +1,32 @@
-from django.db import models
-from django.contrib.contenttypes.fields import GenericRelation
 from ckeditor.fields import RichTextField
+from django.contrib.contenttypes.fields import GenericRelation
+from django.db import models
+
 from .lesson import Lesson  # Import the Lesson model
-from .tag import Tag  # Import the Tag model
 from .lesson_speech import LessonSpeech
+from .tag import Tag  # Import the Tag model
 
 
 class Module(models.Model):
     lesson = models.ForeignKey(
-        Lesson,
-        on_delete=models.CASCADE,
-        related_name='modules',
-        verbose_name='Urokka'
+        Lesson, on_delete=models.CASCADE, related_name="modules", verbose_name="Urokka"
     )
     number = models.IntegerField()
     html_content = RichTextField(
-        verbose_name='HTML',
+        verbose_name="HTML",
         blank=True,
         null=True,
         default=None,
-        help_text="HTML content of the module. Use '[[widget:lesson_cover]]' to render the lesson cover component."
+        help_text="HTML content of the module. Use '[[widget:lesson_cover]]' to render the lesson cover component.",
     )
     tags = models.ManyToManyField(
-        Tag,
-        related_name='modules',
-        blank=True,
-        verbose_name='Znakut'
+        Tag, related_name="modules", blank=True, verbose_name="Znakut"
     )
     module_speeches = GenericRelation(
         LessonSpeech,
-        content_type_field='content_type',
-        object_id_field='object_id',
-        related_query_name='module'
+        content_type_field="content_type",
+        object_id_field="object_id",
+        related_query_name="module",
     )
 
     @property
@@ -41,7 +36,7 @@ class Module(models.Model):
     @property
     def exercise(self):
         """Return module Exercise if exists"""
-        if hasattr(self, 'exercise'):
+        if hasattr(self, "exercise"):
             return self.exercise
         return None
 
@@ -50,10 +45,10 @@ class Module(models.Model):
         return f"{self.lesson.number}/{self.id}"
 
     def __str__(self):
-        return f'{self.lesson.title} - {self.lesson.number}.{self.number}'
+        return f"{self.lesson.title} - {self.lesson.number}.{self.number}"
 
     class Meta:
-        verbose_name = 'Модуль'
-        verbose_name_plural = 'Модули'
-        unique_together = ('lesson', 'number')
-        ordering = ['number']
+        verbose_name = "Модуль"
+        verbose_name_plural = "Модули"
+        unique_together = ("lesson", "number")
+        ordering = ["number"]

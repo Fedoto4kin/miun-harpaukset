@@ -1,7 +1,9 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from ..serializers import *
+
 
 class WordCardView(APIView):
 
@@ -12,7 +14,9 @@ class WordCardView(APIView):
         try:
             word = Word.objects.get(pk=word_id)
         except Word.DoesNotExist:
-            return Response({'error': 'Word not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"error": "Word not found"}, status=status.HTTP_404_NOT_FOUND
+            )
 
-        serializer = WordPreviewSerializer(word, context={'request': request})
+        serializer = WordPreviewSerializer(word, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -7,24 +7,31 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Lesson',
+            name="Lesson",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('num', models.IntegerField()),
-                ('name', models.CharField(max_length=255)),
-                ('title', models.CharField(max_length=255)),
-                ('slogan', models.CharField(max_length=255)),
-                ('description', models.TextField()),
-                ('is_enabled', models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("num", models.IntegerField()),
+                ("name", models.CharField(max_length=255)),
+                ("title", models.CharField(max_length=255)),
+                ("slogan", models.CharField(max_length=255)),
+                ("description", models.TextField()),
+                ("is_enabled", models.BooleanField(default=False)),
             ],
             options={
-                'verbose_name': 'Uroka',
-                'verbose_name_plural': 'Urokat',
+                "verbose_name": "Uroka",
+                "verbose_name_plural": "Urokat",
             },
         ),
     ]

@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lexicon', '0021_word_word_clean'),
+        ("lexicon", "0021_word_word_clean"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='speech',
-            options={'verbose_name': 'Pagina', 'verbose_name_plural': 'Paginat'},
+            name="speech",
+            options={"verbose_name": "Pagina", "verbose_name_plural": "Paginat"},
         ),
     ]

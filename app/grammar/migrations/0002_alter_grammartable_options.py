@@ -6,12 +6,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('grammar', '0001_initial'),
+        ("grammar", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='grammartable',
-            options={'ordering': ['-order'], 'verbose_name': 'Tabliča', 'verbose_name_plural': 'Tabličat'},
+            name="grammartable",
+            options={
+                "ordering": ["-order"],
+                "verbose_name": "Tabliča",
+                "verbose_name_plural": "Tabličat",
+            },
         ),
     ]

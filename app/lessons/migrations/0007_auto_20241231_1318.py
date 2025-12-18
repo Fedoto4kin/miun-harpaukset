@@ -6,27 +6,40 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lessons', '0006_module'),
+        ("lessons", "0006_module"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Tag',
+            name="Tag",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(max_length=50, unique=True)),
-                ('name', models.CharField(max_length=100)),
-                ('hint_russian', models.CharField(max_length=100)),
-                ('hint_finnish', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("code", models.CharField(max_length=50, unique=True)),
+                ("name", models.CharField(max_length=100)),
+                ("hint_russian", models.CharField(max_length=100)),
+                ("hint_finnish", models.CharField(max_length=100)),
             ],
             options={
-                'verbose_name': 'Znaku',
-                'verbose_name_plural': 'Znakut',
+                "verbose_name": "Znaku",
+                "verbose_name_plural": "Znakut",
             },
         ),
         migrations.AddField(
-            model_name='module',
-            name='tags',
-            field=models.ManyToManyField(blank=True, related_name='modules', to='lessons.Tag', verbose_name='Znakut'),
+            model_name="module",
+            name="tags",
+            field=models.ManyToManyField(
+                blank=True,
+                related_name="modules",
+                to="lessons.Tag",
+                verbose_name="Znakut",
+            ),
         ),
     ]

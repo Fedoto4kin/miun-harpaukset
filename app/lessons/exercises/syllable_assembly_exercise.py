@@ -1,5 +1,6 @@
 from .base_exercise import ExerciseSchema
 
+
 class SyllableAssemblyExercise(ExerciseSchema):
     @property
     def schema(self):
@@ -39,7 +40,7 @@ class SyllableAssemblyExercise(ExerciseSchema):
         Explanation of the "question" format:
         - Each question represents a word and its syllables.
         - "word" is the full word that needs to be assembled.
-        - "syllables" is an array of syllables that must 
+        - "syllables" is an array of syllables that must
           be arranged in the correct order to form the word.
         """
         return {
@@ -58,17 +59,17 @@ class SyllableAssemblyExercise(ExerciseSchema):
                                 "type": "array",
                                 "items": {
                                     "type": "string",
-                                }
-                            }
+                                },
+                            },
                         },
-                        "required": ["word", "syllables"]
+                        "required": ["word", "syllables"],
                     },
                     "examples": [
                         {"word": "omahine", "syllables": ["ne", "o", "hi", "ma"]},
                         {"word": "talo", "syllables": ["lo", "ta"]},
                         {"word": "šukši", "syllables": ["ši", "šuk"]},
-                    ]
+                    ],
                 }
             },
-            "required": ["questions"]
+            "required": ["questions"],
         }

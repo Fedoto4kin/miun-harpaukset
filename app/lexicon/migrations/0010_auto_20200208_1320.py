@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lexicon', '0009_auto_20200207_1833'),
+        ("lexicon", "0009_auto_20200207_1833"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='definition',
+            name="definition",
             unique_together=set(),
         ),
     ]

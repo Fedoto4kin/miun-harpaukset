@@ -1,5 +1,6 @@
 from .base_exercise import ExerciseSchema
 
+
 class FillGapWithChoiceExercise(ExerciseSchema):
     @property
     def schema(self):
@@ -63,25 +64,20 @@ class FillGapWithChoiceExercise(ExerciseSchema):
                                 "pattern": r"\[\*\d+:[^]]+\]",
                                 "examples": [
                                     "Oks’o Smirnova eläy [*4:Kozlovalla].",
-                                    "Smirnovat pijetäh [*4:lehmiä|poččie|kanua]."
-                                ]
+                                    "Smirnovat pijetäh [*4:lehmiä|poččie|kanua].",
+                                ],
                             },
-                            "type": {
-                                "type": "string",
-                                "enum": ["radio", "checkbox"]
-                            },
+                            "type": {"type": "string", "enum": ["radio", "checkbox"]},
                             "variants": {
                                 "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "minItems": 1
-                            }
+                                "items": {"type": "string"},
+                                "minItems": 1,
+                            },
                         },
-                        "required": ["text", "type", "variants"]
+                        "required": ["text", "type", "variants"],
                     },
-                    "minItems": 1
+                    "minItems": 1,
                 }
             },
-            "required": ["questions"]
+            "required": ["questions"],
         }

@@ -1,5 +1,6 @@
 from .base_exercise import ExerciseSchema
 
+
 class SentenceAssemblyPrefilledExercise(ExerciseSchema):
     @property
     def schema(self):
@@ -56,9 +57,9 @@ class SentenceAssemblyPrefilledExercise(ExerciseSchema):
         }
 
         Explanation of the data format:
-        - The "groups" array contains objects representing word groups. 
+        - The "groups" array contains objects representing word groups.
         Each group includes a "group" identifier and an array of "words".
-        - The "answers" array contains possible correct sentences that 
+        - The "answers" array contains possible correct sentences that
         can be formed by arranging the given words.
         The | is divider for the words in the sentence by slots.
         - The "template" object defines the structure of the exercise:
@@ -82,18 +83,27 @@ class SentenceAssemblyPrefilledExercise(ExerciseSchema):
                                 "items": {
                                     "type": "string",
                                 },
-                                "examples": [["buabo<b>n</b> ali diedo<b>n</b>", "poija<b>n</b> ali tyttäre<b>n</b>"], ["muamo.", "velli."]]
-                            }
+                                "examples": [
+                                    [
+                                        "buabo<b>n</b> ali diedo<b>n</b>",
+                                        "poija<b>n</b> ali tyttäre<b>n</b>",
+                                    ],
+                                    ["muamo.", "velli."],
+                                ],
+                            },
                         },
-                        "required": ["group", "words"]
-                    }
+                        "required": ["group", "words"],
+                    },
                 },
                 "answers": {
                     "type": "array",
                     "items": {
                         "type": "string",
-                        "examples": ["Diedo|on|muamon ali tuaton|tuatto.", "Prabuabo|on|buabon ali diedon|muamo."]
-                    }
+                        "examples": [
+                            "Diedo|on|muamon ali tuaton|tuatto.",
+                            "Prabuabo|on|buabon ali diedon|muamo.",
+                        ],
+                    },
                 },
                 "template": {
                     "type": "object",
@@ -105,8 +115,10 @@ class SentenceAssemblyPrefilledExercise(ExerciseSchema):
                             "items": {
                                 "type": "array",
                                 "items": {"type": "string"},
-                                "examples": [["Buabo", "on", "muamon ali tuaton", "muamo."]]
-                            }
+                                "examples": [
+                                    ["Buabo", "on", "muamon ali tuaton", "muamo."]
+                                ],
+                            },
                         },
                         "prefillers": {
                             "type": "array",
@@ -115,14 +127,13 @@ class SentenceAssemblyPrefilledExercise(ExerciseSchema):
                                 "items": {"type": "string"},
                                 "examples": [
                                     ["Diedo", "on", "", ""],
-                                    ["Prabuabo", "on", "", ""]
-                                ]
-                            }
-                        }
+                                    ["Prabuabo", "on", "", ""],
+                                ],
+                            },
+                        },
                     },
-                    "required": ["count", "slots"]
-                }
+                    "required": ["count", "slots"],
+                },
             },
-            "required": ["groups", "answers", "template"]
+            "required": ["groups", "answers", "template"],
         }
-

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lexicon', '0013_auto_20200315_0911'),
+        ("lexicon", "0013_auto_20200315_0911"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='base',
-            name='base_slug_diacrit',
+            model_name="base",
+            name="base_slug_diacrit",
             field=models.CharField(blank=True, db_index=True, max_length=128),
         ),
     ]

@@ -321,7 +321,7 @@ export default {
 
 <style scoped>
 .fill-blank-table-exercise {
-    font-size: 1.125em;
+    font-size: 1.1em;
 }
 
 .fill-blank-table-exercise table {

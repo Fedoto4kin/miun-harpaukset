@@ -8,27 +8,49 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='GrammarTable',
+            name="GrammarTable",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(help_text='Название грамматической таблицы', max_length=200, verbose_name='Заголовок таблицы')),
-                ('html_content', ckeditor.fields.RichTextField(help_text='HTML-код таблицы для отображения. Используйте редактор для форматирования.', verbose_name='HTML содержимое')),
-                ('order', models.IntegerField(default=0)),
-                ('is_published', models.BooleanField(default=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(
+                        help_text="Название грамматической таблицы",
+                        max_length=200,
+                        verbose_name="Заголовок таблицы",
+                    ),
+                ),
+                (
+                    "html_content",
+                    ckeditor.fields.RichTextField(
+                        help_text="HTML-код таблицы для отображения. Используйте редактор для форматирования.",
+                        verbose_name="HTML содержимое",
+                    ),
+                ),
+                ("order", models.IntegerField(default=0)),
+                ("is_published", models.BooleanField(default=True)),
             ],
             options={
-                'verbose_name': 'Tabliča',
-                'verbose_name_plural': 'Tabličat',
-                'ordering': ['order', 'title'],
+                "verbose_name": "Tabliča",
+                "verbose_name_plural": "Tabličat",
+                "ordering": ["order", "title"],
             },
         ),
         migrations.AddIndex(
-            model_name='grammartable',
-            index=models.Index(fields=['order', 'is_published'], name='grammar_gra_order_e6b2bd_idx'),
+            model_name="grammartable",
+            index=models.Index(
+                fields=["order", "is_published"], name="grammar_gra_order_e6b2bd_idx"
+            ),
         ),
     ]

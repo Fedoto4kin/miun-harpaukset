@@ -6,13 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lessons', '0018_auto_20250207_1311'),
+        ("lessons", "0018_auto_20250207_1311"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='exercise',
-            name='exercise_type',
-            field=models.CharField(choices=[('FillBlank', 'Fill in the Blank Words'), ('SyllableAssembly', 'Syllable Assembly'), ('FillBlankText', 'Fill in the Blank Text'), ('SentenceAssembly', 'Sentence Assembly')], max_length=50),
+            model_name="exercise",
+            name="exercise_type",
+            field=models.CharField(
+                choices=[
+                    ("FillBlank", "Fill in the Blank Words"),
+                    ("SyllableAssembly", "Syllable Assembly"),
+                    ("FillBlankText", "Fill in the Blank Text"),
+                    ("SentenceAssembly", "Sentence Assembly"),
+                ],
+                max_length=50,
+            ),
         ),
     ]

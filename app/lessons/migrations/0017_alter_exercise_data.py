@@ -7,13 +7,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lessons', '0016_alter_exercise_module'),
+        ("lessons", "0016_alter_exercise_module"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='exercise',
-            name='data',
-            field=models.JSONField(blank=True, default=dict, encoder=django.core.serializers.json.DjangoJSONEncoder),
+            model_name="exercise",
+            name="data",
+            field=models.JSONField(
+                blank=True,
+                default=dict,
+                encoder=django.core.serializers.json.DjangoJSONEncoder,
+            ),
         ),
     ]

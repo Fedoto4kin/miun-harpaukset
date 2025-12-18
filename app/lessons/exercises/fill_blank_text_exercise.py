@@ -1,5 +1,6 @@
 from .base_exercise import ExerciseSchema
 
+
 # todo: add title
 class FillBlankTextExercise(ExerciseSchema):
     @property
@@ -29,7 +30,7 @@ class FillBlankTextExercise(ExerciseSchema):
         - n* - represents the placeholder for the missing part.
         - ANSWERS - possible answers separated by the '|' symbol.
         - PREFILLED - (optional) a prefilled value for the blank.
-        - Example(optional): "Kazi [4*:on{olen}] pertissä." means that users need to 
+        - Example(optional): "Kazi [4*:on{olen}] pertissä." means that users need to
           fill in the blank with the correct answer "on" or use the prefilled value "olen".
         - Afterword(optional): Additional information or explanation about the text.
           Shown lower than the text.
@@ -49,26 +50,22 @@ class FillBlankTextExercise(ExerciseSchema):
                                     "type": "string",
                                     "examples": [
                                         "Kazi [4*:on{olen}] pertissä.",
-                                        "Mie [5*:olen{olet}] šuomelane."
-                                    ]
-                                }
+                                        "Mie [5*:olen{olet}] šuomelane.",
+                                    ],
+                                },
                             }
                         },
-                        "required": ["text"]
-                    }
+                        "required": ["text"],
+                    },
                 },
                 "example": {
                     "type": "string",
-                    "examples": [
-                        "Example question with [2*:answers{prefilled}]."
-                    ]
+                    "examples": ["Example question with [2*:answers{prefilled}]."],
                 },
                 "afterWord": {
                     "type": "string",
-                    "examples": [
-                        "<b>Afterword:</b> Explanation of the text."
-                    ]
-                }
+                    "examples": ["<b>Afterword:</b> Explanation of the text."],
+                },
             },
-            "required": ["texts"]
+            "required": ["texts"],
         }

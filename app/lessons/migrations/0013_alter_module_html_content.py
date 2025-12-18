@@ -7,13 +7,15 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lessons', '0012_alter_module_html_content'),
+        ("lessons", "0012_alter_module_html_content"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='module',
-            name='html_content',
-            field=ckeditor.fields.RichTextField(blank=True, default='', verbose_name='HTML'),
+            model_name="module",
+            name="html_content",
+            field=ckeditor.fields.RichTextField(
+                blank=True, default="", verbose_name="HTML"
+            ),
         ),
     ]

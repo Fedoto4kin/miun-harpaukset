@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
-from jsonschema import validate, exceptions
+
+from jsonschema import exceptions, validate
+
 
 class ExerciseSchema(ABC):
     @property
@@ -18,6 +20,5 @@ class ExerciseSchema(ABC):
         Если метод не переопределен в классе-потомке, выводим сообщение о недоступности конструктора.
         """
         print("Конструктор для этого типа упражнений пока недоступен.")
-        
+
         return None
-    

@@ -1,10 +1,14 @@
 from rest_framework import viewsets
-from ..serializers import LessonSerializer
+
 from lessons.models import Lesson
+
+from ..serializers import LessonSerializer
+
 
 class LessonFilter(viewsets.ReadOnlyModelViewSet):
     class Meta:
         model = Lesson
+
 
 class LessonViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = None

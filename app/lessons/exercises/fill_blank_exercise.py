@@ -1,5 +1,7 @@
-from .base_exercise import ExerciseSchema
 import json
+
+from .base_exercise import ExerciseSchema
+
 
 class FillBlankExercise(ExerciseSchema):
     @property
@@ -33,14 +35,14 @@ class FillBlankExercise(ExerciseSchema):
                                 "question": {"type": "string"},
                                 "examples": {
                                     "type": "array",
-                                    "items": {"type": "string"}
-                                }
+                                    "items": {"type": "string"},
+                                },
                             },
-                            "required": ["question"]
-                        }
-                    }
+                            "required": ["question"],
+                        },
+                    },
                 },
-                "required": ["order", "questions"]
+                "required": ["order", "questions"],
             },
             "examples": [
                 {
@@ -51,12 +53,12 @@ class FillBlankExercise(ExerciseSchema):
                         {"question": "n[**:uo]ri"},
                         {"question": "m[**:yö]hä"},
                         {"question": "m[**:ua]mo"},
-                        {"question": "n[**:ie|ua]gla"}
-                    ]
+                        {"question": "n[**:ie|ua]gla"},
+                    ],
                 }
-            ]
+            ],
         }
-    
+
     def construct_data(self, command):
         """
         Constructor for 'Fill in the blank' exercises.
@@ -67,41 +69,41 @@ class FillBlankExercise(ExerciseSchema):
 
         while True:
             # Prompt for the text of the exercise
-            text = input("Введите текст задания (или 's' для пропуска, 'q' для завершения): ")
-            if text.lower() == 'q':
+            text = input(
+                "Введите текст задания (или 's' для пропуска, 'q' для завершения): "
+            )
+            if text.lower() == "q":
                 break
-            elif text.lower() == 's':
+            elif text.lower() == "s":
                 text = None  # Skip the text field
 
             # Prompt for questions
             questions = []
             while True:
-                question = input("Введите вопрос (или 'n' для следующего блока, 's' для показа JSON, 'q' для завершения): ")
-                if question.lower() == 'q':
+                question = input(
+                    "Введите вопрос (или 'n' для следующего блока, 's' для показа JSON, 'q' для завершения): "
+                )
+                if question.lower() == "q":
                     break
-                elif question.lower() == 'n':
+                elif question.lower() == "n":
                     break  # Move to the next block
-                elif question.lower() == 's':
+                elif question.lower() == "s":
                     # Show the current JSON
                     current_data = data.copy()
                     if text is not None:
-                        current_block = {
-                            "order": order_counter,
-                            "questions": questions
-                        }
+                        current_block = {"order": order_counter, "questions": questions}
                         if text is not None:
                             current_block["text"] = text
                         current_data.append(current_block)
                     command.stdout.write("Текущий JSON:")
-                    command.stdout.write(json.dumps(current_data, indent=4, ensure_ascii=False))
+                    command.stdout.write(
+                        json.dumps(current_data, indent=4, ensure_ascii=False)
+                    )
                     continue
                 questions.append({"question": question})
 
             # Create the exercise block
-            exercise_block = {
-                "order": order_counter,
-                "questions": questions
-            }
+            exercise_block = {"order": order_counter, "questions": questions}
             if text is not None:
                 exercise_block["text"] = text
 
@@ -111,10 +113,10 @@ class FillBlankExercise(ExerciseSchema):
             order_counter += 10
 
             # If the user entered 'n', continue to the next block
-            if question.lower() == 'n':
+            if question.lower() == "n":
                 continue
             # If the user entered 'q', finish
-            elif question.lower() == 'q':
+            elif question.lower() == "q":
                 break
 
         return data

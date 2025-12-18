@@ -1,5 +1,7 @@
 from rest_framework import viewsets
+
 from ..serializers import *
+
 
 class PosViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = None

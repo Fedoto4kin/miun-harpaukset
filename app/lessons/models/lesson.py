@@ -1,6 +1,8 @@
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from django.contrib.contenttypes.fields import GenericRelation 
+
 from .lesson_speech import LessonSpeech
+
 
 class Lesson(models.Model):
     number = models.IntegerField(unique=True)
@@ -11,14 +13,14 @@ class Lesson(models.Model):
 
     lesson_speeches = GenericRelation(
         LessonSpeech,
-        content_type_field='content_type',
-        object_id_field='object_id',
-        related_query_name='lesson'
+        content_type_field="content_type",
+        object_id_field="object_id",
+        related_query_name="lesson",
     )
 
     def __str__(self):
-        return f'{self.number}. {self.title}'
-    
+        return f"{self.number}. {self.title}"
+
     @property
     def speech(self):
         return self.lesson_speeches.first()
@@ -26,11 +28,11 @@ class Lesson(models.Model):
     @property
     def full_name(self):
         return self.__str__()
-    
+
     def has_lesson_speech(self):
         return self.lesson_speeches.exists()
 
     class Meta:
-        verbose_name = 'Uroka'
-        verbose_name_plural = 'Urokat'
-        ordering = ['number']
+        verbose_name = "Uroka"
+        verbose_name_plural = "Urokat"
+        ordering = ["number"]

@@ -7,13 +7,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lessons', '0014_auto_20250203_2325'),
+        ("lessons", "0014_auto_20250203_2325"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='exercise',
-            name='data',
-            field=models.JSONField(default=dict, encoder=django.core.serializers.json.DjangoJSONEncoder),
+            model_name="exercise",
+            name="data",
+            field=models.JSONField(
+                default=dict, encoder=django.core.serializers.json.DjangoJSONEncoder
+            ),
         ),
     ]

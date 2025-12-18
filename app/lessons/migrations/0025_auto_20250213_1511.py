@@ -2,27 +2,27 @@
 
 from django.db import migrations
 
+
 def update_module_numbers(apps, schema_editor):
-    Module = apps.get_model('lessons', 'Module')
-    Lesson = apps.get_model('lessons', 'Lesson')
+    Module = apps.get_model("lessons", "Module")
+    Lesson = apps.get_model("lessons", "Lesson")
 
     # Увеличиваем `number` на 1, сортировка по уменьшению
-    for module in Module.objects.all().order_by('-number'):
+    for module in Module.objects.all().order_by("-number"):
         module.number += 1
         module.save()
 
     # Создаем новый модуль для каждого урока с number=1 и content_html
     for lesson in Lesson.objects.all():
         Module.objects.create(
-            lesson=lesson,
-            number=1,
-            html_content='<p>[[widget:lesson_cover]]</p>'
+            lesson=lesson, number=1, html_content="<p>[[widget:lesson_cover]]</p>"
         )
+
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lessons', '0024_alter_exercise_exercise_type'),
+        ("lessons", "0024_alter_exercise_exercise_type"),
     ]
 
     operations = [

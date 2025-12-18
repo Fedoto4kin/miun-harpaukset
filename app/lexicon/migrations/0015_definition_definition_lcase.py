@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lexicon', '0014_base_base_slug_diacrit'),
+        ("lexicon", "0014_base_base_slug_diacrit"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='definition',
-            name='definition_lcase',
+            model_name="definition",
+            name="definition_lcase",
             field=models.TextField(blank=True),
         ),
     ]

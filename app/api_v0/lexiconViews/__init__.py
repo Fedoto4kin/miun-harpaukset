@@ -1,8 +1,7 @@
-from .SearchViewList import SearchViewList
-from .SearchReverseViewList import SearchReverseViewList
+from .GroupedSearchSuggestionsView import GroupedSearchSuggestionsView
 from .PosViewSet import PosViewSet
 from .ReverseSearchSuggestionsView import ReverseSearchSuggestionsView
+from .SearchReverseViewList import SearchReverseViewList
 from .SearchSuggestionsView import SearchSuggestionsView
+from .SearchViewList import SearchViewList
 from .WordCardView import WordCardView
-from .GroupedSearchSuggestionsView import GroupedSearchSuggestionsView
-

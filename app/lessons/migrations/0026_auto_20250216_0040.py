@@ -7,18 +7,36 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lessons', '0025_auto_20250213_1511'),
+        ("lessons", "0025_auto_20250213_1511"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='exercise',
-            name='exercise_type',
-            field=models.CharField(choices=[('FillBlank', 'Fill in the Blank Words'), ('SyllableAssembly', 'Syllable Assembly'), ('FillBlankText', 'Fill in the Blank Text'), ('SentenceAssembly', 'Sentence Assembly'), ('SentenceAssemblyPrefilled', 'Sentence Assembly with Prefill'), ('MatchPair', 'Match the Pair'), ('FillBlankTable', 'Fill in the Blank Table'), ('FillGapWithChoice', 'Fill Gap with Choice')], max_length=50),
+            model_name="exercise",
+            name="exercise_type",
+            field=models.CharField(
+                choices=[
+                    ("FillBlank", "Fill in the Blank Words"),
+                    ("SyllableAssembly", "Syllable Assembly"),
+                    ("FillBlankText", "Fill in the Blank Text"),
+                    ("SentenceAssembly", "Sentence Assembly"),
+                    ("SentenceAssemblyPrefilled", "Sentence Assembly with Prefill"),
+                    ("MatchPair", "Match the Pair"),
+                    ("FillBlankTable", "Fill in the Blank Table"),
+                    ("FillGapWithChoice", "Fill Gap with Choice"),
+                ],
+                max_length=50,
+            ),
         ),
         migrations.AlterField(
-            model_name='module',
-            name='html_content',
-            field=ckeditor.fields.RichTextField(blank=True, default=None, help_text="HTML content of the module. Use '[[widget:lesson_cover]]' to render the lesson cover component.", null=True, verbose_name='HTML'),
+            model_name="module",
+            name="html_content",
+            field=ckeditor.fields.RichTextField(
+                blank=True,
+                default=None,
+                help_text="HTML content of the module. Use '[[widget:lesson_cover]]' to render the lesson cover component.",
+                null=True,
+                verbose_name="HTML",
+            ),
         ),
     ]

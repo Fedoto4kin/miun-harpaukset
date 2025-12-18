@@ -1,6 +1,8 @@
-import os
 import json
+import os
+
 from django.core.management.base import BaseCommand
+
 from lessons.exercises import (
     FillBlankExercise,
     FillBlankTableExercise,
@@ -8,12 +10,14 @@ from lessons.exercises import (
     FillGapWithChoiceExercise,
     FillWordExercise,
     MatchPairExercise,
+    MatchPairMultipleExercise,
     SentenceAssemblyPrefilledExercise,
     SentenceAssemblySimpleExercise,
     SyllableAssemblyExercise,
-    MatchPairMultipleExercise,
 )
-from lessons.models.exercise import ExerciseType  # Import ExerciseType from your models/exercise.py file
+from lessons.models.exercise import (
+    ExerciseType,
+)  # Import ExerciseType from your models/exercise.py file
 
 # Dictionary to map exercise types to their corresponding classes
 EXERCISE_CLASSES = {
@@ -30,24 +34,27 @@ EXERCISE_CLASSES = {
     ExerciseType.FILL_WORD.value: FillWordExercise,
 }
 
+
 class Command(BaseCommand):
     help = "JSON constructor for creating exercises."
 
     def clear_screen(self):
         """Clear the terminal screen."""
-        os.system('clear')
+        os.system("clear")
 
     def handle(self, *args, **kwargs):
         while True:  # Main loop to allow returning to exercise selection
             # Display available exercises
             self.stdout.write("Доступные упражнения:")
-            for i, (exercise_value, exercise_label) in enumerate(ExerciseType.choices(), start=1):
+            for i, (exercise_value, exercise_label) in enumerate(
+                ExerciseType.choices(), start=1
+            ):
                 self.stdout.write(f"{i}. {exercise_label} ({exercise_value})")
             self.stdout.write("Введите 'q' для выхода.")
 
             # Prompt the user to select an exercise
             exercise_choice = input("Введите номер упражнения: ")
-            if exercise_choice.lower() == 'q':  # Exit if the user enters 'q'
+            if exercise_choice.lower() == "q":  # Exit if the user enters 'q'
                 self.stdout.write("Выход из конструктора.")
                 break
 
@@ -56,11 +63,17 @@ class Command(BaseCommand):
                 if exercise_choice < 1 or exercise_choice > len(ExerciseType):
                     raise ValueError
             except ValueError:
-                self.stdout.write(self.style.ERROR("Неверный выбор. Пожалуйста, введите число из списка."))
+                self.stdout.write(
+                    self.style.ERROR(
+                        "Неверный выбор. Пожалуйста, введите число из списка."
+                    )
+                )
                 continue  # Return to exercise selection
 
             # Get the selected exercise
-            exercise_value = ExerciseType.choices()[exercise_choice - 1][0]  # Get the value from the tuple
+            exercise_value = ExerciseType.choices()[exercise_choice - 1][
+                0
+            ]  # Get the value from the tuple
             exercise_class = EXERCISE_CLASSES.get(exercise_value)
 
             if not exercise_class:
@@ -71,16 +84,26 @@ class Command(BaseCommand):
             exercise = exercise_class()
 
             # Display the schema description and example data
-            self.stdout.write(f"\nВы выбрали упражнение: {ExerciseType.choices()[exercise_choice - 1][1]}")  # Use the label
+            self.stdout.write(
+                f"\nВы выбрали упражнение: {ExerciseType.choices()[exercise_choice - 1][1]}"
+            )  # Use the label
             self.stdout.write("Описание схемы:")
-            self.stdout.write(exercise.schema.get("description", "Описание отсутствует."))
+            self.stdout.write(
+                exercise.schema.get("description", "Описание отсутствует.")
+            )
             self.stdout.write("\nПример данных:")
-            self.stdout.write(json.dumps(exercise.schema.get("examples", {}), indent=4, ensure_ascii=False))
+            self.stdout.write(
+                json.dumps(
+                    exercise.schema.get("examples", {}), indent=4, ensure_ascii=False
+                )
+            )
 
             # Use the constructor to create data
             data = exercise.construct_data(self)  # Pass the command object
             if data is None:
-                self.stdout.write(self.style.ERROR("Конструктор для этого упражнения не реализован."))
+                self.stdout.write(
+                    self.style.ERROR("Конструктор для этого упражнения не реализован.")
+                )
                 continue  # Return to exercise selection
 
             # Validate the data and display the result
@@ -93,4 +116,4 @@ class Command(BaseCommand):
             # Display the result and exit
             self.stdout.write("Результат:")
             self.stdout.write(json.dumps(data, indent=4, ensure_ascii=False))
-            break  
+            break

@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lexicon', '0017_auto_20200509_1812'),
+        ("lexicon", "0017_auto_20200509_1812"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='grammarform',
-            name='name',
+            model_name="grammarform",
+            name="name",
             field=models.CharField(blank=True, db_index=True, max_length=128),
         ),
         migrations.AlterField(
-            model_name='grammarform',
-            name='name_fi',
+            model_name="grammarform",
+            name="name_fi",
             field=models.CharField(blank=True, max_length=128),
         ),
         migrations.AlterField(
-            model_name='grammarform',
-            name='name_ru',
+            model_name="grammarform",
+            name="name_ru",
             field=models.CharField(blank=True, max_length=128),
         ),
     ]

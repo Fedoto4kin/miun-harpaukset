@@ -1,15 +1,16 @@
 # match_pair_multiple_exercise.py
 from .base_exercise import ExerciseSchema
 
+
 class MatchPairMultipleExercise(ExerciseSchema):
     @property
     def schema(self):
         """
         Схема для упражнений типа 'Match Pair Multiple'.
-        
+
         Word - всегда строка (что сопоставляется)
         Pair - может быть строкой ИЛИ массивом строк (варианты правильных ответов)
-        
+
         Example data for MatchPairMultiple schema:
 
         {
@@ -32,7 +33,7 @@ class MatchPairMultipleExercise(ExerciseSchema):
                 }
             ]
         }
-        
+
         Правила:
         1. Каждое слово (word) имеет один или несколько правильных вариантов (pair)
         2. Пользователь выбирает из общего списка всех возможных пар
@@ -59,21 +60,21 @@ class MatchPairMultipleExercise(ExerciseSchema):
                                                 {
                                                     "type": "array",
                                                     "items": {"type": "string"},
-                                                    "minItems": 1
-                                                }
+                                                    "minItems": 1,
+                                                },
                                             ]
                                         },
-                                        "word": {"type": "string"}  # Всегда строка!
+                                        "word": {"type": "string"},  # Всегда строка!
                                     },
                                     "required": ["pair", "word"],
-                                    "additionalProperties": False
-                                }
+                                    "additionalProperties": False,
+                                },
                             }
                         },
-                        "required": ["pairs"]
-                    }
+                        "required": ["pairs"],
+                    },
                 }
             },
             "required": ["questions"],
-            "additionalProperties": False
+            "additionalProperties": False,
         }

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lessons', '0020_alter_exercise_exercise_type'),
+        ("lessons", "0020_alter_exercise_exercise_type"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='exercise',
-            name='has_ansers_check',
+            model_name="exercise",
+            name="has_ansers_check",
             field=models.BooleanField(default=True),
         ),
     ]

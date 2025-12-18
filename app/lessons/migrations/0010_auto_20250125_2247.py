@@ -6,17 +6,21 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lessons', '0009_alter_lessonspeech_content_type'),
+        ("lessons", "0009_alter_lessonspeech_content_type"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='lesson',
-            options={'ordering': ['number'], 'verbose_name': 'Uroka', 'verbose_name_plural': 'Urokat'},
+            name="lesson",
+            options={
+                "ordering": ["number"],
+                "verbose_name": "Uroka",
+                "verbose_name_plural": "Urokat",
+            },
         ),
         migrations.RenameField(
-            model_name='lesson',
-            old_name='num',
-            new_name='number',
+            model_name="lesson",
+            old_name="num",
+            new_name="number",
         ),
     ]

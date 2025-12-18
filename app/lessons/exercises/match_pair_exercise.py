@@ -1,5 +1,6 @@
 from .base_exercise import ExerciseSchema
 
+
 class MatchPairExercise(ExerciseSchema):
     @property
     def schema(self):
@@ -36,9 +37,7 @@ class MatchPairExercise(ExerciseSchema):
             "$schema": "http://json-schema.org/draft-07/schema#",
             "type": "object",
             "properties": {
-                "title": {
-                    "type": "string"
-                },
+                "title": {"type": "string"},
                 "questions": {
                     "type": "array",
                     "items": {
@@ -50,25 +49,19 @@ class MatchPairExercise(ExerciseSchema):
                                     "type": "object",
                                     "properties": {
                                         "pair": {"type": "string"},
-                                        "word": {"type": "string"}
+                                        "word": {"type": "string"},
                                     },
-                                    "required": ["pair", "word"]
+                                    "required": ["pair", "word"],
                                 },
                                 "examples": [
-                                    {
-                                        "pair": "paha",
-                                        "word": "hyvä"
-                                    },
-                                    {
-                                        "pair": "levie",
-                                        "word": "kaida"
-                                    }
-                                ]
+                                    {"pair": "paha", "word": "hyvä"},
+                                    {"pair": "levie", "word": "kaida"},
+                                ],
                             }
                         },
-                        "required": ["pairs"]
-                    }
-                }
+                        "required": ["pairs"],
+                    },
+                },
             },
-            "required": ["questions"]
+            "required": ["questions"],
         }

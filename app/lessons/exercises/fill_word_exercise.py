@@ -1,5 +1,6 @@
 from .base_exercise import ExerciseSchema
 
+
 class FillWordExercise(ExerciseSchema):
     @property
     def schema(self):
@@ -61,29 +62,15 @@ class FillWordExercise(ExerciseSchema):
             "properties": {
                 "field": {
                     "type": "array",
-                    "items": {
-                        "type": "string",
-                        "minLength": 1
-                    },
+                    "items": {"type": "string", "minLength": 1},
                     "minItems": 1,
-                    "examples": [
-                        "rdapitčolis",
-                        "arupzekakvk",
-                        "pavruuaglaa"
-                    ]
+                    "examples": ["rdapitčolis", "arupzekakvk", "pavruuaglaa"],
                 },
                 "words": {
                     "type": "array",
-                    "items": {
-                        "type": "string",
-                        "minLength": 1
-                    },
+                    "items": {"type": "string", "minLength": 1},
                     "minItems": 1,
-                    "examples": [
-                        "čolka",
-                        "kulmat",
-                        "luomet"
-                    ]
+                    "examples": ["čolka", "kulmat", "luomet"],
                 },
                 "prefilledWords": {
                     "type": "object",
@@ -92,16 +79,25 @@ class FillWordExercise(ExerciseSchema):
                             "type": "array",
                             "items": {
                                 "type": "string",
-                                "pattern": "^\\d+:\\d+$"  # Matches "x:y" format
+                                "pattern": "^\\d+:\\d+$",  # Matches "x:y" format
                             },
-                            "minItems": 1
+                            "minItems": 1,
                         }
                     },
                     "examples": {
                         "čolka": ["1:7", "1:8", "1:9", "2:8", "2:9"],
-                        "kurvičat": ["4:1", "5:1", "6:1", "7:1", "8:1", "8:2", "8:3", "9:3"]
-                    }
-                }
+                        "kurvičat": [
+                            "4:1",
+                            "5:1",
+                            "6:1",
+                            "7:1",
+                            "8:1",
+                            "8:2",
+                            "8:3",
+                            "9:3",
+                        ],
+                    },
+                },
             },
-            "required": ["field", "words"]
+            "required": ["field", "words"],
         }

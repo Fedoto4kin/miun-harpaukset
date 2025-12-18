@@ -1,5 +1,6 @@
 from .base_exercise import ExerciseSchema
 
+
 class SentenceAssemblySimpleExercise(ExerciseSchema):
     @property
     def schema(self):
@@ -48,9 +49,9 @@ class SentenceAssemblySimpleExercise(ExerciseSchema):
         }
 
         Explanation of the data format:
-        - The "groups" array contains objects representing word groups. 
+        - The "groups" array contains objects representing word groups.
         Each group includes a "group" identifier and an array of "words".
-        - The "answers" array contains possible correct sentences that 
+        - The "answers" array contains possible correct sentences that
         can be formed by arranging the given words.
         The | is divider for the words in the sentence by slots.
         - The "template" object defines the structure of the exercise:
@@ -72,27 +73,31 @@ class SentenceAssemblySimpleExercise(ExerciseSchema):
                                 "items": {
                                     "type": "string",
                                 },
-                                "examples": [["Mie", "Šie"], ["pagizet", "elän"], ["Tolmačušša", "karielakši"]]
-                            }
+                                "examples": [
+                                    ["Mie", "Šie"],
+                                    ["pagizet", "elän"],
+                                    ["Tolmačušša", "karielakši"],
+                                ],
+                            },
                         },
-                        "required": ["group", "words"]
-                    }
+                        "required": ["group", "words"],
+                    },
                 },
                 "answers": {
                     "type": "array",
                     "items": {
                         "type": "string",
-                        "examples": ["Mie elän Tolmačušša.", "Šie pagizet karielakši."]
-                    }
+                        "examples": ["Mie elän Tolmačušša.", "Šie pagizet karielakši."],
+                    },
                 },
                 "template": {
                     "type": "object",
                     "properties": {
                         "count": {"type": "integer", "examples": [2]},
-                        "slots": {"type": "integer", "examples": [3]}
+                        "slots": {"type": "integer", "examples": [3]},
                     },
-                    "required": ["count", "slots"]
-                }
+                    "required": ["count", "slots"],
+                },
             },
-            "required": ["groups", "answers", "template"]
+            "required": ["groups", "answers", "template"],
         }

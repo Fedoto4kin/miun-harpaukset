@@ -6,7 +6,7 @@ from .fill_blank_text_exercise import FillBlankTextExercise
 from .fill_gap_with_choice_exercise import FillGapWithChoiceExercise
 from .fill_word_exercise import FillWordExercise
 from .match_pair_exercise import MatchPairExercise
+from .match_pair_multiply_exercise import MatchPairMultipleExercise
 from .sentence_assembly_prefilled_exercise import SentenceAssemblyPrefilledExercise
 from .sentence_assembly_simple_exercise import SentenceAssemblySimpleExercise
 from .syllable_assembly_exercise import SyllableAssemblyExercise
-from .match_pair_multiply_exercise import MatchPairMultipleExercise
