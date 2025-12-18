@@ -23,7 +23,7 @@
                                 <div v-if="isShowHints && hintForField[rowIndex]?.[colIndex]?.[fragmentIndex]"
                                     class="hint-overlay"
                                     :style="{ width: `${fragment.placeholderLength * 1.1}em` }">
-                                    {{ fragment.correctAnswers.join(' | ') }}
+                                    {{ fragment.correctAnswers.join(', ') }}
                                 </div>
 
                                 <span v-if="results[rowIndex][colIndex][fragmentIndex] !== undefined"

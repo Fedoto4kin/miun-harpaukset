@@ -28,7 +28,7 @@
           <!-- Подсказка поверх поля ввода -->
           <div v-if="isShowHints && hintForField[textIndex]?.[sentenceIndex]?.[partIndex]" class="hint-overlay"
             :style="{ width: `${part.placeholderLength * 0.6}em` }">
-            {{ part.correctAnswers.join(' | ') }}
+            {{ part.correctAnswers.join(', ') }}
           </div>
 
           <span v-if="results[textIndex][sentenceIndex][partIndex] !== undefined" class="position-absolute result-icon">
