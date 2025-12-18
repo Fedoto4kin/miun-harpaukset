@@ -1,11 +1,6 @@
 ## TO-DO
 
 
-* Show exercices in an admin panel 
-* Filter exercices in admin by type, by lesson number
-* Fill table exercise JSON generator(command line)
-* dump fixtures and add uploaded files to git
-
 
 ### Dev Help
 ```bash
@@ -19,7 +14,6 @@ Create lesson blocks(modules)
 E.g. Lesson 1 create 5 modules
 `docker compose exec -it web python manage.py create_modules 1 5`
 
-
 Clear lesson speeches files (deattached)
 `docker compose exec -it web python manage.py clear_lesson_speeches`
 
@@ -30,6 +24,19 @@ Clear lesson speeches files (deattached)
 Create `mhkk` user and clone code into `miun-harpaukset` directory
 
 Set up certbot (?)
+
+
+**Set up environment**
+`cp .env.example .env`
+
+```
+echo "USER_ID=$(id -u)" >> .env
+echo "GROUP_ID=$(id -g)" >> .env
+```
+
+```
+docker compose -f docker-compose-prod.yml build 
+```
 
 *Backend*
 1. Migrate  

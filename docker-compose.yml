@@ -9,7 +9,6 @@ services:
     volumes:
       - ./images/nginx/mhkk.conf:/etc/nginx/conf.d/default.conf
       - ./images/nginx/mime.types:/etc/nginx/mime.types
-      - ./logs:/var/log/nginx
       - ./app:/app/
       - ./client/dist:/var/www/html
     depends_on:
@@ -27,6 +26,9 @@ services:
     build:
       context: ./
       dockerfile: images/django/Dockerfile
+      args:
+        - USER_ID=${USER_ID:-1000}
+        - GROUP_ID=${GROUP_ID:-1000}
     command: python manage.py runserver --insecure 0.0.0.0:8000
     ports:
       - "8000:8000"
