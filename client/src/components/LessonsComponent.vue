@@ -310,7 +310,7 @@ export default {
     left: -240px;
     /* Скрываем сайдбар за пределами экрана */
     width: 240px;
-    height: 100vh;
+    height: calc(100vh);
     overflow-y: auto;
     background-color: #fff;
     z-index: 88888;
@@ -376,7 +376,6 @@ export default {
 #lesson-list {
   height: calc(100vh);
   overflow-y: auto;
-  min-height: 900px;
 }
 
 .container {
