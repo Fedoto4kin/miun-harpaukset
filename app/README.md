@@ -18,8 +18,7 @@ Clear lesson speeches files (deattached)
 `docker compose exec -it web python manage.py clear_lesson_speeches`
 
 
-
-### Deploy(1st):
+### Deploy Production (first): 
 
 Create `mhkk` user and clone code into `miun-harpaukset` directory
 
@@ -51,7 +50,7 @@ docker compose -f docker-compose-prod.yml build
 1. `docker compose -f docker-compose-prod.yml run client npm install`
 2. `docker compose -f docker-compose-prod.yml run client npm run build`
 
-### Deploy(changes)
+### Deploy (update version)
 
 1. `cd /home/mhkk/miun-harpaukset`
 2. `git pull`
