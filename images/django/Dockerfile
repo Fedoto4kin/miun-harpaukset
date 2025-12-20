@@ -15,16 +15,16 @@ RUN  apt-get update && \
      apt-get -y autoclean && \
      rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Создаем группу и пользователя с переданными ID
-RUN groupadd -g $GROUP_ID krl && \
-    useradd -m -u $USER_ID -g krl -s /bin/bash krl && \
-    echo "krl ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
 COPY ./app/requirements.txt /tmp/
 COPY ./.env /.env
 
 RUN pip install -U pip
 RUN pip install -Ur /tmp/requirements.txt
+
+# Создаем группу и пользователя с переданными ID
+RUN groupadd -g $GROUP_ID krl && \
+    useradd -m -u $USER_ID -g krl -s /bin/bash krl && \
+    echo "krl ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 WORKDIR /app
 
