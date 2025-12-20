@@ -32,7 +32,7 @@ class SearchReverseViewList(generics.ListAPIView):
             return sorted(
                 queryset,
                 key=lambda word: [
-                    KRL_ABC.lower().index(c) for c in Word.krl_slugify(Word, word.word)
+                    KRL_ABC.lower().index(c) for c in word.krl_slugify()
                 ],
             )
         else:
