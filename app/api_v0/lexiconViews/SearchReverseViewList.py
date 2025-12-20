@@ -1,6 +1,8 @@
 from django.db.models import Count
 from rest_framework import generics
 
+from lexicon.models import KRL_ABC
+
 from ..serializers import *
 
 
@@ -30,8 +32,7 @@ class SearchReverseViewList(generics.ListAPIView):
             return sorted(
                 queryset,
                 key=lambda word: [
-                    Word.get_krl_abc().lower().index(c)
-                    for c in Base.krl_slugify(Base, word.word)
+                    KRL_ABC.lower().index(c) for c in Word.krl_slugify(Word, word.word)
                 ],
             )
         else:

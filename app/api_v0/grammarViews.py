@@ -6,11 +6,6 @@ from .serializers import GrammarTableListSerializer, GrammarTableSerializer
 
 
 class GrammarTableView(generics.ListAPIView):
-    """
-    API для получения списка грамматических таблиц
-    Только опубликованные, отсортированные по order
-    """
-
     queryset = GrammarTable.objects.filter(is_published=True).order_by("order")
     serializer_class = GrammarTableListSerializer
 

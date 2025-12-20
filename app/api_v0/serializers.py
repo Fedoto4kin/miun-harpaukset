@@ -2,16 +2,7 @@ from rest_framework import serializers
 
 from grammar.models import GrammarTable
 from lessons.models import Exercise, Lesson, Module, Tag
-from lexicon.models import Base, Definition, Pos, Word
-
-
-class BaseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Base
-        fields = [
-            "id",
-            "base",
-        ]
+from lexicon.models import Definition, Pos, Word
 
 
 class DefinitionSerializer(serializers.ModelSerializer):

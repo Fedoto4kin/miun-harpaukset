@@ -1,5 +1,7 @@
 from rest_framework import generics
 
+from lexicon.models import KRL_ABC
+
 from ..serializers import *
 
 
@@ -32,10 +34,7 @@ class SearchViewList(generics.ListAPIView):
 
             return sorted(
                 queryset,
-                key=lambda word: [
-                    Word.get_krl_abc().lower().index(c)
-                    for c in Base.krl_slugify(Base, word.word)
-                ],
+                key=lambda word: [KRL_ABC.lower().index(c) for c in word.krl_slugify()],
             )
         else:
             return ()

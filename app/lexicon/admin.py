@@ -4,12 +4,6 @@ from django.contrib import admin
 from .models import *
 
 
-class BaseInline(admin.TabularInline):
-    extra = 0
-    model = Base
-    readonly_fields = ["base_slug", "base_slug_diacritic"]
-
-
 class DefinitionInline(admin.TabularInline):
     extra = 0
     exclude = ("definition_lcase",)
@@ -19,10 +13,9 @@ class DefinitionInline(admin.TabularInline):
 class WordAdm(admin.ModelAdmin):
     list_display = ("word", "_pos", "_def")
     list_filter = (("pos", admin.RelatedOnlyFieldListFilter),)
-    search_fields = ("word", "base_set__base", "definition_set__definition")
+    search_fields = ("word", "definition_set__definition")
     inlines = [
         DefinitionInline,
-        BaseInline,
     ]
 
     @staticmethod

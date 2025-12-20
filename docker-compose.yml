@@ -30,8 +30,8 @@ services:
         - USER_ID=${USER_ID:-1000}
         - GROUP_ID=${GROUP_ID:-1000}
     command: python manage.py runserver --insecure 0.0.0.0:8000
-    expose:
-      - "8000"
+    ports:
+      - "8000:8000"
     environment:
       - POSTGRES_PASSWORD=${PG_PASS}
       - POSTGRES_USER=${PG_USER}
