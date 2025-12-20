@@ -10,3 +10,36 @@ This language is endangered and at serios risk of extinction and this project is
 Web version is based on book with  same name of Irina Novak and Irina Kommisarova.
 
 ![Original book front](https://raw.githubusercontent.com/Fedoto4kin/Miun_harpaukset/master/client/public/img/book.jpg)
+
+
+
+## 📚 **Technical Documentation**
+
+For deployment, maintenance, and development instructions, please refer to our technical documentation:
+
+### 🔧 **Development & Deployment**
+- [Development Setup & Commands](./app/README.md)
+- [Front-end](./client/README.md)
+
+---
+
+## 🎯 **Project Status**
+
+This is an ongoing project to digitalize and modernize access to Karelian language education. Contributions, suggestions, and feedback are welcome!
+
+
+## 📄 **License**
+
+[License information to be added]
+
+---
+
+*"Rubiemma pagizomah karielakši!" – Let's speak Karelian!*
+
+---
+
+**Quick Links:**
+- [Live Website](https://karielankieleh.ru)
+- [Source Code](https://github.com/Fedoto4kin/Miun_harpaukset)
+
+---

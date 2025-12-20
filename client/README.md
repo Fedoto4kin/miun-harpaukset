@@ -1,4 +1,4 @@
-# app
+# App
 
 ## Project setup
 ```
@@ -12,7 +12,7 @@ docker compose run client npm run build
 
 ### Lints and fixes files
 ```
-npm run lint
+docker compose run client npm run lint
 ```
 
 ### Customize configuration

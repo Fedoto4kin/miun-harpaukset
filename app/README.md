@@ -16,7 +16,7 @@ docker compose exec -it web python manage.py migrate
 # Create lesson modules
 docker compose exec -it web python manage.py create_modules 1 5
 
-# Clear lesson audio files
+# Clear not-used audio files
 docker compose exec -it web python manage.py clear_lesson_speeches
 ```
 
@@ -92,6 +92,9 @@ docker compose exec -it web python manage.py dumpdata lessons --indent 4 > app/l
 
 # Lexicon
 docker compose exec -it web python manage.py dumpdata lexicon --indent 4 > app/lexicon/fixtures/lexicon.json
+
+# Grammar
+docker compose exec -it web python manage.py dumpdata grammar --indent 4 > app/grammar/fixtures/grammar.json
 ```
 
 ### 2. Upload to Server
@@ -103,6 +106,7 @@ docker compose exec -it web python manage.py dumpdata lexicon --indent 4 > app/l
 # Load data
 docker exec -it mhkk_django python manage.py loaddata lessons/fixtures/lessons.json
 docker exec -it mhkk_django python manage.py loaddata lexicon/fixtures/lexicon.json
+docker exec -it mhkk_django python manage.py loaddata lexicon/fixtures/grammar.json
 ```
 
 ---
@@ -176,17 +180,17 @@ sudo journalctl --vacuum-time=7d
 #### Application-Specific Cleanup:
 ```bash
 # Clear Django static files cache
-docker exec mhkk_django python manage.py collectstatic --clear
+docker exec mhkk_django -it python manage.py collectstatic --clear
 
 # Clear Django cache
-docker exec mhkk_django python manage.py clearcache
+docker exec mhkk_django -it python manage.py clearcache
 ```
 
 ### 📊 **Monitoring Disk Space**
 
 ```bash
 # Quick disk check
-./check-disk-space.sh
+df -h
 
 # Docker disk usage
 docker system df -v
@@ -221,45 +225,10 @@ Make executable: `sudo chmod +x /usr/local/bin/cleanup-system.sh`
 
 ---
 
-## 🚨 **Troubleshooting**
-
-### Common Issues:
-
-1. **"No space left on device"**
-   ```bash
-   # Check largest directories
-   sudo du -h --max-depth=1 / | sort -hr
-   
-   # Usually /var/lib/docker is the culprit
-   sudo du -sh /var/lib/docker/*
-   ```
-
-2. **uWSGI not responding**
-   ```bash
-   # Check uWSGI processes
-   docker exec mhkk_django ps aux | grep uwsgi
-   
-   # Restart the service
-   docker-compose -f docker-compose-prod.yml restart web
-   ```
-
-3. **Nginx 502 errors**
-   ```bash
-   # Check connection to uWSGI
-   docker exec mhkk_nginx curl -v http://web:8000
-   
-   # Check nginx error logs
-   docker exec mhkk_nginx tail -f /var/log/nginx/error.log
-   ```
-
----
-
-## 📞 **Support**
+## **Support**
 
 For issues with the deployment or maintenance, check:
 - Docker logs: `docker-compose -f docker-compose-prod.yml logs`
 - Nginx logs: `docker logs mhkk_nginx`
 - Django logs: `docker logs mhkk_django`
 - System logs: `journalctl -u docker`
-
-*Last updated: $(date)*

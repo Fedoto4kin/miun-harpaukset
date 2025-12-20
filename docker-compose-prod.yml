@@ -7,10 +7,10 @@ services:
       - 80:80
       - "443:443"
     volumes:
-      - ./images/nginx/mhkk.ssl.conf:/etc/nginx/conf.d/default.conf
+      - ./services/nginx/mhkk.ssl.conf:/etc/nginx/conf.d/default.conf
       - ./.certbot/certbot/conf:/etc/letsencrypt
       - ./.certbot/certbot/www:/var/www/certbot
-      - ./images/nginx/mime.types:/etc/nginx/mime.types
+      - ./services/nginx/mime.types:/etc/nginx/mime.types
       - ./logs:/var/log/nginx
       - ./app:/app/
       - ./client/dist:/var/www/html
@@ -27,7 +27,7 @@ services:
       - ./app:/app
     build:
       context: ./
-      dockerfile: images/django/Dockerfile
+      dockerfile: services/django/Dockerfile
       args:
         - USER_ID=${USER_ID:-1000}
         - GROUP_ID=${GROUP_ID:-1000}
@@ -48,7 +48,7 @@ services:
     container_name: mhkk_client
     build:
       context: ./
-      dockerfile: images/node/Dockerfile.prod
+      dockerfile: services/node/Dockerfile.prod
     volumes:
       - ./client:/app
     ports:

@@ -7,8 +7,8 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./images/nginx/mhkk.conf:/etc/nginx/conf.d/default.conf
-      - ./images/nginx/mime.types:/etc/nginx/mime.types
+      - ./services/nginx/mhkk.conf:/etc/nginx/conf.d/default.conf
+      - ./services/nginx/mime.types:/etc/nginx/mime.types
       - ./app:/app/
       - ./client/dist:/var/www/html
     depends_on:
@@ -25,7 +25,7 @@ services:
       - ./app:/app
     build:
       context: ./
-      dockerfile: images/django/Dockerfile
+      dockerfile: services/django/Dockerfile
       args:
         - USER_ID=${USER_ID:-1000}
         - GROUP_ID=${GROUP_ID:-1000}
@@ -46,7 +46,7 @@ services:
     container_name: mhkk_client
     build:
       context: ./
-      dockerfile: images/node/Dockerfile.dev
+      dockerfile: services/node/Dockerfile.dev
     volumes:
       - ./client:/app
     ports:
