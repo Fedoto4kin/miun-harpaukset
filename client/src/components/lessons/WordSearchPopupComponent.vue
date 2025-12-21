@@ -36,6 +36,9 @@
                   <!-- Слово и вариант -->
                   <span class="word-suggestion">
                     {{ suggestion.word }}
+                    <span v-if="suggestion.additional"  >
+                      &nbsp;({{ suggestion.additional }})
+                    </span>
                     <span v-if="suggestion.variant" class="text-muted variant-suggestion ms-1">
                       {{ suggestion.variant }}
                     </span>
@@ -65,7 +68,7 @@
   import WordCard from '@/components/lexicon/WordCard.vue';
   
   export default {
-    name: 'SearchPopupComponent',
+    name: 'WordSearchPopupComponent',
     components: {
       WordCard,
       SpecialCharsButtons,

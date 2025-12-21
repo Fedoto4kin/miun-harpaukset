@@ -62,17 +62,17 @@
     </div>
 
   </div>
-  <SearchPopupComponent :show="showPopup" @close="showPopup = false" />
+  <WordSearchPopupComponent :show="showPopup" @close="showPopup = false" />
 </template>
 
 <script>
-import SearchPopupComponent from '@/components/lessons/SearchPopupComponent.vue';
 import TagIcon from '@/components/ui/TagIcon.vue';
+import WordSearchPopupComponent from './WordSearchPopupComponent.vue';
 
 export default {
   name: 'LessonHeaderComponent',
   components: {
-    SearchPopupComponent,
+    WordSearchPopupComponent,
     TagIcon,
   },
   props: {

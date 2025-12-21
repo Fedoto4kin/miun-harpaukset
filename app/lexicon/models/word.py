@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator   
 
 from .pos import Pos
 from .speech import Speech
@@ -31,6 +31,15 @@ class Word(models.Model):
     speech = models.ForeignKey(Speech, null=True, blank=True, on_delete=models.SET_NULL)
     orig = models.TextField(blank=True)
     alias = models.ManyToManyField("self", blank=True)
+    # eg "nedeli" for "Srašnoi"
+    additional = models.CharField(
+        _("Additional spec"),
+        max_length=255,
+        blank=True,
+        null=True,
+        default=None,
+        help_text=_("Additional specification or context (e.g., 'nedeli' for 'Srašnoi')")
+    )
 
     def krl_slugify(self):
         return "".join(
@@ -38,7 +47,13 @@ class Word(models.Model):
         )
 
     def __str__(self):
-        return self.word_clean
+        parts = [self.word_clean]
+        if self.variant:
+            parts.append(f"({self.variant})")
+        if self.additional:
+            parts.append(f" {self.additional}")
+        
+        return " ".join(parts)
 
     # todo: move to service
     @staticmethod

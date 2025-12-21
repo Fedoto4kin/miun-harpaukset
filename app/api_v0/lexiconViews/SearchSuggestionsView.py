@@ -19,7 +19,8 @@ class SearchSuggestionsView(APIView):
                     "word": _.word.replace("|", ""),
                     "word_id": _.id,
                     "pos": _.pos.abbr,
-                    "variant": _.variant
+                    "variant": _.variant,
+                    "additional": _.additional
                 }
                 for _ in suggestions
             ]

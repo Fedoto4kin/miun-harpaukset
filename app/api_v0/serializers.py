@@ -37,6 +37,7 @@ class WordPreviewSerializer(serializers.ModelSerializer):
             "speech",
             "alias_words",
             "variant",
+            "additional",
         ]
 
     def get_speech(self, obj):
