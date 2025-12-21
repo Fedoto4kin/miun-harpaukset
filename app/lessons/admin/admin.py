@@ -6,9 +6,9 @@ from django.urls import path, reverse
 from django.utils.html import format_html
 from nested_admin import NestedModelAdmin
 
-from ..models import Exercise, Lesson, LessonSpeech, Module
+from ..models import Exercise, Lesson, LessonSpeech, Module, GrammarComment
 from .forms import ExerciseForm, LessonSpeechForm, ModuleForm
-from .inlines import ExerciseInline, LessonSpeechNestedInline, ModuleInline
+from .inlines import ExerciseInline, LessonSpeechNestedInline, ModuleInline, GrammarCommentInline
 
 
 class LessonSpeechAdmin(admin.ModelAdmin):
@@ -68,7 +68,7 @@ class ModuleAdmin(NestedModelAdmin):
     list_display = ("number", "lesson", "upload_sound_button")
     search_fields = ("lesson__title", "number")
     ordering = ["lesson", "number"]
-    inlines = [LessonSpeechNestedInline, ExerciseInline]
+    inlines = [LessonSpeechNestedInline, ExerciseInline, GrammarCommentInline,]
     list_filter = ("lesson", "tags")
     form = ModuleForm
 
@@ -103,7 +103,34 @@ class ExerciseAdmin(admin.ModelAdmin):
     search_fields = ("module__name",)
 
 
+class GrammarCommentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'module_link', 'preview_content', 'created')
+    list_filter = ('module__lesson',)
+    search_fields = ('html_content', 'module__lesson__title')
+    raw_id_fields = ('module',)
+    
+    fields = ('module', 'html_content')
+    
+    def module_link(self, obj):
+        url = reverse("admin:lessons_module_change", args=[obj.module.id])
+        return format_html('<a href="{}">{}</a>', url, obj.module)
+    
+    module_link.short_description = "Модуль"
+    
+    def preview_content(self, obj):
+        if obj.html_content:
+            preview = obj.html_content[:100] + "..." if len(obj.html_content) > 100 else obj.html_content
+            return format_html('<div style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">{}</div>', preview)
+        return "-"
+    
+    preview_content.short_description = "Предпросмотр"
+    
+    def created(self, obj):
+        return obj.id  # или можно добавить поле created_at в модель
+
+
 admin.site.register(Exercise, ExerciseAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(LessonSpeech, LessonSpeechAdmin)
 admin.site.register(Module, ModuleAdmin)
+admin.site.register(GrammarComment, GrammarCommentAdmin)

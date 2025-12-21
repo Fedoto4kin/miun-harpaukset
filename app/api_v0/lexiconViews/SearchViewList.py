@@ -2,7 +2,8 @@ from rest_framework import generics
 
 from lexicon.models import KRL_ABC
 
-from ..serializers import *
+from api_v0.serializers import WordPreviewSerializer
+from lexicon.models import Word
 
 
 class SearchViewList(generics.ListAPIView):

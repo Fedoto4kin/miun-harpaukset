@@ -1,9 +1,9 @@
 from django.db.models import Count
 from rest_framework import generics
 
-from lexicon.models import KRL_ABC
+from lexicon.models import KRL_ABC, Word, Definition
 
-from ..serializers import *
+from api_v0.serializers import WordPreviewSerializer
 
 
 class SearchReverseViewList(generics.ListAPIView):

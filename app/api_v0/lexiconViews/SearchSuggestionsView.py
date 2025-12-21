@@ -3,7 +3,7 @@ from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..serializers import *
+from lexicon.models import Word
 
 
 class SearchSuggestionsView(APIView):

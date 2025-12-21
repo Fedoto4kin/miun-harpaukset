@@ -2,7 +2,7 @@ from rest_framework import viewsets
 
 from lessons.models import Lesson
 
-from ..serializers import LessonSerializer
+from api_v0.serializers import LessonSerializer
 
 
 class LessonFilter(viewsets.ReadOnlyModelViewSet):

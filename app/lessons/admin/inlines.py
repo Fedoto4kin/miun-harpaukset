@@ -1,9 +1,24 @@
 from django.urls import reverse
 from django.utils.html import format_html
-from nested_admin import NestedGenericTabularInline, NestedStackedInline
+from nested_admin import NestedGenericTabularInline, NestedStackedInline, NestedTabularInline
 
-from ..models import Exercise, LessonSpeech, Module
+from ..models import Exercise, LessonSpeech, Module, GrammarComment
 from .forms import ExerciseForm, ModuleForm
+
+
+class GrammarCommentInline(NestedTabularInline):
+    model = GrammarComment
+    extra = 0
+    fields = ('html_content',)
+    classes = ('collapse',) 
+    verbose_name = "Грамматический комментарий"
+    verbose_name_plural = "Грамматические комментарии"
+    
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super().get_formset(request, obj, **kwargs)
+        from ckeditor.widgets import CKEditorWidget
+        formset.form.base_fields['html_content'].widget = CKEditorWidget()
+        return formset
 
 
 class LessonSpeechNestedInline(NestedGenericTabularInline):
@@ -18,6 +33,7 @@ class LessonSpeechNestedInline(NestedGenericTabularInline):
 class ExerciseInline(NestedStackedInline):
     model = Exercise
     form = ExerciseForm
+    # classes = ('collapse',) 
     extra = 0
     fields = ("exercise_type", "data", "has_answers_check")
 
@@ -27,7 +43,7 @@ class ModuleInline(NestedStackedInline):
     form = ModuleForm
     extra = 0
     fields = ("site_url_link", "number", "html_content", "tags", "edit_link")
-    inlines = [LessonSpeechNestedInline]
+    inlines = [GrammarCommentInline, LessonSpeechNestedInline]
 
     readonly_fields = ("site_url_link", "edit_link")
 

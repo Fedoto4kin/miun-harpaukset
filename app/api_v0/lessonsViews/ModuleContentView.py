@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 
 from lessons.models import Module
 
-from ..serializers import ModuleSerializer
+from api_v0.serializers import ModuleSerializer
 
 
 class ModuleContentView(APIView):

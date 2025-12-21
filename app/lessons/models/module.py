@@ -39,6 +39,10 @@ class Module(models.Model):
         if hasattr(self, "exercise"):
             return self.exercise
         return None
+    
+    @property
+    def grammar_comments(self):
+        return self.grammar_comments.all()
 
     @property
     def site_url(self):
@@ -48,7 +52,7 @@ class Module(models.Model):
         return f"{self.lesson.title} - {self.lesson.number}.{self.number}"
 
     class Meta:
-        verbose_name = "Модуль"
-        verbose_name_plural = "Модули"
+        verbose_name = "Modulli"
+        verbose_name_plural = "Modullit"
         unique_together = ("lesson", "number")
         ordering = ["number"]

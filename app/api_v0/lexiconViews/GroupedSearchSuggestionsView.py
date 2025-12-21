@@ -2,7 +2,7 @@ from django.db.models import Count
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..serializers import *
+from lexicon.models import Word
 
 
 class GroupedSearchSuggestionsView(APIView):
