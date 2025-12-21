@@ -1,13 +1,21 @@
 from django.db import models
 from ckeditor.fields import RichTextField
+from django.utils.translation import gettext_lazy as _
 
 
 class GrammarComment(models.Model):
-    module = models.ForeignKey(
+
+    LANGUAGE = (
+        ("ru", _("Hormiksi")),
+        ("fi", _("Šuomekši")),
+    )
+
+    module = models.OneToOneField(
         "Module",
         on_delete=models.CASCADE,
-        related_name="grammar_comments",
-        verbose_name="Модуль"
+        related_name="grammar_comment",  # Изменили на единственное число
+        verbose_name="Модуль",
+        unique=True  # Добавляем unique для OneToOne
     )
     
     html_content = RichTextField(
@@ -16,9 +24,10 @@ class GrammarComment(models.Model):
         null=True,
         default=None
     )
+    # todo add:    lang = models.CharField(max_length=32, choices=LANGUAGE) with default ru
     
     def __str__(self):
-        return f"Грамматика: {self.module} - {f'Комментарий #{self.id}'}"
+        return f"Грамматика: {self.module}"
     
     class Meta:
         verbose_name = "Грамматический комментарий"

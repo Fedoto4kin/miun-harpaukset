@@ -42,7 +42,7 @@ class ModuleSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, read_only=True)
     speech = serializers.FileField(source="speech.media", read_only=True, use_url=True)
     exercises = ExerciseSerializer(many=True, read_only=True)
-    grammar_comments = GrammarCommentSerializer(many=True, read_only=True)
+    grammar_comment = GrammarCommentSerializer(read_only=True)
 
     class Meta:
         model = Module
@@ -54,5 +54,5 @@ class ModuleSerializer(serializers.ModelSerializer):
             "tags",
             "speech",
             "exercises",
-            "grammar_comments",
+            "grammar_comment",
         ]

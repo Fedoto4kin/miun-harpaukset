@@ -9,10 +9,11 @@ from .forms import ExerciseForm, ModuleForm
 class GrammarCommentInline(NestedTabularInline):
     model = GrammarComment
     extra = 0
+    max_num = 1  # Теперь только один комментарий
     fields = ('html_content',)
     classes = ('collapse',) 
     verbose_name = "Грамматический комментарий"
-    verbose_name_plural = "Грамматические комментарии"
+    verbose_name_plural = "Грамматический комментарий"
     
     def get_formset(self, request, obj=None, **kwargs):
         formset = super().get_formset(request, obj, **kwargs)

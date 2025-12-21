@@ -32,7 +32,9 @@ import {
     faEllipsisVertical,
     faCaretLeft,
     faCaretRight,
-    faStroopwafel
+    faStroopwafel,
+    faInfoCircle,
+    faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -69,7 +71,9 @@ library.add(
     faEllipsisVertical,
     faCaretLeft,
     faCaretRight,
-    faStroopwafel
+    faStroopwafel,
+    faInfoCircle,
+    faChevronDown,
 );
 
 export { FontAwesomeIcon };

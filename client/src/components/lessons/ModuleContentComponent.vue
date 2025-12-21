@@ -15,6 +15,10 @@
             :exercise="exercise" 
           />
         </div>
+        <GrammarCommentsComponent 
+          v-if="grammar_comment"
+          :comment="grammar_comment"
+        />
       </div>
     </div>
     <div class="lesson-content" v-else>
@@ -25,16 +29,19 @@
 
 <script>
 import ExerciseFactory from '@/components/lessons/exercises/ExerciseFabricComponent.vue';
+import GrammarCommentsComponent from '@/components/lessons/GrammarCommentsComponent.vue';
 
 export default {
   name: 'ModuleContentComponent',
   components: {
     ExerciseFactory,
+    GrammarCommentsComponent,
   },
   props: {
     html_content: String,
     speech: String,
     exercises: Array,
+    grammar_comment: Object,
   },
 };
 </script>

@@ -15,7 +15,7 @@
           :previousLesson="previousLesson" @previous-module="goToPreviousModule" @next-module="goToNextModule"
           @next-lesson="goToNextLesson" @previous-lesson="goToPreviousLesson" />
         <div v-if="activeLesson && !isContentLoading && moduleData.html_content" class="mt-3 mx-md-5">
-          <ModuleContentComponent v-bind="filterModuleData(['html_content', 'exercises', 'speech'])" />
+          <ModuleContentComponent v-bind="filterModuleData(['html_content', 'exercises', 'speech', 'grammar_comment'])" />
         </div>
         <div v-else>
           <h3 class="text-center">
@@ -221,6 +221,7 @@ export default {
         exercises: response.exercises || null,
         tags: response.tags || [],
         number: response.number || null,
+        grammar_comment: response.grammar_comment || null,
       };
     },
     goToPreviousModule() {

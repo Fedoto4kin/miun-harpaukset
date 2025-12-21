@@ -2,9 +2,9 @@ from ckeditor.fields import RichTextField
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 
-from .lesson import Lesson  # Import the Lesson model
+from .lesson import Lesson
 from .lesson_speech import LessonSpeech
-from .tag import Tag  # Import the Tag model
+from .tag import Tag
 
 
 class Module(models.Model):
@@ -39,10 +39,6 @@ class Module(models.Model):
         if hasattr(self, "exercise"):
             return self.exercise
         return None
-    
-    @property
-    def grammar_comments(self):
-        return self.grammar_comments.all()
 
     @property
     def site_url(self):

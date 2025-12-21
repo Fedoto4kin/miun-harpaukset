@@ -65,7 +65,7 @@ class LessonSpeechAdmin(admin.ModelAdmin):
 
 
 class ModuleAdmin(NestedModelAdmin):
-    list_display = ("number", "lesson", "upload_sound_button")
+    list_display = ("number", "lesson", "upload_sound_button", "has_grammar_comment")
     search_fields = ("lesson__title", "number")
     ordering = ["lesson", "number"]
     inlines = [LessonSpeechNestedInline, ExerciseInline, GrammarCommentInline,]
@@ -80,7 +80,11 @@ class ModuleAdmin(NestedModelAdmin):
 
     upload_sound_button.short_description = "Pagina"
     upload_sound_button.allow_tags = True
-
+    
+    def has_grammar_comment(self, obj):
+        return hasattr(obj, 'grammar_comment') and obj.grammar_comment is not None
+    has_grammar_comment.boolean = True
+    has_grammar_comment.short_description = "Грамматика"
 
 class LessonAdmin(NestedModelAdmin):
     list_display = ("__str__", "description", "upload_sound_button")
@@ -104,7 +108,7 @@ class ExerciseAdmin(admin.ModelAdmin):
 
 
 class GrammarCommentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'module_link', 'preview_content', 'created')
+    list_display = ('id', 'module_link',)
     list_filter = ('module__lesson',)
     search_fields = ('html_content', 'module__lesson__title')
     raw_id_fields = ('module',)
@@ -124,9 +128,6 @@ class GrammarCommentAdmin(admin.ModelAdmin):
         return "-"
     
     preview_content.short_description = "Предпросмотр"
-    
-    def created(self, obj):
-        return obj.id  # или можно добавить поле created_at в модель
 
 
 admin.site.register(Exercise, ExerciseAdmin)
