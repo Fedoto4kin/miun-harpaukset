@@ -26,13 +26,23 @@
               <li 
                 v-for="(suggestion, index) in suggestions" 
                 :key="suggestion.word_id" 
-                class="list-group-item list-item d-flex justify-content-between"
+                class="list-group-item list-item d-flex justify-content-between align-items-center"
                 @click="selectWord(suggestion.word_id)"
                 @mouseover="hoveredIndex = index"
                 @mouseout="hoveredIndex = -1"
                 :class="{ 'list-item-hover': hoveredIndex === index, 'list-item-hover': selectedIndex === index }"
               >
-                <span>{{ suggestion.word }}</span> <span class="badge bg-secondary">{{ suggestion.pos }}</span>
+                <div class="d-flex align-items-center">
+                  <!-- Слово и вариант -->
+                  <span class="word-suggestion">
+                    {{ suggestion.word }}
+                    <span v-if="suggestion.variant" class="text-muted variant-suggestion ms-1">
+                      {{ suggestion.variant }}
+                    </span>
+                  </span>
+                </div>
+                <!-- Часть речи -->
+                <span class="badge bg-secondary">{{ suggestion.pos }}</span>
               </li>
             </ul>
           </div>
@@ -192,10 +202,12 @@
   .list-group {
     overflow-y: auto;
     z-index: 999;
+    max-height: 300px;
   }
   
   .list-item {
     cursor: pointer;
+    padding: 0.5rem 1rem;
   }
 
   .list-item:hover {
@@ -207,5 +219,26 @@
   .list-item-hover {
     color: var(--bs-list-group-action-active-color);
     background-color: var(--bs-list-group-action-active-bg);
+  }
+
+  /* Стили для предложений */
+  .word-suggestion {
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .variant-suggestion {
+    font-size: 0.9em;
+    opacity: 0.7;
+    font-weight: 400;
+  }
+
+  /* Убедимся, что все элементы выровнены по центру */
+  .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 2.5rem;
   }
 </style>

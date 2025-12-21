@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -10,13 +12,14 @@ class SearchSuggestionsView(APIView):
         search = request.query_params.get("query", "").lower()
         if len(search) >= 2:
             suggestions = Word.objects.filter(
-                word_clean__startswith=Word.search_prepare(string=search)
+                word_clean__istartswith=Word.search_prepare(string=search)
             )[:10]
             suggestions_list = [
                 {
                     "word": _.word.replace("|", ""),
                     "word_id": _.id,
                     "pos": _.pos.abbr,
+                    "variant": _.variant
                 }
                 for _ in suggestions
             ]

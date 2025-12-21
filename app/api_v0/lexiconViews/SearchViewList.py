@@ -18,7 +18,7 @@ class SearchViewList(generics.ListAPIView):
         search = self.request.query_params.get("query", "").lower()
         if search and len(Word.search_prepare(string=search)):
             queryset = Word.objects.filter(
-                word_clean__startswith=Word.search_prepare(string=search)
+                word_clean__istartswith=Word.search_prepare(string=search)
             )
 
         if len(queryset):

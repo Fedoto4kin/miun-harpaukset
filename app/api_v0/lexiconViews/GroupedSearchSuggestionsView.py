@@ -12,7 +12,7 @@ class GroupedSearchSuggestionsView(APIView):
         if len(search) >= 2:
             suggestions = (
                 Word.objects.filter(
-                    word_clean__startswith=Word.search_prepare(string=search)
+                    word_clean__istartswith=Word.search_prepare(string=search)
                 )
                 .values("word_clean")
                 .annotate(count=Count("word_clean"))
