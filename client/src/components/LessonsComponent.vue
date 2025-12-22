@@ -358,9 +358,10 @@ export default {
 /* Стили для сайдбара на больших экранах */
 @media (min-width: 992px) {
   .lesson-list {
-    position: static;
-    width: 20%;
-    height: auto;
+    position: fixed;
+    height: calc(100vh - 40px);
+    overflow-y: auto;
+    width: 264px;
     background-color: transparent;
   }
 
@@ -369,15 +370,11 @@ export default {
   }
 
   #lesson-frame {
+    margin-left: 264px;
     width: 80%;
   }
 }
 
-/* Остальные стили */
-#lesson-list {
-  height: calc(100vh);
-  overflow-y: auto;
-}
 
 .container {
   margin-top: 20px;
