@@ -1,8 +1,12 @@
 from django.urls import reverse
 from django.utils.html import format_html
-from nested_admin import NestedGenericTabularInline, NestedStackedInline, NestedTabularInline
+from nested_admin import (
+    NestedGenericTabularInline,
+    NestedStackedInline,
+    NestedTabularInline,
+)
 
-from ..models import Exercise, LessonSpeech, Module, GrammarComment
+from ..models import Exercise, GrammarComment, LessonSpeech, Module
 from .forms import ExerciseForm, ModuleForm
 
 
@@ -10,15 +14,16 @@ class GrammarCommentInline(NestedTabularInline):
     model = GrammarComment
     extra = 0
     max_num = 1  # Теперь только один комментарий
-    fields = ('html_content',)
-    classes = ('collapse',) 
+    fields = ("html_content",)
+    classes = ("collapse",)
     verbose_name = "Грамматический комментарий"
     verbose_name_plural = "Грамматический комментарий"
-    
+
     def get_formset(self, request, obj=None, **kwargs):
         formset = super().get_formset(request, obj, **kwargs)
         from ckeditor.widgets import CKEditorWidget
-        formset.form.base_fields['html_content'].widget = CKEditorWidget()
+
+        formset.form.base_fields["html_content"].widget = CKEditorWidget()
         return formset
 
 
@@ -34,7 +39,7 @@ class LessonSpeechNestedInline(NestedGenericTabularInline):
 class ExerciseInline(NestedStackedInline):
     model = Exercise
     form = ExerciseForm
-    # classes = ('collapse',) 
+    # classes = ('collapse',)
     extra = 0
     fields = ("exercise_type", "data", "has_answers_check")
 

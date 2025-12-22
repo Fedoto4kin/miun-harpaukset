@@ -2,9 +2,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from lessons.models import Module
-
 from api_v0.serializers import ModuleSerializer
+from lessons.models import Module
 
 
 class ModuleContentView(APIView):

@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from lessons.models import Exercise, Lesson, Module, Tag, GrammarComment
+
+from lessons.models import Exercise, GrammarComment, Lesson, Module, Tag
 
 
 class LessonSerializer(serializers.ModelSerializer):

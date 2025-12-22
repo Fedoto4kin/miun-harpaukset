@@ -6,13 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lexicon', '0025_word_variant'),
+        ("lexicon", "0025_word_variant"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='word',
-            name='additional',
-            field=models.CharField(blank=True, default=None, help_text="Additional specification or context (e.g., 'nedeli' for 'Srašnoi')", max_length=255, null=True, verbose_name='Additional spec'),
+            model_name="word",
+            name="additional",
+            field=models.CharField(
+                blank=True,
+                default=None,
+                help_text="Additional specification or context (e.g., 'nedeli' for 'Srašnoi')",
+                max_length=255,
+                null=True,
+                verbose_name="Additional spec",
+            ),
         ),
     ]

@@ -6,34 +6,33 @@ from django.db import models
 
 class ExerciseType(Enum):
     """
-    Interactive hint exercise - shows text with clickable hints
+    Types of exercises
     """
 
+    """
+    Interactive hint exercise - shows text with clickable hints
+    """
     INTERACTIVE_HINT = ("InteractiveHint", "Interactive Hints")
     """ 
         A fill-in-the-blank exercise where users 
         complete words by filling in missing parts.
     """
     FILL_BLANK = ("FillBlank", "Fill in the Blank Words")
-
     """ 
         A syllable assembly exercise where users construct a word
         by arranging given syllables in the correct order.
     """
     SYLLABLE_ASSEMBLY = ("SyllableAssembly", "Syllable Assembly")
-
     """ 
         A fill-in-the-blank exercise where users fill 
         in missing words in a given text.
     """
     FILL_BLANK_TEXT = ("FillBlankText", "Fill in the Blank Text")
-
     """ 
         A sentence assembly exercise where users construct a sentence
         by arranging given words in the correct order.
     """
     SENTENCE_ASSEMBLY = ("SentenceAssembly", "Sentence Assembly")
-
     """
         A sentence assembly exercise with pre-filled slots where users
         construct a sentence by arranging given words in the correct order,
@@ -43,29 +42,21 @@ class ExerciseType(Enum):
         "SentenceAssemblyPrefilled",
         "Sentence Assembly with Prefill",
     )
-
     """ 
         A match-the-pair exercise where users find the 
         corresponding pair for a given word.
     """
     MATCH_PAIR = ("MatchPair", "Match the Pair")
-
     """ 
         A match-the-pair exercise where pair/word can have multiple 
         correct answers and selected options don't disappear.
     """
     MATCH_PAIR_MULTIPLE = ("MatchPairMultiple", "Match the Pair (Multiple)")
-
-    def __init__(self, value, label):
-        self._value_ = value
-        self.label = label
-
     """ 
         A fill-in-the-blank exercise where users fill 
         in missing words in a given table.
     """
     FILL_BLANK_TABLE = ("FillBlankTable", "Fill in the Blank Table")
-
     """ 
         A match-the-pair exercise where users find the 
         corresponding pair for a given word.
@@ -74,19 +65,21 @@ class ExerciseType(Enum):
         "MatchPairSentenceSlot",
         "Match the Pair with slots for sentantions",
     )
-
     """ 
         A fill-in-the-blank exercise where users fill 
         in missing parts of a text by selecting the correct
         answer from provided options.
     """
     FILL_GAP_WITH_CHOICE = ("FillGapWithChoice", "Fill Gap with Choice")
-
     """
         A word search exercise where users find 
         and select words hidden in a grid of letters.
     """
     FILL_WORD = ("FillWord", "Fillword Game")
+
+    def __init__(self, value, label):
+        self._value_ = value
+        self.label = label
 
     @classmethod
     def choices(cls):

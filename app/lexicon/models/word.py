@@ -1,6 +1,6 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import RegexValidator   
 
 from .pos import Pos
 from .speech import Speech
@@ -11,8 +11,8 @@ KRL_ABC = "ABCČDEFGHIJKLMNOPRSŠZŽTUVYÄÖ"
 class Word(models.Model):
 
     roman_numeral_validator = RegexValidator(
-        regex=r'^[IVXLCDM]+$',
-        message='Variant must contain only Roman numerals (I, V, X, L, C, D, M)'
+        regex=r"^[IVXLCDM]+$",
+        message="Variant must contain only Roman numerals (I, V, X, L, C, D, M)",
     )
 
     word = models.CharField(_("Šana"), max_length=128)
@@ -23,9 +23,9 @@ class Word(models.Model):
         null=True,
         default=None,
         validators=[roman_numeral_validator],
-        help_text=_("Roman numeral variant (e.g., I, II, III, IV)")
+        help_text=_("Roman numeral variant (e.g., I, II, III, IV)"),
     )
-    
+
     word_clean = models.CharField(_("Cleaned Šana"), max_length=128, blank=True)
     pos = models.ForeignKey(Pos, unique=False, on_delete=models.CASCADE)
     speech = models.ForeignKey(Speech, null=True, blank=True, on_delete=models.SET_NULL)
@@ -38,7 +38,9 @@ class Word(models.Model):
         blank=True,
         null=True,
         default=None,
-        help_text=_("Additional specification or context (e.g., 'nedeli' for 'Srašnoi')")
+        help_text=_(
+            "Additional specification or context (e.g., 'nedeli' for 'Srašnoi')"
+        ),
     )
 
     def krl_slugify(self):
@@ -52,7 +54,7 @@ class Word(models.Model):
             parts.append(f"({self.variant})")
         if self.additional:
             parts.append(f" {self.additional}")
-        
+
         return " ".join(parts)
 
     # todo: move to service

@@ -1,5 +1,4 @@
 from django.db.models import Q
-
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -20,7 +19,7 @@ class SearchSuggestionsView(APIView):
                     "word_id": _.id,
                     "pos": _.pos.abbr,
                     "variant": _.variant,
-                    "additional": _.additional
+                    "additional": _.additional,
                 }
                 for _ in suggestions
             ]

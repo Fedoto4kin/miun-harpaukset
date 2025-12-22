@@ -7,13 +7,26 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lexicon', '0024_auto_20251220_2345'),
+        ("lexicon", "0024_auto_20251220_2345"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='word',
-            name='variant',
-            field=models.CharField(blank=True, default=None, help_text='Roman numeral variant (e.g., I, II, III, IV)', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Variant must contain only Roman numerals (I, V, X, L, C, D, M)', regex='^[IVXLCDM]+$')], verbose_name='Variant'),
+            model_name="word",
+            name="variant",
+            field=models.CharField(
+                blank=True,
+                default=None,
+                help_text="Roman numeral variant (e.g., I, II, III, IV)",
+                max_length=10,
+                null=True,
+                validators=[
+                    django.core.validators.RegexValidator(
+                        message="Variant must contain only Roman numerals (I, V, X, L, C, D, M)",
+                        regex="^[IVXLCDM]+$",
+                    )
+                ],
+                verbose_name="Variant",
+            ),
         ),
     ]

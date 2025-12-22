@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 
 from lexicon.models import Pos
+
 from ..serializers import PosSerializer
 
 

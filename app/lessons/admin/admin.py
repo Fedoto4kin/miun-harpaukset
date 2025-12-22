@@ -6,9 +6,14 @@ from django.urls import path, reverse
 from django.utils.html import format_html
 from nested_admin import NestedModelAdmin
 
-from ..models import Exercise, Lesson, LessonSpeech, Module, GrammarComment
+from ..models import Exercise, GrammarComment, Lesson, LessonSpeech, Module
 from .forms import ExerciseForm, LessonSpeechForm, ModuleForm
-from .inlines import ExerciseInline, LessonSpeechNestedInline, ModuleInline, GrammarCommentInline
+from .inlines import (
+    ExerciseInline,
+    GrammarCommentInline,
+    LessonSpeechNestedInline,
+    ModuleInline,
+)
 
 
 class LessonSpeechAdmin(admin.ModelAdmin):
@@ -68,7 +73,11 @@ class ModuleAdmin(NestedModelAdmin):
     list_display = ("number", "lesson", "upload_sound_button", "has_grammar_comment")
     search_fields = ("lesson__title", "number")
     ordering = ["lesson", "number"]
-    inlines = [LessonSpeechNestedInline, ExerciseInline, GrammarCommentInline,]
+    inlines = [
+        LessonSpeechNestedInline,
+        ExerciseInline,
+        GrammarCommentInline,
+    ]
     list_filter = ("lesson", "tags")
     form = ModuleForm
 
@@ -80,11 +89,13 @@ class ModuleAdmin(NestedModelAdmin):
 
     upload_sound_button.short_description = "Pagina"
     upload_sound_button.allow_tags = True
-    
+
     def has_grammar_comment(self, obj):
-        return hasattr(obj, 'grammar_comment') and obj.grammar_comment is not None
+        return hasattr(obj, "grammar_comment") and obj.grammar_comment is not None
+
     has_grammar_comment.boolean = True
     has_grammar_comment.short_description = "Грамматика"
+
 
 class LessonAdmin(NestedModelAdmin):
     list_display = ("__str__", "description", "upload_sound_button")
@@ -108,25 +119,35 @@ class ExerciseAdmin(admin.ModelAdmin):
 
 
 class GrammarCommentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'module_link',)
-    list_filter = ('module__lesson',)
-    search_fields = ('html_content', 'module__lesson__title')
-    raw_id_fields = ('module',)
-    
-    fields = ('module', 'html_content')
-    
+    list_display = (
+        "id",
+        "module_link",
+    )
+    list_filter = ("module__lesson",)
+    search_fields = ("html_content", "module__lesson__title")
+    raw_id_fields = ("module",)
+
+    fields = ("module", "html_content")
+
     def module_link(self, obj):
         url = reverse("admin:lessons_module_change", args=[obj.module.id])
         return format_html('<a href="{}">{}</a>', url, obj.module)
-    
+
     module_link.short_description = "Модуль"
-    
+
     def preview_content(self, obj):
         if obj.html_content:
-            preview = obj.html_content[:100] + "..." if len(obj.html_content) > 100 else obj.html_content
-            return format_html('<div style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">{}</div>', preview)
+            preview = (
+                obj.html_content[:100] + "..."
+                if len(obj.html_content) > 100
+                else obj.html_content
+            )
+            return format_html(
+                '<div style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">{}</div>',
+                preview,
+            )
         return "-"
-    
+
     preview_content.short_description = "Предпросмотр"
 
 

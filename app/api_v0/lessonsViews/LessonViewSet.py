@@ -1,8 +1,7 @@
 from rest_framework import viewsets
 
-from lessons.models import Lesson
-
 from api_v0.serializers import LessonSerializer
+from lessons.models import Lesson
 
 
 class LessonFilter(viewsets.ReadOnlyModelViewSet):

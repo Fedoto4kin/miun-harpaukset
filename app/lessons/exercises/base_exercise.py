@@ -13,12 +13,3 @@ class ExerciseSchema(ABC):
     def validate(self, data):
         """Метод для валидации данных по схеме."""
         validate(instance=data, schema=self.schema)
-
-    def construct_data(self, command):
-        """
-        Метод для пошагового создания данных для упражнения.
-        Если метод не переопределен в классе-потомке, выводим сообщение о недоступности конструктора.
-        """
-        print("Конструктор для этого типа упражнений пока недоступен.")
-
-        return None

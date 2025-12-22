@@ -2,8 +2,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from lexicon.models import Word
 from api_v0.serializers import WordPreviewSerializer
+from lexicon.models import Word
 
 
 class WordCardView(APIView):
