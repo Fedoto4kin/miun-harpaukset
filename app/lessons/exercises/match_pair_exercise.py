@@ -44,7 +44,7 @@ class MatchPairExercise(ExerciseSchema):
             },
             "required": ["questions"],
         }
-    
+
     def fill_default(self):
         """
         Returns the default data for 'Match the Pair'
@@ -58,5 +58,5 @@ class MatchPairExercise(ExerciseSchema):
                         {"pair": "levie", "word": "kaida"},
                     ]
                 }
-            ]
+            ],
         }

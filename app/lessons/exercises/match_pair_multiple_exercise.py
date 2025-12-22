@@ -77,7 +77,7 @@ class MatchPairMultipleExercise(ExerciseSchema):
             "required": ["questions"],
             "additionalProperties": False,
         }
-    
+
     def fill_default(self):
         """
         Returns the default data for 'Match the Pair (Multiple)'
@@ -86,14 +86,8 @@ class MatchPairMultipleExercise(ExerciseSchema):
             "questions": [
                 {
                     "pairs": [
-                        {
-                            "pair": ["nenä", "tukka"],
-                            "word": "pitkä"
-                        },
-                        {
-                            "pair": "kiherä",
-                            "word": "piä"
-                        },
+                        {"pair": ["nenä", "tukka"], "word": "pitkä"},
+                        {"pair": "kiherä", "word": "piä"},
                     ]
                 }
             ]

@@ -108,25 +108,13 @@ class SentenceAssemblySimpleExercise(ExerciseSchema):
         """
         return {
             "groups": [
-                {
-                    "group": 1,
-                    "words": ["Mie", "Šie"]
-                },
-                {
-                    "group": 2,
-                    "words": ["pagizet", "elän"]
-                },
-                {
-                    "group": 3,
-                    "words": ["Tolmačušša.", "karielakši."]
-                }
+                {"group": 1, "words": ["Mie", "Šie"]},
+                {"group": 2, "words": ["pagizet", "elän"]},
+                {"group": 3, "words": ["Tolmačušša.", "karielakši."]},
             ],
             "answers": [
                 "Mie|elän|Tolmačušša.",
                 "Šie|pagizet|karielakši.",
             ],
-            "template": {
-                "count": 2,
-                "slots": 3
-            }
+            "template": {"count": 2, "slots": 3},
         }

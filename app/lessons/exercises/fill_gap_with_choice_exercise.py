@@ -60,11 +60,7 @@ class FillGapWithChoiceExercise(ExerciseSchema):
                 {
                     "text": "Oks'o Smirnova eläy [*4:Kozlovalla].",
                     "type": "radio",
-                    "variants": [
-                        "Kozlovalla",
-                        "Mikul'n'alla",
-                        "Kagrapuussalla"
-                    ]
+                    "variants": ["Kozlovalla", "Mikul'n'alla", "Kagrapuussalla"],
                 }
             ]
         }

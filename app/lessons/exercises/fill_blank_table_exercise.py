@@ -29,44 +29,43 @@ class FillBlankTableExercise(ExerciseSchema):
                 - {TEXT} is used to indicate span content where:
                     - TEXT - represents text that will be displayed inside a span element with a specific class.
                     """,
-                    "properties": {
-                        "rows": {
-                            "type": "integer",
-                            "description": "Number of rows in the table",
-                        },
-                        "cols": {
-                            "type": "integer",
-                            "description": "Number of columns in the table",
-                        },
-                        "class": {"type": "string", "description": "CSS classes for the table"},
-                        "table": {
-                            "type": "array",
-                            "description": "Array of rows in the table",
-                            "items": {
-                                "type": "array",
-                                "description": "Array of cells in a row",
-                                "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "class": {
-                                            "type": "array",
-                                            "description": "CSS classes for the cell",
-                                            "items": {"type": "string"},
-                                        },
-                                        "content": {
-                                            "type": "string",
-                                            "description": "Content of the cell, may include fill-in-the-blank patterns with optional prefilled values",
-                                        },
-                                    },
-                                    "required": ["content"],
+            "properties": {
+                "rows": {
+                    "type": "integer",
+                    "description": "Number of rows in the table",
+                },
+                "cols": {
+                    "type": "integer",
+                    "description": "Number of columns in the table",
+                },
+                "class": {"type": "string", "description": "CSS classes for the table"},
+                "table": {
+                    "type": "array",
+                    "description": "Array of rows in the table",
+                    "items": {
+                        "type": "array",
+                        "description": "Array of cells in a row",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "class": {
+                                    "type": "array",
+                                    "description": "CSS classes for the cell",
+                                    "items": {"type": "string"},
+                                },
+                                "content": {
+                                    "type": "string",
+                                    "description": "Content of the cell, may include fill-in-the-blank patterns with optional prefilled values",
                                 },
                             },
+                            "required": ["content"],
                         },
                     },
-                    "required": ["rows", "cols", "table"]
-            }
+                },
+            },
+            "required": ["rows", "cols", "table"],
+        }
 
-    
     def fill_default(self):
         """
         Returns the default data for 'Fill in the Blank Table'
@@ -77,31 +76,17 @@ class FillBlankTableExercise(ExerciseSchema):
             "class": "table-borderless",
             "table": [
                 [
-                    {
-                        "class": [
-                        "table-info",
-                        "fw-bold"
-                        ],
-                        "content": "Yks. nom."
-                    },
-                    {
-                        "class": [
-                        "table-info",
-                        "fw-bold"
-                        ],
-                        "content": "Mon. nom."
-                    }
+                    {"class": ["table-info", "fw-bold"], "content": "Yks. nom."},
+                    {"class": ["table-info", "fw-bold"], "content": "Mon. nom."},
                 ],
                 [
                     {
                         "class": [
-                        "table-warning",
+                            "table-warning",
                         ],
-                        "content": "Yksi {lämmin alane}."
+                        "content": "Yksi {lämmin alane}.",
                     },
-                    {
-                        "content": "Äjän [10*:lämbimät alazet{lämmin alane}]."
-                    }
-                ]
-            ]
+                    {"content": "Äjän [10*:lämbimät alazet{lämmin alane}]."},
+                ],
+            ],
         }

@@ -1,5 +1,6 @@
 from .contracts import ExerciseSchema
 
+
 class FillWordExercise(ExerciseSchema):
     @property
     def schema(self):

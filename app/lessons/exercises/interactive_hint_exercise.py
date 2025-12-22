@@ -37,7 +37,7 @@ class InteractiveHintExercise(ExerciseSchema):
                 {
                     "text": "Kakši čikos't'a reunakkeh eletäh, toine toista ei nähä.",
                     "answer": "šilmät",
-                    "hint_button": True
+                    "hint_button": True,
                 }
             ]
         }

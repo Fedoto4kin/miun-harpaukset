@@ -58,7 +58,7 @@ class FillBlankExercise(ExerciseSchema):
                 }
             ],
         }
-    
+
     def fill_default(self):
         """
         Возвращает данные по умолчанию для упражнения 'Fill in the Blank Words'

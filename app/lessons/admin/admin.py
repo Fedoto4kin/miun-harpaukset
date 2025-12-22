@@ -122,12 +122,13 @@ class GrammarCommentAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "module_link",
+        "summary",
     )
     list_filter = ("module__lesson",)
-    search_fields = ("html_content", "module__lesson__title")
+    search_fields = ("html_content", "module__lesson__title", "summary")
     raw_id_fields = ("module",)
 
-    fields = ("module", "html_content")
+    fields = ("module", "html_content", "summary")
 
     def module_link(self, obj):
         url = reverse("admin:lessons_module_change", args=[obj.module.id])

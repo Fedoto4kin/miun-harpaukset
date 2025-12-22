@@ -14,7 +14,7 @@ class GrammarCommentInline(NestedTabularInline):
     model = GrammarComment
     extra = 0
     max_num = 1  # Теперь только один комментарий
-    fields = ("html_content",)
+    fields = ("html_content", "summary")
     classes = ("collapse",)
     verbose_name = "Грамматический комментарий"
     verbose_name_plural = "Грамматический комментарий"

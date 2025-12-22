@@ -2,6 +2,8 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from krl.settings import LANGUAGE
+
 from .pos import Pos
 from .speech import Speech
 
@@ -73,10 +75,6 @@ class Word(models.Model):
 
 
 class Definition(models.Model):
-    LANGUAGE = (
-        ("ru", _("Hormiksi")),
-        ("fi", _("Šuomekši")),
-    )
 
     word = models.ForeignKey(
         Word, unique=False, on_delete=models.CASCADE, related_name="definition_set"

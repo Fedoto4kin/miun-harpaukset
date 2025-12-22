@@ -1,4 +1,5 @@
 from enum import Enum
+
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.db.models.signals import pre_save
@@ -7,6 +8,7 @@ from django.dispatch import receiver
 
 class ExerciseType(Enum):
     """Types of exercises"""
+
     INTERACTIVE_HINT = ("InteractiveHint", "Interactive Hints")
     FILL_BLANK = ("FillBlank", "Fill in the Blank Words")
     SYLLABLE_ASSEMBLY = ("SyllableAssembly", "Syllable Assembly")
@@ -71,6 +73,7 @@ class Exercise(models.Model):
             SentenceAssemblySimpleExercise,
             SyllableAssemblyExercise,
         )
+
         # Mapping of exercise types to schema classes
         type_to_schema_class = {
             ExerciseType.FILL_BLANK.value: FillBlankExercise,
@@ -86,7 +89,7 @@ class Exercise(models.Model):
             ExerciseType.SENTENCE_ASSEMBLY.value: SentenceAssemblySimpleExercise,
             ExerciseType.SYLLABLE_ASSEMBLY.value: SyllableAssemblyExercise,
         }
-        
+
         schema_class = type_to_schema_class.get(self.exercise_type)
         if schema_class:
             return schema_class()

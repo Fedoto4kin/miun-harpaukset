@@ -40,12 +40,8 @@ class FillBlankTextExercise(ExerciseSchema):
                         "required": ["text"],
                     },
                 },
-                "example": {
-                    "type": "string"
-                },
-                "afterWord": {
-                    "type": "string"
-                },
+                "example": {"type": "string"},
+                "afterWord": {"type": "string"},
             },
             "required": ["texts"],
         }
@@ -63,11 +59,7 @@ class FillBlankTextExercise(ExerciseSchema):
                         "Mie [5*:olen{olet}] šuomelane.",
                     ]
                 },
-                {
-                    "text": [
-                        "Myö [8*:pagizemma{paissa}] karielakši."
-                    ]
-                }
+                {"text": ["Myö [8*:pagizemma{paissa}] karielakši."]},
             ],
             "afterWord": "<b>Afterword:</b> Explanation of the text.",
         }

@@ -2,13 +2,10 @@ from ckeditor.fields import RichTextField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from krl.settings import LANGUAGE
+
 
 class GrammarComment(models.Model):
-
-    LANGUAGE = (
-        ("ru", _("Hormiksi")),
-        ("fi", _("Šuomekši")),
-    )
 
     module = models.OneToOneField(
         "Module",
@@ -17,9 +14,9 @@ class GrammarComment(models.Model):
         verbose_name="Модуль",
         unique=True,  # Добавляем unique для OneToOne
     )
-
     html_content = RichTextField("HTML content", blank=True, null=True, default=None)
-    # todo add:    lang = models.CharField(max_length=32, choices=LANGUAGE) with default ru
+    lang = models.CharField(max_length=32, choices=LANGUAGE, default="ru")
+    summary = models.CharField(max_length=255, blank=True, null=True, default=None)
 
     def __str__(self):
         return f"Грамматика: {self.module}"

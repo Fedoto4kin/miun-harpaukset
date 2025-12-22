@@ -80,17 +80,8 @@ class SyllableAssemblyExercise(ExerciseSchema):
         """
         return {
             "questions": [
-                {
-                    "word": "omahine",
-                    "syllables": ["ne", "o", "hi", "ma"]
-                },
-                {
-                    "word": "talo",
-                    "syllables": ["lo", "ta"]
-                },
-                {
-                    "word": "šukši",
-                    "syllables": ["ši", "šuk"]
-                }
+                {"word": "omahine", "syllables": ["ne", "o", "hi", "ma"]},
+                {"word": "talo", "syllables": ["lo", "ta"]},
+                {"word": "šukši", "syllables": ["ši", "šuk"]},
             ]
         }

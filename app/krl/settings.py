@@ -154,6 +154,11 @@ if DEBUG:
 else:
     CORS_ALLOWED_ORIGINS = []
 
+LANGUAGE = (
+    ("ru", "Hormiksi"),
+    ("fi", "Šuomekši"),
+)
+
 CKEDITOR_CONFIGS = {
     "default": {
         "toolbar": "Custom",
