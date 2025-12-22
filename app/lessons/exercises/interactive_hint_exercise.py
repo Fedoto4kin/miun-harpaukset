@@ -1,27 +1,11 @@
-from .base_exercise import ExerciseSchema
+from .contracts import ExerciseSchema
 
 
 class InteractiveHintExercise(ExerciseSchema):
     @property
     def schema(self):
         """
-        Схема для интерактивных подсказок в тексте.
-
-        Example data:
-        {
-            "questions": [
-                {
-                    "text": "Kakši čikosʼtʼa reunakkeh eletäh, toine toista ei nähä.",
-                    "answer": "šilmät",
-                    "hint_button": true
-                },
-                {
-                    "text": "Keššellä kandone, kahen puolen neidozet, kočitah, kočitah, yhteh ei šuaha.",
-                    "answer": "nenä da šilmät",
-                    "hint_button": true
-                }
-            ]
-        }
+        Schema for interactive hints in the text.
         """
         return {
             "$schema": "http://json-schema.org/draft-07/schema#",
@@ -34,7 +18,7 @@ class InteractiveHintExercise(ExerciseSchema):
                         "properties": {
                             "text": {"type": "string"},
                             "answer": {"type": "string"},
-                            "hint_button": {"type": "boolean", "default": true},
+                            "hint_button": {"type": "boolean", "default": True},
                         },
                         "required": ["text", "answer"],
                     },
@@ -42,4 +26,18 @@ class InteractiveHintExercise(ExerciseSchema):
                 }
             },
             "required": ["questions"],
+        }
+
+    def fill_default(self):
+        """
+        Returns the default data for the 'Interactive Hints' exercise.
+        """
+        return {
+            "questions": [
+                {
+                    "text": "Kakši čikos't'a reunakkeh eletäh, toine toista ei nähä.",
+                    "answer": "šilmät",
+                    "hint_button": True
+                }
+            ]
         }

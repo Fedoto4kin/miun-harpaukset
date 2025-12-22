@@ -1,4 +1,4 @@
-from .base_exercise import ExerciseSchema
+from .contracts import ExerciseSchema
 
 
 class SentenceAssemblyPrefilledExercise(ExerciseSchema):
@@ -136,4 +136,42 @@ class SentenceAssemblyPrefilledExercise(ExerciseSchema):
                 },
             },
             "required": ["groups", "answers", "template"],
+        }
+
+    def fill_default(self):
+        """
+        Возвращает данные по умолчанию для упражнения 'Sentence Assembly with Prefill'
+        """
+        return {
+            "groups": [
+                {
+                    "group": 1,
+                    "words": [
+                        "buabo<b>n</b> ali diedo<b>n</b>",
+                        "poija<b>n</b> ali tyttäre<b>n</b>",
+                    ]
+                },
+                {
+                    "group": 2,
+                    "words": [
+                        "muamo.",
+                        "velli.",
+                    ]
+                }
+            ],
+            "answers": [
+                "Diedo|on|muamon ali tuaton|tuatto.",
+                "Prabuabo|on|buabon ali diedon|muamo.",
+            ],
+            "template": {
+                "count": 8,
+                "slots": 4,
+                "examples": [
+                    ["Buabo", "on", "muamon ali tuaton", "muamo."]
+                ],
+                "prefillers": [
+                    ["Diedo", "on", "", ""],
+                    ["Prabuabo", "on", "", ""],
+                ]
+            }
         }

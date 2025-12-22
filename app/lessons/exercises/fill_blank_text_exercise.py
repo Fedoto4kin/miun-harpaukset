@@ -1,4 +1,4 @@
-from .base_exercise import ExerciseSchema
+from .contracts import ExerciseSchema
 
 
 # todo: add title
@@ -6,24 +6,6 @@ class FillBlankTextExercise(ExerciseSchema):
     @property
     def schema(self):
         """
-        Схема для упражнений типа 'Fill in the blank text'.
-
-        Example data for FillBlankText schema:
-
-        {
-            "texts": [
-                {
-                    "text": [
-                        "Kazi [4*:on{olen}] pertissä.",
-                        ...
-                    ]
-                }
-                ...
-            ],
-            "example": "Kazi [4*:on] pertissä.",
-            "afterWord": "<b>Afterword:</b> Explanation of the text."
-        }
-
         Explanation of the "text" format:
         - The string represents a sentence with missing words that users must fill in.
         - The missing parts are indicated by the pattern [n*:ANSWERS{PREFILLED}], where:
@@ -59,13 +41,33 @@ class FillBlankTextExercise(ExerciseSchema):
                     },
                 },
                 "example": {
-                    "type": "string",
-                    "examples": ["Example question with [2*:answers{prefilled}]."],
+                    "type": "string"
                 },
                 "afterWord": {
-                    "type": "string",
-                    "examples": ["<b>Afterword:</b> Explanation of the text."],
+                    "type": "string"
                 },
             },
             "required": ["texts"],
+        }
+
+    def fill_default(self):
+        """
+        Returns the default data for 'Fill in the Blank Text'
+        """
+        return {
+            "example": "Example question with [8*:kyžymyš{vaštauš}].",
+            "texts": [
+                {
+                    "text": [
+                        "Kazi [4*:on{olen}] pertissä.",
+                        "Mie [5*:olen{olet}] šuomelane.",
+                    ]
+                },
+                {
+                    "text": [
+                        "Myö [8*:pagizemma{paissa}] karielakši."
+                    ]
+                }
+            ],
+            "afterWord": "<b>Afterword:</b> Explanation of the text.",
         }

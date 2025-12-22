@@ -1,4 +1,4 @@
-from .base_exercise import ExerciseSchema
+from .contracts import ExerciseSchema
 
 
 class SentenceAssemblySimpleExercise(ExerciseSchema):
@@ -100,4 +100,33 @@ class SentenceAssemblySimpleExercise(ExerciseSchema):
                 },
             },
             "required": ["groups", "answers", "template"],
+        }
+
+    def fill_default(self):
+        """
+        Возвращает данные по умолчанию для упражнения 'Sentence Assembly'
+        """
+        return {
+            "groups": [
+                {
+                    "group": 1,
+                    "words": ["Mie", "Šie"]
+                },
+                {
+                    "group": 2,
+                    "words": ["pagizet", "elän"]
+                },
+                {
+                    "group": 3,
+                    "words": ["Tolmačušša.", "karielakši."]
+                }
+            ],
+            "answers": [
+                "Mie|elän|Tolmačušša.",
+                "Šie|pagizet|karielakši.",
+            ],
+            "template": {
+                "count": 2,
+                "slots": 3
+            }
         }

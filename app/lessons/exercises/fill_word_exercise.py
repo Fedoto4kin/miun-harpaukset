@@ -1,5 +1,4 @@
-from .base_exercise import ExerciseSchema
-
+from .contracts import ExerciseSchema
 
 class FillWordExercise(ExerciseSchema):
     @property
@@ -100,4 +99,21 @@ class FillWordExercise(ExerciseSchema):
                 },
             },
             "required": ["field", "words"],
+        }
+
+    def fill_default(self):
+        """
+        Возвращает данные по умолчанию для упражнения 'Fillword Game'
+        """
+        return {
+            "field": [
+                "rdapitčolis",
+                "arupzekakvk",
+                "pavruuaglaa",
+            ],
+            "words": [
+                "čolka",
+                "kulmat",
+                "luomet",
+            ],
         }

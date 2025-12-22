@@ -1,41 +1,10 @@
-from .base_exercise import ExerciseSchema
+from .contracts import ExerciseSchema
 
 
 class FillGapWithChoiceExercise(ExerciseSchema):
     @property
     def schema(self):
         """
-        Схема для упражнений типа 'Fill Gap With Choice'.
-
-        Example data for FillGapWithChoice schema:
-
-        {
-            "questions": [
-                {
-                    "text": "Oks’o Smirnova eläy [*4:Kozlovalla].",
-                    "type": "radio",
-                    "variants": [
-                        "Kozlovalla",
-                        "Mikul’n’alla",
-                        "Kagrapuussalla"
-                    ]
-                },
-                {
-                    "text": "Smirnovat pijetäh [*4:lehmiä|poččie|kanua].",
-                    "type": "checkbox",
-                    "variants": [
-                        "lehmiä",
-                        "hevost’a",
-                        "lammašta",
-                        "čibua",
-                        "poččie",
-                        "kanua",
-                        "ut’ua"
-                    ]
-                }
-            ]
-        }
-
         Explanation of the "text" format:
         - The string represents a sentence with a blank that users must fill in.
         - The blank is indicated by the pattern [*n:ANSWERS], where:
@@ -80,4 +49,22 @@ class FillGapWithChoiceExercise(ExerciseSchema):
                 }
             },
             "required": ["questions"],
+        }
+
+    def fill_default(self):
+        """
+        Возвращает данные по умолчанию для упражнения 'Fill Gap with Choice'
+        """
+        return {
+            "questions": [
+                {
+                    "text": "Oks'o Smirnova eläy [*4:Kozlovalla].",
+                    "type": "radio",
+                    "variants": [
+                        "Kozlovalla",
+                        "Mikul'n'alla",
+                        "Kagrapuussalla"
+                    ]
+                }
+            ]
         }

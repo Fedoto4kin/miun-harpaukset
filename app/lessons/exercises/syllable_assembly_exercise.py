@@ -1,4 +1,4 @@
-from .base_exercise import ExerciseSchema
+from .contracts import ExerciseSchema
 
 
 class SyllableAssemblyExercise(ExerciseSchema):
@@ -72,4 +72,25 @@ class SyllableAssemblyExercise(ExerciseSchema):
                 }
             },
             "required": ["questions"],
+        }
+
+    def fill_default(self):
+        """
+        Возвращает данные по умолчанию для упражнения 'Syllable Assembly'
+        """
+        return {
+            "questions": [
+                {
+                    "word": "omahine",
+                    "syllables": ["ne", "o", "hi", "ma"]
+                },
+                {
+                    "word": "talo",
+                    "syllables": ["lo", "ta"]
+                },
+                {
+                    "word": "šukši",
+                    "syllables": ["ši", "šuk"]
+                }
+            ]
         }

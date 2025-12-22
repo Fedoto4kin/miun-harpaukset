@@ -1,35 +1,14 @@
-from .base_exercise import ExerciseSchema
+from .contracts import ExerciseSchema
 
 
 class MatchPairExercise(ExerciseSchema):
     @property
     def schema(self):
         """
-        Схема для упражнений типа 'Match Pair'.
-
-        Example data for MatchPair schema:
-
-        {
-            "title": "Löyvä vaštamielizet tunnuššanat",
-            "questions": [
-                {
-                    "pairs": [
-                        {
-                            "pair": "paha",
-                            "word": "hyvä"
-                        },
-                        {
-                            "pair": "levie",
-                            "word": "kaida"
-                        },
-                        ...
-                    ]
-                }
-            ]
-        }
+        Schema for 'Match Pair' exercises.
 
         Explanation of the data format:
-        - "title" (optional): заголовок упражнения
+        - "title" (optional): Title of the exercise
         - The "questions" array contains objects with "pairs".
         - Each "pair" object includes a "pair" and its corresponding "word".
         """
@@ -64,4 +43,20 @@ class MatchPairExercise(ExerciseSchema):
                 },
             },
             "required": ["questions"],
+        }
+    
+    def fill_default(self):
+        """
+        Returns the default data for 'Match the Pair'
+        """
+        return {
+            "title": "Antonimat",
+            "questions": [
+                {
+                    "pairs": [
+                        {"pair": "paha", "word": "hyvä"},
+                        {"pair": "levie", "word": "kaida"},
+                    ]
+                }
+            ]
         }

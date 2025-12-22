@@ -1,5 +1,4 @@
-# match_pair_multiple_exercise.py
-from .base_exercise import ExerciseSchema
+from .contracts import ExerciseSchema
 
 
 class MatchPairMultipleExercise(ExerciseSchema):
@@ -77,4 +76,25 @@ class MatchPairMultipleExercise(ExerciseSchema):
             },
             "required": ["questions"],
             "additionalProperties": False,
+        }
+    
+    def fill_default(self):
+        """
+        Returns the default data for 'Match the Pair (Multiple)'
+        """
+        return {
+            "questions": [
+                {
+                    "pairs": [
+                        {
+                            "pair": ["nenä", "tukka"],
+                            "word": "pitkä"
+                        },
+                        {
+                            "pair": "kiherä",
+                            "word": "piä"
+                        },
+                    ]
+                }
+            ]
         }

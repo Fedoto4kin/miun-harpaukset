@@ -1,6 +1,6 @@
 import json
 
-from .base_exercise import ExerciseSchema
+from .contracts import ExerciseSchema
 
 
 class FillBlankExercise(ExerciseSchema):
@@ -58,3 +58,21 @@ class FillBlankExercise(ExerciseSchema):
                 }
             ],
         }
+    
+    def fill_default(self):
+        """
+        Возвращает данные по умолчанию для упражнения 'Fill in the Blank Words'
+        """
+        return [
+            {
+                "text": "ua, uo, iä, ie, yö:",
+                "order": 10,
+                "questions": [
+                    {"question": "l[**:iä]vä"},
+                    {"question": "n[**:uo]ri"},
+                    {"question": "m[**:yö]hä"},
+                    {"question": "m[**:ua]mo"},
+                    {"question": "n[**:ie|ua]gla"},
+                ],
+            }
+        ]
