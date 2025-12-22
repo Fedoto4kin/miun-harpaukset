@@ -114,10 +114,6 @@ export default {
   color: #212529;
 }
 
-.comment-content >>> p {
-  margin-bottom: 1rem;
-}
-
 .comment-content >>> h1,
 .comment-content >>> h2,
 .comment-content >>> h3,
