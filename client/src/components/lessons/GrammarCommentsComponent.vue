@@ -13,7 +13,7 @@
           <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
               <font-awesome-icon :icon="['fas', 'info-circle']" class="text-info me-1" />
-              <img :src="'/img/ru-md.png'" class="ms-1" style="height: 24px;" />
+              <img :src="`/img/${comment.lang}-md.png`" class="ms-1" style="height: 24px;" />
               <span class="ms-2 fw-semibold text-dark"></span>
             </div>
             <div class="collapse-indicator">

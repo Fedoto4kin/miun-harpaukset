@@ -35,7 +35,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
 class GrammarCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = GrammarComment
-        fields = ["id", "html_content"]
+        fields = ["id", "html_content", "lang"]
         read_only_fields = ["id"]
 
 
