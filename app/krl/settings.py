@@ -154,9 +154,11 @@ if DEBUG:
 else:
     CORS_ALLOWED_ORIGINS = []
 
+LANGUAGE_CODE_RU = "ru"
+LANGUAGE_CODE_FI = "fi"
 LANGUAGE = (
-    ("ru", "Hormiksi"),
-    ("fi", "Šuomekši"),
+    (LANGUAGE_CODE_RU, "Hormiksi"),
+    (LANGUAGE_CODE_FI, "Šuomekši"),
 )
 
 CKEDITOR_CONFIGS = {

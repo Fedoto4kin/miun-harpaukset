@@ -17,6 +17,64 @@ const routes = [
     path: '/lexicon',
     name: 'Lexicon',
     component: LexiconComponent,
+    props: (route) => ({
+      // Обратная совместимость
+      query: route.query.q,
+      mode: route.query.reverse === 'true' ? 'translate' : 'search',
+      letter: route.query.letter
+    }),
+    // Добавляем переадресацию
+    beforeEnter: (to, from, next) => {
+      // Если есть параметры поиска, оставляем как есть
+      if (to.query.q || to.query.letter) {
+        next();
+      } else {
+        // Иначе перенаправляем на /lexicon/A
+        next('/lexicon/A');
+      }
+    }
+  },
+  {
+    // Новый формат для поиска
+    path: '/lexicon/search/:query',
+    name: 'LexiconSearch',
+    component: LexiconComponent,
+    props: (route) => ({
+      query: route.params.query,
+      mode: 'search'
+    }),
+  },
+  {
+    // Новый формат для обратного перевода
+    path: '/lexicon/translate/:query',
+    name: 'LexiconTranslate',
+    component: LexiconComponent,
+    props: (route) => ({
+      query: route.params.query,
+      mode: 'translate'
+    }),
+  },
+  {
+    // Новый формат для букв (один символ - это всегда буква)
+    path: '/lexicon/:letter',
+    name: 'LexiconLetter',
+    component: LexiconComponent,
+    props: (route) => ({
+      letter: route.params.letter
+    }),
+    // Валидация параметра буквы
+    beforeEnter: (to, from, next) => {
+      const letter = to.params.letter;
+      const validLetters = 'ABCČDEFGHIJKLMNOPRSŠZŽTUVYÄÖ';
+      
+      // Проверяем, что буква валидная (одна и входит в алфавит)
+      if (letter && letter.length === 1 && validLetters.includes(letter.toUpperCase())) {
+        next();
+      } else {
+        // Если буква невалидная, перенаправляем на A
+        next('/lexicon/A');
+      }
+    }
   },
   {
     path: '/lessons/:id?/:moduleId?',

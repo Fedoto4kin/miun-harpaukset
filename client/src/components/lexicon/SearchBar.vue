@@ -93,13 +93,22 @@ export default {
     const searchInput = ref(null);
     const suggestions = ref([]);
     const showMobileChars = ref(false);
-    const highlightedIndex = ref(-1); // Индекс подсвеченного элемента
+    const highlightedIndex = ref(-1);
     let inputTimeout = null;
 
+    // Методы для работы с текстом
     const clearSearchText = () => {
       searchText.value = '';
       suggestions.value = [];
       highlightedIndex.value = -1;
+    };
+
+    const setSearchText = (text) => {
+      searchText.value = text;
+    };
+
+    const getSearchText = () => {
+      return searchText.value;
     };
 
     watch(() => props.search, (newSearch) => {
@@ -108,7 +117,6 @@ export default {
 
     watch(() => props.reverseProp, (newReverse) => {
       reverse.value = newReverse;
-      clearSearchText();
     });
 
     const fetchSuggestions = async () => {
@@ -116,7 +124,7 @@ export default {
         try {
           const data = await fetchSearchSuggestionsGrouped(searchText.value, reverse.value);
           suggestions.value = data.map(item => item.word);
-          highlightedIndex.value = -1; // Сброс подсветки при новом запросе
+          highlightedIndex.value = -1;
         } catch (error) {
           console.error('Failed to fetch suggestions:', error);
           suggestions.value = [];
@@ -128,27 +136,30 @@ export default {
 
     const handleSearchButtonClick = () => {
       if (!searchText.value.trim()) {
-        emit('pushClear', 'A');
+        emit('pushClear');
         return;
       }
 
-      const params = { query: searchText.value };
-      if (reverse.value) {
-        params.reverse = reverse.value;
-      }
-      emit('pushSearchStr', params);
+      // Эмитим событие для родительского компонента
+      emit('pushSearchStr', searchText.value.trim());
       suggestions.value = [];
-      searchInput.value.blur(); // Убираем фокус с поля ввода
+      if (searchInput.value) {
+        searchInput.value.blur();
+      }
     };
 
     const handleSuggestionClick = (suggestion) => {
       searchText.value = suggestion;
       suggestions.value = [];
-      handleSearchButtonClick();
-      searchInput.value.blur(); // Убираем фокус с поля ввода
+      emit('pushSearchStr', suggestion);
+      if (searchInput.value) {
+        searchInput.value.blur();
+      }
     };
 
     const handleDiacrtButtonClick = (e) => {
+      if (!searchInput.value) return;
+      
       const position = searchInput.value.selectionStart;
       const updatedText = [
         searchText.value.slice(0, position),
@@ -157,9 +168,11 @@ export default {
       ].join('');
       searchText.value = updatedText;
       nextTick(() => {
-        searchInput.value.focus();
-        searchInput.value.selectionStart = searchInput.value.selectionEnd = position + 1;
-        fetchSuggestions();
+        if (searchInput.value) {
+          searchInput.value.focus();
+          searchInput.value.selectionStart = searchInput.value.selectionEnd = position + 1;
+          fetchSuggestions();
+        }
       });
     };
 
@@ -179,20 +192,26 @@ export default {
 
     const handleEnter = (event) => {
       if (highlightedIndex.value !== -1 && suggestions.value[highlightedIndex.value]) {
-        event.preventDefault(); // Предотвращаем стандартное поведение формы
+        event.preventDefault();
         handleSuggestionClick(suggestions.value[highlightedIndex.value]);
       } else {
-        handleSearchButtonClick(); // Если нет подсвеченного предложения, выполняем поиск по текущему значению
+        handleSearchButtonClick();
       }
-      searchInput.value.blur(); // Убираем фокус с поля ввода
+      if (searchInput.value) {
+        searchInput.value.blur();
+      }
     };
 
     onMounted(() => {
-      searchInput.value.focus();
+      if (searchInput.value) {
+        searchInput.value.focus();
+      }
     });
 
     const toggleReverse = (checked) => {
       reverse.value = checked;
+      searchText.value = '';
+      emit('reverseChanged', checked);
     };
 
     const toggleMobileChars = () => {
@@ -203,9 +222,10 @@ export default {
       if (inputTimeout) clearTimeout(inputTimeout);
       inputTimeout = setTimeout(() => {
         fetchSuggestions();
-      }, 300); // 300ms delay to debounce input
+      }, 300);
     };
 
+    // Экспортируем методы для родительского компонента
     return {
       searchText,
       reverse,
@@ -214,6 +234,8 @@ export default {
       showMobileChars,
       highlightedIndex,
       clearSearchText,
+      setSearchText,
+      getSearchText,
       fetchSuggestions,
       handleSearchButtonClick,
       handleSuggestionClick,

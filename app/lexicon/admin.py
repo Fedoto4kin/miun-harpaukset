@@ -31,7 +31,7 @@ class SpeechAdmin(admin.ModelAdmin):
     search_fields = ("text",)
 
 
-admin.site.site_title = "Ylläpitäjän paikka"
-admin.site.site_header = "Ylläpitäjän paikka"
+admin.site.site_title = "Izännän paikka"
+admin.site.site_header = "Izännän paikka"
 admin.site.register(Word, WordAdm)
 admin.site.register(Speech, SpeechAdmin)

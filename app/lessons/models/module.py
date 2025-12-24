@@ -48,7 +48,7 @@ class Module(models.Model):
         return f"{self.lesson.title} - {self.lesson.number}.{self.number}"
 
     class Meta:
-        verbose_name = "Modulli"
-        verbose_name_plural = "Modullit"
+        verbose_name = "Palane"
+        verbose_name_plural = "Palazet"
         unique_together = ("lesson", "number")
         ordering = ["number"]

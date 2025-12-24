@@ -341,7 +341,7 @@ export default {
 
   .sidebar-toggle {
     position: fixed;
-    bottom: 40%;
+    bottom: 30%;
     left: 0px;
     padding: 0.5em;
     background-color: #fff;

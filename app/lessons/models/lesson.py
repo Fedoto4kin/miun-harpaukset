@@ -33,6 +33,6 @@ class Lesson(models.Model):
         return self.lesson_speeches.exists()
 
     class Meta:
-        verbose_name = "Uroka"
+        verbose_name = "Urokka"
         verbose_name_plural = "Urokat"
         ordering = ["number"]

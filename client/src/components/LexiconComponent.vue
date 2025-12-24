@@ -10,7 +10,9 @@
       </h1>
       <SearchBar ref="searchBar" 
                 :reverse-prop="reverse" 
-                @pushSearchStr="getWordsBySearch" @pushClear="getWordsByClear" />
+                @pushSearchStr="handleSearchFromUI"
+                @pushClear="getWordsByClear"
+                @reverseChanged="handleReverseChange" />
     </div>
     <div class="d-flex p-2">
       <button class="btn btn-light border-secondary me-2 flex-shrink-0 align-self-start d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#abc"
@@ -48,6 +50,8 @@
 </template>
 
 <script>
+import { ref, onMounted, watch, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import WordCard from './lexicon/WordCard.vue';
 import SearchBar from './lexicon/SearchBar.vue';
 import ScrollToTopButton from './ui/ScrollToTopButton.vue';
@@ -62,216 +66,226 @@ export default {
     ScrollToTopButton,
     LoadingSpinner,
   },
-  data() {
-    return {
-      selectedOption: 'Karielan šana',
-      reverse: false,
-      title: 'Šanakniiga',
-      words: [],
-      letter: 'A',
-      abc: 'ABCČDEFGHIJKLMNOPRSŠZŽTUVYÄÖ',
-      loading: false,
-      message: '', // Message about the number of words found
-      searching: false, // Flag to track search state
-    };
-  },
-  computed: {
-    // Class for Bootstrap Alert based on search results
-    alertClass() {
-      return this.words.length > 0 ? 'alert-success' : 'alert-warning';
-    }
-  },
-  methods: {
-    // Handle letter click
-    async handleLetterClick(letter) {
-      // 1. Сначала закрываем алфавитную панель (мгновенно, без анимации)
-      this.collapseAlphabetWithoutAnimation();
-      
-      // 2. Затем загружаем данные
-      await this.getWordsByLetter(letter);
-      
-      // 3. Очищаем поисковую строку
-      this.$refs.searchBar.clearSearchText();
-    },
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
     
-    // Метод для сворачивания алфавитной панели на мобильных БЕЗ анимации
-    collapseAlphabetWithoutAnimation() {
+    const searchBar = ref(null);
+    const selectedOption = ref('Karielan šana');
+    const reverse = ref(false);
+    const title = ref('Šanakniiga');
+    const words = ref([]);
+    const letter = ref('A');
+    const abc = ref('ABCČDEFGHIJKLMNOPRSŠZŽTUVYÄÖ');
+    const loading = ref(false);
+    const message = ref('');
+    const searching = ref(false);
+    
+    const alertClass = computed(() => {
+      return words.value.length > 0 ? 'alert-success' : 'alert-warning';
+    });
+
+    // Инициализация на основе текущего URL
+    const initializeFromURL = async () => {
+      const { name, params } = route;
+      
+      if (name === 'LexiconLetter' && params.letter) {
+        // Буквенный поиск: /lexicon/A
+        await handleLetterFromURL(params.letter);
+      } else if (name === 'LexiconSearch' && params.query) {
+        // Прямой поиск: /lexicon/search/kala
+        reverse.value = false;
+        selectedOption.value = 'Karielan šana';
+        await handleSearchFromURL(params.query, false);
+      } else if (name === 'LexiconTranslate' && params.query) {
+        // Обратный перевод: /lexicon/translate/рыба
+        reverse.value = true;
+        selectedOption.value = 'Kiännökšeššä';
+        await handleSearchFromURL(params.query, true);
+      }
+      // Маршрут /lexicon теперь автоматически перенаправляется на /lexicon/A
+    };
+
+    // Обработка буквенного поиска из URL
+    const handleLetterFromURL = async (letterParam) => {
+      loading.value = true;
+      searching.value = false;
+      letter.value = letterParam.toUpperCase();
+      message.value = '';
+      words.value = [];
+      
+      try {
+        words.value = await fetchWordsByLetter(letter.value);
+        updateMessage(words.value.length);
+        
+        // Очищаем поисковую строку
+        if (searchBar.value) {
+          searchBar.value.clearSearchText();
+        }
+      } catch (error) {
+        message.value = 'Failed to fetch words. Please try again later.';
+      } finally {
+        loading.value = false;
+      }
+    };
+
+    // Обработка текстового поиска из URL
+    const handleSearchFromURL = async (query, isReverse) => {
+      loading.value = true;
+      searching.value = true;
+      letter.value = null;
+      message.value = '';
+      words.value = [];
+      
+      try {
+        const params = {
+          query: query,
+          reverse: isReverse
+        };
+        words.value = await fetchWordsBySearch(params);
+        updateMessage(words.value.length);
+        
+        // Устанавливаем текст в поисковой строке
+        if (searchBar.value) {
+          searchBar.value.setSearchText(query);
+        }
+      } catch (error) {
+        message.value = 'Ei voi löydy. Kuottekua jälgeh';
+      } finally {
+        loading.value = false;
+      }
+    };
+
+    // Обновление URL для буквенного поиска
+    const updateURLForLetter = (letterParam) => {
+      router.push({
+        name: 'LexiconLetter',
+        params: { letter: letterParam.toUpperCase() }
+      }).catch(() => {});
+    };
+
+    // Обновление URL для текстового поиска
+    const updateURLForSearch = (query, isReverse) => {
+      if (!query.trim()) {
+        const currentLetter = letter.value || 'A';
+        return updateURLForLetter(currentLetter);
+      }
+      
+      const routeName = isReverse ? 'LexiconTranslate' : 'LexiconSearch';
+      
+      router.push({
+        name: routeName,
+        params: { query: query.trim() }
+      }).catch(() => {});
+    };
+
+    // Клик по букве
+    const handleLetterClick = async (letterParam) => {
+      collapseAlphabetWithoutAnimation();
+      updateURLForLetter(letterParam);
+    };
+
+    // Поиск из UI (от SearchBar)
+    const handleSearchFromUI = (searchText) => {
+      updateURLForSearch(searchText, reverse.value);
+    };
+
+    // Очистка поиска
+    const getWordsByClear = () => {
+      collapseAlphabetWithoutAnimation();
+      const currentLetter = letter.value || 'A';
+      updateURLForLetter(currentLetter);
+    };
+
+    // Изменение направления поиска
+    const handleReverseChange = (isReverse) => {
+      reverse.value = isReverse;
+      selectedOption.value = isReverse ? 'Kiännökšeššä' : 'Karielan šana';
+      
+      // Если есть активный поиск, обновляем URL
+      if (searching.value && searchBar.value) {
+        const currentSearch = searchBar.value.getSearchText();
+        if (currentSearch && currentSearch.trim()) {
+          updateURLForSearch(currentSearch.trim(), isReverse);
+        }
+      }
+    };
+
+    // Изменение опции на мобильных
+    const handleSelectChange = () => {
+      const newReverse = selectedOption.value === 'Kiännökšeššä';
+      handleReverseChange(newReverse);
+    };
+
+    const updateMessage = (wordCount) => {
+      if (searching.value && wordCount) {
+        message.value = 'Löydy ' + wordCount;
+        message.value += (wordCount > 1) ? ' šanua' : ' šana';
+      } else if (searching.value) {
+        message.value = 'Ei nimidä löydyn';
+      } else {
+        message.value = '';
+      }
+    };
+
+    // Сворачивание алфавитной панели без анимации
+    const collapseAlphabetWithoutAnimation = () => {
       if (window.innerWidth < 992) {
         const abcCollapse = document.getElementById('abc');
         if (abcCollapse && abcCollapse.classList.contains('show')) {
-          // Сохраняем текущие стили transition
           const originalTransition = abcCollapse.style.transition;
           const originalWebkitTransition = abcCollapse.style.webkitTransition;
           
-          // Временно отключаем анимацию
           abcCollapse.style.transition = 'none';
           abcCollapse.style.webkitTransition = 'none';
           
-          // Убираем классы Bootstrap для закрытия
           abcCollapse.classList.remove('show');
           abcCollapse.classList.add('collapsing');
           
-          // Небольшая задержка для обновления DOM
           setTimeout(() => {
             abcCollapse.classList.remove('collapsing');
             abcCollapse.classList.add('collapse');
             
-            // Восстанавливаем transition
             abcCollapse.style.transition = originalTransition;
             abcCollapse.style.webkitTransition = originalWebkitTransition;
           }, 10);
           
-          // Обновляем состояние кнопки toggle
           const toggleButton = document.querySelector('[data-bs-target="#abc"]');
           if (toggleButton) {
             toggleButton.setAttribute('aria-expanded', 'false');
           }
         }
       }
-    },
-    
-    // Fetch words by letter
-    async getWordsByLetter(letter) {
-      this.loading = true;
-      this.letter = letter;
-      this.message = '';
-      this.searching = false; // Reset search flag
-      this.words = [];
-      try {
-        this.words = await fetchWordsByLetter(letter);
-        this.updateMessage(this.words.length); // Update message
-      } catch (error) {
-        this.message = 'Failed to fetch words. Please try again later.';
-      } finally {
-        this.loading = false;
-      }
-    },
-    
-    // Fetch words by search query
-    async getWordsBySearch(params) {
-      this.loading = true;
-      this.message = '';
-      this.letter = null;
-      this.searching = true; // Set search flag
-      try {
-        this.words = await fetchWordsBySearch(params);
-        this.updateMessage(this.words.length); // Update message
-      } catch (error) {
-        this.message = 'Ei voi löydy. Kuottekua jälgeh';
-      } finally {
-        this.loading = false;
-      }
-    },
-    
-    // Handle clear search
-    getWordsByClear() {
-      // 1. Сначала закрываем алфавитную панель
-      this.collapseAlphabetWithoutAnimation();
-      
-      // 2. Затем загружаем данные
-      const currentLetter = this.letter || 'A';
-      this.getWordsByLetter(currentLetter);
-    },
-    
-    // Update the message based on the number of words found
-    updateMessage(wordCount) {
-      if (this.searching && wordCount) {
-        this.message = 'Löydy ' + wordCount;
-        this.message += (wordCount > 1) ? ' šanua' : ' šana';
-      } else if (this.searching) {
-        this.message = 'Ei nimidä löydyn';
-      } else {
-        this.message = ''; // Reset message if search is not active
-      }
-    },
-    
-    handleSelectChange() {
-      this.reverse = this.selectedOption === 'Kiännökšeššä';
-    }
-  },
-  created() {
-    this.getWordsByLetter(this.letter);
-  },
-  mounted() {
-    document.title = this.title;
+    };
+
+    // Отслеживаем изменения маршрута
+    watch(() => route.fullPath, () => {
+      initializeFromURL();
+    }, { immediate: true });
+
+    onMounted(() => {
+      document.title = title.value;
+    });
+
+    return {
+      searchBar,
+      selectedOption,
+      reverse,
+      title,
+      words,
+      letter,
+      abc,
+      loading,
+      message,
+      searching,
+      alertClass,
+      handleLetterClick,
+      handleSearchFromUI,
+      getWordsByClear,
+      handleReverseChange,
+      handleSelectChange,
+      collapseAlphabetWithoutAnimation
+    };
   }
 };
 </script>
-
-
-<style scoped>
-.navbar {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.nav-item {
-  cursor: pointer;
-}
-
-.nav-item.active {
-  font-weight: bold;
-}
-
-.scroll-to-top-btn {
-  position: fixed;
-  bottom: 1%;
-  right: 1%;
-  padding: 10px 15px;
-  z-index: 1000;
-}
-
-/* Новые стили для кнопки и контейнера */
-.btn-abc {
-  flex-shrink: 0; /* Запрещаем кнопке изменять размер */
-  white-space: nowrap; /* Запрещаем перенос текста */
-}
-
-.collapse.navbar-collapse {
-  flex-grow: 1; /* Алфавит занимает оставшееся пространство */
-}
-
-/* Центрирование букв алфавита и перенос на новую строку */
-.d-flex.flex-wrap.justify-content-center {
-  width: 100%;
-  gap: 0.5rem; /* Отступ между кнопками */
-}
-
-/* Фикс для вертикального выравнивания кнопки */
-.align-self-start {
-  align-self: flex-start !important;
-}
-
-/* Стили для кнопок букв */
-.btn-primary {
-  min-width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-}
-
-@media (max-width: 991.98px) {
-  #abc.fast-collapse.collapsing {
-    transition: none !important;
-    -webkit-transition: none !important;
-  }
-}
-
-/* На мобильных уменьшаем кнопки */
-@media (max-width: 768px) {
-  .btn-primary {
-    min-width: 35px;
-    height: 35px;
-    font-size: 0.9rem;
-  }
-  
-  /* Класс для быстрого закрытия без анимации */
-  #abc.fast-collapse.collapsing {
-    transition: none !important;
-    -webkit-transition: none !important;
-  }
-}
-</style>
