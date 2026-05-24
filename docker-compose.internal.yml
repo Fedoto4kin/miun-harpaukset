@@ -1,0 +1,47 @@
+services:
+  web:
+    container_name: mhkk_web
+    build:
+      context: ./
+      dockerfile: services/django/Dockerfile
+    command: uwsgi --ini /app/uwsgi.ini
+    volumes:
+      - ./app:/app
+    expose:
+      - "8000"
+    environment:
+      - POSTGRES_PASSWORD=${PG_PASS}
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_DB=mhkk
+    depends_on:
+      - db
+    networks:
+      - mhkk-internal
+
+  db:
+    container_name: mhkk_db
+    image: postgres:14
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${PG_PASS}
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_DB=mhkk
+    networks:
+      - mhkk-internal
+
+  client:
+    container_name: mhkk_client
+    build:
+      context: ./
+      dockerfile: services/node/Dockerfile.prod
+    expose:
+      - "8080"
+    volumes:
+      - ./client:/app
+    networks:
+      - mhkk-internal
+
+networks:
+  mhkk-internal:
+    driver: bridge
