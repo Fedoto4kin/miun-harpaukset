@@ -24,7 +24,7 @@
             <!-- Подсказка поверх слота -->
             <div v-if="isShowHints && hintForField[questionIndex]?.[index]" class="hint-overlay"
               :style="{ minWidth: `${longestPairLength}em` }">
-              {{ getCorrectPair(word, questionIndex) }}
+              {{ getCorrectPair(questionIndex, index) }}
             </div>
 
             <div class="input-group-append">
@@ -222,10 +222,14 @@ export default {
     checkAnswers() {
       this.resetResults();
       let allCorrect = true;
+      // Сопоставляем ответ с правильной парой ПО ИНДЕКСУ, а не по тексту слова.
+      // words[questionIndex] строится из pairs.map(p => p.word), поэтому индексы
+      // совпадают один-в-один. Это позволяет корректно обрабатывать одинаковые
+      // слова с разными парами (например, два "kohalline").
       this.results = this.userAnswers.map((answers, questionIndex) =>
         answers.map((answer, index) => {
-          const pair = this.data.questions[questionIndex].pairs.find(pair => pair.word === this.words[questionIndex][index]);
-          const isCorrect = pair && pair.pair === answer;
+          const correctPair = this.data.questions[questionIndex].pairs[index].pair;
+          const isCorrect = correctPair === answer;
           if (!isCorrect) {
             allCorrect = false;
           }
@@ -241,13 +245,13 @@ export default {
 
     resetResults() {
       this.checkResult = false;
-      this.results = [];
-      this.results = this.data.questions.map(() => Array(this.data.questions[0].pairs.length).fill(undefined));
+      // Используем длину пар КАЖДОГО вопроса, а не только первого.
+      this.results = this.data.questions.map(question => Array(question.pairs.length).fill(undefined));
     },
 
-    getCorrectPair(word, questionIndex) {
-      const pair = this.data.questions[questionIndex].pairs.find(pair => pair.word === word);
-      return pair ? pair.pair : '';
+    getCorrectPair(questionIndex, index) {
+      // Берём пару по индексу, чтобы одинаковые слова не конфликтовали.
+      return this.data.questions[questionIndex].pairs[index].pair;
     },
     toggleShowHints(show) {
       this.isShowHints = show;
