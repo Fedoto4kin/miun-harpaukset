@@ -1,0 +1,33 @@
+---
+description: Как добавлять и менять типы упражнений
+globs: app/lessons/exercises/**/*.py,app/lessons/models/exercise.py,client/src/components/lessons/exercises/**/*
+alwaysApply: false
+---
+
+# Система упражнений
+
+Упражнение = JSON в `Exercise.data` + `exercise_type` + опциональная проверка `has_answers_check`.
+
+## Backend (контракт)
+
+1. Класс-схема в `app/lessons/exercises/` наследует `ExerciseSchema`:
+   - `schema` — JSON Schema (jsonschema)
+   - `fill_default()` — пример данных для admin
+2. Зарегистрировать в `exercises/__init__.py`
+3. Добавить значение в `ExerciseType` enum (`models/exercise.py`)
+4. Добавить в `type_to_schema_class` в `Exercise.get_exercise_schema_instance`
+5. `pre_save` сам подставит default, если `data` пустой
+
+Пример типа: `MatchPair` → `MatchPairExercise`.
+
+## Frontend (фабрика)
+
+1. Vue-компонент в `exercises/variants/`
+2. Зарегистрировать case в `ExerciseFabricComponent.vue` (имя case = `ExerciseType.value`)
+3. Props: минимум `data`; уважать `hasCheck` если проверка опциональна
+
+## Инварианты
+
+- Строка `exercise_type` должна совпадать на бэке и во фронте
+- Не менять форму JSON существующих типов без миграции контента/фикстур
+- Проверка ответов — на клиенте; API только отдаёт `data`

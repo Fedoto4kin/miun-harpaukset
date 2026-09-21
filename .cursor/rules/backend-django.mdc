@@ -1,0 +1,46 @@
+---
+description: Паттерны Django/DRF backend
+globs: app/**/*.py
+alwaysApply: false
+---
+
+# Backend-паттерны
+
+## Приложения
+
+- `lexicon` — словарь (Word, Definition, Pos, Speech, Stem)
+- `lessons` — уроки, модули, упражнения, аудио, грамматические комментарии
+- `grammar` — самостоятельные грамматические таблицы (`GrammarTable`)
+- `api_v0` — единственный публичный HTTP-слой (views + serializers)
+
+Модели живут в доменных apps; API не содержит бизнес-моделей.
+
+## API
+
+- Префикс: `/api/v0/` (`krl/urls.py` → `api_v0.urls`)
+- ViewSets (роутер): `lessons`, `modules`, `lexicon/pos`
+- APIView / ListAPIView: поиск словаря, word-card, module content, grammar
+- Сериализаторы: `api_v0/serializers/`
+- Views сгруппированы по домену: `lessonsViews/`, `lexiconViews/`, `grammarViews.py`
+
+Клиентский axios: dev → `http://localhost:8000/api`, prod → `/api`.
+
+## Контент и медиа
+
+- HTML модулей — CKEditor (`RichTextField`)
+- Аудио — GenericForeignKey `LessonSpeech` → Lesson или Module; код `X.Y`
+- Поиск карельских слов: `Word.search_prepare` + алфавит `KRL_ABC`
+- Языки определений: `LANGUAGE_CODE_RU` / `LANGUAGE_CODE_FI` в settings
+
+## Фикстуры / данные
+
+```bash
+python manage.py dumpdata lessons|lexicon|grammar --indent 4
+python manage.py loaddata <app>/fixtures/<file>.json
+```
+
+## При изменениях
+
+- Новые API-эндпоинты — только в `api_v0`, с сериализатором
+- Не ломать карельский алфавит и slugify (`ü`→`y`, диакритика)
+- DEBUG/SECRET_KEY в settings — legacy; не «улучшать» без запроса

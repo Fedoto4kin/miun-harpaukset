@@ -1,0 +1,38 @@
+---
+description: Паттерны Vue frontend
+globs: client/**/*.{vue,js}
+alwaysApply: false
+---
+
+# Frontend-паттерны
+
+## Организация
+
+- Страницы-роуты: `components/*Component.vue` (Home, Lexicon, Lessons, …)
+- Уроки: `components/lessons/`
+- Упражнения: `components/lessons/exercises/variants/`
+- HTTP: `src/services/*Service.js` + общий `src/axios.js`
+- UI-хелперы: `components/ui/`, mixin `mixins/confettiMixin.js`
+
+## Роутинг
+
+- `/lessons/:id?/:moduleId?` — уроки/модули
+- Лексикон: `/lexicon/:letter`, `/lexicon/search/:query`, `/lexicon/translate/:query`
+- Алфавит букв: `ABCČDEFGHIJKLMNOPRSŠZŽTUVYÄÖ`
+- Grammar: `/grammar/:id`
+
+## Компоненты
+
+- Смесь Options API и Composition API (`setup`) — Lexicon уже на Composition; новые сложные экраны предпочтительно Composition
+- Контент модуля: HTML через `v-html` + фабрика упражнений + grammar comment + audio
+- Виджет в HTML модулей: `[[widget:lesson_cover]]` → `LessonCoverContentComponent`
+
+## Сервисы
+
+Не вызывать axios напрямую из компонентов без нужды — использовать `lessonsService`, `lexiconService`, `searchService`, `grammarService`.
+
+## UX упражнений
+
+- Props: `data` (JSON схемы) и часто `hasCheck` / `has_answers_check`
+- Проверка ответов + `HintButton` + confetti при успехе (`confettiMixin`)
+- Спецсимволы карельского: `SpecialCharsButtons`

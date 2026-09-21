@@ -22,6 +22,8 @@ For deployment, maintenance, and development instructions, please refer to our t
 ### 🔧 **Development & Deployment**
 - [Development Setup & Commands](./app/README.md)
 - [Front-end](./client/README.md)
+- [Agent knowledge base](./docs/AGENT_KNOWLEDGE.md)
+- [Backlog](./backlog.md)
 
 ---
 

@@ -1,0 +1,43 @@
+---
+description: Обзор архитектуры Miun harpaukšet (MHKK)
+alwaysApply: true
+---
+
+# Архитектура MHKK
+
+Веб-курс тверского карельского языка. Сайт: https://karielankieleh.ru
+
+## Стек
+
+| Слой | Технологии |
+|------|------------|
+| Backend | Django 3.2 + DRF, PostgreSQL 14, uWSGI (prod) |
+| Frontend | Vue 3 + Vue Router 4, Axios, Bootstrap 5 |
+| Infra | Docker Compose; nginx (хост в prod) |
+
+## Структура репозитория
+
+- `app/` — Django-проект `krl`, приложения: `lexicon`, `lessons`, `grammar`, `api_v0`
+- `client/` — Vue SPA (`src/components`, `src/services`, `src/router`)
+- `services/` — Dockerfiles (django, node), nginx-конфиги
+- `docker-compose.yml` — dev; `docker-compose.internal.yml` — prod-подобная сборка
+
+## Доменные термины (UI / admin на карельском)
+
+- **Urokka** — урок (`Lesson`)
+- **Palane** — модуль урока (`Module`)
+- **Annanda** — упражнение (`Exercise`)
+- **Pagina** — аудиозапись (`LessonSpeech`)
+- **Šana** — словарная единица (`Word`)
+
+## Потоки данных
+
+1. Контент создаётся в Django Admin (CKEditor HTML + JSON упражнений + MP3).
+2. Клиент читает только REST API `/api/v0/` (ReadOnly).
+3. Prod: nginx отдаёт `client/dist`, проксирует `/api`, `/admin`, `/media`, `/static`.
+
+## Ключевые документы
+
+- Деплой: `app/README.md`
+- Бэклог: `backlog.md`
+- Расширенная база знаний: `docs/AGENT_KNOWLEDGE.md`
