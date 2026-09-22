@@ -1,234 +1,166 @@
-## 📖 **Extended README**
+## 🚀 **MIUN‑HARPAUKSET — Короткая инструкция деплоя (Prod)**
 
-### TO-DO
-*Add your development tasks here*
-
----
-
-## 🚀 **Development Commands**
-
-### Dev Help
-```bash
-# Migrations
-docker compose exec -it web python manage.py makemigrations
-docker compose exec -it web python manage.py migrate
-
-# Create lesson modules
-docker compose exec -it web python manage.py create_modules 1 5
-
-# Clear not-used audio files
-docker compose exec -it web python manage.py clear_lesson_speeches
-```
+### 🧩 Структура проекта
+- Django backend → контейнер **mhkk_web**
+- PostgreSQL → контейнер **mhkk_db**
+- Vue frontend → контейнер **mhkk_client** (используется только для сборки)
+- nginx на хосте → отдаёт `/var/www/mhkk_client`
 
 ---
 
-## 🌐 **Production Deployment (First Time)**
-
-### 1. Server Preparation
+## 🗄 1. **Обновление кода**
 ```bash
-# Create user and clone code
-sudo adduser mhkk
-sudo -u mhkk -i
-cd ~
-git clone <your-repo> miun-harpaukset
-cd miun-harpaukset
-```
-
-### 2. Environment Setup
-```bash
-# Copy environment variables
-cp .env.example .env
-
-# Set user/group IDs
-echo "USER_ID=$(id -u)" >> .env
-echo "GROUP_ID=$(id -g)" >> .env
-
-# Build containers
-docker compose -f docker-compose-prod.yml build
-```
-
-### 3. SSL Setup (Certbot)
-*Run certbot to obtain SSL certificates*
-@todo 
-### 4. Backend Initialization
-```bash
-# Database migrations
-docker exec -it mhkk_django python manage.py migrate
-
-# Load fixtures
-docker exec -it mhkk_django python manage.py loaddata lexicon/fixtures/whole_lexicon.json
-docker exec -it mhkk_django python manage.py loaddata lexicon/fixtures/lessons.json
-
-# Create administrator
-docker exec -it mhkk_django python manage.py createsuperuser
-```
-
-### 5. Frontend Build
-```bash
-docker compose -f docker-compose-prod.yml run client npm install
-docker compose -f docker-compose-prod.yml run client npm run build
-```
-
----
-
-## 🔄 **Version Update (Deployment)**
-
-```bash
-cd /home/mhkk/miun-harpaukset
+cd ~/miun-harpaukset
 git pull
-bash ./upgrade.sh
+```
 
-# Optional: Update fixtures if needed
+Если менялись зависимости — пересобрать контейнеры.
+
+---
+
+## 🗃 2. **Пересборка и запуск БД**
+Полный сброс (если нужно пересоздать БД):
+
+```bash
+docker compose -f docker-compose.internal.yml down -v
+docker compose -f docker-compose.internal.yml up -d db
+```
+
+Проверка:
+```bash
+docker compose -f docker-compose.internal.yml logs -f db
+```
+
+Ожидаем: `database system is ready to accept connections`.
+
+---
+
+## 🐍 3. **Пересборка и запуск Django**
+```bash
+docker compose -f docker-compose.internal.yml build web --no-cache
+docker compose -f docker-compose.internal.yml up -d web
+```
+
+Миграции:
+```bash
+docker compose -f docker-compose.internal.yml exec web python manage.py migrate
+```
+
+Проверка API:
+```bash
+curl -I https://karielankieleh.ru/api/
 ```
 
 ---
 
-## 📊 **Data Management**
-
-### 1. Create Data Dumps
+## 🎨 4. **Сборка фронтенда**
+Очистить старый dist:
 ```bash
-# Lessons
+rm -rf client/dist
+mkdir client/dist
+chown krl:krl client/dist
+```
+
+Сборка:
+```bash
+docker compose -f docker-compose.internal.yml run client npm install
+docker compose -f docker-compose.internal.yml run client npm run build
+```
+
+Проверка:
+```bash
+ls -la client/dist
+```
+
+---
+
+## 🌐 5. **Развёртывание фронтенда в nginx**
+Очистить старый билд:
+```bash
+sudo rm -rf /var/www/mhkk_client/*
+```
+
+Скопировать новый:
+```bash
+sudo cp -r client/dist/* /var/www/mhkk_client/
+```
+
+Перезагрузить nginx:
+```bash
+sudo systemctl reload nginx
+```
+
+Проверка:
+```bash
+curl -I https://karielankieleh.ru
+```
+
+---
+
+## 🔄 6. **Обновление версии (быстрый деплой)**
+```bash
+cd ~/miun-harpaukset
+git pull
+docker compose -f docker-compose.internal.yml build web
+docker compose -f docker-compose.internal.yml up -d web
+docker compose -f docker-compose.internal.yml run client npm run build
+sudo rm -rf /var/www/mhkk_client/*
+sudo cp -r client/dist/* /var/www/mhkk_client/
+sudo systemctl reload nginx
+```
+
+---
+
+## 📊 7. **Дамп и загрузка данных**
+Создание дампов:
+```bash
 docker compose exec -it web python manage.py dumpdata lessons --indent 4 > app/lessons/fixtures/lessons.json
-
-# Lexicon
 docker compose exec -it web python manage.py dumpdata lexicon --indent 4 > app/lexicon/fixtures/lexicon.json
-
-# Grammar
 docker compose exec -it web python manage.py dumpdata grammar --indent 4 > app/grammar/fixtures/grammar.json
 ```
 
-### 2. Upload to Server
-*Upload created JSON files to the server*
-
-### 3. Data Loading
+Загрузка (словарь / грамматика):
 ```bash
-# Clear tables (if needed)
-# Load data
-docker exec -it mhkk_django python manage.py loaddata lessons/fixtures/lessons.json
-docker exec -it mhkk_django python manage.py loaddata lexicon/fixtures/lexicon.json
-docker exec -it mhkk_django python manage.py loaddata lexicon/fixtures/grammar.json
+docker compose exec -it web python manage.py loaddata lexicon/fixtures/lexicon.json
+docker compose exec -it web python manage.py loaddata grammar/fixtures/grammar.json
 ```
+
+### Уроки с прода → локально (без SSH)
+
+1. На проде снимите дамп `lessons` в `app/lessons/fixtures/lessons.json` (команда выше) и доставьте файл на локаль (git / scp / иное).
+2. Локально очистите только `lessons` и загрузите фикстуру:
+```bash
+./reload_lessons_fixtures.sh          # очистка + loaddata
+./reload_lessons_fixtures.sh --clear-only
+./reload_lessons_fixtures.sh -y       # без подтверждения
+```
+
+Скрипт не ходит на прод по SSH: нужна уже лежащая локально фикстура.  
+`LessonSpeech.content_type` при загрузке автоматически подгоняется под локальные ContentType.  
+Медиа (`media/lessons/*.mp3`) в JSON нет — при необходимости копируйте отдельно.
 
 ---
 
-## 🧹 **System Maintenance & Cleanup**
-
-### ⚙️ **Automatic Cleanup (Recommended)**
-
-The system is configured for automatic cleanup to maintain disk space.
-
-#### Root Cron Setup:
+## 🧹 8. **Очистка системы**
+Docker:
 ```bash
-sudo crontab -e
-
-# Add these lines:
-# Docker cleanup (Sunday 3:00)
-0 3 * * 0 /usr/bin/docker image prune -f && /usr/bin/docker volume prune -f
-
-# APT cache cleanup (Sunday 4:00)
-0 4 * * 0 /usr/bin/apt clean && /usr/bin/apt autoclean
-
-# System journal cleanup (Sunday 5:00)
-0 5 * * 0 /usr/bin/journalctl --vacuum-time=7d
-```
-
-#### User Cron (for certbot renewal):
-```bash
-# As mhkk user, edit crontab:
-crontab -e
-
-# Add to reload nginx after certbot renewal:
-0 3 * * * docker exec mhkk_nginx nginx -s reload
-```
-
-### 🔧 **Manual Cleanup Commands**
-
-#### Docker Space Management:
-```bash
-# Check disk usage
-docker system df
-
-# Remove unused images
+docker system prune -f
 docker image prune -a -f
-
-# Remove build cache
 docker builder prune -f
-
-# Remove stopped containers
 docker container prune -f
-
-# Remove unused networks
 docker network prune -f
 ```
 
-#### System Space Management:
+APT:
 ```bash
-# Check disk usage
-df -h
-
-# Clear APT cache
 sudo apt clean
 sudo apt autoclean
-
-# Remove old kernels
 sudo apt autoremove --purge
+```
 
-# Clean system logs
+Логи:
+```bash
 sudo journalctl --vacuum-time=7d
 ```
 
-#### Application-Specific Cleanup:
-```bash
-# Clear Django static files cache
-docker exec mhkk_django -it python manage.py collectstatic --clear
-
-# Clear Django cache
-docker exec mhkk_django -it python manage.py clearcache
-```
-
-### 📊 **Monitoring Disk Space**
-
-```bash
-# Quick disk check
-df -h
-
-# Docker disk usage
-docker system df -v
-
-# Large files in /var
-sudo du -h --max-depth=1 /var | sort -hr
-```
-
-### 🛡️ **Safety Notes**
-
-1. **Docker volumes**: `docker volume prune` only removes **unused named volumes**. Your PostgreSQL data in `./db` bind mount is safe.
-2. **Build cache**: Clearing build cache may slow down subsequent builds but saves significant space.
-3. **Logs**: Keeping 7 days of logs is usually sufficient for debugging while saving space.
-4. **Images**: Only unused images are removed. Running containers are not affected.
-
-### 📝 **Cleanup Script**
-
-For convenience, create `/usr/local/bin/cleanup-system.sh`:
-```bash
-#!/bin/bash
-echo "=== System Cleanup $(date) ==="
-echo "1. Docker cleanup..."
-docker system prune -f
-echo "2. APT cleanup..."
-apt clean && apt autoclean
-echo "3. Log cleanup..."
-journalctl --vacuum-time=7d
-echo "Cleanup completed"
-```
-
-Make executable: `sudo chmod +x /usr/local/bin/cleanup-system.sh`
-
 ---
-
-## **Support**
-
-For issues with the deployment or maintenance, check:
-- Docker logs: `docker-compose -f docker-compose-prod.yml logs`
-- Nginx logs: `docker logs mhkk_nginx`
-- Django logs: `docker logs mhkk_django`
-- System logs: `journalctl -u docker`
