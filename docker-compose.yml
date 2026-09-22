@@ -12,9 +12,12 @@ services:
       - ./app:/app/
       - ./client/dist:/var/www/html
     depends_on:
-      - web
-      - db
-      - client
+      web:
+        condition: service_started
+      db:
+        condition: service_started
+      client:
+        condition: service_started
     networks:
       - mhkk-net
 
