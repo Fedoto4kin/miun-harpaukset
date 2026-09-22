@@ -125,18 +125,45 @@ docker compose exec -it web python manage.py loaddata lexicon/fixtures/lexicon.j
 docker compose exec -it web python manage.py loaddata grammar/fixtures/grammar.json
 ```
 
-### Уроки с прода → локально (без SSH)
+### Уроки с прода → локально (полный поток, без SSH с локали)
 
-1. На проде снимите дамп `lessons` в `app/lessons/fixtures/lessons.json` (команда выше) и доставьте файл на локаль (git / scp / иное).
-2. Локально очистите только `lessons` и загрузите фикстуру:
+Схема: **прод (dump) → git commit/push → локаль (pull) → `./reload_lessons_fixtures.sh`**.  
+Скрипт на локали сам на прод не ходит: нужна уже лежащая фикстура.
+
+**1. Прод — выгрузка** (на сервере, в каталоге проекта):
+
 ```bash
-./reload_lessons_fixtures.sh          # очистка + loaddata
-./reload_lessons_fixtures.sh --clear-only
-./reload_lessons_fixtures.sh -y       # без подтверждения
+cd ~/miun-harpaukset
+docker compose -f docker-compose.internal.yml exec -T web \
+  python manage.py dumpdata lessons --indent 4 \
+  > app/lessons/fixtures/lessons.json
 ```
 
-Скрипт не ходит на прод по SSH: нужна уже лежащая локально фикстура.  
-`LessonSpeech.content_type` при загрузке автоматически подгоняется под локальные ContentType.  
+**2. Прод — в git:**
+
+```bash
+git add app/lessons/fixtures/lessons.json
+git commit -m "Update lessons fixtures"
+git push
+```
+
+**3. Локаль — получение:**
+
+```bash
+git pull
+```
+
+Файл: `app/lessons/fixtures/lessons.json`.
+
+**4. Локаль — загрузка в БД** (очищает только `lessons`, словарь и grammar не трогает):
+
+```bash
+./reload_lessons_fixtures.sh          # спросить → очистить → loaddata
+./reload_lessons_fixtures.sh -y       # без подтверждения
+./reload_lessons_fixtures.sh --clear-only
+```
+
+При загрузке `LessonSpeech.content_type` подгоняется под локальные ContentType.  
 Медиа (`media/lessons/*.mp3`) в JSON нет — при необходимости копируйте отдельно.
 
 ---
