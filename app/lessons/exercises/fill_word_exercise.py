@@ -84,19 +84,22 @@ class FillWordExercise(ExerciseSchema):
                             "minItems": 1,
                         }
                     },
-                    "examples": {
-                        "čolka": ["1:7", "1:8", "1:9", "2:8", "2:9"],
-                        "kurvičat": [
-                            "4:1",
-                            "5:1",
-                            "6:1",
-                            "7:1",
-                            "8:1",
-                            "8:2",
-                            "8:3",
-                            "9:3",
-                        ],
-                    },
+                    # JSON Schema `examples` must be an array of example values
+                    "examples": [
+                        {
+                            "čolka": ["1:7", "1:8", "1:9", "2:8", "2:9"],
+                            "kurvičat": [
+                                "4:1",
+                                "5:1",
+                                "6:1",
+                                "7:1",
+                                "8:1",
+                                "8:2",
+                                "8:3",
+                                "9:3",
+                            ],
+                        }
+                    ],
                 },
             },
             "required": ["field", "words"],

@@ -141,7 +141,34 @@ docker compose exec -it web python manage.py loaddata grammar/fixtures/grammar.j
 
 ---
 
-## 🧹 8. **Очистка системы**
+## 🧪 8. **Тесты (backend)**
+
+Локально (dev-compose, контейнер `mhkk_django` / сервис `web`):
+
+```bash
+docker compose exec web python manage.py test lexicon.tests lessons.tests --verbosity=2
+```
+
+Отдельно:
+
+```bash
+# словарь: search_prepare, krl_slugify, word_clean
+docker compose exec web python manage.py test lexicon.tests.test_word --verbosity=2
+
+# схемы упражнений + код LessonSpeech (X.Y)
+docker compose exec web python manage.py test lessons.tests --verbosity=2
+
+# парсер основ (stem_import)
+docker compose exec web python manage.py test lexicon.tests.test_stem_import --verbosity=2
+```
+
+На проде тот же `manage.py test`, через `docker compose -f docker-compose.internal.yml exec web …`.
+
+Покрытие сейчас: нормализация `Word`, контракты `ExerciseSchema` (`fill_default` ↔ `validate`), `LessonSpeech.clean`, `stem_import`. Фронтовых тестов пока нет.
+
+---
+
+## 🧹 9. **Очистка системы**
 Docker:
 ```bash
 docker system prune -f
