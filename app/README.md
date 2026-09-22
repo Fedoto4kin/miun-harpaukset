@@ -1,10 +1,20 @@
-## 🚀 **MIUN‑HARPAUKSET — Короткая инструкция деплоя (Prod)**
+## 🚀 **MIUN‑HARPAUKSET — Инструкция деплоя (Prod)**
 
 ### 🧩 Структура проекта
-- Django backend → контейнер **mhkk_web**
+- Django backend → контейнер **mhkk_web** (`docker-compose.internal.yml`)
 - PostgreSQL → контейнер **mhkk_db**
-- Vue frontend → контейнер **mhkk_client** (используется только для сборки)
-- nginx на хосте → отдаёт `/var/www/mhkk_client`
+- Vue frontend → контейнер **mhkk_client** (только для `npm run build`, в runtime не нужен)
+- **nginx на хосте** (systemd) → отдаёт SPA из `/var/www/mhkk_client`, проксирует `/api`, `/admin`, `/media`, `/static`
+
+Прод-compose **без** nginx в Docker. Файл `docker-compose-prod.yml` (nginx+certbot в контейнерах) — **legacy**, для текущего прода не использовать.
+
+Compose на сервере всегда с явным файлом:
+
+```bash
+docker compose -f docker-compose.internal.yml …
+```
+
+Ниже: §1–5 — детали по шагам; §6 — практический деплой изменений кода.
 
 ---
 
@@ -14,12 +24,12 @@ cd ~/miun-harpaukset
 git pull
 ```
 
-Если менялись зависимости — пересобрать контейнеры.
+Если менялись зависимости Python/Node — см. §6 (когда нужен `build` / `npm install`).
 
 ---
 
 ## 🗃 2. **Пересборка и запуск БД**
-Полный сброс (если нужно пересоздать БД):
+Полный сброс (если нужно пересоздать БД) — **осторожно, удаляет данные**:
 
 ```bash
 docker compose -f docker-compose.internal.yml down -v
@@ -46,6 +56,11 @@ docker compose -f docker-compose.internal.yml up -d web
 docker compose -f docker-compose.internal.yml exec web python manage.py migrate
 ```
 
+Статика Django Admin (если отдаётся через host nginx `/static`):
+```bash
+docker compose -f docker-compose.internal.yml exec web python manage.py collectstatic --noinput
+```
+
 Проверка API:
 ```bash
 curl -I https://karielankieleh.ru/api/
@@ -54,7 +69,7 @@ curl -I https://karielankieleh.ru/api/
 ---
 
 ## 🎨 4. **Сборка фронтенда**
-Очистить старый dist:
+Очистить старый dist (по необходимости):
 ```bash
 rm -rf client/dist
 mkdir client/dist
@@ -63,9 +78,11 @@ chown krl:krl client/dist
 
 Сборка:
 ```bash
-docker compose -f docker-compose.internal.yml run client npm install
-docker compose -f docker-compose.internal.yml run client npm run build
+docker compose -f docker-compose.internal.yml run --rm client npm install
+docker compose -f docker-compose.internal.yml run --rm client npm run build
 ```
+
+`npm install` нужен, если менялся `client/package.json` / lockfile; иначе достаточно `npm run build`.
 
 Проверка:
 ```bash
@@ -74,19 +91,12 @@ ls -la client/dist
 
 ---
 
-## 🌐 5. **Развёртывание фронтенда в nginx**
-Очистить старый билд:
+## 🌐 5. **Развёртывание фронтенда в nginx (хост)**
+Контейнер nginx **не** поднимаем. Копируем билд в каталог, откуда читает systemd-nginx:
+
 ```bash
 sudo rm -rf /var/www/mhkk_client/*
-```
-
-Скопировать новый:
-```bash
 sudo cp -r client/dist/* /var/www/mhkk_client/
-```
-
-Перезагрузить nginx:
-```bash
 sudo systemctl reload nginx
 ```
 
@@ -97,13 +107,75 @@ curl -I https://karielankieleh.ru
 
 ---
 
-## 🔄 6. **Обновление версии (быстрый деплой)**
+## 🔄 6. **Деплой изменений кода**
+
+### Что выбрать
+
+| Что изменилось | Действия |
+|----------------|----------|
+| Только Vue (`client/`) | pull → `npm run build` → copy в `/var/www/mhkk_client` → `reload nginx` |
+| Django без новых пакетов / без миграций | pull → `up -d web` (том `./app` уже смонтирован; при uWSGI иногда нужен restart) |
+| Миграции моделей | pull → `up -d web` → **`migrate`** |
+| `requirements.txt` / Dockerfile | pull → **`build web`** → `up -d web` → `migrate` → `collectstatic` |
+| `package.json` / lock | pull → **`npm install`** → `npm run build` → copy → reload nginx |
+| Типичный релиз (бэк + фронт) | полный цикл ниже или `./upgrade.sh` |
+
+Не делайте `compose down` на проде без нужды — это останавливает БД.  
+Не используйте `docker-compose-prod.yml` и не поднимайте nginx из Docker.
+
+### Полный цикл (бэк + фронт)
+
 ```bash
 cd ~/miun-harpaukset
-git pull
+git pull --ff-only
+
+# Backend
 docker compose -f docker-compose.internal.yml build web
+docker compose -f docker-compose.internal.yml up -d db web
+docker compose -f docker-compose.internal.yml exec -T web python manage.py migrate
+docker compose -f docker-compose.internal.yml exec -T web python manage.py collectstatic --noinput
+
+# Frontend → host nginx
+docker compose -f docker-compose.internal.yml run --rm client npm install   # если менялись зависимости
+docker compose -f docker-compose.internal.yml run --rm client npm run build
+sudo rm -rf /var/www/mhkk_client/*
+sudo cp -r client/dist/* /var/www/mhkk_client/
+sudo systemctl reload nginx
+```
+
+Проверки:
+```bash
+curl -I https://karielankieleh.ru/
+curl -I https://karielankieleh.ru/api/
+```
+
+### Скрипт `./upgrade.sh`
+
+Тот же полный цикл (internal compose + host nginx). На сервере из корня репо:
+
+```bash
+./upgrade.sh                 # бэк + фронт (с npm install)
+./upgrade.sh --skip-frontend # только Django (build, migrate, collectstatic)
+./upgrade.sh --skip-backend  # только SPA → /var/www/mhkk_client
+./upgrade.sh --no-npm-install  # фронт без npm install
+```
+
+Репозиторий должен быть чистым (иначе скрипт откажется делать `git pull`).
+
+### Только бэкенд (кратко)
+
+```bash
+git pull --ff-only
+docker compose -f docker-compose.internal.yml build web   # если менялись зависимости
 docker compose -f docker-compose.internal.yml up -d web
-docker compose -f docker-compose.internal.yml run client npm run build
+docker compose -f docker-compose.internal.yml exec -T web python manage.py migrate
+```
+
+### Только фронтенд (кратко)
+
+```bash
+git pull --ff-only
+docker compose -f docker-compose.internal.yml run --rm client npm run build
 sudo rm -rf /var/www/mhkk_client/*
 sudo cp -r client/dist/* /var/www/mhkk_client/
 sudo systemctl reload nginx
@@ -112,17 +184,20 @@ sudo systemctl reload nginx
 ---
 
 ## 📊 7. **Дамп и загрузка данных**
-Создание дампов:
+Создание дампов (на проде — с `docker-compose.internal.yml`):
 ```bash
-docker compose exec -it web python manage.py dumpdata lessons --indent 4 > app/lessons/fixtures/lessons.json
-docker compose exec -it web python manage.py dumpdata lexicon --indent 4 > app/lexicon/fixtures/lexicon.json
-docker compose exec -it web python manage.py dumpdata grammar --indent 4 > app/grammar/fixtures/grammar.json
+docker compose -f docker-compose.internal.yml exec -T web \
+  python manage.py dumpdata lessons --indent 4 > app/lessons/fixtures/lessons.json
+docker compose -f docker-compose.internal.yml exec -T web \
+  python manage.py dumpdata lexicon --indent 4 > app/lexicon/fixtures/lexicon.json
+docker compose -f docker-compose.internal.yml exec -T web \
+  python manage.py dumpdata grammar --indent 4 > app/grammar/fixtures/grammar.json
 ```
 
-Загрузка (словарь / грамматика):
+Загрузка (словарь / грамматика), локально обычно через `docker compose` без `-f`:
 ```bash
-docker compose exec -it web python manage.py loaddata lexicon/fixtures/lexicon.json
-docker compose exec -it web python manage.py loaddata grammar/fixtures/grammar.json
+docker compose exec -T web python manage.py loaddata lexicon/fixtures/lexicon.json
+docker compose exec -T web python manage.py loaddata grammar/fixtures/grammar.json
 ```
 
 ### Уроки с прода → локально (полный поток, без SSH с локали)
