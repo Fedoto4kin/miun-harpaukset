@@ -10,6 +10,9 @@ KEY_TAG_CODE = "key"
 @receiver(post_save, sender=LessonSpeech)
 @receiver(post_delete, sender=LessonSpeech)
 def update_listen_tag_on_speech_change(sender, instance, **kwargs):
+    # loaddata вызывает save(raw=True) — связанные объекты ещё могут отсутствовать
+    if kwargs.get("raw"):
+        return
     if instance.content_object and isinstance(instance.content_object, Module):
         module = instance.content_object
         check_and_update_listen_tag(module)
@@ -17,6 +20,8 @@ def update_listen_tag_on_speech_change(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Module)
 def update_listen_tag_on_module_save(sender, instance, **kwargs):
+    if kwargs.get("raw"):
+        return
     check_and_update_listen_tag(instance)
     check_and_update_key_tag(instance)
 
@@ -24,6 +29,8 @@ def update_listen_tag_on_module_save(sender, instance, **kwargs):
 @receiver(post_save, sender=Exercise)
 @receiver(post_delete, sender=Exercise)
 def update_key_tag_on_exercise_change(sender, instance, **kwargs):
+    if kwargs.get("raw"):
+        return
     check_and_update_key_tag(instance.module)
 
 
