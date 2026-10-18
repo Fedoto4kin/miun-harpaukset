@@ -3,31 +3,34 @@
     <div v-if="parsedExample.length" class="example-section">
       <div class="example-text">
         <div v-for="(sentence, sentenceIndex) in parsedExample" :key="sentenceIndex"
-          class="sentence d-inline-flex flex-wrap pe-2 mb-2">
-          <div v-for="(part, partIndex) in sentence" :key="partIndex" class="d-inline position-relative">
+          class="sentence-row" :class="sentenceRowClass(sentence)">
+          <div v-for="(part, partIndex) in sentence" :key="partIndex" class="part position-relative"
+            :class="part.type === 'text' ? 'part-text' : 'part-blank'">
             <span v-if="part.type === 'text'">{{ part.value }}</span>
-            <span v-else :value="part.correctAnswers.join('|')" :style="{ width: `${part.placeholderLength * 0.6}em` }"
-              class="form-control mx-1 input-field" disabled>{{ part.correctAnswers.join('|') }}</span>
+            <span v-else class="form-control input-field" disabled
+              :style="inlineBlankStyle(sentence, part)">{{ part.correctAnswers.join('|') }}</span>
           </div>
         </div>
       </div>
     </div>
     <div v-for="(textObj, textIndex) in parsedTexts" :key="textIndex" class="text-section">
       <div v-for="(sentence, sentenceIndex) in textObj.text" :key="sentenceIndex"
-        class="d-inline-flex flex-wrap pe-2 mb-2">
-        <div v-for="(part, partIndex) in sentence" :key="partIndex" class="d-inline position-relative input-wrapper">
+        class="sentence-row" :class="sentenceRowClass(sentence)">
+        <div v-for="(part, partIndex) in sentence" :key="partIndex"
+          class="part position-relative input-wrapper"
+          :class="part.type === 'text' ? 'part-text' : 'part-blank'">
           <span v-if="part.type === 'text'">{{ part.value }}</span>
           <input v-else v-model="userAnswers[textIndex][sentenceIndex][partIndex]"
             :ref="'inputField' + textIndex + '-' + sentenceIndex + '-' + partIndex" :style="{
-              width: `${part.placeholderLength * 0.6}em`,
+              ...inlineBlankStyle(sentence, part),
               color: results[textIndex][sentenceIndex][partIndex] === undefined ? 'black' : results[textIndex][sentenceIndex][partIndex] ? 'green' : 'red'
-            }" class="form-control mx-1 input-field" @input="handleInputChange"
+            }" class="form-control input-field" @input="handleInputChange"
             @focus="handleFocus(textIndex, sentenceIndex, partIndex)"
             @blur="handleBlur(textIndex, sentenceIndex, partIndex)" />
 
           <!-- Подсказка поверх поля ввода -->
           <div v-if="isShowHints && hintForField[textIndex]?.[sentenceIndex]?.[partIndex]" class="hint-overlay"
-            :style="{ width: `${part.placeholderLength * 0.6}em` }">
+            :style="inlineBlankStyle(sentence, part)">
             {{ part.correctAnswers.join(', ') }}
           </div>
 
@@ -111,6 +114,22 @@ export default {
     },
   },
   methods: {
+    // Только «[вопрос] слова [ответ]» (как /lessons/3/55) — иначе обычный inline
+    isPairSentence(sentence) {
+      if (!sentence || sentence.length !== 3) return false;
+      return (
+        sentence[0].type === 'blank'
+        && sentence[1].type === 'text'
+        && sentence[2].type === 'blank'
+      );
+    },
+    sentenceRowClass(sentence) {
+      return this.isPairSentence(sentence) ? 'sentence-row--pair' : 'sentence-row--inline';
+    },
+    inlineBlankStyle(sentence, part) {
+      if (this.isPairSentence(sentence)) return {};
+      return { width: `${part.placeholderLength * 0.6}em` };
+    },
     parseText(textArray) {
       const regex = /\[(\d+)\*:([^\]{]+)({[^}]+})?\]/g;
       return textArray.map((sentence) => {
@@ -282,28 +301,75 @@ export default {
 </script>
 
 <style scoped>
-.sentence {
-  justify-content: space-between;
-}
-
 .fill-blank-text-exercise {
   font-size: 1.125em;
+  overflow-x: clip;
 }
 
-.input-field {
+.sentence-row--inline {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.sentence-row--inline .input-field {
   display: inline-block;
   width: auto;
   min-width: 40px;
+  margin: 0 0.2em;
+}
+
+.sentence-row--pair {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 0.65rem;
+  min-width: 0;
+}
+
+.sentence-row--pair .part-blank {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.sentence-row--pair .part-text {
+  flex: 0 1 auto;
+  text-align: center;
+  min-width: 0;
+}
+
+.sentence-row--pair .input-field {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.input-field {
   border: none;
   border-bottom: 1px solid #ccc;
   outline: none;
   box-shadow: none;
-  padding: 0 5px 0 0.3em;
+  padding: 0.15rem 0.35rem;
   font-size: 1em;
-  margin: 0 0.2em;
   position: relative;
   z-index: 1;
   text-align: center;
+}
+
+.hint-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+  font-size: 0.85em;
+  color: #6c757d;
 }
 
 .result-icon {
@@ -313,7 +379,34 @@ export default {
   z-index: 3;
 }
 
-.text-center {
-  text-align: center;
+/* Парные строки на мобилке: вопрос → слова → ответ в одной карточке */
+@media (max-width: 767.98px) {
+  .sentence-row--pair {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid #e9ecef;
+    border-radius: 0.5rem;
+    background: #fafbfc;
+  }
+
+  .sentence-row--pair .part-blank,
+  .sentence-row--pair .part-text {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  .sentence-row--pair .part-text {
+    font-size: 0.95em;
+    color: #495057;
+    padding: 0.15rem 0;
+  }
+
+  .sentence-row--pair .input-field {
+    text-align: left;
+  }
 }
 </style>
