@@ -115,7 +115,7 @@ export default {
       this.setActiveLesson(lesson);
     },
     setActiveLesson(lesson) {
-      const audioElement = document.querySelector('.audio-player');
+      const audioElement = document.querySelector('.lesson-audio');
       if (audioElement) {
         audioElement.pause();
         audioElement.currentTime = 0;

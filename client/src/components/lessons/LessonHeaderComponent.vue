@@ -1,5 +1,5 @@
 <template>
-  <div :class="['sticky-lesson', { 'compact': isCompact }]">
+  <div ref="stickyRoot" :class="['sticky-lesson', { 'compact': isCompact }]">
     <div class="d-flex align-items-center justify-content-between border-bottom px-2 py-2">
       <h4 class="mb-0">
         {{ lesson.full_name }}
@@ -9,8 +9,8 @@
         <font-awesome-icon :icon="['fas', 'book']" />
       </button>
     </div>
-    <div class="d-flex align-items-center justify-content-between px-2 py-2">
-      <div class="d-flex align-items-center gap-2">
+    <div class="d-flex align-items-center justify-content-between px-2 py-2 gap-2 module-toolbar flex-wrap">
+      <div class="d-flex align-items-center gap-2 flex-shrink-1 min-w-0">
         <h5 class="mb-0 module-num">
           <span class="badge rounded-pill badge-lg bg-primary">{{ number }}</span>
         </h5>
@@ -20,8 +20,18 @@
               :tagName="tag.name" />
           </span>
         </span>
+        <div v-if="speech && showCompactControls" class="compact-audio d-flex align-items-center gap-1">
+          <button type="button" class="btn btn-outline-primary btn-sm audio-btn"
+            :title="isPlaying ? 'Pysäytä' : 'Šoita'" @click="togglePlay">
+            <font-awesome-icon :icon="['fas', isPlaying ? 'pause' : 'play']" />
+          </button>
+          <button type="button" class="btn btn-outline-secondary btn-sm audio-btn" title="Lopeta"
+            :disabled="!isPlaying && currentTime === 0" @click="stopAudio">
+            <font-awesome-icon :icon="['fas', 'stop']" />
+          </button>
+        </div>
       </div>
-      <div class="d-flex gap-2">
+      <div class="d-flex gap-2 flex-shrink-0">
         <button class="btn btn-primary btn-sm btn-extra-small"
           :style="{ visibility: hasPreviousModule ? 'visible' : 'hidden' }" @click="goToPreviousModule">
           <span class="badge badge-light bg-light">
@@ -36,18 +46,22 @@
           </span>
         </button>
         <button class="btn btn-success btn-sm" v-if="!hasNextModule && nextLesson" @click="goToNextLesson">
-          {{ nextLesson?.full_name }}
+          <span class="d-none d-md-inline">{{ nextLesson?.full_name }}&nbsp;</span>
           <span class="badge badge-light bg-light">
             <font-awesome-icon :icon="['fas', 'right-from-bracket']" class="text-success" />
           </span>
         </button>
       </div>
     </div>
-    <div v-if="speech" class="d-flex audio-container justify-content-center px-2 pb-2">
-      <audio controls class="audio-player" :key="speech">
-        <source :src="speech" type="audio/mpeg" />
-      </audio>
-    </div>
+  </div>
+  <!-- Вне sticky: большой плеер просто уезжает при прокрутке -->
+  <div v-if="speech" ref="fullAudioSlot" class="full-audio-block"
+    :class="{ 'full-audio-block--visible': showFullPlayer }">
+    <audio ref="audioEl" class="lesson-audio" :class="{ 'lesson-audio--full': showFullPlayer }"
+      :controls="showFullPlayer" preload="metadata" :key="speech" @play="isPlaying = true"
+      @pause="isPlaying = false" @ended="onEnded" @timeupdate="onTimeUpdate" @loadedmetadata="onLoadedMeta">
+      <source :src="speech" type="audio/mpeg" />
+    </audio>
   </div>
   <WordSearchPopupComponent :show="showPopup" @close="showPopup = false" />
 </template>
@@ -55,6 +69,8 @@
 <script>
 import TagIcon from '@/components/ui/TagIcon.vue';
 import WordSearchPopupComponent from './WordSearchPopupComponent.vue';
+
+const WIDE_MQ = '(min-width: 768px)';
 
 export default {
   name: 'LessonHeaderComponent',
@@ -79,22 +95,103 @@ export default {
     return {
       showPopup: false,
       isCompact: false,
+      isWide: false,
+      isPlaying: false,
+      currentTime: 0,
+      duration: 0,
+      mediaQuery: null,
     };
   },
+  computed: {
+    // Desktop at top of page: full native player
+    showFullPlayer() {
+      return !!this.speech && this.isWide && !this.isCompact;
+    },
+    // Mobile always, or desktop while sticky-scrolled
+    showCompactControls() {
+      return !!this.speech && (!this.isWide || this.isCompact);
+    },
+  },
+  watch: {
+    speech() {
+      this.isPlaying = false;
+      this.currentTime = 0;
+      this.duration = 0;
+    },
+  },
   mounted() {
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('scroll', this.handleScroll, { passive: true });
+    this.mediaQuery = window.matchMedia(WIDE_MQ);
+    this.isWide = this.mediaQuery.matches;
+    if (this.mediaQuery.addEventListener) {
+      this.mediaQuery.addEventListener('change', this.onViewportChange);
+    } else {
+      this.mediaQuery.addListener(this.onViewportChange);
+    }
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
+    if (this.mediaQuery) {
+      if (this.mediaQuery.removeEventListener) {
+        this.mediaQuery.removeEventListener('change', this.onViewportChange);
+      } else {
+        this.mediaQuery.removeListener(this.onViewportChange);
+      }
+    }
+    this.stopAudio();
   },
   methods: {
-      handleScroll() {
-          const offset = window.pageYOffset;
-          if (this.isCompact) {
-            this.isCompact = offset > 60;
-          } else {
-            this.isCompact = offset > 75;
-          }
+    onViewportChange(event) {
+      this.isWide = event.matches;
+    },
+    handleScroll() {
+      const offset = window.pageYOffset || document.documentElement.scrollTop || 0;
+      if (!this.isCompact && offset > 120) {
+        this.setCompact(true);
+      } else if (this.isCompact && offset < 40) {
+        this.setCompact(false);
+      }
+    },
+    setCompact(next) {
+      if (this.isCompact === next) return;
+      const slot = this.$refs.fullAudioSlot;
+      const before = slot?.offsetHeight || 0;
+      this.isCompact = next;
+      this.$nextTick(() => {
+        if (!this.isWide) return;
+        const after = slot?.offsetHeight || 0;
+        const delta = before - after;
+        if (delta) {
+          window.scrollBy(0, delta);
+        }
+      });
+    },
+    togglePlay() {
+      const audio = this.$refs.audioEl;
+      if (!audio) return;
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    },
+    stopAudio() {
+      const audio = this.$refs.audioEl;
+      if (!audio) return;
+      audio.pause();
+      audio.currentTime = 0;
+      this.isPlaying = false;
+      this.currentTime = 0;
+    },
+    onEnded() {
+      this.isPlaying = false;
+      this.currentTime = 0;
+    },
+    onTimeUpdate(event) {
+      this.currentTime = event.target.currentTime || 0;
+    },
+    onLoadedMeta(event) {
+      this.duration = event.target.duration || 0;
     },
     goToPreviousModule() {
       this.$emit('previous-module');
@@ -119,7 +216,6 @@ export default {
   top: 0;
   z-index: 55555;
   background: white;
-  transition: all 0.3s ease;
 }
 
 .sticky-lesson.compact {
@@ -128,9 +224,7 @@ export default {
 
 .sticky-lesson.compact .btn-extra-small {
   padding: 0.1rem 0.3rem;
-  /* Adjust padding as needed */
   font-size: 0.75rem;
-  /* Adjust font size as needed */
 }
 
 .sticky-lesson.compact h4,
@@ -139,33 +233,58 @@ export default {
   font-size: 1rem;
 }
 
-.audio-player {
+.module-toolbar {
+  min-height: 2.5rem;
+}
+
+.full-audio-block {
+  display: none;
+  justify-content: center;
+  padding: 0.35rem 0.5rem 0.5rem;
+  background: white;
+}
+
+.full-audio-block--visible {
+  display: flex;
+}
+
+.lesson-audio {
+  display: none;
+}
+
+.lesson-audio--full {
+  display: block;
   width: min(100%, 28rem);
 }
 
-.sticky-lesson.compact .audio-player {
-  width: min(100%, 22rem);
-  height: 2.25rem;
+.audio-btn {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  line-height: 1;
 }
 
-.sticky-lesson.compact .audio-container {
-  padding-bottom: 0.35rem !important;
+.sticky-lesson.compact .audio-btn {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 0.75rem;
 }
 
 @media (min-width: 992px) {
-  .audio-container {
-    transform: scale(0.85);
+  .full-audio-block--visible .lesson-audio--full {
+    transform: scale(0.9);
     transform-origin: center top;
-  }
-
-  .sticky-lesson.compact .audio-container {
-    transform: scale(0.75);
   }
 }
 
-@media (max-width: 991.98px) {
-  .audio-player {
-    width: 100%;
+@media (max-width: 575.98px) {
+  .audio-btn {
+    width: 2.25rem;
+    height: 2.25rem;
   }
 }
 </style>
