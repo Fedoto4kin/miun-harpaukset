@@ -14,8 +14,8 @@
         <h5 class="mb-0 module-num">
           <span class="badge rounded-pill badge-lg bg-primary">{{ number }}</span>
         </h5>
-        <span v-if="tags" class="d-flex gap-1">
-          <span v-for="tag in tags" :key="tag.id">
+        <span v-if="headerTags.length" class="d-flex gap-1">
+          <span v-for="tag in headerTags" :key="tag.id">
             <TagIcon :tagCode="tag.code" :hintFinnish="tag.hint_finnish" :hintRussian="tag.hint_russian"
               :tagName="tag.name" />
           </span>
@@ -110,6 +110,12 @@ export default {
     // Mobile always, or desktop while sticky-scrolled
     showCompactControls() {
       return !!this.speech && (!this.isWide || this.isCompact);
+    },
+    // При наличии плеера тег listen дублирует смысл — в шапке скрываем (в меню остаётся)
+    headerTags() {
+      const list = this.tags || [];
+      if (!this.speech) return list;
+      return list.filter((tag) => tag.code !== 'listen');
     },
   },
   watch: {
