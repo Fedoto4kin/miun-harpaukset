@@ -135,5 +135,5 @@ API в основном **read-only**. Запись — через Django Admin.
 1. Сохранять существующие имена `exercise_type` и форму JSON.
 2. HTTP-логику клиента держать в `services/`.
 3. Карельский UI-текст и verbose_name не «русифицировать» без запроса.
-4. Не коммитить секреты; в settings есть insecure SECRET_KEY — известный техдолг.
+4. Не коммитить секреты. `DEBUG` / `DJANGO_SECRET_KEY` — из env (compose); insecure fallback только при `DEBUG=True`.
 5. Документация деплоя — на русском в `app/README.md`.

@@ -8,6 +8,8 @@ Updated for Django 5.2 LTS.
 import os
 from pathlib import Path
 
+from django.core.exceptions import ImproperlyConfigured
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -15,11 +17,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-n*w411edw6-5z=g1pj_t*3_b+5mav6^j2h*d98t632q91bxh3e"
+def _env_bool(name: str, default: bool = False) -> bool:
+    raw = os.environ.get(name)
+    if raw is None:
+        return default
+    return raw.strip().lower() in ("1", "true", "yes", "on")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
+# Compose/.env: DEBUG, DJANGO_SECRET_KEY (see .env.example).
+DEBUG = _env_bool("DEBUG", default=True)
+
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "").strip()
+if not SECRET_KEY:
+    if DEBUG:
+        # Local/dev fallback only — never used when DEBUG is False.
+        SECRET_KEY = "django-insecure-n*w411edw6-5z=g1pj_t*3_b+5mav6^j2h*d98t632q91bxh3e"
+    else:
+        raise ImproperlyConfigured(
+            "DJANGO_SECRET_KEY must be set in the environment when DEBUG is False"
+        )
 
 ALLOWED_HOSTS = ["karielankieleh.ru", "karielankieleh.local", "localhost", "127.0.0.1"]
 

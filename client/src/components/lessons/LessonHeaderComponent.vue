@@ -43,7 +43,11 @@
         </button>
       </div>
     </div>
-
+    <div v-if="speech" class="d-flex audio-container justify-content-center px-2 pb-2">
+      <audio controls class="audio-player" :key="speech">
+        <source :src="speech" type="audio/mpeg" />
+      </audio>
+    </div>
   </div>
   <WordSearchPopupComponent :show="showPopup" @close="showPopup = false" />
 </template>
@@ -69,6 +73,7 @@ export default {
     hasNextModule: Boolean,
     nextLesson: Object,
     previousLesson: Object,
+    speech: String,
   },
   data() {
     return {
@@ -134,7 +139,33 @@ export default {
   font-size: 1rem;
 }
 
+.audio-player {
+  width: min(100%, 28rem);
+}
+
 .sticky-lesson.compact .audio-player {
-  display: none;
+  width: min(100%, 22rem);
+  height: 2.25rem;
+}
+
+.sticky-lesson.compact .audio-container {
+  padding-bottom: 0.35rem !important;
+}
+
+@media (min-width: 992px) {
+  .audio-container {
+    transform: scale(0.85);
+    transform-origin: center top;
+  }
+
+  .sticky-lesson.compact .audio-container {
+    transform: scale(0.75);
+  }
+}
+
+@media (max-width: 991.98px) {
+  .audio-player {
+    width: 100%;
+  }
 }
 </style>

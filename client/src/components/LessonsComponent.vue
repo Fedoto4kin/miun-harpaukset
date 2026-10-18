@@ -10,12 +10,12 @@
           :selectedModuleId="selectedModuleId" @module-clicked="loadModuleContent" />
       </div>
       <div class="col-md-12 mt-2" id="lesson-frame">
-        <LessonHeaderComponent :lesson="activeLesson" v-bind="filterModuleData(['number', 'tags'])" v-if="activeLesson"
-          :hasPreviousModule="hasPreviousModule" :hasNextModule="hasNextModule" :nextLesson="nextLesson"
-          :previousLesson="previousLesson" @previous-module="goToPreviousModule" @next-module="goToNextModule"
-          @next-lesson="goToNextLesson" @previous-lesson="goToPreviousLesson" />
+        <LessonHeaderComponent :lesson="activeLesson" v-bind="filterModuleData(['number', 'tags', 'speech'])"
+          v-if="activeLesson" :hasPreviousModule="hasPreviousModule" :hasNextModule="hasNextModule"
+          :nextLesson="nextLesson" :previousLesson="previousLesson" @previous-module="goToPreviousModule"
+          @next-module="goToNextModule" @next-lesson="goToNextLesson" @previous-lesson="goToPreviousLesson" />
         <div v-if="activeLesson && !isContentLoading && moduleData.html_content" class="mt-3 mx-md-5">
-          <ModuleContentComponent v-bind="filterModuleData(['html_content', 'exercises', 'speech', 'grammar_comment'])" />
+          <ModuleContentComponent v-bind="filterModuleData(['html_content', 'exercises', 'grammar_comment'])" />
         </div>
         <div v-else>
           <h3 class="text-center">
@@ -127,7 +127,7 @@ export default {
         this.lessons[currentLessonIndex + 1] :
         null;
       this.$router.push({ path: `/lessons/${lesson.number}` });
-      document.title = lesson.full_name;
+      this.updateDocumentTitle();
     },
     handleRoute() {
       const lessonId = this.$route.params.id;
@@ -188,7 +188,6 @@ export default {
         console.error('Error loading module content:', error);
         this.moduleData = {}
         this.selectedModuleId = null;
-        // todo: set title with module num
       } finally {
         this.isContentLoading = false;
         this.updateDocumentTitle();
