@@ -34,13 +34,6 @@ class Module(models.Model):
         return self.module_speeches.first()
 
     @property
-    def exercise(self):
-        """Return module Exercise if exists"""
-        if hasattr(self, "exercise"):
-            return self.exercise
-        return None
-
-    @property
     def site_url(self):
         return f"{self.lesson.number}/{self.id}"
 

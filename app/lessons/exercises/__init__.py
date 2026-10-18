@@ -1,4 +1,5 @@
 # exercises/__init__.py
+from .contracts import ExerciseSchema
 from .fill_blank_exercise import FillBlankExercise
 from .fill_blank_table_exercise import FillBlankTableExercise
 from .fill_blank_text_exercise import FillBlankTextExercise

@@ -36,8 +36,8 @@
 | ID | Задача | Примечание | Статус |
 |----|--------|------------|--------|
 | TD-1 | Вынести `SECRET_KEY` / `DEBUG` в env для prod | `app/krl/settings.py` | done |
-| TD-2 | В `exercises/__init__.py` в `__all__` указан `ExerciseSchema`, но не импортирован | мелочь | open |
-| TD-3 | Свойство `Module.exercise` рекурсивно обращается к себе через `hasattr` | вероятно баг/мертвый код | open |
+| TD-2 | В `exercises/__init__.py` в `__all__` указан `ExerciseSchema`, но не импортирован | мелочь | done |
+| TD-3 | Свойство `Module.exercise` рекурсивно обращается к себе через `hasattr` | удалён мёртвый property | done |
 | TD-4 | Заменить `django-ckeditor` (CKEditor 4 EOL) на `django-ckeditor-5` | низкий приоритет; сейчас `ckeditor.W001`; кастомный plugin `krl_insertbadge`, upload | open |
 
 ---
