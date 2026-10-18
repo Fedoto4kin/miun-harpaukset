@@ -117,9 +117,11 @@ API в основном **read-only**. Запись — через Django Admin.
 
 ## 7. Dev / Prod
 
+**Стек:** Python 3.12, Django 5.2 LTS, PostgreSQL 16, Node 22, Vue 3.
+
 **Local (`docker-compose.yml`):** nginx:80, django:8000, vue serve:8080, postgres, pgadmin:5050.
 
-**Prod (`docker-compose.internal.yml` + host nginx):** контейнеры `mhkk_web`, `mhkk_db`, build-only `mhkk_client`; статика копируется в `/var/www/mhkk_client`. Инструкции — `app/README.md`.
+**Prod (`docker-compose.internal.yml` + host nginx):** контейнеры `mhkk_web`, `mhkk_db`, build-only `mhkk_client`; статика копируется в `/var/www/mhkk_client`. Инструкции — `app/README.md`. Апгрейд PG major — dump/restore (§2.1 в README).
 
 ## 8. Админка
 

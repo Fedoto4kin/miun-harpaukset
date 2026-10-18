@@ -11,9 +11,9 @@ alwaysApply: true
 
 | Слой | Технологии |
 |------|------------|
-| Backend | Django 3.2 + DRF, PostgreSQL 14, uWSGI (prod) |
-| Frontend | Vue 3 + Vue Router 4, Axios, Bootstrap 5 |
-| Infra | Docker Compose; nginx (хост в prod) |
+| Backend | Django 5.2 LTS + DRF, PostgreSQL 16, uWSGI (prod), Python 3.12 |
+| Frontend | Vue 3 + Vue Router 4, Axios, Bootstrap 5 (Node 22) |
+| Infra | Docker Compose (`docker-compose.internal.yml` в prod); nginx на хосте |
 
 ## Структура репозитория
 

@@ -43,6 +43,39 @@ docker compose -f docker-compose.internal.yml logs -f db
 
 Ожидаем: `database system is ready to accept connections`.
 
+### 2.1. Миграция PostgreSQL 14 → 16 (одноразово)
+
+Каталог данных `./db` **несовместим** между major-версиями. Нужен dump/restore.
+Прод: `docker-compose.internal.yml`, nginx на хосте не трогаем.
+
+```bash
+# 1) Бэкап со старого Postgres 14 (пока образ ещё 14, либо временно вернуть image: postgres:14)
+docker compose -f docker-compose.internal.yml up -d db
+docker compose -f docker-compose.internal.yml exec -T db \
+  pg_dump -U "$PG_USER" -d mhkk -Fc -f /tmp/mhkk_pg14.dump
+docker compose -f docker-compose.internal.yml cp db:/tmp/mhkk_pg14.dump ./mhkk_pg14.dump
+
+# 2) Остановить стек, убрать старые файлы данных (бэкап каталога на всякий случай)
+docker compose -f docker-compose.internal.yml down
+sudo mv db "db.pg14.$(date +%Y%m%d)"
+mkdir db
+
+# 3) Поднять Postgres 16 (image уже postgres:16 в compose) и восстановить
+docker compose -f docker-compose.internal.yml up -d db
+# дождаться ready…
+docker compose -f docker-compose.internal.yml cp ./mhkk_pg14.dump db:/tmp/mhkk_pg14.dump
+docker compose -f docker-compose.internal.yml exec -T db \
+  pg_restore -U "$PG_USER" -d mhkk --clean --if-exists /tmp/mhkk_pg14.dump
+
+# 4) Пересобрать/поднять web (Python 3.12 / Django 5.2) и client-сборку
+docker compose -f docker-compose.internal.yml build web --no-cache
+docker compose -f docker-compose.internal.yml up -d web
+docker compose -f docker-compose.internal.yml exec web python manage.py migrate
+docker compose -f docker-compose.internal.yml exec web python manage.py collectstatic --noinput
+```
+
+Локально (`docker-compose.yml`) — тот же принцип для `./db`.
+
 ---
 
 ## 🐍 3. **Пересборка и запуск Django**

@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.12-bookworm
 
 # 1. Сначала установка системных зависимостей и uWSGI КАК ROOT
 RUN apt-get update && \
