@@ -620,7 +620,7 @@
     "pk": 57,
     "fields": {
       "code": "cond_impf_1sg_pos",
-      "name_krl": "konditsionala imperfekta 1.yks. myönteinen",
+      "name_krl": "kondicionala imperfekta 1.yks. myönteinen",
       "name_ru": "кондиционал имперфект 1л. ед. пол.",
       "category": "verb",
       "sort_order": 400
@@ -631,7 +631,7 @@
     "pk": 58,
     "fields": {
       "code": "cond_impf_2sg_pos",
-      "name_krl": "konditsionala imperfekta 2.yks. myönteinen",
+      "name_krl": "kondicionala imperfekta 2.yks. myönteinen",
       "name_ru": "кондиционал имперфект 2л. ед. пол.",
       "category": "verb",
       "sort_order": 410
@@ -642,7 +642,7 @@
     "pk": 59,
     "fields": {
       "code": "cond_impf_3sg_pos",
-      "name_krl": "konditsionala imperfekta 3.yks. myönteinen",
+      "name_krl": "kondicionala imperfekta 3.yks. myönteinen",
       "name_ru": "кондиционал имперфект 3л. ед. пол.",
       "category": "verb",
       "sort_order": 420
@@ -653,7 +653,7 @@
     "pk": 60,
     "fields": {
       "code": "cond_impf_1pl_pos",
-      "name_krl": "konditsionala imperfekta 1.mon. myönteinen",
+      "name_krl": "kondicionala imperfekta 1.mon. myönteinen",
       "name_ru": "кондиционал имперфект 1л. мн. пол.",
       "category": "verb",
       "sort_order": 430
@@ -664,7 +664,7 @@
     "pk": 61,
     "fields": {
       "code": "cond_impf_2pl_pos",
-      "name_krl": "konditsionala imperfekta 2.mon. myönteinen",
+      "name_krl": "kondicionala imperfekta 2.mon. myönteinen",
       "name_ru": "кондиционал имперфект 2л. мн. пол.",
       "category": "verb",
       "sort_order": 440
@@ -675,7 +675,7 @@
     "pk": 62,
     "fields": {
       "code": "cond_impf_3pl_pos",
-      "name_krl": "konditsionala imperfekta 3.mon. myönteinen",
+      "name_krl": "kondicionala imperfekta 3.mon. myönteinen",
       "name_ru": "кондиционал имперфект 3л. мн. пол.",
       "category": "verb",
       "sort_order": 450
@@ -686,7 +686,7 @@
     "pk": 63,
     "fields": {
       "code": "cond_impf_1sg_neg",
-      "name_krl": "konditsionala imperfekta 1.yks. kieltävä",
+      "name_krl": "kondicionala imperfekta 1.yks. kieltävä",
       "name_ru": "кондиционал имперфект 1л. ед. отр.",
       "category": "verb",
       "sort_order": 460
@@ -697,7 +697,7 @@
     "pk": 64,
     "fields": {
       "code": "cond_impf_2sg_neg",
-      "name_krl": "konditsionala imperfekta 2.yks. kieltävä",
+      "name_krl": "kondicionala imperfekta 2.yks. kieltävä",
       "name_ru": "кондиционал имперфект 2л. ед. отр.",
       "category": "verb",
       "sort_order": 470
@@ -708,7 +708,7 @@
     "pk": 65,
     "fields": {
       "code": "cond_impf_3sg_neg",
-      "name_krl": "konditsionala imperfekta 3.yks. kieltävä",
+      "name_krl": "kondicionala imperfekta 3.yks. kieltävä",
       "name_ru": "кондиционал имперфект 3л. ед. отр.",
       "category": "verb",
       "sort_order": 480
@@ -719,7 +719,7 @@
     "pk": 66,
     "fields": {
       "code": "cond_impf_1pl_neg",
-      "name_krl": "konditsionala imperfekta 1.mon. kieltävä",
+      "name_krl": "kondicionala imperfekta 1.mon. kieltävä",
       "name_ru": "кондиционал имперфект 1л. мн. отр.",
       "category": "verb",
       "sort_order": 490
@@ -730,7 +730,7 @@
     "pk": 67,
     "fields": {
       "code": "cond_impf_2pl_neg",
-      "name_krl": "konditsionala imperfekta 2.mon. kieltävä",
+      "name_krl": "kondicionala imperfekta 2.mon. kieltävä",
       "name_ru": "кондиционал имперфект 2л. мн. отр.",
       "category": "verb",
       "sort_order": 500
@@ -741,7 +741,7 @@
     "pk": 68,
     "fields": {
       "code": "cond_impf_3pl_neg",
-      "name_krl": "konditsionala imperfekta 3.mon. kieltävä",
+      "name_krl": "kondicionala imperfekta 3.mon. kieltävä",
       "name_ru": "кондиционал имперфект 3л. мн. отр.",
       "category": "verb",
       "sort_order": 510
@@ -763,7 +763,7 @@
     "pk": 70,
     "fields": {
       "code": "part_act1",
-      "name_krl": "1. partitsiipa aktiiva",
+      "name_krl": "1. pričastija aktiva",
       "name_ru": "актив 1-е причастие",
       "category": "verb",
       "sort_order": 700
@@ -774,7 +774,7 @@
     "pk": 71,
     "fields": {
       "code": "part_act2",
-      "name_krl": "2. partitsiipa aktiiva",
+      "name_krl": "2. pričastija aktiva",
       "name_ru": "актив 2-е причастие",
       "category": "verb",
       "sort_order": 710
@@ -785,7 +785,7 @@
     "pk": 72,
     "fields": {
       "code": "part_act2_short",
-      "name_krl": "2. partitsiipa aktiiva lyhyt / perfekta",
+      "name_krl": "2. pričastija aktiva lyhyt / perfekta",
       "name_ru": "актив 2-е причастие кратк. / перфект",
       "category": "verb",
       "sort_order": 720
@@ -796,7 +796,7 @@
     "pk": 73,
     "fields": {
       "code": "part_pass1",
-      "name_krl": "1. partitsiipa passiiva",
+      "name_krl": "1. pričastija passiva",
       "name_ru": "пассив 1-е причастие",
       "category": "verb",
       "sort_order": 730
@@ -807,7 +807,7 @@
     "pk": 74,
     "fields": {
       "code": "part_pass2",
-      "name_krl": "2. partitsiipa passiiva",
+      "name_krl": "2. pričastija passiva",
       "name_ru": "пассив 2-е причастие",
       "category": "verb",
       "sort_order": 740
@@ -1346,7 +1346,7 @@
     "pk": 123,
     "fields": {
       "code": "cond_plup_1sg_pos",
-      "name_krl": "konditsionala pluskvamperfekta 1.yks. myönteinen",
+      "name_krl": "kondicionala pluskvamperfekta 1.yks. myönteinen",
       "name_ru": "кондиционал плюсквамперфект 1л. ед. пол.",
       "category": "verb",
       "sort_order": 1400
@@ -1357,7 +1357,7 @@
     "pk": 124,
     "fields": {
       "code": "cond_plup_2sg_pos",
-      "name_krl": "konditsionala pluskvamperfekta 2.yks. myönteinen",
+      "name_krl": "kondicionala pluskvamperfekta 2.yks. myönteinen",
       "name_ru": "кондиционал плюсквамперфект 2л. ед. пол.",
       "category": "verb",
       "sort_order": 1410
@@ -1368,7 +1368,7 @@
     "pk": 125,
     "fields": {
       "code": "cond_plup_3sg_pos",
-      "name_krl": "konditsionala pluskvamperfekta 3.yks. myönteinen",
+      "name_krl": "kondicionala pluskvamperfekta 3.yks. myönteinen",
       "name_ru": "кондиционал плюсквамперфект 3л. ед. пол.",
       "category": "verb",
       "sort_order": 1420
@@ -1379,7 +1379,7 @@
     "pk": 126,
     "fields": {
       "code": "cond_plup_1pl_pos",
-      "name_krl": "konditsionala pluskvamperfekta 1.mon. myönteinen",
+      "name_krl": "kondicionala pluskvamperfekta 1.mon. myönteinen",
       "name_ru": "кондиционал плюсквамперфект 1л. мн. пол.",
       "category": "verb",
       "sort_order": 1430
@@ -1390,7 +1390,7 @@
     "pk": 127,
     "fields": {
       "code": "cond_plup_2pl_pos",
-      "name_krl": "konditsionala pluskvamperfekta 2.mon. myönteinen",
+      "name_krl": "kondicionala pluskvamperfekta 2.mon. myönteinen",
       "name_ru": "кондиционал плюсквамперфект 2л. мн. пол.",
       "category": "verb",
       "sort_order": 1440
@@ -1401,7 +1401,7 @@
     "pk": 128,
     "fields": {
       "code": "cond_plup_3pl_pos",
-      "name_krl": "konditsionala pluskvamperfekta 3.mon. myönteinen",
+      "name_krl": "kondicionala pluskvamperfekta 3.mon. myönteinen",
       "name_ru": "кондиционал плюсквамперфект 3л. мн. пол.",
       "category": "verb",
       "sort_order": 1450
@@ -1412,7 +1412,7 @@
     "pk": 129,
     "fields": {
       "code": "cond_plup_1sg_neg",
-      "name_krl": "konditsionala pluskvamperfekta 1.yks. kieltävä",
+      "name_krl": "kondicionala pluskvamperfekta 1.yks. kieltävä",
       "name_ru": "кондиционал плюсквамперфект 1л. ед. отр.",
       "category": "verb",
       "sort_order": 1460
@@ -1423,7 +1423,7 @@
     "pk": 130,
     "fields": {
       "code": "cond_plup_2sg_neg",
-      "name_krl": "konditsionala pluskvamperfekta 2.yks. kieltävä",
+      "name_krl": "kondicionala pluskvamperfekta 2.yks. kieltävä",
       "name_ru": "кондиционал плюсквамперфект 2л. ед. отр.",
       "category": "verb",
       "sort_order": 1470
@@ -1434,7 +1434,7 @@
     "pk": 131,
     "fields": {
       "code": "cond_plup_3sg_neg",
-      "name_krl": "konditsionala pluskvamperfekta 3.yks. kieltävä",
+      "name_krl": "kondicionala pluskvamperfekta 3.yks. kieltävä",
       "name_ru": "кондиционал плюсквамперфект 3л. ед. отр.",
       "category": "verb",
       "sort_order": 1480
@@ -1445,7 +1445,7 @@
     "pk": 132,
     "fields": {
       "code": "cond_plup_1pl_neg",
-      "name_krl": "konditsionala pluskvamperfekta 1.mon. kieltävä",
+      "name_krl": "kondicionala pluskvamperfekta 1.mon. kieltävä",
       "name_ru": "кондиционал плюсквамперфект 1л. мн. отр.",
       "category": "verb",
       "sort_order": 1490
@@ -1456,7 +1456,7 @@
     "pk": 133,
     "fields": {
       "code": "cond_plup_2pl_neg",
-      "name_krl": "konditsionala pluskvamperfekta 2.mon. kieltävä",
+      "name_krl": "kondicionala pluskvamperfekta 2.mon. kieltävä",
       "name_ru": "кондиционал плюсквамперфект 2л. мн. отр.",
       "category": "verb",
       "sort_order": 1500
@@ -1467,7 +1467,7 @@
     "pk": 134,
     "fields": {
       "code": "cond_plup_3pl_neg",
-      "name_krl": "konditsionala pluskvamperfekta 3.mon. kieltävä",
+      "name_krl": "kondicionala pluskvamperfekta 3.mon. kieltävä",
       "name_ru": "кондиционал плюсквамперфект 3л. мн. отр.",
       "category": "verb",
       "sort_order": 1510

@@ -82,9 +82,9 @@ const VERB_SECTION_DEFS = [
   { id: 'ind_perf', title: 'Indikativa — perfekta', match: (c) => c.startsWith('ind_perf_') },
   { id: 'ind_plup', title: 'Indikativa — pluskvamperfekta', match: (c) => c.startsWith('ind_plup_') },
   { id: 'imp', title: 'Imperativa', match: (c) => c.startsWith('imp_') },
-  { id: 'cond_impf', title: 'Konditsionala — imperfekta', match: (c) => c.startsWith('cond_impf_') },
-  { id: 'cond_perf', title: 'Konditsionala — perfekta', match: (c) => c.startsWith('cond_perf_') },
-  { id: 'cond_plup', title: 'Konditsionala — pluskvamperfekta', match: (c) => c.startsWith('cond_plup_') },
+  { id: 'cond_impf', title: 'Kondicionala — imperfekta', match: (c) => c.startsWith('cond_impf_') },
+  { id: 'cond_perf', title: 'Kondicionala — perfekta', match: (c) => c.startsWith('cond_perf_') },
+  { id: 'cond_plup', title: 'Kondicionala — pluskvamperfekta', match: (c) => c.startsWith('cond_plup_') },
   { id: 'pot_pres', title: 'Potentiala — prezensa', match: (c) => c.startsWith('pot_pres_') },
   { id: 'pot_perf', title: 'Potentiala — perfekta', match: (c) => c.startsWith('pot_perf_') },
   {
@@ -92,7 +92,7 @@ const VERB_SECTION_DEFS = [
     title: 'Infinitivat',
     match: (c) => c === 'inf1' || c.startsWith('inf2_') || c.startsWith('inf3_'),
   },
-  { id: 'part', title: 'Partisiipat', match: (c) => c.startsWith('part_') },
+  { id: 'part', title: 'Pričastijat', match: (c) => c.startsWith('part_') },
 ];
 
 export default {
