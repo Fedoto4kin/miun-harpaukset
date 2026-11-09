@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from lexicon.models import Word, WordForm
+from lexicon.wordform_labels import collect_grammar_labels
 
 # Приоритет «полезных» форм внутри одной ветки следующей буквы.
 _NOMINAL_PRIORITY = {
@@ -76,14 +77,13 @@ class GroupedSearchSuggestionsView(APIView):
         )
 
         suggestions_list = []
-        seen_clean = set()
+        seen_ids = set()
 
         def add_word(word: Word, lemma_prefix_hit: bool) -> None:
             lemma = word.word_clean.replace("|", "")
-            key = lemma.lower()
-            if key in seen_clean or len(suggestions_list) >= self.LIMIT:
+            if word.id in seen_ids or len(suggestions_list) >= self.LIMIT:
                 return
-            seen_clean.add(key)
+            seen_ids.add(word.id)
 
             samples, total = self._sample_forms(word, prepared, lemma)
             exact = [s for s in samples if s["form_clean"] == prepared]
@@ -91,13 +91,22 @@ class GroupedSearchSuggestionsView(APIView):
             if not lemma_prefix_hit and samples:
                 chain_src = exact[0] if exact else samples[0]
             if chain_src:
+                needle = chain_src["form_clean"]
+                same_orth = [
+                    wf
+                    for wf in word.wordform_set.all()
+                    if any(c == needle for _s, c in wf.search_surfaces())
+                ]
+                labels = collect_grammar_labels(same_orth) or [
+                    chain_src["label_krl"]
+                ]
                 suggestions_list.append(
                     {
                         "word": lemma,
                         "word_id": word.id,
                         "pos": word.pos.abbr if word.pos_id else "",
                         "matched_form": chain_src["form"],
-                        "matched_form_label_krl": chain_src["label_krl"],
+                        "matched_form_labels_krl": labels,
                     }
                 )
                 return
@@ -137,64 +146,70 @@ class GroupedSearchSuggestionsView(APIView):
         priority = _VERB_PRIORITY if pos == "v." else _NOMINAL_PRIORITY
         limit = _VERB_SAMPLE if pos == "v." else _NOMINAL_SAMPLE
 
-        def rank(wf: WordForm):
+        def rank_item(item):
             return (
-                priority.get(wf.grammar_form.code, 100),
-                len(wf.form_clean),
-                wf.form_clean,
+                priority.get(item["wf"].grammar_form.code, 100),
+                len(item["form_clean"]),
+                item["form_clean"],
             )
 
-        # Уникальные орфографии, лучший слот на орфографию.
+        # Уникальные орфографии (канон + альты), лучший слот на орфографию.
         by_orth = {}
         for wf in word.wordform_set.all():
-            if not wf.form_clean.startswith(prepared):
-                continue
-            if wf.form_clean == lemma_clean:
-                continue
-            prev = by_orth.get(wf.form_clean)
-            if prev is None or rank(wf) < rank(prev):
-                by_orth[wf.form_clean] = wf
+            for surface, clean in wf.search_surfaces():
+                if not clean.startswith(prepared):
+                    continue
+                if clean == lemma_clean:
+                    continue
+                if " " in clean and " " not in prepared:
+                    continue
+                item = {
+                    "form": surface,
+                    "form_clean": clean,
+                    "label_krl": wf.grammar_form.name_krl,
+                    "wf": wf,
+                }
+                prev = by_orth.get(clean)
+                if prev is None or rank_item(item) < rank_item(prev):
+                    by_orth[clean] = item
 
         candidates = list(by_orth.values())
         total = len(candidates)
         if not candidates:
             return [], 0
 
-        # Корзины по следующей букве после префикса.
         buckets = OrderedDict()
-        for wf in sorted(candidates, key=rank):
-            rest = wf.form_clean[len(prepared) :]
+        for item in sorted(candidates, key=rank_item):
+            rest = item["form_clean"][len(prepared) :]
             next_ch = rest[0] if rest else ""
-            buckets.setdefault(next_ch, []).append(wf)
+            buckets.setdefault(next_ch, []).append(item)
 
         picked = []
         seen = set()
-        # 1) По одной форме с каждой следующей буквы (в порядке лучших).
         for _ch, group in buckets.items():
-            wf = group[0]
-            if wf.form_clean in seen:
+            item = group[0]
+            if item["form_clean"] in seen:
                 continue
-            seen.add(wf.form_clean)
-            picked.append(wf)
+            seen.add(item["form_clean"])
+            picked.append(item)
             if len(picked) >= limit:
                 break
 
-        # 2) Добор, если букв-веток меньше лимита.
         if len(picked) < limit:
-            for wf in sorted(candidates, key=rank):
-                if wf.form_clean in seen:
+            for item in sorted(candidates, key=rank_item):
+                if item["form_clean"] in seen:
                     continue
-                seen.add(wf.form_clean)
-                picked.append(wf)
+                seen.add(item["form_clean"])
+                picked.append(item)
                 if len(picked) >= limit:
                     break
 
         samples = [
             {
-                "form": wf.form,
-                "form_clean": wf.form_clean,
-                "label_krl": wf.grammar_form.name_krl,
+                "form": item["form"],
+                "form_clean": item["form_clean"],
+                "label_krl": item["label_krl"],
             }
-            for wf in picked
+            for item in picked
         ]
         return samples, total

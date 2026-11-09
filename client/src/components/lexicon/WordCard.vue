@@ -1,10 +1,15 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <p v-if="word.matched_form" class="matched-form text-muted mb-1">
-        <em>{{ word.matched_form }}</em>
-        <span v-if="word.matched_form_label_krl"> — {{ word.matched_form_label_krl }}</span>
-      </p>
+      <div v-if="word.matched_form" class="matched-form text-muted mb-1">
+        <em class="matched-form-orth">{{ word.matched_form }}</em>
+        <ul
+          v-if="matchedLabels.length"
+          class="matched-form-labels list-unstyled mb-0"
+        >
+          <li v-for="(lab, i) in matchedLabels" :key="i">{{ lab }}</li>
+        </ul>
+      </div>
 
       <p class="card-title d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center flex-wrap">
@@ -41,6 +46,16 @@
           >
             <font-awesome-icon icon="table" />
           </button>
+          <a
+            v-if="showLexiconLink"
+            :href="lexiconSearchUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-sm btn-outline-secondary"
+            title="Šanakniigašta"
+          >
+            <font-awesome-icon :icon="['fas', 'arrow-up-right-from-square']" />
+          </a>
           <button @click="playSound(word.speech)" :disabled="isPlaying"
             class="btn btn-sm btn-outline-primary" type="button">
             <font-awesome-icon icon="volume-up" />
@@ -99,6 +114,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    showLexiconLink: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -109,6 +128,19 @@ export default {
       paradigmLoading: false,
       paradigmError: '',
     };
+  },
+  computed: {
+    matchedLabels() {
+      const labels = this.word?.matched_form_labels_krl;
+      return Array.isArray(labels) ? labels : [];
+    },
+    lexiconSearchUrl() {
+      const q =
+        this.word?.matched_form ||
+        (this.word?.word ? this.word.word.replace('|', '') : '');
+      if (!q) return '/lexicon/A';
+      return `/lexicon/search/${encodeURIComponent(q)}`;
+    },
   },
   methods: {
     definition(definitions) {
@@ -185,8 +217,23 @@ export default {
 
 .matched-form {
   font-size: 1.05rem;
-  line-height: 1.3;
-  margin-bottom: 0.15rem;
+  line-height: 1.35;
+  margin-bottom: 0.35rem;
+}
+
+.matched-form-orth {
+  display: inline-block;
+  margin-bottom: 0.1rem;
+}
+
+.matched-form-labels {
+  margin: 0.15rem 0 0;
+  padding-left: 0.1rem;
+  font-size: 0.9rem;
+}
+
+.matched-form-labels li {
+  margin: 0;
 }
 
 .badge {

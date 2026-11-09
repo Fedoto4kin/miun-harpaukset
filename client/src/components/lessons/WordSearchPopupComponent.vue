@@ -32,17 +32,27 @@
                 @mouseout="hoveredIndex = -1"
                 :class="{ 'list-item-hover': hoveredIndex === index || selectedIndex === index }"
               >
-                <span class="word-suggestion">
+                <div class="word-suggestion flex-grow-1">
                   <template v-if="suggestion.matched_form">
-                    <em>{{ suggestion.matched_form }}</em>
-                    <span class="text-muted mx-1">→</span>
-                    <em>{{ suggestion.word }}</em>
+                    <div class="suggestion-chain-head">
+                      <em>{{ suggestion.matched_form }}</em>
+                      <span class="text-muted mx-1">→</span>
+                      <em>{{ suggestion.word }}</em>
+                    </div>
+                    <ul
+                      v-if="suggestionLabels(suggestion).length"
+                      class="suggestion-labels list-unstyled text-muted mb-0"
+                    >
+                      <li v-for="(lab, i) in suggestionLabels(suggestion)" :key="i">
+                        {{ lab }}
+                      </li>
+                    </ul>
                   </template>
                   <template v-else>
                     {{ suggestion.word }}
                   </template>
-                </span>
-                <span v-if="suggestion.pos" class="badge bg-secondary">{{ suggestion.pos }}</span>
+                </div>
+                <span v-if="suggestion.pos" class="badge bg-secondary align-self-start">{{ suggestion.pos }}</span>
               </li>
             </ul>
           </div>
@@ -59,6 +69,7 @@
               :key="w.id"
               :word="w"
               :show-paradigm-btn="false"
+              :show-lexicon-link="true"
             />
           </div>
         </div>
@@ -126,6 +137,11 @@
       },
     },
     methods: {
+      suggestionLabels(s) {
+        return Array.isArray(s?.matched_form_labels_krl)
+          ? s.matched_form_labels_krl
+          : [];
+      },
       resetResults() {
         this.suggestions = [];
         this.selectedWords = [];
@@ -190,7 +206,7 @@
             {
               ...wordCard,
               matched_form: suggestion.matched_form || null,
-              matched_form_label_krl: suggestion.matched_form_label_krl || null,
+              matched_form_labels_krl: this.suggestionLabels(suggestion),
             },
           ];
           this.suggestions = [];
@@ -298,10 +314,25 @@
 
   .word-suggestion {
     font-weight: 500;
-    display: inline-flex;
-    align-items: center;
+    min-width: 0;
+  }
+
+  .suggestion-chain-head {
+    display: flex;
     flex-wrap: wrap;
+    align-items: baseline;
     gap: 0.1rem;
+  }
+
+  .suggestion-labels {
+    margin-top: 0.2rem;
+    font-size: 0.85rem;
+    line-height: 1.35;
+    font-weight: 400;
+  }
+
+  .suggestion-labels li {
+    margin: 0;
   }
 
   .list-group-item {

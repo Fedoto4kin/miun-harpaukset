@@ -170,11 +170,53 @@ class Command(BaseCommand):
             )
             if pos == "pron.":
                 qs_del = qs_del.exclude(word__word_clean__in=_PERSONAL_PRON)
+
+            # Сохранить ручные альты: (word_id, grammar_form_id, form) → list
+            preserved_alts = {}
+            for wf in qs_del.exclude(alt_spellings=[]).only(
+                "word_id", "grammar_form_id", "form", "alt_spellings"
+            ):
+                alts = wf.alt_spellings or []
+                if alts:
+                    preserved_alts[(wf.word_id, wf.grammar_form_id, wf.form)] = list(
+                        alts
+                    )
+
             deleted, _ = qs_del.delete()
             WordForm.objects.bulk_create(to_create, batch_size=1000)
 
+            restored = 0
+            if preserved_alts:
+                restore_qs = WordForm.objects.filter(
+                    grammar_form__category=category,
+                    word__pos__abbr=pos,
+                )
+                if pos == "pron.":
+                    restore_qs = restore_qs.exclude(
+                        word__word_clean__in=_PERSONAL_PRON
+                    )
+                to_update = []
+                for wf in restore_qs.iterator():
+                    key = (wf.word_id, wf.grammar_form_id, wf.form)
+                    alts = preserved_alts.get(key)
+                    if not alts:
+                        continue
+                    wf.alt_spellings = alts
+                    wf.alt_spellings_clean = [
+                        Word.search_prepare(a) for a in alts
+                    ]
+                    to_update.append(wf)
+                if to_update:
+                    WordForm.objects.bulk_update(
+                        to_update,
+                        ["alt_spellings", "alt_spellings_clean"],
+                        batch_size=500,
+                    )
+                    restored = len(to_update)
+
         self.stdout.write(
             self.style.SUCCESS(
-                f"replaced wordforms for {pos}: deleted={deleted}, created={len(to_create)}"
+                f"replaced wordforms for {pos}: deleted={deleted}, "
+                f"created={len(to_create)}, alts_restored={restored}"
             )
         )

@@ -2,7 +2,9 @@ import axios from '../axios';
 
 export const fetchWordsByLetter = async (letter) => {
   try {
-    const response = await axios.get(`v0/lexicon/search/`, { params: { query: letter } });
+    const response = await axios.get(`v0/lexicon/search/`, {
+      params: { letter },
+    });
     return response.data;
   } catch (error) {
     console.error('Error fetching words by letter:', error);

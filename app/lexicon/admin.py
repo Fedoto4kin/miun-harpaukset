@@ -1,6 +1,8 @@
+from django import forms
 from django.contrib import admin
 
 from .models import Definition, GrammarForm, Speech, Stem, Word, WordForm
+from .models.word_form import _normalize_alt_list
 
 
 class DefinitionInline(admin.TabularInline):
@@ -31,18 +33,47 @@ class StemInline(admin.TabularInline):
         return False
 
 
+class WordFormInlineForm(forms.ModelForm):
+    alt_spellings_text = forms.CharField(
+        required=False,
+        widget=forms.Textarea(attrs={"rows": 2, "cols": 30}),
+        label="Alt spellings",
+        help_text="По одному на строку (или через запятую). Только поиск, не парадигма.",
+    )
+
+    class Meta:
+        model = WordForm
+        fields = ("grammar_form", "form", "form_clean")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        alts = []
+        if self.instance and self.instance.pk:
+            alts = self.instance.alt_spellings or []
+        self.fields["alt_spellings_text"].initial = "\n".join(alts)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.alt_spellings = _normalize_alt_list(
+            self.cleaned_data.get("alt_spellings_text")
+        )
+        if commit:
+            instance.save()
+        return instance
+
+
 class WordFormInline(admin.TabularInline):
-    """Только просмотр словоформ; правки через generate_wordforms."""
+    """Канон readonly; альты написания — редактируемые."""
 
     model = WordForm
+    form = WordFormInlineForm
     extra = 0
     max_num = 0
     can_delete = False
     show_change_link = False
     ordering = ("grammar_form__sort_order",)
-    fields = ("grammar_form", "form", "form_clean")
-    readonly_fields = fields
-    raw_id_fields = ()
+    fields = ("grammar_form", "form", "form_clean", "alt_spellings_text")
+    readonly_fields = ("grammar_form", "form", "form_clean")
 
     def has_add_permission(self, request, obj=None):
         return False

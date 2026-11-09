@@ -39,6 +39,7 @@ import {
     faInfoCircle,
     faChevronDown,
     faTable,
+    faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -82,6 +83,7 @@ library.add(
     faInfoCircle,
     faChevronDown,
     faTable,
+    faArrowUpRightFromSquare,
 );
 
 export { FontAwesomeIcon };

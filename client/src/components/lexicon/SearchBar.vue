@@ -60,12 +60,19 @@
             @click="handleSuggestionClick(suggestion)"
           >
             <template v-if="suggestion.matched_form">
-              <em>{{ suggestion.matched_form }}</em>
-              <span class="text-muted">
-                ({{ suggestion.matched_form_label_krl }})
-              </span>
-              <span class="text-muted mx-1">→</span>
-              <em>{{ suggestion.word }}</em>
+              <div class="suggestion-chain-head">
+                <em>{{ suggestion.matched_form }}</em>
+                <span class="text-muted mx-1">→</span>
+                <em>{{ suggestion.word }}</em>
+              </div>
+              <ul
+                v-if="suggestionLabels(suggestion).length"
+                class="suggestion-labels list-unstyled text-muted mb-0"
+              >
+                <li v-for="(lab, i) in suggestionLabels(suggestion)" :key="i">
+                  {{ lab }}
+                </li>
+              </ul>
             </template>
             <template v-else>
               <div>{{ suggestion.word }}</div>
@@ -162,6 +169,9 @@ export default {
 
     const suggestionKey = (s) =>
       s.matched_form ? `${s.matched_form}→${s.word}` : s.word;
+
+    const suggestionLabels = (s) =>
+      Array.isArray(s?.matched_form_labels_krl) ? s.matched_form_labels_krl : [];
 
     /** Строка для поиска: при форме — сама форма (карточка покажет метку). */
     const suggestionQuery = (s) => s.matched_form || s.word;
@@ -291,6 +301,7 @@ export default {
       showMobileChars,
       highlightedIndex,
       suggestionKey,
+      suggestionLabels,
       clearSearchText,
       setSearchText,
       getSearchText,
@@ -351,6 +362,24 @@ export default {
 
 .suggestions .list-group-item {
   margin-bottom: 0;
+}
+
+.suggestion-chain-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.1rem;
+}
+
+.suggestion-labels {
+  margin-top: 0.2rem;
+  padding-left: 0.15rem;
+  font-size: 0.85rem;
+  line-height: 1.35;
+}
+
+.suggestion-labels li {
+  margin: 0;
 }
 
 .sample-forms {

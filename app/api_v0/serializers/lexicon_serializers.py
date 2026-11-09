@@ -23,7 +23,7 @@ class WordPreviewSerializer(serializers.ModelSerializer):
     speech = serializers.SerializerMethodField()
     alias_words = WordAliasSerializer(many=True, source="alias")
     matched_form = serializers.SerializerMethodField()
-    matched_form_label_krl = serializers.SerializerMethodField()
+    matched_form_labels_krl = serializers.SerializerMethodField()
     has_paradigm = serializers.SerializerMethodField()
 
     class Meta:
@@ -40,7 +40,7 @@ class WordPreviewSerializer(serializers.ModelSerializer):
             "variant",
             "additional",
             "matched_form",
-            "matched_form_label_krl",
+            "matched_form_labels_krl",
             "has_paradigm",
         ]
 
@@ -53,8 +53,8 @@ class WordPreviewSerializer(serializers.ModelSerializer):
     def get_matched_form(self, obj):
         return getattr(obj, "_matched_form", None)
 
-    def get_matched_form_label_krl(self, obj):
-        return getattr(obj, "_matched_form_label_krl", None)
+    def get_matched_form_labels_krl(self, obj):
+        return getattr(obj, "_matched_form_labels_krl", None)
 
     def get_has_paradigm(self, obj):
         if hasattr(obj, "has_paradigm_flag"):

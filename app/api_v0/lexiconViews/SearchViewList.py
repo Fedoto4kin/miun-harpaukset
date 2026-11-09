@@ -3,6 +3,7 @@ from rest_framework import generics
 
 from api_v0.serializers import WordPreviewSerializer
 from lexicon.models import KRL_ABC, Word, WordForm
+from lexicon.wordform_labels import collect_grammar_labels
 
 
 class SearchViewList(generics.ListAPIView):
@@ -12,13 +13,17 @@ class SearchViewList(generics.ListAPIView):
         return WordPreviewSerializer
 
     def get_queryset(self):
+        # Алфавитная лента: ?letter=A — префикс по лемме, без словоформ.
+        letter = (self.request.query_params.get("letter") or "").strip()
+        if letter:
+            return self._letter_browse(letter)
+
         search = self.request.query_params.get("query", "").lower()
         prepared = Word.search_prepare(string=search) if search else ""
         if not prepared:
             return Word.objects.none()
 
-        # Выдача: точная лемма или точная словоформа.
-        # Префикс (kuin→kuinbua, elä→elän) — только в подсказках.
+        # Выдача поиска: точная лемма или точная словоформа (/альт).
         matched_forms_qs = WordForm.objects.for_search(
             prepared, prefix=False
         ).select_related("grammar_form")
@@ -55,12 +60,44 @@ class SearchViewList(generics.ListAPIView):
             lemma_hit = q.word_clean.lower() == prepared
             matched = getattr(q, "matched_wordforms", None) or []
             if not lemma_hit and matched:
-                wf = matched[0]
-                q._matched_form = wf.form
-                q._matched_form_label_krl = wf.grammar_form.name_krl
+                q._matched_form = matched[0].surface_matching(
+                    prepared, prefix=False
+                )
+                q._matched_form_labels_krl = collect_grammar_labels(matched)
             else:
                 q._matched_form = None
-                q._matched_form_label_krl = None
+                q._matched_form_labels_krl = None
+
+        return sorted(
+            results,
+            key=lambda word: [KRL_ABC.lower().index(c) for c in word.krl_slugify()],
+        )
+
+    def _letter_browse(self, letter: str):
+        """Все леммы на букву (как раньше через istartswith query=A)."""
+        prepared = Word.search_prepare(string=letter)
+        if not prepared:
+            return Word.objects.none()
+
+        queryset = (
+            Word.objects.filter(word_clean__istartswith=prepared)
+            .select_related("pos", "speech")
+            .annotate(
+                has_paradigm_flag=Exists(
+                    WordForm.objects.filter(word_id=OuterRef("pk"))
+                )
+            )
+            .prefetch_related("definition_set", "alias")
+            .distinct()
+        )
+
+        results = list(queryset)
+        for q in results:
+            q.definition_set_by_lang = {}
+            for df in q.definition_set.all():
+                q.definition_set_by_lang.setdefault(df.lang, []).append(df.definition)
+            q._matched_form = None
+            q._matched_form_labels_krl = None
 
         return sorted(
             results,
