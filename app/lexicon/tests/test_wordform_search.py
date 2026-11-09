@@ -244,3 +244,68 @@ class AltSpellingSearchTests(TestCase):
         self.assertEqual(self.wf.form, "kävyin")
         self.assertEqual(self.wf.alt_spellings, ["kävin"])
         self.assertEqual(self.wf.alt_spellings_clean, ["kävin"])
+
+
+class PrefixFormSuggestionDiversityTests(TestCase):
+    """aka → чипы akan/akašta/…, не одна цепочка akan→akka."""
+
+    def setUp(self):
+        self.pos_s = Pos.objects.create(abbr="s.", name_ru="существительное")
+        self.word = Word(word="ak|ka", pos=self.pos_s)
+        self.word.save()
+        slots = [
+            ("gen_sg", "akan", "genetiiva yks."),
+            ("elat_sg", "akašta", "elatiiva yks."),
+            ("com_sg", "akanke", "komitatiiva yks."),
+            ("iness_sg", "akašša", "inessiiva yks."),
+        ]
+        for i, (code, form, name) in enumerate(slots):
+            gf = GrammarForm.objects.create(
+                code=code,
+                name_krl=name,
+                name_ru=name,
+                category=GrammarForm.Category.NOUN,
+                sort_order=10 + i,
+            )
+            WordForm.objects.create(word=self.word, grammar_form=gf, form=form)
+
+    def test_prefix_aka_shows_diverse_sample_forms(self):
+        client = APIClient()
+        resp = client.get(
+            "/api/v0/lexicon/grouped-search-suggestions/", {"query": "aka"}
+        )
+        self.assertEqual(resp.status_code, 200)
+        rows = [r for r in resp.json() if r.get("word_id") == self.word.id]
+        self.assertEqual(len(rows), 1)
+        row = rows[0]
+        self.assertNotIn("matched_form", row)
+        forms = {sf["form"] for sf in row.get("sample_forms", [])}
+        self.assertIn("akan", forms)
+        self.assertIn("akašta", forms)
+        self.assertIn("akanke", forms)
+
+    def test_akan_keeps_longer_siblings_as_chips(self):
+        """akan точно есть, но akanke тоже на префиксе — чипы, не одна цепочка."""
+        client = APIClient()
+        resp = client.get(
+            "/api/v0/lexicon/grouped-search-suggestions/", {"query": "akan"}
+        )
+        self.assertEqual(resp.status_code, 200)
+        rows = [r for r in resp.json() if r.get("word_id") == self.word.id]
+        self.assertEqual(len(rows), 1)
+        row = rows[0]
+        self.assertNotIn("matched_form", row)
+        forms = {sf["form"] for sf in row.get("sample_forms", [])}
+        self.assertIn("akan", forms)
+        self.assertIn("akanke", forms)
+
+    def test_unique_exact_form_still_chain(self):
+        client = APIClient()
+        resp = client.get(
+            "/api/v0/lexicon/grouped-search-suggestions/", {"query": "akašta"}
+        )
+        self.assertEqual(resp.status_code, 200)
+        rows = [r for r in resp.json() if r.get("word_id") == self.word.id]
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["matched_form"], "akašta")
+        self.assertNotIn("sample_forms", rows[0])
