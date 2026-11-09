@@ -1,9 +1,13 @@
 <template>
   <div class="card">
     <div class="card-body">
+      <p v-if="word.matched_form" class="matched-form text-muted mb-1">
+        <em>{{ word.matched_form }}</em>
+        <span v-if="word.matched_form_label_krl"> — {{ word.matched_form_label_krl }}</span>
+      </p>
+
       <p class="card-title d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center flex-wrap">
-          <!-- Основное слово -->
           <span class="word-main">
             {{ word.word ? word.word.replace('|', '') : '' }}
           </span>
@@ -14,7 +18,6 @@
             {{ word.variant }}
           </span>
 
-          <!-- Часть речи с тултипом -->
           <VTooltip class="d-inline ms-2">
             <span class="badge bg-secondary align-middle">
               {{ word.pos }}
@@ -28,14 +31,23 @@
           </VTooltip>
         </span>
 
-        <!-- Кнопка воспроизведения звука -->
-        <button @click="playSound(word.speech)" :disabled="isPlaying"
-          class="btn btn-sm btn-outline-primary align-self-start">
-          <font-awesome-icon icon="volume-up" />
-        </button>
+        <span class="d-flex gap-1 align-self-start">
+          <button
+            v-if="word.has_paradigm"
+            @click="openParadigm"
+            class="btn btn-sm btn-outline-secondary"
+            title="Muutokšet"
+            type="button"
+          >
+            <font-awesome-icon icon="table" />
+          </button>
+          <button @click="playSound(word.speech)" :disabled="isPlaying"
+            class="btn btn-sm btn-outline-primary" type="button">
+            <font-awesome-icon icon="volume-up" />
+          </button>
+        </span>
       </p>
 
-      <!-- Определения -->
       <ul class="list-group list-group-flush">
         <li v-for="(def, lang) in definition(word.definition)" :key="lang" class="list-group-item">
           <div class="d-flex align-items-center">
@@ -52,18 +64,32 @@
         </li>
       </ul>
 
-      <!-- Синонимы -->
-      <div v-if="word.alias_words.length" class="mt-2">
+      <div v-if="word.alias_words && word.alias_words.length" class="mt-2">
         <span class='text-muted'>Šama kuin </span>
         <span v-for="al in alias(word.alias_words)" :key="al" class="badge bg-info me-1">{{ al }}</span>
       </div>
     </div>
+
+    <ParadigmPopup
+      :show="showParadigm"
+      :lemma="word.word ? word.word.replace('|', '') : ''"
+      :pos="paradigmPos || word.pos || ''"
+      :highlight-form="word.matched_form || ''"
+      :forms="paradigmForms"
+      :loading="paradigmLoading"
+      :error="paradigmError"
+      @close="showParadigm = false"
+    />
   </div>
 </template>
 
 <script>
+import ParadigmPopup from './ParadigmPopup.vue';
+import { fetchWordParadigm } from '../../services/lexiconService';
+
 export default {
   name: 'WordCard',
+  components: { ParadigmPopup },
   props: {
     word: {
       type: Object,
@@ -72,12 +98,17 @@ export default {
   },
   data() {
     return {
-      isPlaying: false
+      isPlaying: false,
+      showParadigm: false,
+      paradigmForms: [],
+      paradigmPos: '',
+      paradigmLoading: false,
+      paradigmError: '',
     };
   },
   methods: {
     definition(definitions) {
-      return definitions.reduce((r, a) => {
+      return (definitions || []).reduce((r, a) => {
         r[a.lang] = r[a.lang] || [];
         r[a.lang].push(a.definition);
         return r;
@@ -98,7 +129,23 @@ export default {
       audio.onerror = () => {
         this.isPlaying = false;
       };
-    }
+    },
+    async openParadigm() {
+      this.showParadigm = true;
+      this.paradigmError = '';
+      this.paradigmLoading = true;
+      try {
+        const data = await fetchWordParadigm(this.word.id);
+        this.paradigmForms = data.forms || [];
+        this.paradigmPos = data.pos || '';
+      } catch (e) {
+        this.paradigmError = 'Ei voitu lataa muutokšie';
+        this.paradigmForms = [];
+        this.paradigmPos = '';
+      } finally {
+        this.paradigmLoading = false;
+      }
+    },
   }
 };
 </script>
@@ -112,11 +159,9 @@ export default {
 .card-title {
   font-size: larger;
   min-height: 2.5rem;
-  /* Минимальная высота для выравнивания */
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  /* Выравниваем по верхнему краю */
 }
 
 .word-main {
@@ -134,15 +179,12 @@ export default {
   font-size: 0.9em;
 }
 
-/* Выравнивание кнопки звука */
-.btn-outline-primary {
-  margin-top: 0.125rem;
-  /* Небольшой отступ для визуального баланса */
-  flex-shrink: 0;
-  /* Не сжимаем кнопку */
+.matched-form {
+  font-size: 1.05rem;
+  line-height: 1.3;
+  margin-bottom: 0.15rem;
 }
 
-/* Для лучшего выравнивания badge с текстом */
 .badge {
   line-height: 1.2;
   padding: 0.35em 0.65em;
@@ -153,16 +195,10 @@ export default {
   margin-left: 0.5rem;
 }
 
-/* Адаптивность для мобильных */
 @media (max-width: 576px) {
   .card-title {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .btn-outline-primary {
-    margin-top: 0.5rem;
-    align-self: flex-end;
   }
 }
 </style>

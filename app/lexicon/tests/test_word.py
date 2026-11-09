@@ -12,8 +12,10 @@ class WordSearchPrepareTests(SimpleTestCase):
         self.assertEqual(Word.search_prepare("AkKa"), "akka")
 
     def test_search_prepare_strips_apostrophes(self):
-        self.assertEqual(Word.search_prepare("kir’ja"), "kirja")
+        self.assertEqual(Word.search_prepare("kir’ja"), "kirja")  # U+2019
         self.assertEqual(Word.search_prepare("kir'ja"), "kirja")
+        self.assertEqual(Word.search_prepare("kirʼja"), "kirja")  # U+02BC canon
+
 
     def test_search_prepare_empty(self):
         self.assertEqual(Word.search_prepare(""), "")
@@ -55,6 +57,11 @@ class WordCleanSaveTests(TestCase):
         word.word = "kir'ja"
         word.save()
         self.assertEqual(word.word_clean, "kirja")
+
+        word.word = "kirʼja"
+        word.save()
+        self.assertEqual(word.word_clean, "kirja")
+
 
     def test_save_preserves_case_in_word_clean(self):
         word = Word(word="Ak|Ka", pos=self.pos)

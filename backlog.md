@@ -24,6 +24,30 @@
 | LX-1 | Вынести `Word.search_prepare` в сервисный слой | `lexicon/models/word.py` | open |
 | LX-2 | Фильтровать ввод поиска по `KRL_ABC` | `lexicon/models/word.py` | open |
 
+## Морфология — открытые вопросы / расхождения (не блокеры)
+
+Копить здесь по ходу пайплайна; закрывать точечно, не смешивая с текущим POS-этапом.
+
+| ID | Тема | Детали | Статус |
+|----|------|--------|--------|
+| MORPH-1 | Пустой `orig` / нет основ | `Word` 6140 `hapan` (`a.`), 6141 `ryndäh\|ät` — `orig` пуст, Stem/WordForm = 0. Дозаполнить статьи, потом `import_stems` (+ gen). | open |
+| MORPH-2 | Dictorpus `käzi` | dialect=47: `käzilöidä` помечена и как абессив мн., и как партитив мн. У нас абессив `käzittä` / `käzilöittä` — верно; баг разметки ВепКар. | open |
+| MORPH-3 | Dictorpus `uni` | комитатив `uniloineh` (-neh) рядом с `-nke`. Grammatika → только `-nke` (`unenke`, `uninke`/`uniloinke`). | open |
+| MORPH-4 | pl. tantum `vuattiet` | есть `/`-альты и косвенные мн.; `nom_pl=vuattiet` (лемма) в WordForm не пишется. Решить: всегда класть лемму в nom для `pl`. | open |
+| MORPH-5 | `a.` без шаблона основ | `Word` 4179 `kogo` — в `orig` есть `<i>a.</i>`, но нет `<code>…</code>`; Stem/WordForm = 0 (несклоняемое / дефект статьи). | open |
+| MORPH-6 | Апостроф мягкости | Канон хранения U+02BC `ʼ`; поиск снимает все варианты (`lexicon.ortho`, `normalize_soft_signs`). Dictorpus/учебник могут давать U+2019 — при сверке нормализовать. | done |
+| MORPH-7 | Конд. `zin`/`sin` | Dictorpus иногда даёт пару `…zin`/`…sin` (и `zit`/`sit`); Grammatika — только `z`. Пример: `levittiäčie`. | open |
+| MORPH-8 | `pron.` несклоняемые | `jogo`, `kudami`, `molen`, `moneš` — в глоссе Novak без gen/part, в тексте не склоняются. Пишем только `nom_sg`. | done |
+| MORPH-9 | `mi`/`nimi` помета `pl.` в orig | В словаре ошибочно `pron. pl.`; глосс Novak ед.ч. Override в `build_stems`; поправить статьи. | open |
+
+Сделано по существительным (`s.`): Stem (+`alt` для `/`), WordForm, поиск, попап; сверка `/`-лемм с dialect=47 — OK кроме MORPH-2…4.
+
+Сделано по прилагательным (`a.`): WordForm через тот же именной генератор (`generate_wordforms --pos=a.`, 243 леммы / 6561 форм; skip: `kogo`, `hapan`); сверка 15 случайных + повтор ERR — OK, кроме MORPH-6 (`palane`).
+
+Сделано по местоимениям (`pron.`): 12 лемм Mestoimenia → WordForm (`import_pronouns`); остальные с `<code>` — именная парадигма (`import_stems` + `generate_wordforms --pos=pron.`; эталон глосс/текст Novak PDF; override `ken`/`niken`). Без шаблона — MORPH-8.
+
+Сделано по глаголам (`v.`): фазы 1–2 — 680 лемм → 77058 WordForm (финитные, потенциал, инф. II–III, причастия, аналитика на 141); схема 73; сверка phase2 (7 лемм) — OK; MORPH-7 (zin/sin) остаётся.
+
 ## Документация / DX
 
 | ID | Задача | Источник | Статус |

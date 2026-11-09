@@ -1,4 +1,5 @@
 from .GroupedSearchSuggestionsView import GroupedSearchSuggestionsView
+from .ParadigmView import ParadigmView
 from .PosViewSet import PosViewSet
 from .ReverseSearchSuggestionsView import ReverseSearchSuggestionsView
 from .SearchReverseViewList import SearchReverseViewList

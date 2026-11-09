@@ -20,3 +20,13 @@ export const fetchWordsBySearch = async (params) => {
     throw error;
   }
 };
+
+export const fetchWordParadigm = async (wordId) => {
+  try {
+    const response = await axios.get(`v0/lexicon/word-card/${wordId}/paradigm/`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching word paradigm:', error);
+    throw error;
+  }
+};

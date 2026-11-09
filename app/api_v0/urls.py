@@ -28,6 +28,11 @@ urlpatterns = [
         name="search-suggestions-reverse",
     ),
     path("lexicon/word-card/<int:word_id>/", WordCardView.as_view(), name="word-card"),
+    path(
+        "lexicon/word-card/<int:word_id>/paradigm/",
+        ParadigmView.as_view(),
+        name="word-paradigm",
+    ),
     re_path(r"^lexicon/search/$", SearchViewList.as_view(), name="search-view"),
     re_path(
         r"^lexicon/reverse/$",

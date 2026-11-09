@@ -1,0 +1,250 @@
+Выделение основ именного словоизменения (кроме местоимений)
+начальная форма	основа 1
+гл. слаб.	основа 2
+гл. сильн.	основа 3
+= форма парт. ед.	основа 4
+слаб. мн. ч.	основа 5
+сильн. мн. ч.
+akka
+mua
+pieni
+paimen
+kirveš	aka-
+mua-
+piene-
+paimene-
+kirvehe-	akka-
+mua-
+piene-
+paimene-
+kirvehe-	akkua
+mua-
+piendä
+paimenda
+kirveštä	akoi-
+mualoi-
+pieni-
+paimeni-
+kirvehi-	akkoi-
+mualoi-
+pieni-
+paimeni-
+kirvehi-
+ном. ед. ч. на 	ген. ед. ч.	илл. ед. ч.	парт. ед. ч.	ген. мн. ч.	илл. мн. ч.
+-o kukko
+-ö löttö	kuko-n
+lötö-n	kukko-h
+löttö-h	kukku-o
+lötty-ö	kukkoloi-n
+löttölöi-n	kukkoloi-h
+löttölöi-h
+-u algu
+-y kydy	alu-n
+kyvy-n	algu-h
+kydy-h	algu-o
+kydy-ö	alguloi-n
+kydylöi-n	alguloi-h
+kydylöi-h
+-i kazi	kazi-n	kazi-h	kazi-e	kaziloi-n	kaziloi-h
+-i jogi	jove-n	joge-h	jogi-e	jogiloi-n	jogiloi-h
+-a akka
+-ä emändä	aka-n
+emännä-n	akka-h
+emändä-h	akku-a
+emändi-ä	akoi-n
+emännöi-n	akkoi-h
+emändöi-h
+-a nuotta
+-ä leibä	nuota-n
+leivä-n	nuotta-h
+leibä-h	nuottu-a
+leibi-ä	nuoti-n
+leivi-n	nuotti-h
+leibi-h
+дифтонг mua	mua-n	mua-h	mua-da	mualoi-n	mualoi-h
+дифтонг valgie	valgie-n	valgie-h	valgie-da	valgei-n	valgei-h
+долгий гл. puu	puu-n	puu-h	puu-da	puuloi-n	puuloi-h
+-li hiili
+-ri hiiri
+-ni pieni	hiile-n
+hiire-n
+piene-n	hiile-h
+hiire-h
+piene-h	hiil-dä
+hiir-dä
+pien-dä	hiili-n
+hiiri-n
+pieni-n	hiili-h
+hiiri-h
+pieni-h
+-hi tuohi	tuohe-n	tuohe-h	tuoh-ta	tuohi-n	tuohi-h
+-mi lumi	lume-n	lume-h	lun-da	lumi- n
+lumiloi-n	lumi-h
+lumiloi-h
+-ši lapši	lapše-n	lapše-h	laš-ta	lapši-n	lapši-h
+-si yksi	yhe-n	yhte-h	yh-tä	yksi-n	yksi-h
+-zi vezi
+-ži hirži	veje-n
+herre-n	vede-h
+hirde-h	vet-tä
+hir-dä	vezi-n
+hirži-n	vezi-h
+hirži-h
+-te late	lattie-n	lattie-h	latet-ta	lattieloi-n
+lattei-n	lattieloi-h
+lattei-h
+-ne alane	alaze-n	alaze-h	alas-tʼa	alazi-n	alazi-h
+-l petel
+-n paimen
+-r tytär	petkele-n
+paimene-n
+tyttäre-n	petkele-h
+paimene-h
+tyttäre-h	petel-dä
+paimen-da
+tytär-dä	petkeli-n
+paimeni-n
+tyttäri-n	petkeli-h
+paimeni-h
+tyttäri-h
+-in härkin	härkime-n	härkime-h	härkin-dä	härkimi-n	härkimi-h
+-eh pereh	perehe-n	perehe-h	pereh-tä	perehi-n	perehi-h
+-aš varvaš
+-äš mätäš	varbaha-n
+mättähä-n	varbaha-h
+mättähä-h	varvaš-ta
+mätäš-tä	varbahi-n
+mättähi-n	varbahi-h
+mättähi-h
+-eš kirveš	kirvehe-n	kirvehe-h	kirveš-tä	kirvehi-n	kirvehi-h
+-eš vereš	verekše-n	verekše-h	vereš-tä	verekši-n	verekši-h
+-is jänis	jänikse-n	jänikse-h	jänis-tä	jäniksi-n	jäniksi-h
+-oš eloš
+-öš piirröš	elokše-n
+piirrökše-n	elokše-h
+piirrökše-h	eloš-ta
+piirröš-tä	elokši-n
+piirrökši-n	elokši-h
+piirrökši-h
+-uš kagluš
+-yš keššyš	kaglukše-n
+keššykše-n	kaglukše-h
+keššykše-h	kagluš-ta
+keššyš-tä	kaglukši-n
+keššykši-n	kaglukši-h
+keššykši-h
+-uš vanhuš
+-yš hyvyš	vanhuo-n
+hyvyö-n	vanhuo-h
+hyvyö-h	vanhut-ta
+hyvyt-tä	vanhuzi-n
+hyvyzi-n	vanhuzi-h
+hyvyzi-h
+-ut lapšut
+-yt lyhyt	lapšuo-n
+lyhyö-n	lapšuo-h
+lyhyö-h	lapšut-ta
+lyhyt-tä	lapšuzi-n
+lyhyzi-n	lapšuzi-h
+lyhyzi-h
+-toin jallatoin
+-töin iänetöin	jallattoma-n
+iänettömä-n	jallattoma-h
+iänettömä-h	jallatoin-da
+iänetöin-dä	jallattomi-n
+iänettömi-n	jallattomi-h
+iänettömi-h
+
+Образование форм именного словоизменения от выделенных основ
+ID	Набор грамматических признаков	Правило формирования
+1	1. номинатив, ед. ч. 	начальная форма
+56	2. аккузатив, ед. ч. (не нужно выделять, т.к. совпадает или с номинативам, или генитивом; в отдельную форму выделяется только в местоимениях)	-
+3	3. генитив, ед. ч. 	основа 1 + n
+4	4. партитив, ед. ч. 	основа 3
+
+277	5. эссив, ед. ч. 	основа 2 + na  / nä 
+5	6. транслатив, ед. ч. 	основа 1 + kši
++ ksi (если основа 2 заканчивается на i)
+8	7. инессив, ед. ч. 	основа 1 + šša / ššä
++ ssa / ssä (если основа 2 заканчивается на i)
+9	8. элатив, ед. ч. 	основа 1 + šta / štä
++ sta / stä (если основа 2 заканчивается на i)
+10	9. иллатив, ед. ч. 	основа 2 + h
+278	10. адессив-аллатив, ед. ч. 	основа 1 + lla / llä
+12	11. аблатив, ед. ч. 	основа 1 + lda / ldä
+6	13. абессив, ед. ч. 	основа 1 + tta / ttä
+14	14. комитатив, ед. ч. 	основа 1 + nke
+15	15. пролатив, ед. ч. 	основа 1 + čči
+	17. эгрессив, ед. ч. (нет в с.к.!)	-
+	19. адитив, ед. ч. (нет в с.к.!)	-
+2	21. номинатив, мн. ч. 	основа 1 + t
+57	22. аккузатив, мн. ч. (не нужно выделять, т.к. совпадает с номинативам мн. ч.)
+	24	23. генитив, мн. ч. 	основа 4 + n
+22	24. партитив, мн. ч. 	основа 5 + e 
++ da / dä (если основа 5 заканчивается на oi / öi)
+279	25. эссив, мн. ч.	основа 5 + na / nä
+59	26. транслатив, мн. ч. 	основа 4 + ksi
+23	27. инессив, мн. ч. 	основа 4 + ssa / ssä
+60	28. элатив, мн. ч. 	основа 4 + sta / stä
+61	29. иллатив, мн. ч. 	основа 5 + h
+280	30. адессив-аллатив, мн. ч. 	основа 4 + lla / llä
+62	31. аблатив, мн. ч. 	основа 4 + lda / ldä
+64	33. абессив, мн. ч. 	основа 4 + tta / ttä
+65	34. комитатив, мн. ч. 	основа 4 + nke
+66	35. пролатив, мн. ч. 	основа 4 + čči
+281	36. инструктив, мн. ч. 	основа 4 + n
+	37. эгрессив, мн. ч. (нет в с.к.!)	-
+	39. адитив, мн. ч. (нет в с.к.!)	-
+
+Примеры:
+{akka, aka, akka, akkua, akoi, akkoi}
+{mua, mua, mua, muada, mualoi, mualoi}
+{pieni, piene, piene, piendä, pieni, pieni}
+{paimen, paimene, paimene, paimenda, paimeni, paimeni}
+{kirveš, kirvehe, kirvehe, kirveštä, kirvehi, kirvehi}
+{ativo, ativo, ativo, ativuo, ativo, ativo}
+{kuk|ko, kuko, kukko, kukkuo, kukkoloi,  kukkoloi}
+{löt|tö, lötö, löttö, löttyö, löttölöi, löttölöi}
+{algu, alu, algu, alguo, alguloi, alguloi}
+{kydy, kyvy, kydy, kydyö, kydylöi, kydylöi}
+{kazi, kazi, kazi, kazie, kaziloi, kaziloi}
+{jogi, jove, joge, jogie, jogiloi, jogiloi}
+{emändä, emännä, emändä, emändiä, emännöi, emändöi}
+{nuotta, nuota, nuotta, nuottua, nuoti, nuotti}
+{leibä, leivä, leibä, leibiä, leivi, leibi}
+{valgie, valgie, valgie, valgieda, valgei, valgei}
+{puu, puu, puu, puuda, puuloi, puuloi} 
+{hiili, hiile, hiile, hiildä, hiili, hiili} 
+{hiiri, hiire, hiire, hiirdä, hiiri, hiiri}
+{tuohi, tuohe, tuohe, tuohta, tuohi, tuohi}
+{lumi, lume, lume, lunda, lumi/lumiloi, lumi/lumiloi}
+{lapši, lapše, lapše, lašta, lapši, lapši}
+{yksi, yhe, yhte, yhtä, yksi, yksi}
+{vezi, veje, vede, vettä, vezi, vezi}
+{hirži, herre, hirde, hirdä, hirži, hirži}
+{late, lattie, lattie, latetta, lattieloi/lattei, lattieloi/lattei}
+{alane, alaze, alaze, alastʼa, alazi, alazi}
+{petel, petkele, petkele, peteldä, petkeli, petkeli}
+{tytär, tyttäre, tyttäre, tytärdä, tyttäri, tyttäri}
+{härkin, härkime, härkime, härkindä, härkimi, härkimi}
+{pereh, perehe, perehe, perehtä, perehi, perehi}
+{varvaš, varbaha, varbaha, varvašta, varbahi, varbahi}
+{mätäš, mättähä, mättähä, mätäštä, mättähi, mättähi}
+{vereš, verekše, verekše, vereštä, verekši, verekši}
+{jänis, jänikse, jänikse, jänistä, jäniksi, jäniksi}
+{eloš, elokše, elokše, elošta, elokši, elokši}
+{piirröš, piirrökše, piirrökše, piirröštä, piirrökši, piirrökši}
+{kagluš, kaglukše, kaglukše, kaglušta, kaglukši, kaglukši}
+{keššyš, keššykše, keššykše, keššyštä, keššykši, keššykši}
+{vanhuš, vanhuo, vanhuo, vanhutta, vanhuzi, vanhuzi}
+{hyvyš, hyvyö, hyvyö, hyvyttä, hyvyzi, hyvyzi}
+{lapšut, lapšuo, lapšuo, lapšutta, lapšuzi, lapšuzi}
+{lyhyt, lyhyö, lyhyö, lyhyttä, lyhyzi, lyhyzi}
+{jallatoin, jallattoma, jallattoma, jallatoinda, jallattomi, jallattomi}
+{iänetöin, iänettömä, iänettömä, iänetöindä, iänettömi, iänettömi}
+	 Здесь и далее: C - любой согласный, V - любой гласный. 
+	+ обозначает, что показатель сливается с основой. 
+	Через знак / даются заднерядный (с гласными a, o, u) или переднерядный (без гласных a, o, u) варианты показателя. При этом выбор показателя зависит от гласных основы, т.е. если в основе есть гласные a, o, u, то выбирается первый вариант, а если этих гласных в основе нет - второй.
+	 См. словоформу 141.
+	 Для основы 4 и основы 5 может встречаться по 2 варианта (lattieloi-n или lattei-n) при возможности это нужно учесть.
+	 в зависимости от того, есть ли в основе гласные a, o, u: если есть, то берем левый вариант, если нет, то правый

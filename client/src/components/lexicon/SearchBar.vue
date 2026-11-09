@@ -47,15 +47,49 @@
             </div>
           </div>
         </div>
-        <ul v-if="suggestions.length" class="list-group mt-2 suggestions">
+        <ul
+          v-if="suggestions.length"
+          class="list-group mt-2 suggestions"
+          :class="{ 'suggestions-tall': suggestionsHaveForms }"
+        >
           <li
             v-for="(suggestion, index) in suggestions"
-            :key="suggestion"
+            :key="suggestionKey(suggestion)"
             class="list-group-item"
             :class="{ 'list-group-item-hover': index === highlightedIndex }"
             @click="handleSuggestionClick(suggestion)"
           >
-            {{ suggestion }}
+            <template v-if="suggestion.matched_form">
+              <em>{{ suggestion.matched_form }}</em>
+              <span class="text-muted">
+                ({{ suggestion.matched_form_label_krl }})
+              </span>
+              <span class="text-muted mx-1">→</span>
+              <em>{{ suggestion.word }}</em>
+            </template>
+            <template v-else>
+              <div>{{ suggestion.word }}</div>
+              <div
+                v-if="suggestion.sample_forms && suggestion.sample_forms.length"
+                class="sample-forms"
+              >
+                <button
+                  v-for="sf in suggestion.sample_forms"
+                  :key="sf.form"
+                  type="button"
+                  class="sample-form-chip"
+                  :title="sf.label_krl"
+                  @click.stop="handleFormChipClick(sf.form)"
+                >
+                  <em>{{ sf.form }}</em>
+                </button>
+                <span
+                  v-if="suggestion.sample_forms_more"
+                  class="sample-forms-more text-muted"
+                  title="On enämbi muutošformua"
+                >…</span>
+              </div>
+            </template>
           </li>
         </ul>
       </div>
@@ -65,7 +99,7 @@
 </template>
 
 <script>
-import { ref, watch, onMounted, nextTick } from 'vue';
+import { ref, computed, watch, onMounted, nextTick } from 'vue';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import SwitchButton from '@/components/lexicon/SwitchButton.vue';
 import { fetchSearchSuggestionsGrouped } from '@/services/searchService';
@@ -96,6 +130,13 @@ export default {
     const highlightedIndex = ref(-1);
     let inputTimeout = null;
 
+    // Высокий дропдаун только если есть превью словоформ (чипы).
+    const suggestionsHaveForms = computed(() =>
+      suggestions.value.some(
+        (s) => Array.isArray(s.sample_forms) && s.sample_forms.length > 0
+      )
+    );
+
     // Методы для работы с текстом
     const clearSearchText = () => {
       searchText.value = '';
@@ -119,11 +160,17 @@ export default {
       reverse.value = newReverse;
     });
 
+    const suggestionKey = (s) =>
+      s.matched_form ? `${s.matched_form}→${s.word}` : s.word;
+
+    /** Строка для поиска: при форме — сама форма (карточка покажет метку). */
+    const suggestionQuery = (s) => s.matched_form || s.word;
+
     const fetchSuggestions = async () => {
       if (searchText.value.length >= 2) {
         try {
           const data = await fetchSearchSuggestionsGrouped(searchText.value, reverse.value);
-          suggestions.value = data.map(item => item.word);
+          suggestions.value = Array.isArray(data) ? data : [];
           highlightedIndex.value = -1;
         } catch (error) {
           console.error('Failed to fetch suggestions:', error);
@@ -148,13 +195,22 @@ export default {
       }
     };
 
-    const handleSuggestionClick = (suggestion) => {
-      searchText.value = suggestion;
+    const runSearch = (q) => {
+      searchText.value = q;
       suggestions.value = [];
-      emit('pushSearchStr', suggestion);
+      emit('pushSearchStr', q);
       if (searchInput.value) {
         searchInput.value.blur();
       }
+    };
+
+    const handleSuggestionClick = (suggestion) => {
+      const q = typeof suggestion === 'string' ? suggestion : suggestionQuery(suggestion);
+      runSearch(q);
+    };
+
+    const handleFormChipClick = (form) => {
+      runSearch(form);
     };
 
     const handleDiacrtButtonClick = (e) => {
@@ -231,14 +287,17 @@ export default {
       reverse,
       searchInput,
       suggestions,
+      suggestionsHaveForms,
       showMobileChars,
       highlightedIndex,
+      suggestionKey,
       clearSearchText,
       setSearchText,
       getSearchText,
       fetchSuggestions,
       handleSearchButtonClick,
       handleSuggestionClick,
+      handleFormChipClick,
       handleDiacrtButtonClick,
       toggleReverse,
       toggleMobileChars,
@@ -267,6 +326,10 @@ export default {
   z-index: 1060;
 }
 
+.list-group.suggestions-tall {
+  max-height: min(70vh, 480px);
+}
+
 .list-group-item {
   cursor: pointer;
 }
@@ -288,6 +351,36 @@ export default {
 
 .suggestions .list-group-item {
   margin-bottom: 0;
+}
+
+.sample-forms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.sample-form-chip {
+  border: 1px solid #dee2e6;
+  background: #f8f9fa;
+  border-radius: 0.25rem;
+  padding: 0.05rem 0.4rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #495057;
+  cursor: pointer;
+}
+
+.sample-form-chip:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.sample-forms-more {
+  padding: 0.05rem 0.2rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  user-select: none;
 }
 
 .mobile-chars {

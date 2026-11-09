@@ -60,6 +60,9 @@ class Stem(models.Model):
     # Номер основы (0-8 для глаголов, 0-5 для именных)
     number = models.PositiveSmallIntegerField()
 
+    # Индекс альтернативы (0, 1, …) для шаблонов вида -zi / -zilöi
+    alt = models.PositiveSmallIntegerField(default=0)
+
     # ПОЛНЫЙ текст основы (база + суффикс)
     form = models.CharField(max_length=256)
 
@@ -80,8 +83,8 @@ class Stem(models.Model):
     class Meta:
         verbose_name = "Vardalo"
         verbose_name_plural = "Vardalot"
-        unique_together = ["word", "stem_type"]
-        ordering = ["word", "number"]
+        unique_together = ["word", "stem_type", "alt"]
+        ordering = ["word", "number", "alt"]
         indexes = [
             models.Index(fields=["word", "number"]),
             models.Index(fields=["word"]),
@@ -89,7 +92,8 @@ class Stem(models.Model):
 
     def __str__(self):
         mark = f" [{self.special_mark}]" if self.special_mark else ""
-        return f"{self.word.word_clean} - {self.number}: {self.form} {mark}"
+        alt = f" alt{self.alt}" if self.alt else ""
+        return f"{self.word.word_clean} - {self.number}{alt}: {self.form}{mark}"
 
     @property
     def is_verb(self):
@@ -114,12 +118,15 @@ class Stem(models.Model):
             return getattr(cls.NounStemType, f"NOUN_{number}", None)
         elif pos_abbr == "a.":
             return getattr(cls.AdjStemType, f"ADJ_{number}", None)
+        elif pos_abbr == "pron.":
+            # Вне Mestoimenia — именная парадигма (noun_* типы).
+            return getattr(cls.NounStemType, f"NOUN_{number}", None)
         return None
 
     @classmethod
-    def create_stem(cls, word, number, form, special_mark=""):
+    def create_stem(cls, word, number, form, special_mark="", alt=0):
         """
-        Создает основу с заданным номером.
+        Создает основу с заданным номером и индексом альтернативы.
         """
         stem_type = cls.get_stem_type_for_number(word.pos.abbr, number)
         if not stem_type:
@@ -129,21 +136,24 @@ class Stem(models.Model):
             word=word,
             stem_type=stem_type,
             number=number,
+            alt=alt,
             form=form,
             special_mark=special_mark,
         )
 
     @classmethod
-    def get_stem_by_number(cls, word, number):
+    def get_stem_by_number(cls, word, number, alt=0):
         """
-        Возвращает основу по слову и номеру.
+        Возвращает основу по слову, номеру и альтернативе.
         """
-        return cls.objects.filter(word=word, number=number).first()
+        return cls.objects.filter(word=word, number=number, alt=alt).first()
 
     @classmethod
     def get_all_stems_for_word(cls, word):
         """
-        Возвращает все основы слова в виде словаря {номер: форма}.
+        Возвращает {номер: [форма_alt0, форма_alt1, ...]}.
         """
-        stems = cls.objects.filter(word=word).order_by("number")
-        return {stem.number: stem.form for stem in stems}
+        out = {}
+        for stem in cls.objects.filter(word=word).order_by("number", "alt"):
+            out.setdefault(stem.number, []).append(stem.form)
+        return out

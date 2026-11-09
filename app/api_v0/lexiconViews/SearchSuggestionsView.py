@@ -10,9 +10,15 @@ class SearchSuggestionsView(APIView):
     def get(self, request, *args, **kwargs):
         search = request.query_params.get("query", "").lower()
         if len(search) >= 2:
-            suggestions = Word.objects.filter(
-                word_clean__istartswith=Word.search_prepare(string=search)
-            )[:10]
+            prepared = Word.search_prepare(string=search)
+            suggestions = (
+                Word.objects.filter(
+                    Q(word_clean__istartswith=prepared)
+                    | Q(wordform_set__form_clean__istartswith=prepared)
+                )
+                .select_related("pos")
+                .distinct()[:10]
+            )
             suggestions_list = [
                 {
                     "word": _.word.replace("|", ""),

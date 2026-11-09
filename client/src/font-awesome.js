@@ -38,6 +38,7 @@ import {
     faStroopwafel,
     faInfoCircle,
     faChevronDown,
+    faTable,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -80,6 +81,7 @@ library.add(
     faStroopwafel,
     faInfoCircle,
     faChevronDown,
+    faTable,
 );
 
 export { FontAwesomeIcon };

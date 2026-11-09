@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 
 from krl.settings import LANGUAGE
 
+from lexicon.ortho import strip_soft_signs
+
 from .pos import Pos
 from .speech import Speech
 
@@ -63,10 +65,11 @@ class Word(models.Model):
     @staticmethod
     def search_prepare(string):
         # todo: filter by KRL_ABC
-        return string.lower().replace("ü", "y").replace("’", "").replace("'", "")
+        # Мягкий знак (ʼ / ’ / ') снимаем — поиск не зависит от канона хранения.
+        return strip_soft_signs(string.lower().replace("ü", "y"))
 
     def save(self, *args, **kwargs):
-        self.word_clean = self.word.replace("|", "").replace("’", "").replace("'", "")
+        self.word_clean = strip_soft_signs(self.word.replace("|", ""))
         super(Word, self).save(*args, **kwargs)
 
     class Meta:

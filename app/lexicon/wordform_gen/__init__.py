@@ -1,0 +1,9 @@
+"""Одноразовая генерация словоформ из Stem. Не импортировать из runtime API."""
+
+from .nouns import generate_noun_forms
+from .verbs import generate_verb_forms
+
+# Прилагательные: те же основы 0–5 и падежные окончания (именное склонение).
+generate_adj_forms = generate_noun_forms
+
+__all__ = ["generate_noun_forms", "generate_adj_forms", "generate_verb_forms"]
