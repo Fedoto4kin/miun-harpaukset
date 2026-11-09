@@ -233,6 +233,21 @@ docker compose exec -T web python manage.py loaddata lexicon/fixtures/lexicon.js
 docker compose exec -T web python manage.py loaddata grammar/fixtures/grammar.json
 ```
 
+### Морфология словаря → прод
+
+Не запускать `import_stems` / `generate_wordforms` на проде. Схема: **локально fill → `dumpdata lexicon` → git → прод `loaddata`**.
+
+```bash
+# локально после regenerate / ручных alt_spellings:
+docker compose exec -T web \
+  python manage.py dumpdata lexicon --indent 2 > app/lexicon/fixtures/lexicon.json
+# commit + push, на проде после migrate:
+docker compose -f docker-compose.internal.yml exec -T web \
+  python manage.py loaddata lexicon/fixtures/lexicon.json
+```
+
+Подробности пайплайна: `.cursor/rules/lexicon-morphology.mdc`, остатки — `backlog.md` → MORPH-*.
+
 ### Уроки с прода → локально (полный поток, без SSH с локали)
 
 Схема: **прод (dump) → git commit/push → локаль (pull) → `./reload_lessons_fixtures.sh`**.  

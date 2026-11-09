@@ -24,9 +24,15 @@
 | LX-1 | Вынести `Word.search_prepare` в сервисный слой | `lexicon/models/word.py` | open |
 | LX-2 | Фильтровать ввод поиска по `KRL_ABC` | `lexicon/models/word.py` | open |
 
-## Морфология — открытые вопросы / расхождения (не блокеры)
+## Морфология словаря
 
-Копить здесь по ходу пайплайна; закрывать точечно, не смешивая с текущим POS-этапом.
+| ID | Задача | Источник | Статус |
+|----|--------|----------|--------|
+| MORPH-CORE | Stem/WordForm для `s.`/`a.`/`pron.`/`v.`, поиск по формам, попап парадигмы, подсказки с чипами, `alt_spellings`, selection в уроках, фикстура на прод | `lexicon/*`, `api_v0`, client | done |
+
+Закрыто (2026-11): импорт основ + генерация словоформ; exact search + `?letter=`; grouped suggestions (префикс → чипы, уникальная форма → цепочка); парадигма на карточке; lesson popup/selection; notranslate; deploy через `lexicon.json` (без generate на проде). Ручные альты: `käyvä` `kävin`/`kävit`.
+
+### Остаточные расхождения (не блокеры)
 
 | ID | Тема | Детали | Статус |
 |----|------|--------|--------|
@@ -39,14 +45,6 @@
 | MORPH-7 | Конд. `zin`/`sin` | Dictorpus иногда даёт пару `…zin`/`…sin` (и `zit`/`sit`); Grammatika — только `z`. Пример: `levittiäčie`. | open |
 | MORPH-8 | `pron.` несклоняемые | `jogo`, `kudami`, `molen`, `moneš` — в глоссе Novak без gen/part, в тексте не склоняются. Пишем только `nom_sg`. | done |
 | MORPH-9 | `mi`/`nimi` помета `pl.` в orig | В словаре ошибочно `pron. pl.`; глосс Novak ед.ч. Override в `build_stems`; поправить статьи. | open |
-
-Сделано по существительным (`s.`): Stem (+`alt` для `/`), WordForm, поиск, попап; сверка `/`-лемм с dialect=47 — OK кроме MORPH-2…4.
-
-Сделано по прилагательным (`a.`): WordForm через тот же именной генератор (`generate_wordforms --pos=a.`, 243 леммы / 6561 форм; skip: `kogo`, `hapan`); сверка 15 случайных + повтор ERR — OK, кроме MORPH-6 (`palane`).
-
-Сделано по местоимениям (`pron.`): 12 лемм Mestoimenia → WordForm (`import_pronouns`); остальные с `<code>` — именная парадигма (`import_stems` + `generate_wordforms --pos=pron.`; эталон глосс/текст Novak PDF; override `ken`/`niken`). Без шаблона — MORPH-8.
-
-Сделано по глаголам (`v.`): фазы 1–2 — 680 лемм → 77058 WordForm (финитные, потенциал, инф. II–III, причастия, аналитика на 141); схема 73; сверка phase2 (7 лемм) — OK; MORPH-7 (zin/sin) остаётся.
 
 ## Документация / DX
 

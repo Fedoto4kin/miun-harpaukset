@@ -1,61 +1,46 @@
 ---
-description: Морфология словаря — основы, словоформы, эталон Dictorpus
+description: Морфология словаря — основы, словоформы, поиск, эталон Dictorpus
 alwaysApply: true
 ---
 
-# Морфология словаря (планирование / реализация)
+# Морфология словаря (статус: основная фича закрыта, 2026-11)
 
-## Где лежат основы сейчас (факт из БД, 2026-09)
+## Состояние в БД / прод
 
 | Место | Состояние |
 |-------|-----------|
-| `lexicon_stem` (`Stem`) | **пуста** (0 строк); модель есть, импорта нет |
-| `Word.word` | у ~77% лемм есть `\|` (граница морфемы), напр. `ak\|ka`, `ahavoit\|tua` |
-| `Word.orig` | почти у всех (~2788/2790); HTML исходной словарной статьи |
+| `GrammarForm` | ~146 слотов (имена + глаголы) |
+| `Stem` | заполнена (`import_stems` / `import_pronouns`) |
+| `WordForm` | заполнена (`generate_wordforms`, ~1.2e5 форм) |
+| `WordForm.alt_spellings` | поиск-only альты (напр. `kävyin` → `kävin`); канон парадигмы не меняется |
+| `Word.word` | у ~77% лемм есть `\|` (граница морфемы) |
+| `Word.orig` | HTML статьи; шаблон основ в `<code>…</code>` |
 
-Шаблоны основ **не** в фигурных скобках `{}`, а в теге `<code>` внутри `orig`:
+Деплой данных: **локально** fill → `dumpdata lexicon` → на проде `loaddata` (без `import_*` / `generate_*` на сервере). Фикстура: `app/lexicon/fixtures/lexicon.json`.
 
-```html
-<p><b>ak|ka</b> <code>-a : -ka, -kua, -oi : -koi</code> <i>s.</i><mark> …</mark></p>
-<p><b>abie</b><code>-, -da, -loi</code> <i>a.</i><mark> …</mark></p>
-<p><b>ahavoit|tua</b> <code>-a : -ta, -i : -ti, -ta, -eta, -ett</code> <i>v.</i><mark> …</mark></p>
-```
+## Runtime (API / UI)
 
-Парсер основ должен читать `<code>…</code>` из `orig` (+ лемму из `<b>` / `word`), а не искать `{…}`.
+- Поиск (`?query=`): **точное** совпадение леммы или словоформы/альта; аналитика с пробелом — только если в запросе есть пробел.
+- Алфавитная лента: `?letter=` — префикс по лемме.
+- Подсказки (`grouped-search-suggestions`): префикс по формам; чипы по разным «следующим буквам»; цепочка form→лемма только если на префикс ровно одна орфография.
+- Парадигма: `GET /api/v0/lexicon/word-card/{id}/paradigm/` + `ParadigmPopup` на карточке.
+- Уроки: selection → попап словаря; ссылка в большой лексикон.
 
-Семантика шаблона (как в грамматике словаря):
+## Оффлайн-пайплайн (пересборка данных)
 
-- Имя: `{1, 3, 4}` или с чередованием `1 : 2, 3, 4 : 5` (сильные 2 и 5 только при чередовании)
-- Глагол: `1 : 2, 3 : 4, 5, 6, 7`
-- `-` в шаблоне = пустой суффикс к базе до `|`
-- Пометы `pl.` / `sing.` / `v. def.` — ограничение парадигмы
+1. `import_stems` — `lexicon/stem_import/` (парсер `<code>` из `orig`)
+2. `import_pronouns` — 12 личных/указательных
+3. `generate_wordforms --pos=s.|a.|pron.|v.` — `lexicon/wordform_gen/`
+4. Ручные `alt_spellings` в admin (сохраняются при regenerate)
+5. `normalize_soft_signs` — канон U+02BC `ʼ`
 
-## Целевой пайплайн
-
-1. ~~Разобрать `orig` → заполнить `Stem`~~ — пакет `lexicon/stem_import/` + `manage.py import_stems`
-2. ~~Имена `s.`: сгенерировать словоформы~~ — `lexicon/wordform_gen/` + `manage.py generate_wordforms --pos=s.`
-3. ~~Поиск по словоформам + попап парадигмы на карточке (имена)~~
-4. ~~Прилагательные `a.`~~ — тот же `generate_noun_forms` / `generate_adj_forms`; `generate_wordforms --pos=a.`
-5. ~~Местоимения `pron.`~~ — 12 личных/указательных: `pronoun_import` + `import_pronouns`; остальные с `<code>` — именная схема (`import_stems` + `generate_wordforms --pos=pron.`)
-6. ~~Глаголы `v.`~~ — фазы 1–2: финитные + потенциал + инф. II–III + причастия + аналитика (слот 141); `generate_wordforms --pos=v.`; схема 73 в `_grammatika_verb_cond73.png`
-
-Мягкий знак: канон **U+02BC `ʼ`** (`lexicon.ortho`); поиск снимает все варианты; `manage.py normalize_soft_signs`.
-
-Открытые расхождения (не блокеры этапа): `backlog.md` → MORPH-*
-(пустой orig; Dictorpus käzi/uni; nom_pl у pl. tantum; `kogo` без `<code>`; pron. без шаблона).
-
-### Шаг 1: импорт основ
-
-- Код парсера изолирован: `app/lexicon/stem_import/` (не runtime API)
-- Тесты: `python manage.py test lexicon.tests.test_stem_import`
-- Импорт: `python manage.py import_stems [--dry-run] [--limit N]`
-- POS в Stem: `s.`, `a.`, `v.`, `pron.`; пометы `pl` / `sing` / `v_def` из `<i>`
-- Альтернативы `/` в шаблоне (обычно основы 4/5): поле `Stem.alt`; несколько `WordForm` на один `grammar_form`
-- Override глоссария Novak: `ken`/`niken` → основа gen `kene`/`nikene`
+POS: `s.`, `a.`, `v.`, `pron.`; пометы `pl` / `sing` / `v_def`. Альтернативы `/` → `Stem.alt`.
 
 ## Эталоны
 
-1. **Учебник** `Novak_Miun_harpaukset_v_petcat.pdf` — глоссарий + текст (`pdftotext`): главный gold для спорных форм.
-2. **Dictorpus** dialect=47 — первичная проверка гипотез генерации; при расхождении с книгой побеждает книга.
+1. **Учебник** `Novak_Miun_harpaukset_v_petcat.pdf` — главный gold.
+2. **Dictorpus** dialect=47 — гипотезы; при расхождении побеждает книга.
+
+Открытые расхождения (не блокеры): `backlog.md` → MORPH-*.
 
 http://dictorpus.krc.karelia.ru/ru/dict/wordform?limit_num=10&search_dialect=47&search_gramset=&search_lang=4&search_pos=&search_lemma=&search_wordform=

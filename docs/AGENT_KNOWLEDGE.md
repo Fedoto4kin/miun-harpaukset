@@ -6,7 +6,7 @@
 
 Цифровая версия учебника тверского карельского (угрожаемый язык). Функции:
 
-- словарь (прямой / обратный поиск, карточки слов, озвучка);
+- словарь (прямой / обратный поиск, карточки, словоформы/парадигма, озвучка);
 - уроки с модулями (HTML + аудио + упражнения + грамматический комментарий);
 - грамматические таблицы.
 
@@ -56,11 +56,18 @@ Lesson (number, title, slogan, description, is_enabled)
 
 ```
 Word (word, word_clean, variant, additional, pos, speech, alias M2M)
-  └── Definition[] (lang: ru|fi, definition)
-Pos, Speech (медиа), Stem
+  ├── Definition[] (lang: ru|fi, definition)
+  ├── Stem[]          # основы из <code> в orig (+ pronouns)
+  └── WordForm[]      # сгенерированные формы; alt_spellings — только поиск
+GrammarForm           # слоты парадигмы (code, name_krl/ru, category)
+Pos, Speech (медиа)
 ```
 
-Алфавит: `ABCČDEFGHIJKLMNOPRSŠZŽTUVYÄÖ`. Нормализация поиска: lower, `ü`→`y`, снятие апострофов.
+Алфавит: `ABCČDEFGHIJKLMNOPRSŠZŽTUVYÄÖ`. Нормализация: lower, `ü`→`y`, мягкий знак → снятие (`lexicon.ortho`, канон U+02BC).
+
+Поиск: `?query=` — exact лемма/форма/альт; `?letter=` — алфавитная лента по лемме.  
+Подсказки: префикс + чипы по веткам; уникальная точная форма → цепочка form→лемма.  
+Оффлайн fill: `import_stems` / `import_pronouns` / `generate_wordforms`; на прод — `loaddata` фикстуры. Детали: `.cursor/rules/lexicon-morphology.mdc`, `backlog.md` → MORPH-*.
 
 ### Grammar
 
@@ -74,12 +81,13 @@ Pos, Speech (медиа), Stem
 | GET | `/modules/` | модули |
 | GET | `/modules/by-lesson/{id}/` | модули урока |
 | GET | `/modules/{id}/content/` | полный контент модуля |
-| GET | `/lexicon/search/` | поиск по карельскому |
+| GET | `/lexicon/search/` | поиск (`query` exact / `letter` browse) |
 | GET | `/lexicon/reverse/` | обратный поиск |
 | GET | `/lexicon/search-suggestions/` | подсказки |
-| GET | `/lexicon/grouped-search-suggestions/` | сгруппированные подсказки |
+| GET | `/lexicon/grouped-search-suggestions/` | подсказки + чипы форм |
 | GET | `/lexicon/reverse-search-suggestions/` | подсказки reverse |
 | GET | `/lexicon/word-card/{id}/` | карточка слова |
+| GET | `/lexicon/word-card/{id}/paradigm/` | парадигма словоформ |
 | GET | `/lexicon/pos/` | части речи |
 | GET | `/grammar/`, `/grammar/{id}/` | таблицы |
 
