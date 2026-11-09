@@ -65,15 +65,13 @@
 
       <ul class="list-group list-group-flush">
         <li v-for="(def, lang) in definition(word.definition)" :key="lang" class="list-group-item">
-          <div class="d-flex align-items-center">
-            <img :src="'/img/' + lang + '-xs.png'" :alt="lang" class="me-2" />
+          <div class="definition-row">
+            <img :src="'/img/' + lang + '-xs.png'" :alt="lang" class="definition-flag" />
             <div class="definition-content">
-              <span v-if="def.length > 1">
-                <ol class="mb-0" style="margin-left: -1rem;">
-                  <li v-for="d in def" :key="d">{{ d }}</li>
-                </ol>
-              </span>
-              <span v-else class="ms-3">{{ def[0] }}</span>
+              <ol v-if="def.length > 1" class="definition-list mb-0">
+                <li v-for="d in def" :key="d">{{ d }}</li>
+              </ol>
+              <span v-else>{{ def[0] }}</span>
             </div>
           </div>
         </li>
@@ -242,8 +240,24 @@ export default {
   vertical-align: middle;
 }
 
+.definition-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.definition-flag {
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
 .definition-content {
-  margin-left: 0.5rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.definition-list {
+  padding-left: 1.1rem;
 }
 
 @media (max-width: 576px) {
