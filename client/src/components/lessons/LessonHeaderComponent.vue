@@ -63,12 +63,18 @@
       <source :src="speech" type="audio/mpeg" />
     </audio>
   </div>
-  <WordSearchPopupComponent :show="showPopup" @close="showPopup = false" />
+  <WordSelectionLookup @lookup="openLookup" />
+  <WordSearchPopupComponent
+    :show="showPopup"
+    :query="lookupQuery"
+    @close="closePopup"
+  />
 </template>
 
 <script>
 import TagIcon from '@/components/ui/TagIcon.vue';
 import WordSearchPopupComponent from './WordSearchPopupComponent.vue';
+import WordSelectionLookup from './WordSelectionLookup.vue';
 
 const WIDE_MQ = '(min-width: 768px)';
 
@@ -76,6 +82,7 @@ export default {
   name: 'LessonHeaderComponent',
   components: {
     WordSearchPopupComponent,
+    WordSelectionLookup,
     TagIcon,
   },
   props: {
@@ -94,6 +101,7 @@ export default {
   data() {
     return {
       showPopup: false,
+      lookupQuery: '',
       isCompact: false,
       isWide: false,
       isPlaying: false,
@@ -210,6 +218,14 @@ export default {
     },
     goToPreviousLesson() {
       this.$emit('previous-lesson');
+    },
+    openLookup(word) {
+      this.lookupQuery = word;
+      this.showPopup = true;
+    },
+    closePopup() {
+      this.showPopup = false;
+      this.lookupQuery = '';
     },
   },
 };
