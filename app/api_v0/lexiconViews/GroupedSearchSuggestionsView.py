@@ -88,22 +88,25 @@ class GroupedSearchSuggestionsView(APIView):
             samples, total = self._sample_forms(word, prepared, lemma)
             exact = [s for s in samples if s["form_clean"] == prepared]
             chain_src = None
-            if not lemma_prefix_hit:
-                if exact:
-                    chain_src = exact[0]
-                elif total == 1 and samples:
-                    chain_src = samples[0]
+            if not lemma_prefix_hit and samples:
+                chain_src = exact[0] if exact else samples[0]
             if chain_src:
                 suggestions_list.append(
                     {
                         "word": lemma,
+                        "word_id": word.id,
+                        "pos": word.pos.abbr if word.pos_id else "",
                         "matched_form": chain_src["form"],
                         "matched_form_label_krl": chain_src["label_krl"],
                     }
                 )
                 return
 
-            item = {"word": lemma}
+            item = {
+                "word": lemma,
+                "word_id": word.id,
+                "pos": word.pos.abbr if word.pos_id else "",
+            }
             if samples:
                 item["sample_forms"] = [
                     {"form": s["form"], "label_krl": s["label_krl"]} for s in samples

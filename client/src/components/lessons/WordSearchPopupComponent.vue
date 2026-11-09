@@ -3,13 +3,13 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <div class="position-relative">
+          <div class="position-relative flex-grow-1 me-2">
             <div class="input-group">
-              <input 
-                type="text" 
-                class="form-control" 
-                placeholder="Löydiä šana šanakniigašta..." 
-                v-model="searchText" 
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Löydiä šana šanakniigašta..."
+                v-model="searchText"
                 ref="searchInput"
                 @input="fetchSuggestions"
                 @keydown.up.prevent="moveUp"
@@ -23,37 +23,34 @@
               </div>
             </div>
             <ul class="list-group position-absolute w-100 mt-1" v-if="suggestions.length">
-              <li 
-                v-for="(suggestion, index) in suggestions" 
-                :key="suggestion.word_id" 
+              <li
+                v-for="(suggestion, index) in suggestions"
+                :key="suggestion.word_id || suggestion.word"
                 class="list-group-item list-item d-flex justify-content-between align-items-center"
-                @click="selectWord(suggestion.word_id)"
+                @click="selectSuggestion(suggestion)"
                 @mouseover="hoveredIndex = index"
                 @mouseout="hoveredIndex = -1"
-                :class="{ 'list-item-hover': hoveredIndex === index, 'list-item-hover': selectedIndex === index }"
+                :class="{ 'list-item-hover': hoveredIndex === index || selectedIndex === index }"
               >
-                <div class="d-flex align-items-center">
-                  <!-- Слово и вариант -->
-                  <span class="word-suggestion">
+                <span class="word-suggestion">
+                  <template v-if="suggestion.matched_form">
+                    <em>{{ suggestion.matched_form }}</em>
+                    <span class="text-muted mx-1">→</span>
+                    <em>{{ suggestion.word }}</em>
+                  </template>
+                  <template v-else>
                     {{ suggestion.word }}
-                    <span v-if="suggestion.additional"  >
-                      &nbsp;({{ suggestion.additional }})
-                    </span>
-                    <span v-if="suggestion.variant" class="text-muted variant-suggestion ms-1">
-                      {{ suggestion.variant }}
-                    </span>
-                  </span>
-                </div>
-                <!-- Часть речи -->
-                <span class="badge bg-secondary">{{ suggestion.pos }}</span>
+                  </template>
+                </span>
+                <span v-if="suggestion.pos" class="badge bg-secondary">{{ suggestion.pos }}</span>
               </li>
             </ul>
           </div>
           <button type="button" class="btn-close" @click="closePopup" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div v-if="selectedWord" class="mt-3">
-            <WordCard :word="selectedWord" />
+          <div v-if="selectedWord">
+            <WordCard :word="selectedWord" :show-paradigm-btn="false" />
           </div>
         </div>
       </div>
@@ -63,10 +60,10 @@
 
 <script>
   import { nextTick } from 'vue';
-  import { fetchSearchSuggestions, fetchWordCard } from '@/services/searchService';
+  import { fetchSearchSuggestionsGrouped, fetchWordCard } from '@/services/searchService';
   import SpecialCharsButtons from '@/components/ui/SpecialCharsButtons.vue';
   import WordCard from '@/components/lexicon/WordCard.vue';
-  
+
   export default {
     name: 'WordSearchPopupComponent',
     components: {
@@ -100,8 +97,8 @@
       async fetchSuggestions() {
         if (this.searchText.length >= 2) {
           try {
-            const data = await fetchSearchSuggestions(this.searchText);
-            this.suggestions = data;
+            const data = await fetchSearchSuggestionsGrouped(this.searchText);
+            this.suggestions = Array.isArray(data) ? data : [];
             this.selectedIndex = -1;
           } catch (error) {
             console.error('Failed to fetch suggestions:', error);
@@ -111,10 +108,15 @@
           this.suggestions = [];
         }
       },
-      async selectWord(wordId) {
+      async selectSuggestion(suggestion) {
+        if (!suggestion?.word_id) return;
         try {
-          const wordCard = await fetchWordCard(wordId);
-          this.selectedWord = wordCard;
+          const wordCard = await fetchWordCard(suggestion.word_id);
+          this.selectedWord = {
+            ...wordCard,
+            matched_form: suggestion.matched_form || null,
+            matched_form_label_krl: suggestion.matched_form_label_krl || null,
+          };
           this.suggestions = [];
           this.searchText = '';
         } catch (error) {
@@ -133,7 +135,7 @@
       },
       selectCurrent() {
         if (this.selectedIndex !== -1) {
-          this.selectWord(this.suggestions[this.selectedIndex].word_id);
+          this.selectSuggestion(this.suggestions[this.selectedIndex]);
         }
       },
       handleDiacrtButtonClick(e) {
@@ -167,7 +169,7 @@
     justify-content: center;
     z-index: 99999;
   }
-  
+
   .modal-dialog {
     min-height: 500px;
     margin: auto;
@@ -176,7 +178,7 @@
   .modal-dialog input::placeholder {
     font-size: 0.7em;
   }
-  
+
   .modal-content {
     background: #fff;
     border-radius: 0.5rem;
@@ -184,7 +186,7 @@
     position: relative;
     min-height: 100px;
   }
-  
+
   .modal-header {
     display: flex;
     justify-content: space-between;
@@ -192,12 +194,7 @@
     padding: 1rem;
     border-bottom: 1px solid #dee2e6;
   }
-  
-  .modal-title {
-    margin: 0;
-    font-size: 1.25rem;
-  }
-  
+
   .modal-body {
     padding: 1rem;
   }
@@ -207,37 +204,27 @@
     z-index: 999;
     max-height: 300px;
   }
-  
+
   .list-item {
     cursor: pointer;
     padding: 0.5rem 1rem;
   }
 
-  .list-item:hover {
+  .list-item:hover,
+  .list-item-hover {
     cursor: pointer;
     color: var(--bs-list-group-action-active-color);
     background-color: var(--bs-list-group-action-active-bg);
   }
-  
-  .list-item-hover {
-    color: var(--bs-list-group-action-active-color);
-    background-color: var(--bs-list-group-action-active-bg);
-  }
 
-  /* Стили для предложений */
   .word-suggestion {
     font-weight: 500;
     display: inline-flex;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 0.1rem;
   }
 
-  .variant-suggestion {
-    font-size: 0.9em;
-    opacity: 0.7;
-    font-weight: 400;
-  }
-
-  /* Убедимся, что все элементы выровнены по центру */
   .list-group-item {
     display: flex;
     justify-content: space-between;

@@ -33,7 +33,7 @@
 
         <span class="d-flex gap-1 align-self-start">
           <button
-            v-if="word.has_paradigm"
+            v-if="showParadigmBtn && word.has_paradigm"
             @click="openParadigm"
             class="btn btn-sm btn-outline-secondary"
             title="Muutokšet"
@@ -94,7 +94,11 @@ export default {
     word: {
       type: Object,
       required: true
-    }
+    },
+    showParadigmBtn: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
