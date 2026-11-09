@@ -323,7 +323,7 @@
   "pk": 30,
   "fields": {
     "code": "ind_pres_1sg_pos",
-    "name_krl": "indikativa prezens 1.yks. myönteinen",
+    "name_krl": "indikativa prezensa 1.yks. myönteinen",
     "name_ru": "индикатив презенс 1л. ед. пол.",
     "category": "verb",
     "sort_order": 100
@@ -334,7 +334,7 @@
   "pk": 31,
   "fields": {
     "code": "ind_pres_2sg_pos",
-    "name_krl": "indikativa prezens 2.yks. myönteinen",
+    "name_krl": "indikativa prezensa 2.yks. myönteinen",
     "name_ru": "индикатив презенс 2л. ед. пол.",
     "category": "verb",
     "sort_order": 110
@@ -345,7 +345,7 @@
   "pk": 32,
   "fields": {
     "code": "ind_pres_3sg_pos",
-    "name_krl": "indikativa prezens 3.yks. myönteinen",
+    "name_krl": "indikativa prezensa 3.yks. myönteinen",
     "name_ru": "индикатив презенс 3л. ед. пол.",
     "category": "verb",
     "sort_order": 120
@@ -356,7 +356,7 @@
   "pk": 33,
   "fields": {
     "code": "ind_pres_1pl_pos",
-    "name_krl": "indikativa prezens 1.mon. myönteinen",
+    "name_krl": "indikativa prezensa 1.mon. myönteinen",
     "name_ru": "индикатив презенс 1л. мн. пол.",
     "category": "verb",
     "sort_order": 130
@@ -367,7 +367,7 @@
   "pk": 34,
   "fields": {
     "code": "ind_pres_2pl_pos",
-    "name_krl": "indikativa prezens 2.mon. myönteinen",
+    "name_krl": "indikativa prezensa 2.mon. myönteinen",
     "name_ru": "индикатив презенс 2л. мн. пол.",
     "category": "verb",
     "sort_order": 140
@@ -378,7 +378,7 @@
   "pk": 35,
   "fields": {
     "code": "ind_pres_3pl_pos",
-    "name_krl": "indikativa prezens 3.mon. myönteinen",
+    "name_krl": "indikativa prezensa 3.mon. myönteinen",
     "name_ru": "индикатив презенс 3л. мн. пол.",
     "category": "verb",
     "sort_order": 150
@@ -389,7 +389,7 @@
   "pk": 36,
   "fields": {
     "code": "ind_pres_1sg_neg",
-    "name_krl": "indikativa prezens 1.yks. kieltävä",
+    "name_krl": "indikativa prezensa 1.yks. kieltävä",
     "name_ru": "индикатив презенс 1л. ед. отр.",
     "category": "verb",
     "sort_order": 160
@@ -400,7 +400,7 @@
   "pk": 37,
   "fields": {
     "code": "ind_pres_2sg_neg",
-    "name_krl": "indikativa prezens 2.yks. kieltävä",
+    "name_krl": "indikativa prezensa 2.yks. kieltävä",
     "name_ru": "индикатив презенс 2л. ед. отр.",
     "category": "verb",
     "sort_order": 170
@@ -411,7 +411,7 @@
   "pk": 38,
   "fields": {
     "code": "ind_pres_3sg_neg",
-    "name_krl": "indikativa prezens 3.yks. kieltävä",
+    "name_krl": "indikativa prezensa 3.yks. kieltävä",
     "name_ru": "индикатив презенс 3л. ед. отр.",
     "category": "verb",
     "sort_order": 180
@@ -422,7 +422,7 @@
   "pk": 39,
   "fields": {
     "code": "ind_pres_1pl_neg",
-    "name_krl": "indikativa prezens 1.mon. kieltävä",
+    "name_krl": "indikativa prezensa 1.mon. kieltävä",
     "name_ru": "индикатив презенс 1л. мн. отр.",
     "category": "verb",
     "sort_order": 190
@@ -433,7 +433,7 @@
   "pk": 40,
   "fields": {
     "code": "ind_pres_2pl_neg",
-    "name_krl": "indikativa prezens 2.mon. kieltävä",
+    "name_krl": "indikativa prezensa 2.mon. kieltävä",
     "name_ru": "индикатив презенс 2л. мн. отр.",
     "category": "verb",
     "sort_order": 200
@@ -444,7 +444,7 @@
   "pk": 41,
   "fields": {
     "code": "ind_pres_3pl_neg",
-    "name_krl": "indikativa prezens 3.mon. kieltävä",
+    "name_krl": "indikativa prezensa 3.mon. kieltävä",
     "name_ru": "индикатив презенс 3л. мн. отр.",
     "category": "verb",
     "sort_order": 210
@@ -895,7 +895,7 @@
   "pk": 82,
   "fields": {
     "code": "pot_pres_1sg_pos",
-    "name_krl": "potentiala prezens 1.yks. myönteinen",
+    "name_krl": "potentiala prezensa 1.yks. myönteinen",
     "name_ru": "потенциал презенс 1л. ед. пол.",
     "category": "verb",
     "sort_order": 800
@@ -906,7 +906,7 @@
   "pk": 83,
   "fields": {
     "code": "pot_pres_2sg_pos",
-    "name_krl": "potentiala prezens 2.yks. myönteinen",
+    "name_krl": "potentiala prezensa 2.yks. myönteinen",
     "name_ru": "потенциал презенс 2л. ед. пол.",
     "category": "verb",
     "sort_order": 810
@@ -917,7 +917,7 @@
   "pk": 84,
   "fields": {
     "code": "pot_pres_3sg_pos",
-    "name_krl": "potentiala prezens 3.yks. myönteinen",
+    "name_krl": "potentiala prezensa 3.yks. myönteinen",
     "name_ru": "потенциал презенс 3л. ед. пол.",
     "category": "verb",
     "sort_order": 820
@@ -928,7 +928,7 @@
   "pk": 85,
   "fields": {
     "code": "pot_pres_1pl_pos",
-    "name_krl": "potentiala prezens 1.mon. myönteinen",
+    "name_krl": "potentiala prezensa 1.mon. myönteinen",
     "name_ru": "потенциал презенс 1л. мн. пол.",
     "category": "verb",
     "sort_order": 830
@@ -939,7 +939,7 @@
   "pk": 86,
   "fields": {
     "code": "pot_pres_2pl_pos",
-    "name_krl": "potentiala prezens 2.mon. myönteinen",
+    "name_krl": "potentiala prezensa 2.mon. myönteinen",
     "name_ru": "потенциал презенс 2л. мн. пол.",
     "category": "verb",
     "sort_order": 840
@@ -950,7 +950,7 @@
   "pk": 87,
   "fields": {
     "code": "pot_pres_3pl_pos",
-    "name_krl": "potentiala prezens 3.mon. myönteinen",
+    "name_krl": "potentiala prezensa 3.mon. myönteinen",
     "name_ru": "потенциал презенс 3л. мн. пол.",
     "category": "verb",
     "sort_order": 850
@@ -961,7 +961,7 @@
   "pk": 88,
   "fields": {
     "code": "pot_pres_1sg_neg",
-    "name_krl": "potentiala prezens 1.yks. kieltävä",
+    "name_krl": "potentiala prezensa 1.yks. kieltävä",
     "name_ru": "потенциал презенс 1л. ед. отр.",
     "category": "verb",
     "sort_order": 860
@@ -972,7 +972,7 @@
   "pk": 89,
   "fields": {
     "code": "pot_pres_2sg_neg",
-    "name_krl": "potentiala prezens 2.yks. kieltävä",
+    "name_krl": "potentiala prezensa 2.yks. kieltävä",
     "name_ru": "потенциал презенс 2л. ед. отр.",
     "category": "verb",
     "sort_order": 870
@@ -983,7 +983,7 @@
   "pk": 90,
   "fields": {
     "code": "pot_pres_3sg_neg",
-    "name_krl": "potentiala prezens 3.yks. kieltävä",
+    "name_krl": "potentiala prezensa 3.yks. kieltävä",
     "name_ru": "потенциал презенс 3л. ед. отр.",
     "category": "verb",
     "sort_order": 880
@@ -994,7 +994,7 @@
   "pk": 91,
   "fields": {
     "code": "pot_pres_1pl_neg",
-    "name_krl": "potentiala prezens 1.mon. kieltävä",
+    "name_krl": "potentiala prezensa 1.mon. kieltävä",
     "name_ru": "потенциал презенс 1л. мн. отр.",
     "category": "verb",
     "sort_order": 890
@@ -1005,7 +1005,7 @@
   "pk": 92,
   "fields": {
     "code": "pot_pres_2pl_neg",
-    "name_krl": "potentiala prezens 2.mon. kieltävä",
+    "name_krl": "potentiala prezensa 2.mon. kieltävä",
     "name_ru": "потенциал презенс 2л. мн. отр.",
     "category": "verb",
     "sort_order": 900
@@ -1016,7 +1016,7 @@
   "pk": 93,
   "fields": {
     "code": "pot_pres_3pl_neg",
-    "name_krl": "potentiala prezens 3.mon. kieltävä",
+    "name_krl": "potentiala prezensa 3.mon. kieltävä",
     "name_ru": "потенциал презенс 3л. мн. отр.",
     "category": "verb",
     "sort_order": 910

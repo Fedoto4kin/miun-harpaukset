@@ -77,7 +77,7 @@ import { computed } from 'vue';
 
 /** Порядок и заголовки секций глагола (по префиксу code). */
 const VERB_SECTION_DEFS = [
-  { id: 'ind_pres', title: 'Indikativa — prezens', match: (c) => c.startsWith('ind_pres_') },
+  { id: 'ind_pres', title: 'Indikativa — prezensa', match: (c) => c.startsWith('ind_pres_') },
   { id: 'ind_impf', title: 'Indikativa — imperfekta', match: (c) => c.startsWith('ind_impf_') },
   { id: 'ind_perf', title: 'Indikativa — perfekta', match: (c) => c.startsWith('ind_perf_') },
   { id: 'ind_plup', title: 'Indikativa — pluskvamperfekta', match: (c) => c.startsWith('ind_plup_') },
@@ -85,7 +85,7 @@ const VERB_SECTION_DEFS = [
   { id: 'cond_impf', title: 'Konditsionala — imperfekta', match: (c) => c.startsWith('cond_impf_') },
   { id: 'cond_perf', title: 'Konditsionala — perfekta', match: (c) => c.startsWith('cond_perf_') },
   { id: 'cond_plup', title: 'Konditsionala — pluskvamperfekta', match: (c) => c.startsWith('cond_plup_') },
-  { id: 'pot_pres', title: 'Potentiala — prezens', match: (c) => c.startsWith('pot_pres_') },
+  { id: 'pot_pres', title: 'Potentiala — prezensa', match: (c) => c.startsWith('pot_pres_') },
   { id: 'pot_perf', title: 'Potentiala — perfekta', match: (c) => c.startsWith('pot_perf_') },
   {
     id: 'inf',

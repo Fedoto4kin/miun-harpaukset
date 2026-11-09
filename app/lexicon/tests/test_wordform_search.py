@@ -11,14 +11,14 @@ class WordFormForSearchTests(TestCase):
         self.pos_v = Pos.objects.create(abbr="v.", name_ru="глагол")
         self.gf_neg = GrammarForm.objects.create(
             code="ind_pres_3sg_neg",
-            name_krl="indikativa prezens 3.yks. kieltävä",
+            name_krl="indikativa prezensa 3.yks. kieltävä",
             name_ru="индикатив презенс 3л. ед. отр.",
             category=GrammarForm.Category.VERB,
             sort_order=180,
         )
         self.gf_pos = GrammarForm.objects.create(
             code="ind_pres_3sg_pos",
-            name_krl="indikativa prezens 3.yks. myönteinen",
+            name_krl="indikativa prezensa 3.yks. myönteinen",
             name_ru="индикатив презенс 3л. ед. пол.",
             category=GrammarForm.Category.VERB,
             sort_order=80,
@@ -60,7 +60,7 @@ class WordFormForSearchTests(TestCase):
         """«elä» не должно тянуть eliä через префикс формы elän."""
         self.gf_1sg = GrammarForm.objects.create(
             code="ind_pres_1sg_pos",
-            name_krl="indikativa prezens 1.yks. myönteinen",
+            name_krl="indikativa prezensa 1.yks. myönteinen",
             name_ru="индикатив презенс 1л. ед. пол.",
             category=GrammarForm.Category.VERB,
             sort_order=60,
