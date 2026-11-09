@@ -4,6 +4,27 @@ from .grammar_form import GrammarForm
 from .word import Word
 
 
+class WordFormQuerySet(models.QuerySet):
+    def for_search(self, prepared: str, *, prefix: bool = True):
+        """
+        Поиск по словоформам.
+
+        prefix=True  — istartswith (подсказки).
+        prefix=False — точное совпадение form_clean (выдача поиска):
+        иначе «elä» тянет eliä через elän.
+
+        Аналитика (пробел в form_clean) исключается, пока в запросе
+        нет пробела — иначе «ei» / «olen» заливают выдачу чужими глаголами.
+        """
+        if prefix:
+            qs = self.filter(form_clean__istartswith=prepared)
+        else:
+            qs = self.filter(form_clean=prepared)
+        if " " not in prepared:
+            qs = qs.exclude(form_clean__contains=" ")
+        return qs
+
+
 class WordForm(models.Model):
     """Сгенерированная словоформа леммы."""
 
@@ -15,6 +36,8 @@ class WordForm(models.Model):
     )
     form = models.CharField(max_length=256)
     form_clean = models.CharField(max_length=256, blank=True, db_index=True)
+
+    objects = WordFormQuerySet.as_manager()
 
     class Meta:
         verbose_name = "Šanan muodo"

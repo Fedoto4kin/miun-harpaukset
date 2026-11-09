@@ -52,9 +52,9 @@ class GroupedSearchSuggestionsView(APIView):
         if not prepared:
             return Response([])
 
-        matching_forms_qs = WordForm.objects.filter(
-            form_clean__istartswith=prepared
-        ).select_related("grammar_form")
+        matching_forms_qs = WordForm.objects.for_search(prepared).select_related(
+            "grammar_form"
+        )
 
         lemma_hits = list(
             Word.objects.filter(word_clean__istartswith=prepared)
@@ -64,9 +64,7 @@ class GroupedSearchSuggestionsView(APIView):
         )
 
         form_word_ids = (
-            WordForm.objects.filter(form_clean__istartswith=prepared)
-            .values_list("word_id", flat=True)
-            .distinct()
+            matching_forms_qs.values_list("word_id", flat=True).distinct()
         )
         lemma_ids = {w.id for w in lemma_hits}
         form_only_words = list(

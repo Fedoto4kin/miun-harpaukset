@@ -17,14 +17,16 @@ class SearchViewList(generics.ListAPIView):
         if not prepared:
             return Word.objects.none()
 
-        matched_forms_qs = WordForm.objects.filter(
-            form_clean__istartswith=prepared
+        # Выдача: точная лемма или точная словоформа.
+        # Префикс (kuin→kuinbua, elä→elän) — только в подсказках.
+        matched_forms_qs = WordForm.objects.for_search(
+            prepared, prefix=False
         ).select_related("grammar_form")
 
         queryset = (
             Word.objects.filter(
-                Q(word_clean__istartswith=prepared)
-                | Q(wordform_set__form_clean__istartswith=prepared)
+                Q(word_clean__iexact=prepared)
+                | Q(pk__in=matched_forms_qs.values("word_id"))
             )
             .select_related("pos", "speech")
             .annotate(
@@ -50,7 +52,7 @@ class SearchViewList(generics.ListAPIView):
             for df in q.definition_set.all():
                 q.definition_set_by_lang.setdefault(df.lang, []).append(df.definition)
 
-            lemma_hit = q.word_clean.lower().startswith(prepared)
+            lemma_hit = q.word_clean.lower() == prepared
             matched = getattr(q, "matched_wordforms", None) or []
             if not lemma_hit and matched:
                 wf = matched[0]

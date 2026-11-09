@@ -2,7 +2,7 @@ from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from lexicon.models import Word
+from lexicon.models import Word, WordForm
 
 
 class SearchSuggestionsView(APIView):
@@ -14,7 +14,7 @@ class SearchSuggestionsView(APIView):
             suggestions = (
                 Word.objects.filter(
                     Q(word_clean__istartswith=prepared)
-                    | Q(wordform_set__form_clean__istartswith=prepared)
+                    | Q(pk__in=WordForm.objects.for_search(prepared).values("word_id"))
                 )
                 .select_related("pos")
                 .distinct()[:10]

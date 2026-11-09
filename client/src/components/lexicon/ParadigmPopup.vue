@@ -3,11 +3,11 @@
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title d-flex align-items-center flex-wrap gap-2">
-            <em>{{ lemma }}</em>
-            <span v-if="pos" class="badge bg-secondary align-middle">{{ pos }}</span>
-            <span class="text-muted fs-6">muutokšet</span>
-          </h5>
+          <div class="modal-title d-flex align-items-center flex-wrap gap-2">
+            <span class="lemma">{{ lemma }}</span>
+            <span v-if="pos" class="badge bg-secondary align-middle pos-badge">{{ pos }}</span>
+            <span class="text-muted fs-6 subtitle">muutokšet</span>
+          </div>
           <button type="button" class="btn-close" @click="$emit('close')" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -160,6 +160,23 @@ export default {
 }
 .modal-dialog {
   margin: 1.75rem auto;
+}
+.lemma {
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.25rem;
+  font-family: 'MHKKFont', var(--bs-body-font-family);
+}
+.pos-badge {
+  font-style: normal;
+  font-family: 'MHKKFont', var(--bs-body-font-family);
+  line-height: 1.2;
+  padding: 0.35em 0.65em;
+  vertical-align: middle;
+}
+.subtitle {
+  font-style: normal;
+  font-family: 'MHKKFont', var(--bs-body-font-family);
 }
 .label-cell {
   font-size: 0.85rem;
