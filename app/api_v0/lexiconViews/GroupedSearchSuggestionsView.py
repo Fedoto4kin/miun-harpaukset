@@ -87,10 +87,10 @@ class GroupedSearchSuggestionsView(APIView):
 
             samples, total = self._sample_forms(word, prepared, lemma)
             exact = [s for s in samples if s["form_clean"] == prepared]
-            # Цепочка form→лемма только если префиксу отвечает ровно одна
-            # орфография и она точная (akan→akka; akan+akanke → чипы).
-            if not lemma_prefix_hit and exact and total == 1:
-                chain_src = exact[0]
+            # Одна орфография на префикс → сразу цепочка form→лемма
+            # (peldozešt→peldozešta→peldo); несколько → чипы (akan/akanke).
+            if not lemma_prefix_hit and total == 1 and samples:
+                chain_src = exact[0] if exact else samples[0]
                 needle = chain_src["form_clean"]
                 same_orth = [
                     wf

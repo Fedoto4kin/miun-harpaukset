@@ -309,3 +309,23 @@ class PrefixFormSuggestionDiversityTests(TestCase):
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0]["matched_form"], "akašta")
         self.assertNotIn("sample_forms", rows[0])
+
+    def test_unique_prefix_shows_chain_immediately(self):
+        """Неполный префикс одной формы → сразу цепочка, не чип."""
+        w2 = Word(word="pel|do", pos=self.pos_s)
+        w2.save()
+        WordForm.objects.create(
+            word=w2,
+            grammar_form=GrammarForm.objects.get(code="elat_sg"),
+            form="peldozešta",
+        )
+        client = APIClient()
+        resp = client.get(
+            "/api/v0/lexicon/grouped-search-suggestions/",
+            {"query": "peldozešt"},
+        )
+        self.assertEqual(resp.status_code, 200)
+        rows = [r for r in resp.json() if r.get("word_id") == w2.id]
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["matched_form"], "peldozešta")
+        self.assertNotIn("sample_forms", rows[0])
