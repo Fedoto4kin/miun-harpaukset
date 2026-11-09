@@ -8,6 +8,8 @@ class GrammarForm(models.Model):
         NOUN = "noun", "Nimišana"
         VERB = "verb", "Aziešana"
         PRON = "pron", "Nimenšijalline"
+        # Продуктивные уменьшительные на базе s. (поиск; не в таблице парадигмы)
+        DIMINUTIVE = "diminutive", "Pieniškö"
 
     code = models.CharField(max_length=32, unique=True)
     name_krl = models.CharField(max_length=128)

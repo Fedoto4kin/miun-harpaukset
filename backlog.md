@@ -29,6 +29,7 @@
 | ID | Задача | Источник | Статус |
 |----|--------|----------|--------|
 | MORPH-CORE | Stem/WordForm для `s.`/`a.`/`pron.`/`v.`, поиск по формам, попап парадигмы, подсказки с чипами, `alt_spellings`, selection в уроках, фикстура на прод | `lexicon/*`, `api_v0`, client | done |
+| MORPH-DIM | Продуктивные уменьшительные `s.` на `-ne` (поиск-цепочка; не в таблице парадигмы); skip при sibling `*ne` | `wordform_gen/diminutives`, `generate_diminutives` | done |
 
 Закрыто (2026-11): импорт основ + генерация словоформ; exact search + `?letter=`; grouped suggestions (префикс → чипы, уникальная форма → цепочка); парадигма на карточке; lesson popup/selection; notranslate; deploy через `lexicon.json` (без generate на проде). Ручные альты: `käyvä` `kävin`/`kävit`.
 

@@ -41,6 +41,14 @@ POS: `s.`, `a.`, `v.`, `pron.`; пометы `pl` / `sing` / `v_def`. Альте
 1. **Учебник** `Novak_Miun_harpaukset_v_petcat.pdf` — главный gold.
 2. **Dictorpus** dialect=47 — гипотезы; при расхождении побеждает книга.
 
+### Уменьшительные `s.` на `-ne` (in progress / MORPH-DIM)
+
+- Продуктивно: `nom + ne` → склонение типа hebone/alane; WordForm на **базовой** лемме, `GrammarForm.category=diminutive`, коды `dim_*`.
+- Поиск/подсказки: цепочка `peldozešta → peldo` + метка `pieniškö · …`.
+- `ParadigmView` **исключает** diminutive / `dim_*` (в таблице не показываем).
+- Skip: леммы на `-ne`, `special_mark=pl`, словарный sibling `*ne` (kirjane).
+- Команда: `manage.py generate_diminutives` (после `generate_wordforms --pos=s.` не затирается).
+
 Открытые расхождения (не блокеры): `backlog.md` → MORPH-*.
 
 http://dictorpus.krc.karelia.ru/ru/dict/wordform?limit_num=10&search_dialect=47&search_gramset=&search_lang=4&search_pos=&search_lemma=&search_wordform=

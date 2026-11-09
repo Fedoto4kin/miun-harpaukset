@@ -3,7 +3,7 @@ from collections import OrderedDict
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from lexicon.models import Word, WordForm
+from lexicon.models import GrammarForm, Word, WordForm
 
 
 class ParadigmView(APIView):
@@ -17,6 +17,8 @@ class ParadigmView(APIView):
 
         rows = (
             WordForm.objects.filter(word=word)
+            .exclude(grammar_form__category=GrammarForm.Category.DIMINUTIVE)
+            .exclude(grammar_form__code__startswith="dim_")
             .select_related("grammar_form")
             .order_by("grammar_form__sort_order", "id")
         )
