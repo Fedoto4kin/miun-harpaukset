@@ -4,8 +4,7 @@
 # Compose: docker-compose.internal.yml (web + db + client-для-сборки).
 # nginx — на хосте (systemd), статика SPA → /var/www/mhkk_client.
 #
-# Устарело: docker-compose-prod.yml и сценарий с nginx/certbot в Docker —
-# этот скрипт их не использует.
+# nginx/certbot в Docker не используем (legacy compose удалён).
 #
 # Запуск на сервере из корня репозитория:
 #   ./upgrade.sh

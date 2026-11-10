@@ -30,8 +30,9 @@
 |----|--------|----------|--------|
 | MORPH-CORE | Stem/WordForm для `s.`/`a.`/`pron.`/`v.`, поиск по формам, попап парадигмы, подсказки с чипами, `alt_spellings`, selection в уроках, фикстура на прод | `lexicon/*`, `api_v0`, client | done |
 | MORPH-DIM | Продуктивные уменьшительные `s.` на `-ne` (поиск-цепочка; не в таблице парадигмы); skip при sibling `*ne` | `wordform_gen/diminutives`, `generate_diminutives` | done |
+| MORPH-LABELS | Ярлыки глаголов `name_krl` по TERMINAT/учебнику (`prezensa`, `kondicionala`, `pričastija`/`aktiva`/`passiva`); фин. `myönteinen`/`kieltävä`, `1.yks.`/`1.mon.` оставлены | `rules_verbs*`, fixtures, `ParadigmPopup` | done |
 
-Закрыто (2026-11): импорт основ + генерация словоформ; exact search + `?letter=`; grouped suggestions (префикс → чипы, уникальная форма → цепочка); парадигма на карточке; lesson popup/selection; notranslate; deploy через `lexicon.json` (без generate на проде). Ручные альты: `käyvä` `kävin`/`kävit`.
+Закрыто (2026-11): импорт основ + генерация словоформ; exact search + `?letter=`; grouped suggestions (префикс → чипы, уникальная форма → цепочка); парадигма на карточке; lesson popup/selection; notranslate; базовая парадигма через `lexicon.json` `loaddata`. Ручные альты: `käyvä` `kävin`/`kävit`. Уменьшительные: на проде `generate_diminutives` (~36k); в `lexicon.json` пока без `dim_*` — при следующем полном dumpdata включить.
 
 ### Остаточные расхождения (не блокеры)
 
@@ -46,6 +47,7 @@
 | MORPH-7 | Конд. `zin`/`sin` | Dictorpus иногда даёт пару `…zin`/`…sin` (и `zit`/`sit`); Grammatika — только `z`. Пример: `levittiäčie`. | open |
 | MORPH-8 | `pron.` несклоняемые | `jogo`, `kudami`, `molen`, `moneš` — в глоссе Novak без gen/part, в тексте не склоняются. Пишем только `nom_sg`. | done |
 | MORPH-9 | `mi`/`nimi` помета `pl.` в orig | В словаре ошибочно `pron. pl.`; глосс Novak ед.ч. Override в `build_stems`; поправить статьи. | open |
+| MORPH-10 | Dims в фикстуре | После локального `generate_diminutives` сделать `dumpdata lexicon` и `loaddata` на проде, чтобы dims не зависели от generate на сервере. | open |
 
 ## Документация / DX
 
@@ -53,6 +55,9 @@
 |----|--------|----------|--------|
 | DX-1 | Описать setup client (dev и prod) в `client/README.md` | `client/README.md` `@todo` | open |
 | DX-2 | Указать лицензию в корневом README | `README.md` | open |
+| DX-3 | Удалить legacy: `fixutres.sh`, `letencrypypt.sh`, `docker-compose-prod.yml` | ревизия 2026-11 | done |
+| DX-4 | Миграция на `GrammarForm.Category.DIMINUTIVE` (choices; схемы нет, Django ругается при migrate) | `grammar_form.py` | open |
+| DX-5 | Решить судьбу WIP ASR: `asr_bench/`, `voice-input-project.md` (сейчас untracked) | voice input | open |
 
 ## Техдолг (зафиксировано при обзоре, не из TODO)
 

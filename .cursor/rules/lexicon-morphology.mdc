@@ -9,14 +9,16 @@ alwaysApply: true
 
 | Место | Состояние |
 |-------|-----------|
-| `GrammarForm` | ~146 слотов (имена + глаголы) |
+| `GrammarForm` | ~173 слота (имена + глаголы + `diminutive`) |
 | `Stem` | заполнена (`import_stems` / `import_pronouns`) |
-| `WordForm` | заполнена (`generate_wordforms`, ~1.2e5 форм) |
+| `WordForm` | ~1.23e5 парадигма + ~3.6e4 diminutive |
 | `WordForm.alt_spellings` | поиск-only альты (напр. `kävyin` → `kävin`); канон парадигмы не меняется |
 | `Word.word` | у ~77% лемм есть `\|` (граница морфемы) |
 | `Word.orig` | HTML статьи; шаблон основ в `<code>…</code>` |
 
-Деплой данных: **локально** fill → `dumpdata lexicon` → на проде `loaddata` (без `import_*` / `generate_*` на сервере). Фикстура: `app/lexicon/fixtures/lexicon.json`.
+Деплой парадигмы: **локально** fill → `dumpdata lexicon` → на проде `loaddata` (без `import_*` / `generate_wordforms` на сервере). Фикстура: `app/lexicon/fixtures/lexicon.json`.
+
+Исключение: `generate_diminutives` — dims пока не в фикстуре (`MORPH-10`); на прод уже прогоняли разово. Цель — включить dim в следующий dumpdata.
 
 ## Runtime (API / UI)
 
@@ -31,17 +33,23 @@ alwaysApply: true
 1. `import_stems` — `lexicon/stem_import/` (парсер `<code>` из `orig`)
 2. `import_pronouns` — 12 личных/указательных
 3. `generate_wordforms --pos=s.|a.|pron.|v.` — `lexicon/wordform_gen/`
-4. Ручные `alt_spellings` в admin (сохраняются при regenerate)
-5. `normalize_soft_signs` — канон U+02BC `ʼ`
+4. `generate_diminutives` — продуктивные `-ne` (category=`diminutive`; не затирается regenerate s.)
+5. Ручные `alt_spellings` в admin (сохраняются при regenerate)
+6. `normalize_soft_signs` — канон U+02BC `ʼ`
 
 POS: `s.`, `a.`, `v.`, `pron.`; пометы `pl` / `sing` / `v_def`. Альтернативы `/` → `Stem.alt`.
+
+### Ярлыки `GrammarForm.name_krl` (глаголы)
+
+Источник: TERMINAT + учебник Novak. Уже выровнено: `prezensa`, `kondicionala`, `pričastija`, `aktiva`/`passiva`.  
+Оставлены финские: `myönteinen` / `kieltävä`, `1.yks.` / `1.mon.`, `potentiala`, `pluskvamperfekta`, `lyhyt`.
 
 ## Эталоны
 
 1. **Учебник** `Novak_Miun_harpaukset_v_petcat.pdf` — главный gold.
 2. **Dictorpus** dialect=47 — гипотезы; при расхождении побеждает книга.
 
-### Уменьшительные `s.` на `-ne` (in progress / MORPH-DIM)
+### Уменьшительные `s.` на `-ne` (MORPH-DIM done)
 
 - Продуктивно: `nom + ne` → склонение типа hebone/alane; WordForm на **базовой** лемме, `GrammarForm.category=diminutive`, коды `dim_*`.
 - Поиск/подсказки: цепочка `peldozešta → peldo` + метка `pieniškö · …`.

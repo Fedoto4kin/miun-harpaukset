@@ -6,7 +6,7 @@
 - Vue frontend → контейнер **mhkk_client** (только для `npm run build`, в runtime не нужен)
 - **nginx на хосте** (systemd) → отдаёт SPA из `/var/www/mhkk_client`, проксирует `/api`, `/admin`, `/media`, `/static`
 
-Прод-compose **без** nginx в Docker. Файл `docker-compose-prod.yml` (nginx+certbot в контейнерах) — **legacy**, для текущего прода не использовать.
+Прод-compose **без** nginx в Docker (старый compose с nginx/certbot удалён).
 
 Compose на сервере всегда с явным файлом:
 
@@ -154,7 +154,9 @@ curl -I https://karielankieleh.ru
 | Типичный релиз (бэк + фронт) | полный цикл ниже или `./upgrade.sh` |
 
 Не делайте `compose down` на проде без нужды — это останавливает БД.  
-Не используйте `docker-compose-prod.yml` и не поднимайте nginx из Docker.
+Не поднимайте nginx из Docker — только host systemd nginx.  
+Если нет passwordless `sudo` для копирования SPA:  
+`docker run --rm -v "$PWD/client/dist:/src:ro" -v /var/www/mhkk_client:/dest alpine:3.20 sh -c 'rm -rf /dest/*; cp -a /src/. /dest/'`
 
 ### Полный цикл (бэк + фронт)
 
@@ -235,10 +237,11 @@ docker compose exec -T web python manage.py loaddata grammar/fixtures/grammar.js
 
 ### Морфология словаря → прод
 
-Не запускать `import_stems` / `generate_wordforms` на проде. Схема: **локально fill → `dumpdata lexicon` → git → прод `loaddata`**.
+Не запускать `import_stems` / `generate_wordforms` на проде. Схема: **локально fill → `dumpdata lexicon` → git → прод `loaddata`**.  
+`generate_diminutives`: оффлайн-команда; dims пока могут отсутствовать в фикстуре (`backlog` → MORPH-10) — после локального generate включить в dumpdata.
 
 ```bash
-# локально после regenerate / ручных alt_spellings:
+# локально после regenerate / diminutives / ручных alt_spellings:
 docker compose exec -T web \
   python manage.py dumpdata lexicon --indent 2 > app/lexicon/fixtures/lexicon.json
 # commit + push, на проде после migrate:
