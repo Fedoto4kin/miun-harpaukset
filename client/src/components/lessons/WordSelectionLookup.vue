@@ -6,6 +6,7 @@
     :style="tipStyle"
     title="Löydiä šanakniigašta"
     @mousedown.prevent
+    @touchstart.prevent
     @click="emitLookup"
   >
     <font-awesome-icon :icon="['fas', 'book']" />
@@ -14,6 +15,14 @@
 </template>
 
 <script>
+/** Задержка после touch: iOS/Android дописывают selection после touchend. */
+const TOUCH_SETTLE_MS = 120;
+/** Короткий settle после mouseup / selectionchange. */
+const SETTLE_MS = 30;
+/** Игнор мелкого/инерционного скролла сразу после показа tip. */
+const SCROLL_GRACE_MS = 400;
+const SCROLL_HIDE_PX = 24;
+
 export default {
   name: 'WordSelectionLookup',
   props: {
@@ -29,36 +38,71 @@ export default {
       visible: false,
       word: '',
       tipStyle: {},
+      _timer: null,
+      _shownAt: 0,
+      _scrollYAtShow: 0,
     };
   },
   mounted() {
-    document.addEventListener('mouseup', this.onPointerUp);
-    document.addEventListener('touchend', this.onPointerUp, { passive: true });
+    document.addEventListener('mouseup', this.onMouseUp);
+    document.addEventListener('touchend', this.onTouchEnd, { passive: true });
     document.addEventListener('selectionchange', this.onSelectionChange);
-    window.addEventListener('scroll', this.hide, true);
+    window.addEventListener('scroll', this.onScroll, true);
     window.addEventListener('resize', this.hide);
   },
   beforeUnmount() {
-    document.removeEventListener('mouseup', this.onPointerUp);
-    document.removeEventListener('touchend', this.onPointerUp);
+    this.clearTimer();
+    document.removeEventListener('mouseup', this.onMouseUp);
+    document.removeEventListener('touchend', this.onTouchEnd);
     document.removeEventListener('selectionchange', this.onSelectionChange);
-    window.removeEventListener('scroll', this.hide, true);
+    window.removeEventListener('scroll', this.onScroll, true);
     window.removeEventListener('resize', this.hide);
   },
   methods: {
+    clearTimer() {
+      if (this._timer != null) {
+        clearTimeout(this._timer);
+        this._timer = null;
+      }
+    },
     hide() {
+      this.clearTimer();
       this.visible = false;
       this.word = '';
+    },
+    scheduleUpdate(delayMs) {
+      this.clearTimer();
+      this._timer = setTimeout(() => {
+        this._timer = null;
+        this.updateFromSelection();
+      }, delayMs);
+    },
+    onMouseUp() {
+      this.scheduleUpdate(SETTLE_MS);
+    },
+    onTouchEnd() {
+      this.scheduleUpdate(TOUCH_SETTLE_MS);
     },
     onSelectionChange() {
       const sel = window.getSelection();
       if (!sel || sel.isCollapsed || !sel.toString().trim()) {
+        // Не гасим tip сразу: на мобильных selection кратко схлопывается
+        // при появлении handles / системного меню. Спрячем, если так и осталось.
+        if (this.visible) {
+          this.scheduleUpdate(TOUCH_SETTLE_MS);
+        }
+        return;
+      }
+      this.scheduleUpdate(SETTLE_MS);
+    },
+    onScroll() {
+      if (!this.visible) return;
+      const now = Date.now();
+      if (now - this._shownAt < SCROLL_GRACE_MS) return;
+      const dy = Math.abs((window.scrollY || 0) - this._scrollYAtShow);
+      if (dy >= SCROLL_HIDE_PX) {
         this.hide();
       }
-    },
-    onPointerUp() {
-      // Дать браузеру зафиксировать selection (особенно touch).
-      setTimeout(() => this.updateFromSelection(), 10);
     },
     normalizeWord(raw) {
       const trimmed = (raw || '').replace(/\s+/g, ' ').trim();
@@ -106,11 +150,20 @@ export default {
         return;
       }
 
+      // Держим tip в viewport по горизонтали.
+      const tipHalf = 72;
+      const left = Math.min(
+        Math.max(rect.left + rect.width / 2, tipHalf + 8),
+        window.innerWidth - tipHalf - 8
+      );
+
       this.word = word;
       this.tipStyle = {
         top: `${Math.round(rect.bottom + 6)}px`,
-        left: `${Math.round(rect.left + rect.width / 2)}px`,
+        left: `${Math.round(left)}px`,
       };
+      this._shownAt = Date.now();
+      this._scrollYAtShow = window.scrollY || 0;
       this.visible = true;
     },
     emitLookup() {
@@ -141,6 +194,9 @@ export default {
   line-height: 1.2;
   white-space: nowrap;
   cursor: pointer;
+  /* Крупнее зона нажатия на тач */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .word-lookup-tip:hover {
