@@ -38,9 +38,9 @@ export default {
       visible: false,
       word: '',
       tipStyle: {},
-      _timer: null,
-      _shownAt: 0,
-      _scrollYAtShow: 0,
+      settleTimer: null,
+      shownAt: 0,
+      scrollYAtShow: 0,
     };
   },
   mounted() {
@@ -60,9 +60,9 @@ export default {
   },
   methods: {
     clearTimer() {
-      if (this._timer != null) {
-        clearTimeout(this._timer);
-        this._timer = null;
+      if (this.settleTimer != null) {
+        clearTimeout(this.settleTimer);
+        this.settleTimer = null;
       }
     },
     hide() {
@@ -72,8 +72,8 @@ export default {
     },
     scheduleUpdate(delayMs) {
       this.clearTimer();
-      this._timer = setTimeout(() => {
-        this._timer = null;
+      this.settleTimer = setTimeout(() => {
+        this.settleTimer = null;
         this.updateFromSelection();
       }, delayMs);
     },
@@ -98,8 +98,8 @@ export default {
     onScroll() {
       if (!this.visible) return;
       const now = Date.now();
-      if (now - this._shownAt < SCROLL_GRACE_MS) return;
-      const dy = Math.abs((window.scrollY || 0) - this._scrollYAtShow);
+      if (now - this.shownAt < SCROLL_GRACE_MS) return;
+      const dy = Math.abs((window.scrollY || 0) - this.scrollYAtShow);
       if (dy >= SCROLL_HIDE_PX) {
         this.hide();
       }
@@ -162,8 +162,8 @@ export default {
         top: `${Math.round(rect.bottom + 6)}px`,
         left: `${Math.round(left)}px`,
       };
-      this._shownAt = Date.now();
-      this._scrollYAtShow = window.scrollY || 0;
+      this.shownAt = Date.now();
+      this.scrollYAtShow = window.scrollY || 0;
       this.visible = true;
     },
     emitLookup() {
