@@ -26,7 +26,9 @@ alwaysApply: true
 - Алфавитная лента: `?letter=` — префикс по лемме.
 - Подсказки (`grouped-search-suggestions`): префикс по формам; чипы по разным «следующим буквам»; цепочка form→лемма только если на префикс ровно одна орфография.
 - Парадигма: `GET /api/v0/lexicon/word-card/{id}/paradigm/` + `ParadigmPopup` на карточке.
-- Уроки: selection → попап словаря; ссылка в большой лексикон.
+- Уроки → словарь: `WordSelectionLookup` + `WordSearchPopupComponent` в `LessonHeaderComponent`.
+  - Desktop: выделение слова → floating tip «Šanakniiga».
+  - Touch (`pointer: coarse`): короткий тап по слову (или выделение) → нижняя панель (не конкурирует с системным Copy/Select); упражнения/кнопки пропускаются.
 
 ## Оффлайн-пайплайн (пересборка данных)
 

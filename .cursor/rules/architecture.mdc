@@ -36,9 +36,11 @@ alwaysApply: true
 2. Клиент читает только REST API `/api/v0/` (ReadOnly).
 3. Морфология словаря: оффлайн `import_stems` / `generate_wordforms` / `generate_diminutives` → фикстура `lexicon.json` → prod `loaddata` (без `import_*` / `generate_wordforms` на сервере; dims — `MORPH-10`). См. `.cursor/rules/lexicon-morphology.mdc`.
 4. Prod: nginx отдаёт `client/dist`, проксирует `/api`, `/admin`, `/media`, `/static`.
+5. Lookup в уроке: desktop selection-tip / mobile tap → bottom bar → `WordSearchPopup` (см. `frontend-vue.mdc`, `AGENT_KNOWLEDGE` §уроки→словарь).
 
 ## Ключевые документы
 
 - Деплой: `app/README.md`
+- Client: `client/README.md`
 - Бэклог: `backlog.md`
 - Расширенная база знаний: `docs/AGENT_KNOWLEDGE.md`

@@ -26,6 +26,10 @@ alwaysApply: false
 - Смесь Options API и Composition API (`setup`) — Lexicon уже на Composition; новые сложные экраны предпочтительно Composition
 - Контент модуля: HTML через `v-html` + фабрика упражнений + grammar comment + audio
 - Виджет в HTML модулей: `[[widget:lesson_cover]]` → `LessonCoverContentComponent`
+- Поиск слова из текста урока: `lessons/WordSelectionLookup.vue` (область `#lesson-frame`)
+  - Desktop — tip у selection; touch — нижняя панель по тапу/`caretRangeFromPoint`
+  - Открывает `WordSearchPopupComponent` через `@lookup` в `LessonHeaderComponent`
+  - Не вешать lookup на `.exercise-container` / controls (см. `SKIP_CLOSEST` в компоненте)
 
 ## Сервисы
 

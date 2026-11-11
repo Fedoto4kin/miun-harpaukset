@@ -70,6 +70,15 @@ Pos, Speech (медиа)
 Оффлайн fill: `import_stems` / `import_pronouns` / `generate_wordforms` / `generate_diminutives`; парадигма на прод — `loaddata` фикстуры (`dim_*` в фикстуре — `MORPH-10`).  
 `GrammarForm.category=diminutive` — только поиск/цепочки, не таблица парадигмы. Ярлыки глаголов — TERMINAT/учебник. Детали: `.cursor/rules/lexicon-morphology.mdc`, `backlog.md` → MORPH-*.
 
+### Уроки → словарь (lookup)
+
+| Устройство | Жест | UI |
+|------------|------|-----|
+| Desktop | выделение одного слова в `#lesson-frame` | floating tip «Šanakniiga» |
+| Touch | короткий тап по слову (или выделение) | нижняя панель со словом + кнопка |
+
+Компоненты: `WordSelectionLookup.vue` → `WordSearchPopupComponent` (в шапке урока). Упражнения и controls не перехватываются. На мобильных не полагаться на selection-tip рядом со словом — его перекрывает системное меню Copy/Select.
+
 ### Grammar
 
 `GrammarTable(title, html_content, order, is_published)` — отдельно от комментариев в модулях.
@@ -130,7 +139,7 @@ API в основном **read-only**. Запись — через Django Admin.
 
 **Local (`docker-compose.yml`):** nginx:80, django:8000, vue serve:8080, postgres, pgadmin:5050.
 
-**Prod (`docker-compose.internal.yml` + host nginx):** контейнеры `mhkk_web`, `mhkk_db`, build-only `mhkk_client`; статика копируется в `/var/www/mhkk_client`. Инструкции — `app/README.md`. Апгрейд PG major — dump/restore (§2.1 в README).
+**Prod (`docker-compose.internal.yml` + host nginx):** контейнеры `mhkk_web`, `mhkk_db`, build-only `mhkk_client`; статика → `/var/www/mhkk_client`. Деплой: `./upgrade.sh` или вручную по `app/README.md`. Без passwordless sudo для SPA: копирование dist через Docker-том (alpine). Апгрейд PG major — dump/restore (§2.1).
 
 ## 8. Админка
 

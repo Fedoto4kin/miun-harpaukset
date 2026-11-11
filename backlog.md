@@ -10,6 +10,7 @@
 |----|--------|----------|--------|
 | UX-1 | При скролле страницы урока держать аудиоплеер видимым (sticky/fixed) | `LessonHeaderComponent.vue` | done |
 | UX-2 | Выставлять `document.title` с номером модуля при навигации по урокам | `LessonsComponent.vue` | done |
+| UX-3 | Lookup слова из текста урока на touch: тап → нижняя панель (не selection-tip под системным меню) | `WordSelectionLookup.vue` | done |
 
 ## Контент / упражнения
 
@@ -32,7 +33,7 @@
 | MORPH-DIM | Продуктивные уменьшительные `s.` на `-ne` (поиск-цепочка; не в таблице парадигмы); skip при sibling `*ne` | `wordform_gen/diminutives`, `generate_diminutives` | done |
 | MORPH-LABELS | Ярлыки глаголов `name_krl` по TERMINAT/учебнику (`prezensa`, `kondicionala`, `pričastija`/`aktiva`/`passiva`); фин. `myönteinen`/`kieltävä`, `1.yks.`/`1.mon.` оставлены | `rules_verbs*`, fixtures, `ParadigmPopup` | done |
 
-Закрыто (2026-11): импорт основ + генерация словоформ; exact search + `?letter=`; grouped suggestions (префикс → чипы, уникальная форма → цепочка); парадигма на карточке; lesson popup/selection; notranslate; базовая парадигма через `lexicon.json` `loaddata`. Ручные альты: `käyvä` `kävin`/`kävit`. Уменьшительные: на проде `generate_diminutives` (~36k); в `lexicon.json` пока без `dim_*` — при следующем полном dumpdata включить.
+Закрыто (2026-11): импорт основ + генерация словоформ; exact search + `?letter=`; grouped suggestions (префикс → чипы, уникальная форма → цепочка); парадигма на карточке; lesson popup (desktop selection / mobile tap+bar); notranslate; базовая парадигма через `lexicon.json` `loaddata`. Ручные альты: `käyvä` `kävin`/`kävit`. Уменьшительные: на проде `generate_diminutives` (~36k); в `lexicon.json` пока без `dim_*` — при следующем полном dumpdata включить.
 
 ### Остаточные расхождения (не блокеры)
 
@@ -53,7 +54,7 @@
 
 | ID | Задача | Источник | Статус |
 |----|--------|----------|--------|
-| DX-1 | Описать setup client (dev и prod) в `client/README.md` | `client/README.md` `@todo` | open |
+| DX-1 | Описать setup client (dev и prod) в `client/README.md` | `client/README.md` | done |
 | DX-2 | Указать лицензию в корневом README | `README.md` | open |
 | DX-3 | Удалить legacy: `fixutres.sh`, `letencrypypt.sh`, `docker-compose-prod.yml` | ревизия 2026-11 | done |
 | DX-4 | Миграция на `GrammarForm.Category.DIMINUTIVE` (choices; схемы нет, Django ругается при migrate) | `grammar_form.py` | open |
