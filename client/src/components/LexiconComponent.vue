@@ -30,9 +30,12 @@
       </div>
     </div>
 
-    <div v-if="message" class="row">
+    <div v-if="message || compoundPartsLabel" class="row">
       <div class="col-12 mt-2">
-        <div :class="['alert', alertClass]" role="alert">
+        <div v-if="compoundPartsLabel" class="alert alert-info" role="status">
+          {{ compoundPartsLabel }}
+        </div>
+        <div v-if="message" :class="['alert', alertClass]" role="alert">
           {{ message }}
         </div>
       </div>
@@ -83,6 +86,12 @@ export default {
     
     const alertClass = computed(() => {
       return words.value.length > 0 ? 'alert-success' : 'alert-warning';
+    });
+
+    const compoundPartsLabel = computed(() => {
+      const parts = words.value?.[0]?.compound_parts;
+      if (!Array.isArray(parts) || parts.length < 2) return '';
+      return parts.join(' + ');
     });
 
     // Инициализация на основе текущего URL
@@ -279,6 +288,7 @@ export default {
       message,
       searching,
       alertClass,
+      compoundPartsLabel,
       handleLetterClick,
       handleSearchFromUI,
       getWordsByClear,

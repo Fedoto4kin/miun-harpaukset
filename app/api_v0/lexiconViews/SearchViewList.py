@@ -2,6 +2,7 @@ from django.db.models import Exists, OuterRef, Prefetch, Q
 from rest_framework import generics
 
 from api_v0.serializers import WordPreviewSerializer
+from lexicon.compound_split import find_best_compound_split
 from lexicon.models import KRL_ABC, Word, WordForm
 from lexicon.wordform_labels import collect_grammar_labels
 
@@ -23,7 +24,30 @@ class SearchViewList(generics.ListAPIView):
         if not prepared:
             return Word.objects.none()
 
-        # Выдача поиска: точная лемма или точная словоформа (/альт).
+        results = self._exact_hits(prepared)
+        if results:
+            return results
+
+        # Fallback: слитное сложение → две известные формы.
+        split = find_best_compound_split(prepared)
+        if not split:
+            return []
+
+        parts = [split.left, split.right]
+        compound_results = []
+        seen = set()
+        for part in parts:
+            for word in self._exact_hits(part):
+                if word.id in seen:
+                    continue
+                seen.add(word.id)
+                word._compound_parts = parts
+                word._compound_of = prepared
+                compound_results.append(word)
+        return compound_results
+
+    def _exact_hits(self, prepared: str):
+        """Точная лемма или точная словоформа (/альт); matched_* на объектах."""
         matched_forms_qs = WordForm.objects.for_search(
             prepared, prefix=False
         ).select_related("grammar_form")

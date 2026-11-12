@@ -64,6 +64,13 @@
             Šanua «{{ notFoundQuery }}» ei löydyny šanakniigašta.
           </div>
           <div v-else-if="selectedWords.length" class="d-flex flex-column gap-3">
+            <div
+              v-if="compoundPartsLabel"
+              class="alert alert-info mb-0 py-2"
+              role="status"
+            >
+              {{ compoundPartsLabel }}
+            </div>
             <WordCard
               v-for="w in selectedWords"
               :key="w.id"
@@ -113,6 +120,13 @@
         hoveredIndex: -1,
         selectedIndex: -1,
       };
+    },
+    computed: {
+      compoundPartsLabel() {
+        const parts = this.selectedWords?.[0]?.compound_parts;
+        if (!Array.isArray(parts) || parts.length < 2) return '';
+        return parts.join(' + ');
+      },
     },
     watch: {
       show(val) {

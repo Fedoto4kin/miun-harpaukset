@@ -25,6 +25,8 @@ class WordPreviewSerializer(serializers.ModelSerializer):
     matched_form = serializers.SerializerMethodField()
     matched_form_labels_krl = serializers.SerializerMethodField()
     has_paradigm = serializers.SerializerMethodField()
+    compound_parts = serializers.SerializerMethodField()
+    compound_of = serializers.SerializerMethodField()
 
     class Meta:
         model = Word
@@ -42,6 +44,8 @@ class WordPreviewSerializer(serializers.ModelSerializer):
             "matched_form",
             "matched_form_labels_krl",
             "has_paradigm",
+            "compound_parts",
+            "compound_of",
         ]
 
     def get_speech(self, obj):
@@ -62,6 +66,13 @@ class WordPreviewSerializer(serializers.ModelSerializer):
         if hasattr(obj, "_has_paradigm"):
             return bool(obj._has_paradigm)
         return False
+
+    def get_compound_parts(self, obj):
+        parts = getattr(obj, "_compound_parts", None)
+        return list(parts) if parts else None
+
+    def get_compound_of(self, obj):
+        return getattr(obj, "_compound_of", None)
 
 
 class PosSerializer(serializers.ModelSerializer):
