@@ -60,7 +60,7 @@
 | DX-2 | Указать лицензию в корневом README | `README.md` | open |
 | DX-3 | Удалить legacy: `fixutres.sh`, `letencrypypt.sh`, `docker-compose-prod.yml` | ревизия 2026-11 | done |
 | DX-4 | Миграция на `GrammarForm.Category.DIMINUTIVE` (choices; схемы нет, Django ругается при migrate) | `grammar_form.py`, `0031_grammarform_category_choices` | done |
-| DX-5 | WIP ASR (untracked): `app/lexicon/asr_bench/`, `export_asr_gold`/`run_asr_bench`, `requirements-asr-bench.txt`, `voice-input-project.md` — не runtime; ревизия 2026-11: оставить до решения по голосовому вводу, не удалять как legacy | voice input | open |
+| DX-5 | WIP ASR в `.gitignore`: `asr_bench/`, `export_asr_gold`/`run_asr_bench`, `requirements-asr-bench.txt`, `voice-input-project.md` — локально сохраняем до решения по голосовому вводу | voice input | open |
 
 ## Техдолг (зафиксировано при обзоре, не из TODO)
 
