@@ -32,6 +32,8 @@ _BOOK_STEM_OVERRIDES: Dict[str, Dict[int, List[str]]] = {
     "nua": {4: ["noi"], 5: ["noi"]},
     # molemmat (molemmin, molembie) pl. tantum
     "molemmat": {1: ["molemmi"], 2: ["molembi"], 3: ["molembie"], 4: ["molemmi"], 5: ["molembi"]},
+    # rebo: в <code> сокращение -v : -bo → иначе revn вместо revon (Dictorpus/учебник)
+    "rebo": {1: ["revo"]},
 }
 
 # Полная пересборка по глоссу (игнор ошибочной пометы pl. в orig и т.п.).

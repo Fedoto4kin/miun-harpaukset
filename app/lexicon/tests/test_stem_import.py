@@ -163,6 +163,13 @@ class BuildNominalStemsTests(SimpleTestCase):
             },
         )
 
+    def test_rebo_stem1_override(self):
+        # Словарь: -v : -bo; без оверрайда → rev/revn, нужно revo/revon.
+        stems = build_stems("re|bo", "-v : -bo, -buo, -boloi", "s.")
+        self.assertEqual(stems[1], ["revo"])
+        self.assertEqual(stems[2], ["rebo"])
+        self.assertEqual(stems[3], ["rebuo"])
+
     def test_akka(self):
         stems = build_stems("ak|ka", "-a : -ka, -kua, -oi : -koi", "s.")
         self.assertEqual(
