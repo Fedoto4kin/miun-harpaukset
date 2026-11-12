@@ -13,3 +13,11 @@ db.pg14.*/
 *.py[cod]
 *$py.class
 .certbot
+
+# WIP voice input / ASR Stage-0 (DX-5) — локально, не runtime
+/voice-input-project.md
+/app/lexicon/asr_bench/
+/app/lexicon/management/commands/export_asr_gold.py
+/app/lexicon/management/commands/run_asr_bench.py
+/app/lexicon/tests/test_asr_bench.py
+/app/requirements-asr-bench.txt
