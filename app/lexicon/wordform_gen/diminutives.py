@@ -107,7 +107,7 @@ _NOUN_SORT = {
 DIM_FORM_META: Tuple[Tuple[str, str, str, int], ...] = tuple(
     (
         f"{DIM_PREFIX}{code}",
-        f"pieniškö · {_NOUN_LABELS_KRL[code]}",
+        f"pieniskö · {_NOUN_LABELS_KRL[code]}",
         f"уменьш. {_NOUN_LABELS_RU[code]}",
         1000 + _NOUN_SORT[code],
     )

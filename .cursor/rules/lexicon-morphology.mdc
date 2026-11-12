@@ -55,7 +55,7 @@ POS: `s.`, `a.`, `v.`, `pron.`; пометы `pl` / `sing` / `v_def`. Альте
 ### Уменьшительные `s.` на `-ne` (MORPH-DIM done)
 
 - Продуктивно: `nom + ne` → склонение типа hebone/alane; WordForm на **базовой** лемме, `GrammarForm.category=diminutive`, коды `dim_*`.
-- Поиск/подсказки: цепочка `peldozešta → peldo` + метка `pieniškö · …`.
+- Поиск/подсказки: цепочка `peldozešta → peldo` + метка `pieniskö · …`.
 - `ParadigmView` **исключает** diminutive / `dim_*` (в таблице не показываем).
 - Skip: леммы на `-ne`, `special_mark=pl`, словарный sibling `*ne` (kirjane).
 - Команда: `manage.py generate_diminutives` (после `generate_wordforms --pos=s.` не затирается).

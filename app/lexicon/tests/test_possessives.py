@@ -92,7 +92,7 @@ class PossessiveSearchApiTests(TestCase):
         rows = resp.json()
         self.assertEqual(rows[0]["word"], "muamo")
         self.assertTrue(
-            any("pieniškö" in lab for lab in rows[0]["matched_form_labels_krl"])
+            any("pieniskö" in lab for lab in rows[0]["matched_form_labels_krl"])
         )
 
     def test_paradigm_excludes_possessives(self):

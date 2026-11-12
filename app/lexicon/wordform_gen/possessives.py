@@ -21,13 +21,13 @@ POSS_FORM_META: Tuple[Tuple[str, str, str, int], ...] = (
     ("poss_2sg", "omistuš 2.yks. (-š)", "притяж. 2л. ед. (-š)", 2010),
     (
         "poss_dim_1sg",
-        "pieniškö · omistuš 1.yks. (-zeni)",
+        "pieniskö · omistuš 1.yks. (-zeni)",
         "уменьш. притяж. 1л. ед. (-zeni)",
         2020,
     ),
     (
         "poss_dim_2sg",
-        "pieniškö · omistuš 2.yks. (-zeš)",
+        "pieniskö · omistuš 2.yks. (-zeš)",
         "уменьш. притяж. 2л. ед. (-zeš)",
         2030,
     ),

@@ -97,7 +97,7 @@ class DiminutiveSearchApiTests(TestCase):
         self.assertEqual(rows[0]["word"], "pel|do")
         self.assertEqual(rows[0]["matched_form"], "peldozešta")
         labels = rows[0]["matched_form_labels_krl"]
-        self.assertTrue(any("pieniškö" in lab for lab in labels))
+        self.assertTrue(any("pieniskö" in lab for lab in labels))
 
     def test_suggestions_chain(self):
         client = APIClient()

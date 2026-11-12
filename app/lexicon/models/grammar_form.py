@@ -9,7 +9,7 @@ class GrammarForm(models.Model):
         VERB = "verb", "Aziešana"
         PRON = "pron", "Nimenšijalline"
         # Продуктивные уменьшительные на базе s. (поиск; не в таблице парадигмы)
-        DIMINUTIVE = "diminutive", "Pieniškö"
+        DIMINUTIVE = "diminutive", "Pieniskö"
         # Притяжательные -ni / -š (поиск; не в таблице парадигмы)
         POSSESSIVE = "possessive", "Omistuš"
 
