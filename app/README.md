@@ -237,8 +237,8 @@ docker compose exec -T web python manage.py loaddata grammar/fixtures/grammar.js
 
 ### Морфология словаря → прод
 
-Не запускать `import_stems` / `generate_wordforms` на проде. Схема: **локально fill → `dumpdata lexicon` → git → прод `loaddata`**.  
-`generate_diminutives`: оффлайн-команда; dims пока могут отсутствовать в фикстуре (`backlog` → MORPH-10) — после локального generate включить в dumpdata.
+Не запускать `import_stems` / `generate_wordforms` / `generate_diminutives` / `generate_possessives` на проде. Схема: **локально fill → `dumpdata lexicon` → git → прод `loaddata`**.  
+Фикстура включает search-only `dim_*` / `poss_*` (`MORPH-10`). Если на проде уже были формы от разового generate — перед `loaddata` удалить `WordForm`/`GrammarForm` с `category` ∈ {`diminutive`,`possessive`}, иначе возможен конфликт unique.
 
 ```bash
 # локально после regenerate / diminutives / ручных alt_spellings:

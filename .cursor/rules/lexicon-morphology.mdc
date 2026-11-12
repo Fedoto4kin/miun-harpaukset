@@ -9,16 +9,14 @@ alwaysApply: true
 
 | Место | Состояние |
 |-------|-----------|
-| `GrammarForm` | ~173 слота (имена + глаголы + `diminutive`) |
+| `GrammarForm` | ~177 слотов (парадигма + `diminutive` + `possessive`) |
 | `Stem` | заполнена (`import_stems` / `import_pronouns`) |
-| `WordForm` | ~1.23e5 парадигма + ~3.6e4 diminutive |
+| `WordForm` | ~1.65e5 (= ~1.23e5 парадигма + ~3.6e4 diminutive + ~5.5e3 possessive) |
 | `WordForm.alt_spellings` | поиск-only альты (напр. `kävyin` → `kävin`); канон парадигмы не меняется |
 | `Word.word` | у ~77% лемм есть `\|` (граница морфемы) |
 | `Word.orig` | HTML статьи; шаблон основ в `<code>…</code>` |
 
-Деплой парадигмы: **локально** fill → `dumpdata lexicon` → на проде `loaddata` (без `import_*` / `generate_wordforms` на сервере). Фикстура: `app/lexicon/fixtures/lexicon.json`.
-
-Исключение: `generate_diminutives` — dims пока не в фикстуре (`MORPH-10`); на прод уже прогоняли разово. Цель — включить dim в следующий dumpdata.
+Деплой парадигмы: **локально** fill → `dumpdata lexicon` → на проде `loaddata` (без `import_*` / `generate_wordforms` / `generate_diminutives` / `generate_possessives` на сервере). Фикстура: `app/lexicon/fixtures/lexicon.json` (включая `dim_*` / `poss_*`, MORPH-10).
 
 ## Runtime (API / UI)
 
@@ -60,12 +58,13 @@ POS: `s.`, `a.`, `v.`, `pron.`; пометы `pl` / `sing` / `v_def`. Альте
 - Skip: леммы на `-ne`, `special_mark=pl`, словарный sibling `*ne` (kirjane).
 - Команда: `manage.py generate_diminutives` (после `generate_wordforms --pos=s.` не затирается).
 
-### Притяжательные `-ni` / `-š` (search-only)
+### Притяжательные `-ni` / `-š` (MORPH-POSS done, search-only)
 
 - В грамматике Новак (2020) парадигма суффиксов не дана (там `miun`/`oma`); в учебнике живые: `Muamoš`, `…zeni`.
 - WordForm на базовой лемме `s.`, `GrammarForm.category=possessive`, коды `poss_1sg` / `poss_2sg` / `poss_dim_*`.
+- Ярлыки: `omistuš …`, dim-слоты `pieniskö · omistuš …`.
 - `ParadigmView` исключает possessive / `poss_*`.
-- Команда: `manage.py generate_possessives`.
+- Команда: `manage.py generate_possessives` (локально; в фикстуре ~5.5k, MORPH-10).
 
 Открытые расхождения (не блокеры): `backlog.md` → MORPH-*.
 

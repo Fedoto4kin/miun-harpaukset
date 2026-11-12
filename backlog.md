@@ -32,9 +32,9 @@
 | MORPH-CORE | Stem/WordForm для `s.`/`a.`/`pron.`/`v.`, поиск по формам, попап парадигмы, подсказки с чипами, `alt_spellings`, selection в уроках, фикстура на прод | `lexicon/*`, `api_v0`, client | done |
 | MORPH-DIM | Продуктивные уменьшительные `s.` на `-ne` (поиск-цепочка; не в таблице парадигмы); skip при sibling `*ne` | `wordform_gen/diminutives`, `generate_diminutives` | done |
 | MORPH-LABELS | Ярлыки глаголов `name_krl` по TERMINAT/учебнику (`prezensa`, `kondicionala`, `pričastija`/`aktiva`/`passiva`); фин. `myönteinen`/`kieltävä`, `1.yks.`/`1.mon.` оставлены | `rules_verbs*`, fixtures, `ParadigmPopup` | done |
-| MORPH-POSS | Притяжательные `-ni`/`-š` (+ `-zeni`/`-zeš`) для поиска; не в таблице парадигмы | `wordform_gen/possessives`, `generate_possessives` | done |
+| MORPH-POSS | Притяжательные `-ni`/`-š` (+ `-zeni`/`-zeš`) для поиска; не в таблице парадигмы; ярлыки `omistuš` / `pieniskö` | `wordform_gen/possessives`, `generate_possessives`; прод ~5.5k | done |
 
-Закрыто (2026-11): импорт основ + генерация словоформ; exact search + `?letter=`; grouped suggestions (префикс → чипы, уникальная форма → цепочка); парадигма на карточке; lesson popup (desktop selection / mobile tap+bar); notranslate; базовая парадигма через `lexicon.json` `loaddata`. Ручные альты: `käyvä` `kävin`/`kävit`. Уменьшительные: на проде `generate_diminutives` (~36k); в `lexicon.json` пока без `dim_*` — при следующем полном dumpdata включить.
+Закрыто (2026-11): импорт основ + генерация словоформ; exact search + `?letter=`; grouped suggestions (префикс → чипы, уникальная форма → цепочка); парадигма на карточке; lesson popup (desktop selection / mobile tap+bar); notranslate; базовая парадигма через `lexicon.json` `loaddata`. Ручные альты: `käyvä` `kävin`/`kävit`. Уменьшительные (~36k) и притяжательные (~5.5k) — в фикстуре и на проде (`MORPH-DIM` / `MORPH-POSS` / `MORPH-10`).
 
 ### Остаточные расхождения (не блокеры)
 
@@ -49,7 +49,7 @@
 | MORPH-7 | Конд. `zin`/`sin` | Dictorpus иногда даёт пару `…zin`/`…sin` (и `zit`/`sit`); Grammatika — только `z`. Пример: `levittiäčie`. | open |
 | MORPH-8 | `pron.` несклоняемые | `jogo`, `kudami`, `molen`, `moneš` — в глоссе Novak без gen/part, в тексте не склоняются. Пишем только `nom_sg`. | done |
 | MORPH-9 | `mi`/`nimi` помета `pl.` в orig | В словаре ошибочно `pron. pl.`; глосс Novak ед.ч. Override в `build_stems`; поправить статьи. | open |
-| MORPH-10 | Dims в фикстуре | После локального `generate_diminutives` сделать `dumpdata lexicon` и `loaddata` на проде, чтобы dims не зависели от generate на сервере. | open |
+| MORPH-10 | Dims + possessives в фикстуре | `lexicon.json` включает `dim_*` (~36k) и `poss_*` (~5.5k); прод — `loaddata` (без generate на сервере) | done |
 
 ## Документация / DX
 
@@ -59,7 +59,7 @@
 | DX-2 | Указать лицензию в корневом README | `README.md` | open |
 | DX-3 | Удалить legacy: `fixutres.sh`, `letencrypypt.sh`, `docker-compose-prod.yml` | ревизия 2026-11 | done |
 | DX-4 | Миграция на `GrammarForm.Category.DIMINUTIVE` (choices; схемы нет, Django ругается при migrate) | `grammar_form.py`, `0031_grammarform_category_choices` | done |
-| DX-5 | Решить судьбу WIP ASR: `asr_bench/`, `voice-input-project.md` (сейчас untracked) | voice input | open |
+| DX-5 | WIP ASR (untracked): `app/lexicon/asr_bench/`, `export_asr_gold`/`run_asr_bench`, `requirements-asr-bench.txt`, `voice-input-project.md` — не runtime; ревизия 2026-11: оставить до решения по голосовому вводу, не удалять как legacy | voice input | open |
 
 ## Техдолг (зафиксировано при обзоре, не из TODO)
 

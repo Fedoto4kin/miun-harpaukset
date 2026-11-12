@@ -67,8 +67,8 @@ Pos, Speech (медиа)
 
 Поиск: `?query=` — exact лемма/форма/альт; `?letter=` — алфавитная лента по лемме.  
 Подсказки: префикс + чипы по веткам; уникальная точная форма → цепочка form→лемма.  
-Оффлайн fill: `import_stems` / `import_pronouns` / `generate_wordforms` / `generate_diminutives` / `generate_possessives`; парадигма на прод — `loaddata` фикстуры (`dim_*` в фикстуре — `MORPH-10`; possessives пока тоже вне dump).
-`GrammarForm.category=diminutive|possessive` — только поиск/цепочки, не таблица парадигмы. Ярлыки глаголов — TERMINAT/учебник. Детали: `.cursor/rules/lexicon-morphology.mdc`, `backlog.md` → MORPH-*.
+Оффлайн fill: `import_stems` / `import_pronouns` / `generate_wordforms` / `generate_diminutives` / `generate_possessives` → `dumpdata lexicon` → прод `loaddata` (без generate на сервере). Фикстура включает search-only `dim_*`/`poss_*` (`MORPH-10`).
+`GrammarForm.category=diminutive|possessive` — только поиск/цепочки, не таблица парадигмы (`pieniskö` / `omistuš`). Ярлыки глаголов — TERMINAT/учебник. Детали: `.cursor/rules/lexicon-morphology.mdc`, `backlog.md` → MORPH-*.
 
 ### Уроки → словарь (lookup)
 
