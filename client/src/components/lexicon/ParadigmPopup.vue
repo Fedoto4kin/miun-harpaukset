@@ -109,7 +109,8 @@ export default {
   emits: ['close'],
   setup(props) {
     const isVerb = computed(() => {
-      if (props.pos === 'v.') return true;
+      // v. / v. negat. (kield. v.) — глагольная раскладка по наклонениям
+      if (props.pos === 'v.' || props.pos === 'v. negat.') return true;
       // Явный именной/местоимённый POS — не глагол (part_sg ≠ partisiippa).
       if (props.pos) return false;
       // fallback без pos: только явно глагольные коды
