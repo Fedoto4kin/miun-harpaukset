@@ -1,6 +1,6 @@
-from ckeditor.fields import RichTextField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django_ckeditor_5.fields import CKEditor5Field
 
 from krl.settings import LANGUAGE, LANGUAGE_CODE_RU
 
@@ -14,7 +14,9 @@ class GrammarComment(models.Model):
         verbose_name="Модуль",
         unique=True,
     )
-    html_content = RichTextField("HTML content", blank=True, null=True, default=None)
+    html_content = CKEditor5Field(
+        "HTML content", blank=True, null=True, default=None, config_name="default"
+    )
     lang = models.CharField(max_length=32, choices=LANGUAGE, default=LANGUAGE_CODE_RU)
     summary = models.CharField(max_length=255, blank=True, null=True, default=None)
 

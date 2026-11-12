@@ -65,8 +65,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "nested_admin",
-    "ckeditor",
-    "ckeditor_uploader",
+    "django_ckeditor_5",
     "lexicon.apps.LexiconConfig",
     "api_v0.apps.ApiV0Config",
     "lessons.apps.LessonsConfig",
@@ -159,7 +158,6 @@ STATIC_URL = "/static/"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-CKEDITOR_UPLOAD_PATH = "uploads/"
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static_src"),)
 
@@ -182,56 +180,141 @@ LANGUAGE = (
     (LANGUAGE_CODE_FI, "Šuomekši"),
 )
 
-CKEDITOR_CONFIGS = {
+# CKEditor 5 (replaces django-ckeditor / CKEditor 4 EOL)
+CKEDITOR_5_CUSTOM_CSS = "css/ckeditor5_content.css"
+CKEDITOR_5_FILE_STORAGE = "krl.ckeditor5_storage.CKEditor5FileStorage"
+CKEDITOR_5_FILE_UPLOAD_PERMISSION = "staff"
+CKEDITOR_5_CONFIGS = {
     "default": {
-        "toolbar": "Custom",
-        "toolbar_Custom": [
-            ["Bold", "Italic", "Underline"],
-            [
-                "NumberedList",
-                "BulletedList",
-                "-",
-                "Outdent",
-                "Indent",
-                "-",
-                "JustifyLeft",
-                "JustifyCenter",
-                "JustifyRight",
-                "JustifyBlock",
+        "toolbar": {
+            "items": [
+                "heading",
+                "|",
+                "bold",
+                "italic",
+                "underline",
+                "|",
+                "bulletedList",
+                "numberedList",
+                "outdent",
+                "indent",
+                "|",
+                "alignment",
+                "|",
+                "style",
+                "fontSize",
+                "fontColor",
+                "fontBackgroundColor",
+                "|",
+                "insertImage",
+                "insertTable",
+                "horizontalLine",
+                "|",
+                "removeFormat",
+                "sourceEditing",
             ],
-            ["InsertBadge"],
-            ["Image", "UploadImage", "Table", "HorizontalRule"],
-            ["TextColor", "BGColor"],
-            ["Format", "FontSize", "Styles"],
-            ["RemoveFormat", "Source"],
-        ],
-        "format_tags": "p;h3;h4;h5;h6",
-        "extraPlugins": "uploadimage,stylescombo,font,krl_insertbadge,table",  # 'krl_table'
-        "uploadUrl": "/ckeditor/upload/",
-        "filebrowserUploadUrl": "/ckeditor/upload/",
-        "filebrowserImageUploadUrl": "/ckeditor/upload/",
-        "height": 400,
+            "shouldNotGroupWhenFull": True,
+        },
+        "heading": {
+            "options": [
+                {
+                    "model": "paragraph",
+                    "title": "Paragraph",
+                    "class": "ck-heading_paragraph",
+                },
+                {
+                    "model": "heading3",
+                    "view": "h3",
+                    "title": "Heading 3",
+                    "class": "ck-heading_heading3",
+                },
+                {
+                    "model": "heading4",
+                    "view": "h4",
+                    "title": "Heading 4",
+                    "class": "ck-heading_heading4",
+                },
+                {
+                    "model": "heading5",
+                    "view": "h5",
+                    "title": "Heading 5",
+                    "class": "ck-heading_heading5",
+                },
+                {
+                    "model": "heading6",
+                    "view": "h6",
+                    "title": "Heading 6",
+                    "class": "ck-heading_heading6",
+                },
+            ]
+        },
+        "fontSize": {
+            "options": [
+                "default",
+                {"title": "0.5em", "model": "0.5em"},
+                {"title": "0.75em", "model": "0.75em"},
+                {"title": "1em", "model": "1em"},
+                {"title": "1.12em", "model": "1.12em"},
+                {"title": "1.25em", "model": "1.25em"},
+                {"title": "1.5em", "model": "1.5em"},
+                {"title": "1.75em", "model": "1.75em"},
+            ],
+            "supportAllValues": True,
+        },
+        "style": {
+            "definitions": [
+                {
+                    "name": "Badge",
+                    "element": "span",
+                    "classes": ["badge", "badge-secondary", "bg-secondary"],
+                },
+                {
+                    "name": "Table Cell Yellow",
+                    "element": "td",
+                    "classes": ["table-warning"],
+                },
+                {
+                    "name": "Table Cell Blue",
+                    "element": "td",
+                    "classes": ["table-info"],
+                },
+                {
+                    "name": "Table Cell Grey",
+                    "element": "td",
+                    "classes": ["table-active"],
+                },
+            ]
+        },
+        "image": {
+            "toolbar": [
+                "imageTextAlternative",
+                "|",
+                "imageStyle:alignLeft",
+                "imageStyle:alignCenter",
+                "imageStyle:alignRight",
+            ],
+        },
+        "table": {
+            "contentToolbar": [
+                "tableColumn",
+                "tableRow",
+                "mergeTableCells",
+                "tableProperties",
+                "tableCellProperties",
+            ],
+        },
+        # Preserve legacy CKEditor 4 HTML (badges, Bootstrap table classes, etc.)
+        "htmlSupport": {
+            "allow": [
+                {
+                    "name": {"pattern": ".*"},
+                    "attributes": True,
+                    "classes": True,
+                    "styles": True,
+                }
+            ]
+        },
+        "height": "400px",
         "width": "100%",
-        "contentsCss": "/static/css/bootstrap.min.css",
-        "fontSize_sizes": "0.5em;0.75em;1em;1.12em;1.25em;1.5em;1.75em",
-        "stylesSet": [
-            {
-                "name": "Table Cell Yellow",
-                "element": "td",
-                "attributes": {"class": "table-warning"},
-            },
-            {
-                "name": "Table Cell Blue",
-                "element": "td",
-                "attributes": {"class": "table-info"},
-            },
-            {
-                "name": "Table Cell Grey",
-                "element": "td",
-                "attributes": {"class": "table-active"},
-            },
-        ],
-        "allowedContent": True,
-        "extraAllowedContent": "span[class](*)",
     },
 }

@@ -146,7 +146,7 @@ API в основном **read-only**. Запись — через Django Admin.
 
 - Nested admin для Lesson → Module → Exercise / Speech / GrammarComment
 - Exercise.data — JSONEditorWidget
-- Module.html_content — CKEditor (+ кастомный plugin `krl_insertbadge`)
+- Module.html_content — CKEditor 5 (`django-ckeditor-5`; Insert Badge helper JS)
 - Кнопки «+ Pagina» для привязки аудио
 
 ## 9. Соглашения при разработке

@@ -1,5 +1,5 @@
-from ckeditor.fields import RichTextField
 from django.db import models
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 class GrammarTable(models.Model):
@@ -14,7 +14,7 @@ class GrammarTable(models.Model):
         help_text="Название грамматической таблицы",
     )
 
-    html_content = RichTextField(
+    html_content = CKEditor5Field(
         verbose_name="HTML содержимое",
         help_text="HTML-код таблицы для отображения. Используйте редактор для форматирования.",
         config_name="default",

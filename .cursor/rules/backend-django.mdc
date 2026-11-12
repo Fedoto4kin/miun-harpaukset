@@ -27,7 +27,7 @@ alwaysApply: false
 
 ## Контент и медиа
 
-- HTML модулей — CKEditor (`RichTextField`)
+- HTML модулей — CKEditor 5 (`CKEditor5Field`)
 - Аудио — GenericForeignKey `LessonSpeech` → Lesson или Module; код `X.Y`
 - Поиск карельских слов: `Word.search_prepare` + алфавит `KRL_ABC`
 - Языки определений: `LANGUAGE_CODE_RU` / `LANGUAGE_CODE_FI` в settings

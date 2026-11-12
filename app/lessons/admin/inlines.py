@@ -21,9 +21,12 @@ class GrammarCommentInline(NestedTabularInline):
 
     def get_formset(self, request, obj=None, **kwargs):
         formset = super().get_formset(request, obj, **kwargs)
-        from ckeditor.widgets import CKEditorWidget
+        from krl.ckeditor5_widget import KrlCKEditor5Widget
 
-        formset.form.base_fields["html_content"].widget = CKEditorWidget()
+        formset.form.base_fields["html_content"].widget = KrlCKEditor5Widget(
+            attrs={"class": "django_ckeditor_5"}, config_name="default"
+        )
+        formset.form.base_fields["html_content"].required = False
         return formset
 
 

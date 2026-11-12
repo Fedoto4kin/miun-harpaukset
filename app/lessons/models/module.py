@@ -1,6 +1,6 @@
-from ckeditor.fields import RichTextField
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django_ckeditor_5.fields import CKEditor5Field
 
 from .lesson import Lesson
 from .lesson_speech import LessonSpeech
@@ -12,11 +12,12 @@ class Module(models.Model):
         Lesson, on_delete=models.CASCADE, related_name="modules", verbose_name="Urokka"
     )
     number = models.IntegerField()
-    html_content = RichTextField(
+    html_content = CKEditor5Field(
         verbose_name="HTML",
         blank=True,
         null=True,
         default=None,
+        config_name="default",
         help_text="HTML content of the module. Use '[[widget:lesson_cover]]' to render the lesson cover component.",
     )
     tags = models.ManyToManyField(

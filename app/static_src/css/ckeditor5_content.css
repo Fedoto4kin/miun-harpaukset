@@ -1,0 +1,39 @@
+/* Preview Bootstrap table/badge classes inside CKEditor 5 editing area */
+.ck-content .badge {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+}
+.ck-content .badge-secondary,
+.ck-content .bg-secondary {
+  background-color: #6c757d !important;
+}
+.ck-content table.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  border-collapse: collapse;
+}
+.ck-content .table-bordered,
+.ck-content .table-bordered th,
+.ck-content .table-bordered td {
+  border: 1px solid #dee2e6;
+}
+.ck-content .table-warning {
+  background-color: #fff3cd;
+}
+.ck-content .table-info {
+  background-color: #cff4fc;
+}
+.ck-content .table-active {
+  background-color: rgba(0, 0, 0, 0.075);
+}
+.krl-ck5-badge-bar .button {
+  cursor: pointer;
+}
