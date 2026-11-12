@@ -18,7 +18,9 @@ class ParadigmView(APIView):
         rows = (
             WordForm.objects.filter(word=word)
             .exclude(grammar_form__category=GrammarForm.Category.DIMINUTIVE)
+            .exclude(grammar_form__category=GrammarForm.Category.POSSESSIVE)
             .exclude(grammar_form__code__startswith="dim_")
+            .exclude(grammar_form__code__startswith="poss_")
             .select_related("grammar_form")
             .order_by("grammar_form__sort_order", "id")
         )

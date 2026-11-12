@@ -36,8 +36,9 @@ alwaysApply: true
 2. `import_pronouns` — 12 личных/указательных
 3. `generate_wordforms --pos=s.|a.|pron.|v.` — `lexicon/wordform_gen/`
 4. `generate_diminutives` — продуктивные `-ne` (category=`diminutive`; не затирается regenerate s.)
-5. Ручные `alt_spellings` в admin (сохраняются при regenerate)
-6. `normalize_soft_signs` — канон U+02BC `ʼ`
+5. `generate_possessives` — `-ni` / `-š` (+ `-zeni`/`-zeš`; category=`possessive`; search-only)
+6. Ручные `alt_spellings` в admin (сохраняются при regenerate)
+7. `normalize_soft_signs` — канон U+02BC `ʼ`
 
 POS: `s.`, `a.`, `v.`, `pron.`; пометы `pl` / `sing` / `v_def`. Альтернативы `/` → `Stem.alt`.
 
@@ -58,6 +59,13 @@ POS: `s.`, `a.`, `v.`, `pron.`; пометы `pl` / `sing` / `v_def`. Альте
 - `ParadigmView` **исключает** diminutive / `dim_*` (в таблице не показываем).
 - Skip: леммы на `-ne`, `special_mark=pl`, словарный sibling `*ne` (kirjane).
 - Команда: `manage.py generate_diminutives` (после `generate_wordforms --pos=s.` не затирается).
+
+### Притяжательные `-ni` / `-š` (search-only)
+
+- В грамматике Новак (2020) парадигма суффиксов не дана (там `miun`/`oma`); в учебнике живые: `Muamoš`, `…zeni`.
+- WordForm на базовой лемме `s.`, `GrammarForm.category=possessive`, коды `poss_1sg` / `poss_2sg` / `poss_dim_*`.
+- `ParadigmView` исключает possessive / `poss_*`.
+- Команда: `manage.py generate_possessives`.
 
 Открытые расхождения (не блокеры): `backlog.md` → MORPH-*.
 
