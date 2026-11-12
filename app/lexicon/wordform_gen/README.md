@@ -8,6 +8,8 @@ python manage.py test lexicon.tests.test_wordform_gen
 python manage.py generate_wordforms --pos=s. [--dry-run] [--limit N]
 python manage.py generate_wordforms --pos=a. [--dry-run] [--limit N]
 python manage.py generate_wordforms --pos=v. [--dry-run] [--limit N]
+# отрицательный глагол ei (готовая таблица, не Stem):
+python manage.py import_negation_verb [--dry-run]
 # продуктивные уменьшительные s. на -ne (отдельная category; не в таблице парадигмы):
 python manage.py generate_diminutives [--dry-run] [--limit N] [--word peldo]
 # притяжательные -ni / -š (+ -zeni/-zeš; search-only):

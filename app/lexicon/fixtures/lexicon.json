@@ -2316509,5 +2316509,125 @@
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
+  },
+  {
+    "model": "lexicon.wordform",
+    "pk": 308296,
+    "fields": {
+      "word": 3590,
+      "grammar_form": 30,
+      "form": "en",
+      "form_clean": "en",
+      "alt_spellings": [],
+      "alt_spellings_clean": []
+    }
+  },
+  {
+    "model": "lexicon.wordform",
+    "pk": 308297,
+    "fields": {
+      "word": 3590,
+      "grammar_form": 31,
+      "form": "et",
+      "form_clean": "et",
+      "alt_spellings": [],
+      "alt_spellings_clean": []
+    }
+  },
+  {
+    "model": "lexicon.wordform",
+    "pk": 308298,
+    "fields": {
+      "word": 3590,
+      "grammar_form": 32,
+      "form": "ei",
+      "form_clean": "ei",
+      "alt_spellings": [],
+      "alt_spellings_clean": []
+    }
+  },
+  {
+    "model": "lexicon.wordform",
+    "pk": 308299,
+    "fields": {
+      "word": 3590,
+      "grammar_form": 33,
+      "form": "emmä",
+      "form_clean": "emmä",
+      "alt_spellings": [],
+      "alt_spellings_clean": []
+    }
+  },
+  {
+    "model": "lexicon.wordform",
+    "pk": 308300,
+    "fields": {
+      "word": 3590,
+      "grammar_form": 34,
+      "form": "että",
+      "form_clean": "että",
+      "alt_spellings": [],
+      "alt_spellings_clean": []
+    }
+  },
+  {
+    "model": "lexicon.wordform",
+    "pk": 308301,
+    "fields": {
+      "word": 3590,
+      "grammar_form": 35,
+      "form": "ei",
+      "form_clean": "ei",
+      "alt_spellings": [],
+      "alt_spellings_clean": []
+    }
+  },
+  {
+    "model": "lexicon.wordform",
+    "pk": 308302,
+    "fields": {
+      "word": 3590,
+      "grammar_form": 49,
+      "form": "elä",
+      "form_clean": "elä",
+      "alt_spellings": [],
+      "alt_spellings_clean": []
+    }
+  },
+  {
+    "model": "lexicon.wordform",
+    "pk": 308303,
+    "fields": {
+      "word": 3590,
+      "grammar_form": 50,
+      "form": "elgäh",
+      "form_clean": "elgäh",
+      "alt_spellings": [],
+      "alt_spellings_clean": []
+    }
+  },
+  {
+    "model": "lexicon.wordform",
+    "pk": 308304,
+    "fields": {
+      "word": 3590,
+      "grammar_form": 51,
+      "form": "elgiä",
+      "form_clean": "elgiä",
+      "alt_spellings": [],
+      "alt_spellings_clean": []
+    }
+  },
+  {
+    "model": "lexicon.wordform",
+    "pk": 308305,
+    "fields": {
+      "word": 3590,
+      "grammar_form": 52,
+      "form": "elgäh",
+      "form_clean": "elgäh",
+      "alt_spellings": [],
+      "alt_spellings_clean": []
+    }
   }
 ]
