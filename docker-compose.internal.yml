@@ -7,7 +7,7 @@ services:
     command: uwsgi --ini /app/uwsgi.ini
     volumes:
       - ./app:/app
-    # Host nginx (systemd) proxies /api /admin /ckeditor5 → 127.0.0.1:8003
+    # Host nginx (systemd) proxies /api /admin (incl. /admin/ckeditor5) → 127.0.0.1:8003
     ports:
       - "8003:8000"
     expose:

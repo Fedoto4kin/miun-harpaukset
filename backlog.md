@@ -54,6 +54,7 @@
 | MORPH-6 | Апостроф мягкости | Канон хранения U+02BC `ʼ`; поиск снимает все варианты (`lexicon.ortho`, `normalize_soft_signs`). Dictorpus/учебник могут давать U+2019 — при сверке нормализовать. | done |
 | MORPH-7 | Конд. `zin`/`sin` | Dictorpus иногда даёт пару `…zin`/`…sin` (и `zit`/`sit`); Grammatika — только `z`. Пример: `levittiäčie`. | open |
 | MORPH-8 | `pron.` несклоняемые | `jogo`, `kudami`, `molen`, `moneš` — в глоссе Novak без gen/part, в тексте не склоняются. Пишем только `nom_sg`. | done |
+| MORPH-NEG | Отрицательный глагол `ei` | Готовая парадигма (pres + imp); `import_negation_verb`; слоты `ind_pres_*_pos` / `imp_*_pos`. | done |
 | MORPH-9 | `mi`/`nimi` помета `pl.` в orig | Код: override в `build_stems` (done). Осталось поправить HTML статей в словаре. | open |
 
 ### Сложения — края v1 (чинить по факту жалоб)
@@ -83,7 +84,7 @@
 | TD-1 | Вынести `SECRET_KEY` / `DEBUG` в env для prod | `app/krl/settings.py` | done |
 | TD-2 | В `exercises/__init__.py` в `__all__` указан `ExerciseSchema`, но не импортирован | мелочь | done |
 | TD-3 | Свойство `Module.exercise` рекурсивно обращается к себе через `hasattr` | удалён мёртвый property | done |
-| TD-4 | Заменить `django-ckeditor` (CKEditor 4 EOL) на `django-ckeditor-5` | `django-ckeditor-5`; Insert Badge JS; upload `/ckeditor5/` | done |
+| TD-4 | Заменить `django-ckeditor` (CKEditor 4 EOL) на `django-ckeditor-5` | `django-ckeditor-5`; Insert Badge JS; upload `/admin/ckeditor5/` | done |
 
 ---
 
