@@ -20,11 +20,10 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    # Under /admin so host nginx (location /admin) proxies uploads without a
-    # separate /ckeditor5/ location.
-    path("admin/ckeditor5/", include("django_ckeditor_5.urls")),
     path("admin/", admin.site.urls),
     path("api/v0/", include("api_v0.urls")),
+    # Host nginx must proxy /ckeditor5/ → Django (same role as old /ckeditor/upload/).
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
 ]
 
 if settings.DEBUG:
