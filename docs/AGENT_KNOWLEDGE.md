@@ -65,10 +65,11 @@ Pos, Speech (медиа)
 
 Алфавит: `ABCČDEFGHIJKLMNOPRSŠZŽTUVYÄÖ`. Нормализация: lower, `ü`→`y`, мягкий знак → снятие (`lexicon.ortho`, канон U+02BC).
 
-Поиск: `?query=` — exact лемма/форма/альт; `?letter=` — алфавитная лента по лемме.  
-Подсказки: префикс + чипы по веткам; уникальная точная форма → цепочка form→лемма.  
+Поиск: `?query=` — exact лемма/форма/альт; при 0 hits — **compound-split** по словарю (`compound_parts` / `compound_of`, UI `A + B`); `?letter=` — алфавитная лента по лемме.  
+Подсказки: префикс + чипы по веткам; уникальная точная форма → цепочка form→лемма (без compound-fallback).  
 Оффлайн fill: `import_stems` / `import_pronouns` / `generate_wordforms` / `generate_diminutives` / `generate_possessives` → `dumpdata lexicon` → прод `loaddata` (без generate на сервере). Фикстура включает search-only `dim_*`/`poss_*` (`MORPH-10`).
-`GrammarForm.category=diminutive|possessive` — только поиск/цепочки, не таблица парадигмы (`pieniskö` / `omistuš`). Ярлыки глаголов — TERMINAT/учебник. Детали: `.cursor/rules/lexicon-morphology.mdc`, `backlog.md` → MORPH-*.
+`GrammarForm.category=diminutive|possessive` — только поиск/цепочки, не таблица парадигмы (`pieniskö` / `omistuš`). Ярлыки глаголов — TERMINAT/учебник.  
+Сложения: `lexicon/compound_split.md`; края v1 — `backlog.md` → `COMPOUND-*`. Общее: `.cursor/rules/lexicon-morphology.mdc`, `backlog.md` → MORPH-*.
 
 ### Уроки → словарь (lookup)
 
@@ -91,7 +92,7 @@ Pos, Speech (медиа)
 | GET | `/modules/` | модули |
 | GET | `/modules/by-lesson/{id}/` | модули урока |
 | GET | `/modules/{id}/content/` | полный контент модуля |
-| GET | `/lexicon/search/` | поиск (`query` exact / `letter` browse) |
+| GET | `/lexicon/search/` | поиск (`query` exact → compound fallback / `letter` browse) |
 | GET | `/lexicon/reverse/` | обратный поиск |
 | GET | `/lexicon/search-suggestions/` | подсказки |
 | GET | `/lexicon/grouped-search-suggestions/` | подсказки + чипы форм |

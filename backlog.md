@@ -11,6 +11,7 @@
 | UX-1 | При скролле страницы урока держать аудиоплеер видимым (sticky/fixed) | `LessonHeaderComponent.vue` | done |
 | UX-2 | Выставлять `document.title` с номером модуля при навигации по урокам | `LessonsComponent.vue` | done |
 | UX-3 | Lookup слова из текста урока на touch: тап → нижняя панель (не selection-tip под системным меню) | `WordSelectionLookup.vue` | done |
+| UX-TG | Telegram-гибрид (бот dig/карточки/deep-link + сайт для полного урока); UI ru/fi с карельским дублем ярлыков; тот же VPS; LLM «слово дня» позже с гейтом как в punzh-dict | `telegram-bot-project.md` | open |
 
 ## Контент / упражнения
 
@@ -27,7 +28,7 @@
 
 ## Морфология словаря
 
-**Фича закрыта (2026-11).** Scope ниже — всё `done`. Открытые `MORPH-1…9` — не блокеры фичи (дыры статей / расхождения Dictorpus), чинятся точечно.
+**Фича закрыта (2026-11).** Scope ниже — всё `done`. Открытые `MORPH-1…9` / `COMPOUND-*` — не блокеры (контент / края v1), чинятся точечно; плейбук сложений: `app/lexicon/compound_split.md`.
 
 | ID | Задача | Источник | Статус |
 |----|--------|----------|--------|
@@ -37,8 +38,9 @@
 | MORPH-POSS | Притяжательные `-ni`/`-š` (+ `-zeni`/`-zeš`) для поиска; не в таблице парадигмы; ярлыки `omistuš` / `pieniskö` | `wordform_gen/possessives`, `generate_possessives`; прод ~5.5k | done |
 | MORPH-10 | Dims + possessives в фикстуре + прод `loaddata` | `lexicon.json` | done |
 | MORPH-STEM-AUDIT | Аудит основ `s./a./pron./v.`; оверрайды `rebo`/`čuppu`/`elätti`; `regen_lemma` | `lexicon/stem_audit` | done |
+| MORPH-COMPOUND | Fallback поиска: слитное сложение → разрез по словарю (`form_clean`/`word_clean`), exact-first; meta `compound_parts` + UI `A + B` | `compound_split.py`, `SearchViewList`, client | done |
 
-Закрытый scope: импорт основ + генерация словоформ; exact search + `?letter=`; grouped suggestions; парадигма на карточке; lesson lookup (desktop tip / mobile bar); notranslate; `lexicon.json` loaddata (парадигма + dim + poss); search-only dim/poss; ярлыки глаголов; аудит основ + точечные фиксы слабых основ.
+Закрытый scope: импорт основ + генерация словоформ; exact search + `?letter=`; grouped suggestions; парадигма на карточке; lesson lookup (desktop tip / mobile bar); notranslate; `lexicon.json` loaddata (парадигма + dim + poss); search-only dim/poss; ярлыки глаголов; аудит основ + точечные фиксы слабых основ; **compound-split lookup** (учебник: `muamonkieli`, `eländäpaikka`; целая лемма не режется).
 
 ### Остаточные расхождения (контент / Dictorpus, вне scope фичи)
 
@@ -53,6 +55,16 @@
 | MORPH-7 | Конд. `zin`/`sin` | Dictorpus иногда даёт пару `…zin`/`…sin` (и `zit`/`sit`); Grammatika — только `z`. Пример: `levittiäčie`. | open |
 | MORPH-8 | `pron.` несклоняемые | `jogo`, `kudami`, `molen`, `moneš` — в глоссе Novak без gen/part, в тексте не склоняются. Пишем только `nom_sg`. | done |
 | MORPH-9 | `mi`/`nimi` помета `pl.` в orig | Код: override в `build_stems` (done). Осталось поправить HTML статей в словаре. | open |
+
+### Сложения — края v1 (чинить по факту жалоб)
+
+| ID | Тема | Детали | Статус |
+|----|------|--------|--------|
+| COMPOUND-1 | 3+ члена | `a+b+c` не режем рекурсивно; только один лучший бинарный разрез. | open |
+| COMPOUND-2 | Дефис | `muamon-kieli` и т.п. не нормализуем отдельно от слитного. | open |
+| COMPOUND-3 | Дубли части | Несколько `Word` на одну поверхность (напр. `paikka`) → несколько карточек; дедуп только по `id`. | open |
+| COMPOUND-4 | Ложный разрез | Тюнинг: `MIN_PART_LEN`, `score_split` (+голова / `-n`); сначала тест в `test_compound_split.py`. См. `compound_split.md`. | open |
+| COMPOUND-5 | Suggestions | Prefix-suggestions без compound-fallback (только exact search / lesson lookup). | open |
 
 ## Документация / DX
 

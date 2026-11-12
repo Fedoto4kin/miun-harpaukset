@@ -21,10 +21,11 @@ alwaysApply: true
 ## Runtime (API / UI)
 
 - Поиск (`?query=`): **точное** совпадение леммы или словоформы/альта; аналитика с пробелом — только если в запросе есть пробел.
+- Fallback сложений: если exact пуст — разрез по словарю (`lexicon/compound_split.py`); meta `compound_parts` / `compound_of`; UI баннер `A + B`. Exact целой леммы (`pitkäkieli`) **не** режется. Плейбук: `lexicon/compound_split.md`.
 - Алфавитная лента: `?letter=` — префикс по лемме.
-- Подсказки (`grouped-search-suggestions`): префикс по формам; чипы по разным «следующим буквам»; цепочка form→лемма только если на префикс ровно одна орфография.
+- Подсказки (`grouped-search-suggestions`): префикс по формам; чипы по разным «следующим буквам»; цепочка form→лемма только если на префикс ровно одна орфография. Compound-fallback в suggestions **нет**.
 - Парадигма: `GET /api/v0/lexicon/word-card/{id}/paradigm/` + `ParadigmPopup` на карточке.
-- Уроки → словарь: `WordSelectionLookup` + `WordSearchPopupComponent` в `LessonHeaderComponent`.
+- Уроки → словарь: `WordSelectionLookup` + `WordSearchPopupComponent` в `LessonHeaderComponent` (тот же search → compound fallback).
   - Desktop: выделение слова → floating tip «Šanakniiga».
   - Touch (`pointer: coarse`): короткий тап по слову (или выделение) → нижняя панель (не конкурирует с системным Copy/Select); упражнения/кнопки пропускаются.
 
@@ -73,6 +74,15 @@ POS: `s.`, `a.`, `v.`, `pron.`; пометы `pl` / `sing` / `v_def`. Альте
 - Слой 3: арбитраж Grammatika/учебник → `_BOOK_STEM_OVERRIDES` / правка `<code>` → `regen_lemma --word=…` (s./a.).  
 - Команда: `manage.py audit_stems --pos=s.,a.,pron.,v.`; детали: `lexicon/stem_audit/README.md`.
 
-Фича закрыта. Остатки контента/Dictorpus (не блокеры): `backlog.md` → MORPH-1…9.
+### Слитные сложения (MORPH-COMPOUND done, search fallback)
+
+- Орфография без границы: режем там, где **обе** части есть в `form_clean` / `word_clean` (`MIN_PART_LEN=3`).
+- Exact-first: целая лемма/форма побеждает (`pitkäkieli` не режется).
+- Скоринг: правый = `nom_sg`/лемма (+100), левый на `-n` (+40), длиннее части / длиннее голова; ничья → разрез правее.
+- Эталоны: `muamonkieli` → `muamon|kieli`; `eländäpaikka` → `eländä|paikka`.
+- API: два hit + `compound_parts` / `compound_of`; UI: `A + B`.
+- Вне v1 / края: `backlog.md` → `COMPOUND-1…5`; тюнинг и тесты — `lexicon/compound_split.md`.
+
+Фича закрыта. Остатки (не блокеры): `backlog.md` → MORPH-1…9, COMPOUND-*.
 
 http://dictorpus.krc.karelia.ru/ru/dict/wordform?limit_num=10&search_dialect=47&search_gramset=&search_lang=4&search_pos=&search_lemma=&search_wordform=

@@ -1,7 +1,8 @@
 """Разрез слитных сложений по словарю (fallback поиска).
 
 Граница в орфографии не размечена: режем там, где обе части — известные
-form_clean / word_clean. Exact-хит целого слова обрабатывается снаружи.
+form_clean / word_clean. Exact-хит целого слова обрабатывается снаружи
+(SearchViewList). Плейбук / тюнинг / края v1: compound_split.md.
 """
 
 from __future__ import annotations
