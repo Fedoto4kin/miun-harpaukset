@@ -11,7 +11,7 @@ class GrammarForm(models.Model):
         # Продуктивные уменьшительные на базе s. (поиск; не в таблице парадигмы)
         DIMINUTIVE = "diminutive", "Pieniškö"
         # Притяжательные -ni / -š (поиск; не в таблице парадигмы)
-        POSSESSIVE = "possessive", "Omistus"
+        POSSESSIVE = "possessive", "Omistuš"
 
     code = models.CharField(max_length=32, unique=True)
     name_krl = models.CharField(max_length=128)

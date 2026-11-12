@@ -83,7 +83,7 @@ class PossessiveSearchApiTests(TestCase):
         self.assertEqual(rows[0]["word"], "muamo")
         self.assertEqual(rows[0]["matched_form"], "muamoš")
         labels = rows[0]["matched_form_labels_krl"]
-        self.assertTrue(any("omistus" in lab for lab in labels))
+        self.assertTrue(any("omistuš" in lab for lab in labels))
 
     def test_search_muamozeni(self):
         client = APIClient()

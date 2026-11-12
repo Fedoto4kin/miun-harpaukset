@@ -17,17 +17,17 @@ _VOWELS = frozenset("aeiouyäöüáéíóúýå")
 
 # (code, name_krl, name_ru, sort_order)
 POSS_FORM_META: Tuple[Tuple[str, str, str, int], ...] = (
-    ("poss_1sg", "omistus 1.yks. (-ni)", "притяж. 1л. ед. (-ni)", 2000),
-    ("poss_2sg", "omistus 2.yks. (-š)", "притяж. 2л. ед. (-š)", 2010),
+    ("poss_1sg", "omistuš 1.yks. (-ni)", "притяж. 1л. ед. (-ni)", 2000),
+    ("poss_2sg", "omistuš 2.yks. (-š)", "притяж. 2л. ед. (-š)", 2010),
     (
         "poss_dim_1sg",
-        "pieniškö · omistus 1.yks. (-zeni)",
+        "pieniškö · omistuš 1.yks. (-zeni)",
         "уменьш. притяж. 1л. ед. (-zeni)",
         2020,
     ),
     (
         "poss_dim_2sg",
-        "pieniškö · omistus 2.yks. (-zeš)",
+        "pieniškö · omistuš 2.yks. (-zeš)",
         "уменьш. притяж. 2л. ед. (-zeš)",
         2030,
     ),
