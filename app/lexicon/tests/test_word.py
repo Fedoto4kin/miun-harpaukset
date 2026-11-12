@@ -24,6 +24,13 @@ class WordSearchPrepareTests(SimpleTestCase):
         # search_prepare does not strip morpheme boundary; word_clean does
         self.assertEqual(Word.search_prepare("ak|ka"), "ak|ka")
 
+    def test_search_prepare_keeps_space(self):
+        self.assertEqual(Word.search_prepare("olen ollut"), "olen ollut")
+
+    def test_search_prepare_filters_non_krl(self):
+        self.assertEqual(Word.search_prepare("akka!123"), "akka")
+        self.assertEqual(Word.search_prepare("foo-bar"), "foobar")
+
 
 class WordSlugifyTests(SimpleTestCase):
     def test_krl_slugify_filters_to_alphabet(self):

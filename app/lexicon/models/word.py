@@ -5,11 +5,10 @@ from django.utils.translation import gettext_lazy as _
 from krl.settings import LANGUAGE
 
 from lexicon.ortho import strip_soft_signs
+from lexicon.search import KRL_ABC, search_prepare as prepare_search_string
 
 from .pos import Pos
 from .speech import Speech
-
-KRL_ABC = "ABCČDEFGHIJKLMNOPRSŠZŽTUVYÄÖ"
 
 
 class Word(models.Model):
@@ -61,12 +60,9 @@ class Word(models.Model):
 
         return " ".join(parts)
 
-    # todo: move to service
     @staticmethod
     def search_prepare(string):
-        # todo: filter by KRL_ABC
-        # Мягкий знак (ʼ / ’ / ') снимаем — поиск не зависит от канона хранения.
-        return strip_soft_signs(string.lower().replace("ü", "y"))
+        return prepare_search_string(string)
 
     def save(self, *args, **kwargs):
         self.word_clean = strip_soft_signs(self.word.replace("|", ""))

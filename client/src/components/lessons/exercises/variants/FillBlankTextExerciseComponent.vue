@@ -1,5 +1,8 @@
 <template>
   <div class="fill-blank-text-exercise">
+    <h5 v-if="data.title" class="exercise-title mb-3">
+      {{ data.title }}
+    </h5>
     <div v-if="parsedExample.length" class="example-section">
       <div class="example-text">
         <div v-for="(sentence, sentenceIndex) in parsedExample" :key="sentenceIndex"
@@ -301,6 +304,11 @@ export default {
 </script>
 
 <style scoped>
+.exercise-title {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
 .fill-blank-text-exercise {
   font-size: 1.125em;
   overflow-x: clip;

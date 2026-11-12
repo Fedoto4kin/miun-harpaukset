@@ -1,12 +1,12 @@
 from .contracts import ExerciseSchema
 
 
-# todo: add title
 class FillBlankTextExercise(ExerciseSchema):
     @property
     def schema(self):
         """
         Explanation of the "text" format:
+        - "title" (optional): Title of the exercise.
         - The string represents a sentence with missing words that users must fill in.
         - The missing parts are indicated by the pattern [n*:ANSWERS{PREFILLED}], where:
         - n* - represents the placeholder for the missing part.
@@ -21,6 +21,7 @@ class FillBlankTextExercise(ExerciseSchema):
             "$schema": "http://json-schema.org/draft-07/schema#",
             "type": "object",
             "properties": {
+                "title": {"type": "string"},
                 "texts": {
                     "type": "array",
                     "items": {
@@ -51,6 +52,7 @@ class FillBlankTextExercise(ExerciseSchema):
         Returns the default data for 'Fill in the Blank Text'
         """
         return {
+            "title": "Täyttä tyhjät",
             "example": "Example question with [8*:kyžymyš{vaštauš}].",
             "texts": [
                 {

@@ -16,14 +16,14 @@
 
 | ID | Задача | Источник | Статус |
 |----|--------|----------|--------|
-| EX-1 | Добавить `title` в схему FillBlankText | `fill_blank_text_exercise.py` | open |
+| EX-1 | Добавить `title` в схему FillBlankText | `fill_blank_text_exercise.py` | done |
 
 ## Лексикон / backend
 
 | ID | Задача | Источник | Статус |
 |----|--------|----------|--------|
-| LX-1 | Вынести `Word.search_prepare` в сервисный слой | `lexicon/models/word.py` | open |
-| LX-2 | Фильтровать ввод поиска по `KRL_ABC` | `lexicon/models/word.py` | open |
+| LX-1 | Вынести `Word.search_prepare` в сервисный слой | `lexicon/search.py` | done |
+| LX-2 | Фильтровать ввод поиска по `KRL_ABC` | `lexicon/search.py` | done |
 
 ## Морфология словаря
 
@@ -32,6 +32,7 @@
 | MORPH-CORE | Stem/WordForm для `s.`/`a.`/`pron.`/`v.`, поиск по формам, попап парадигмы, подсказки с чипами, `alt_spellings`, selection в уроках, фикстура на прод | `lexicon/*`, `api_v0`, client | done |
 | MORPH-DIM | Продуктивные уменьшительные `s.` на `-ne` (поиск-цепочка; не в таблице парадигмы); skip при sibling `*ne` | `wordform_gen/diminutives`, `generate_diminutives` | done |
 | MORPH-LABELS | Ярлыки глаголов `name_krl` по TERMINAT/учебнику (`prezensa`, `kondicionala`, `pričastija`/`aktiva`/`passiva`); фин. `myönteinen`/`kieltävä`, `1.yks.`/`1.mon.` оставлены | `rules_verbs*`, fixtures, `ParadigmPopup` | done |
+| MORPH-POSS | Притяжательные `-ni`/`-š` (+ `-zeni`/`-zeš`) для поиска; не в таблице парадигмы | `wordform_gen/possessives`, `generate_possessives` | done |
 
 Закрыто (2026-11): импорт основ + генерация словоформ; exact search + `?letter=`; grouped suggestions (префикс → чипы, уникальная форма → цепочка); парадигма на карточке; lesson popup (desktop selection / mobile tap+bar); notranslate; базовая парадигма через `lexicon.json` `loaddata`. Ручные альты: `käyvä` `kävin`/`kävit`. Уменьшительные: на проде `generate_diminutives` (~36k); в `lexicon.json` пока без `dim_*` — при следующем полном dumpdata включить.
 
@@ -57,7 +58,7 @@
 | DX-1 | Описать setup client (dev и prod) в `client/README.md` | `client/README.md` | done |
 | DX-2 | Указать лицензию в корневом README | `README.md` | open |
 | DX-3 | Удалить legacy: `fixutres.sh`, `letencrypypt.sh`, `docker-compose-prod.yml` | ревизия 2026-11 | done |
-| DX-4 | Миграция на `GrammarForm.Category.DIMINUTIVE` (choices; схемы нет, Django ругается при migrate) | `grammar_form.py` | open |
+| DX-4 | Миграция на `GrammarForm.Category.DIMINUTIVE` (choices; схемы нет, Django ругается при migrate) | `grammar_form.py`, `0031_grammarform_category_choices` | done |
 | DX-5 | Решить судьбу WIP ASR: `asr_bench/`, `voice-input-project.md` (сейчас untracked) | voice input | open |
 
 ## Техдолг (зафиксировано при обзоре, не из TODO)
