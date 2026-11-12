@@ -50,6 +50,7 @@
 | MORPH-8 | `pron.` несклоняемые | `jogo`, `kudami`, `molen`, `moneš` — в глоссе Novak без gen/part, в тексте не склоняются. Пишем только `nom_sg`. | done |
 | MORPH-9 | `mi`/`nimi` помета `pl.` в orig | В словаре ошибочно `pron. pl.`; глосс Novak ед.ч. Override в `build_stems`; поправить статьи. | open |
 | MORPH-10 | Dims + possessives в фикстуре | `lexicon.json` включает `dim_*` (~36k) и `poss_*` (~5.5k); прод — `loaddata` (без generate на сервере) | done |
+| MORPH-STEM-AUDIT | Аудит основ s.: структура + Dictorpus d47 + книга; точечный `regen_lemma` | `lexicon/stem_audit`, `audit_stems`, `regen_lemma` | done |
 
 ## Документация / DX
 

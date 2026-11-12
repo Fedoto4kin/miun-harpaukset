@@ -12,6 +12,10 @@ python manage.py generate_wordforms --pos=v. [--dry-run] [--limit N]
 python manage.py generate_diminutives [--dry-run] [--limit N] [--word peldo]
 # притяжательные -ni / -š (+ -zeni/-zeš; search-only):
 python manage.py generate_possessives [--dry-run] [--limit N] [--word muamo]
+# аудит основ s. (структура / Dictorpus) + точечный regen после книги:
+python manage.py audit_stems --layer=1 --out /tmp/stems_l1.jsonl
+python manage.py regen_lemma --word=rebo
+# см. lexicon/stem_audit/README.md
 ```
 
 Прилагательные (`a.`) — тот же генератор, что и имена (`generate_adj_forms` ≡ `generate_noun_forms`).

@@ -34,6 +34,10 @@ _BOOK_STEM_OVERRIDES: Dict[str, Dict[int, List[str]]] = {
     "molemmat": {1: ["molemmi"], 2: ["molembi"], 3: ["molembie"], 4: ["molemmi"], 5: ["molembi"]},
     # rebo: в <code> сокращение -v : -bo → иначе revn вместо revon (Dictorpus/учебник)
     "rebo": {1: ["revo"]},
+    # čuppu / elätti: в <code> слабая сторона «-» без гласного → čupn / elätn;
+    # тип геминаты как akka (aka-n): čupu- / eläti-
+    "čuppu": {1: ["čupu"]},
+    "elätti": {1: ["eläti"]},
 }
 
 # Полная пересборка по глоссу (игнор ошибочной пометы pl. в orig и т.п.).

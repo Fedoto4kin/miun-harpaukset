@@ -170,6 +170,14 @@ class BuildNominalStemsTests(SimpleTestCase):
         self.assertEqual(stems[2], ["rebo"])
         self.assertEqual(stems[3], ["rebuo"])
 
+    def test_cuppu_elatti_empty_weak_override(self):
+        stems = build_stems("čup|pu", "- : -pu, -puo, -puloi", "s.")
+        self.assertEqual(stems[1], ["čupu"])
+        self.assertEqual(stems[2], ["čuppu"])
+        stems = build_stems("elät|ti", "- : -ti, -tie, -tilöi", "s.")
+        self.assertEqual(stems[1], ["eläti"])
+        self.assertEqual(stems[2], ["elätti"])
+
     def test_akka(self):
         stems = build_stems("ak|ka", "-a : -ka, -kua, -oi : -koi", "s.")
         self.assertEqual(

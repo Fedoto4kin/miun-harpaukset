@@ -140040,7 +140040,7 @@
       "stem_type": "noun_1",
       "number": 1,
       "alt": 0,
-      "form": "čup",
+      "form": "čupu",
       "special_mark": "",
       "created_at": "2026-11-09T09:38:50.005Z",
       "updated_at": "2026-11-09T09:38:50.005Z"
@@ -144380,7 +144380,7 @@
       "stem_type": "noun_1",
       "number": 1,
       "alt": 0,
-      "form": "elät",
+      "form": "eläti",
       "special_mark": "",
       "created_at": "2026-11-09T09:38:50.008Z",
       "updated_at": "2026-11-09T09:38:50.008Z"
@@ -380812,8 +380812,8 @@
     "fields": {
       "word": 3547,
       "grammar_form": 2,
-      "form": "čupn",
-      "form_clean": "čupn",
+      "form": "čupun",
+      "form_clean": "čupun",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -380848,8 +380848,8 @@
     "fields": {
       "word": 3547,
       "grammar_form": 5,
-      "form": "čupkši",
-      "form_clean": "čupkši",
+      "form": "čupukši",
+      "form_clean": "čupukši",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -380860,8 +380860,8 @@
     "fields": {
       "word": 3547,
       "grammar_form": 6,
-      "form": "čupšša",
-      "form_clean": "čupšša",
+      "form": "čupušša",
+      "form_clean": "čupušša",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -380872,8 +380872,8 @@
     "fields": {
       "word": 3547,
       "grammar_form": 7,
-      "form": "čupšta",
-      "form_clean": "čupšta",
+      "form": "čupušta",
+      "form_clean": "čupušta",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -380896,8 +380896,8 @@
     "fields": {
       "word": 3547,
       "grammar_form": 9,
-      "form": "čuplla",
-      "form_clean": "čuplla",
+      "form": "čupulla",
+      "form_clean": "čupulla",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -380908,8 +380908,8 @@
     "fields": {
       "word": 3547,
       "grammar_form": 10,
-      "form": "čuplda",
-      "form_clean": "čuplda",
+      "form": "čupulda",
+      "form_clean": "čupulda",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -380920,8 +380920,8 @@
     "fields": {
       "word": 3547,
       "grammar_form": 11,
-      "form": "čuptta",
-      "form_clean": "čuptta",
+      "form": "čuputta",
+      "form_clean": "čuputta",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -380932,8 +380932,8 @@
     "fields": {
       "word": 3547,
       "grammar_form": 12,
-      "form": "čupnke",
-      "form_clean": "čupnke",
+      "form": "čupunke",
+      "form_clean": "čupunke",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -380944,8 +380944,8 @@
     "fields": {
       "word": 3547,
       "grammar_form": 13,
-      "form": "čupčči",
-      "form_clean": "čupčči",
+      "form": "čupučči",
+      "form_clean": "čupučči",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -380956,8 +380956,8 @@
     "fields": {
       "word": 3547,
       "grammar_form": 14,
-      "form": "čupt",
-      "form_clean": "čupt",
+      "form": "čuput",
+      "form_clean": "čuput",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -390208,8 +390208,8 @@
     "fields": {
       "word": 3605,
       "grammar_form": 2,
-      "form": "elätn",
-      "form_clean": "elätn",
+      "form": "elätin",
+      "form_clean": "elätin",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -390244,8 +390244,8 @@
     "fields": {
       "word": 3605,
       "grammar_form": 5,
-      "form": "elätksi",
-      "form_clean": "elätksi",
+      "form": "elätiksi",
+      "form_clean": "elätiksi",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -390256,8 +390256,8 @@
     "fields": {
       "word": 3605,
       "grammar_form": 6,
-      "form": "elätssä",
-      "form_clean": "elätssä",
+      "form": "elätissä",
+      "form_clean": "elätissä",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -390268,8 +390268,8 @@
     "fields": {
       "word": 3605,
       "grammar_form": 7,
-      "form": "elätstä",
-      "form_clean": "elätstä",
+      "form": "elätistä",
+      "form_clean": "elätistä",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -390292,8 +390292,8 @@
     "fields": {
       "word": 3605,
       "grammar_form": 9,
-      "form": "elätllä",
-      "form_clean": "elätllä",
+      "form": "elätillä",
+      "form_clean": "elätillä",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -390304,8 +390304,8 @@
     "fields": {
       "word": 3605,
       "grammar_form": 10,
-      "form": "elätldä",
-      "form_clean": "elätldä",
+      "form": "elätildä",
+      "form_clean": "elätildä",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -390316,8 +390316,8 @@
     "fields": {
       "word": 3605,
       "grammar_form": 11,
-      "form": "elätttä",
-      "form_clean": "elätttä",
+      "form": "elätittä",
+      "form_clean": "elätittä",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -390328,8 +390328,8 @@
     "fields": {
       "word": 3605,
       "grammar_form": 12,
-      "form": "elätnke",
-      "form_clean": "elätnke",
+      "form": "elätinke",
+      "form_clean": "elätinke",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -390340,8 +390340,8 @@
     "fields": {
       "word": 3605,
       "grammar_form": 13,
-      "form": "elätčči",
-      "form_clean": "elätčči",
+      "form": "elätičči",
+      "form_clean": "elätičči",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }
@@ -390352,8 +390352,8 @@
     "fields": {
       "word": 3605,
       "grammar_form": 14,
-      "form": "elätt",
-      "form_clean": "elätt",
+      "form": "elätit",
+      "form_clean": "elätit",
       "alt_spellings": [],
       "alt_spellings_clean": []
     }

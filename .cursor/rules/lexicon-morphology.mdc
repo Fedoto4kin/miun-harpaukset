@@ -66,6 +66,13 @@ POS: `s.`, `a.`, `v.`, `pron.`; пометы `pl` / `sing` / `v_def`. Альте
 - `ParadigmView` исключает possessive / `poss_*`.
 - Команда: `manage.py generate_possessives` (локально; в фикстуре ~5.5k, MORPH-10).
 
+### Аудит основ (`stem_audit`)
+
+- Слой 1: структурные эвристики (класс `rebo` / `čuppu`: `-v:-bo`, `-:-pu`).  
+- Слой 2: Dictorpus dialect=47 как фильтр (не gold).  
+- Слой 3: арбитраж Grammatika/учебник → `_BOOK_STEM_OVERRIDES` / правка `<code>` → `regen_lemma --word=…` (s./a.).  
+- Команда: `manage.py audit_stems --pos=s.,a.,pron.,v.`; детали: `lexicon/stem_audit/README.md`.
+
 Открытые расхождения (не блокеры): `backlog.md` → MORPH-*.
 
 http://dictorpus.krc.karelia.ru/ru/dict/wordform?limit_num=10&search_dialect=47&search_gramset=&search_lang=4&search_pos=&search_lemma=&search_wordform=
