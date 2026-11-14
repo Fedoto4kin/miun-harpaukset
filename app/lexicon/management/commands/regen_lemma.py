@@ -1,4 +1,4 @@
-"""Точечная пересборка Stem + WordForm (noun/dim/poss) для одной леммы."""
+"""Точечная пересборка Stem + WordForm (noun/dim/poss/comp) для одной леммы."""
 
 from __future__ import annotations
 
@@ -10,9 +10,13 @@ from lexicon.models import GrammarForm, Stem, Word, WordForm
 from lexicon.ortho import normalize_soft_sign
 from lexicon.stem_import import build_stems, parse_orig
 from lexicon.stem_import.build_stems import resolve_special_mark
+from lexicon.management.commands.generate_comparatives import (
+    ensure_comp_grammar_forms,
+)
 from lexicon.management.commands.generate_diminutives import ensure_dim_grammar_forms
 from lexicon.management.commands.generate_possessives import ensure_poss_grammar_forms
 from lexicon.wordform_gen import (
+    generate_comparative_forms,
     generate_diminutive_forms,
     generate_noun_forms,
     generate_possessive_forms,
@@ -21,7 +25,7 @@ from lexicon.wordform_gen.diminutives import dim_code
 
 
 class Command(BaseCommand):
-    help = "Rebuild stems + noun/dim/poss wordforms for one lemma (after book fix)"
+    help = "Rebuild stems + noun/dim/poss/comp wordforms for one lemma (after book fix)"
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -135,6 +139,7 @@ class Command(BaseCommand):
 
             dim_rows: list = []
             poss_rows: list = []
+            comp_rows: list = []
             base = word.word.replace("|", "")
             # dim/poss — только для существительных
             if pos == "s.":
@@ -183,6 +188,44 @@ class Command(BaseCommand):
                         )
                 WordForm.objects.bulk_create(poss_rows)
 
+            # comp — только прилагательные
+            if pos == "a.":
+                comp_map = ensure_comp_grammar_forms()
+                WordForm.objects.filter(
+                    word=word,
+                    grammar_form__category=GrammarForm.Category.COMPARATIVE,
+                ).delete()
+                if mark_db != "pl":
+                    for code, orths in generate_comparative_forms(
+                        base, stems
+                    ).items():
+                        gf = comp_map.get(code)
+                        if not gf:
+                            continue
+                        for orth in orths:
+                            orth_n = normalize_soft_sign(orth)
+                            surface_clean = Word.search_prepare(orth_n)
+                            # как generate_comparatives: не дублировать отдельную статью
+                            if (
+                                surface_clean
+                                and Word.objects.filter(
+                                    Q(word_clean__iexact=surface_clean)
+                                    | Q(word__iexact=surface_clean)
+                                )
+                                .exclude(pk=word.pk)
+                                .exists()
+                            ):
+                                continue
+                            comp_rows.append(
+                                WordForm(
+                                    word=word,
+                                    grammar_form=gf,
+                                    form=orth_n,
+                                    form_clean=surface_clean,
+                                )
+                            )
+                    WordForm.objects.bulk_create(comp_rows)
+
         gen = (
             WordForm.objects.filter(word=word, grammar_form__code="gen_sg")
             .values_list("form", flat=True)
@@ -191,6 +234,6 @@ class Command(BaseCommand):
         self.stdout.write(
             self.style.SUCCESS(
                 f"regen ok: noun={len(noun_rows)} dim={len(dim_rows)} "
-                f"poss={len(poss_rows)} gen_sg={gen}"
+                f"poss={len(poss_rows)} comp={len(comp_rows)} gen_sg={gen}"
             )
         )

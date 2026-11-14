@@ -12,6 +12,8 @@ class GrammarForm(models.Model):
         DIMINUTIVE = "diminutive", "Pieniskö"
         # Притяжательные -ni / -š (поиск; не в таблице парадигмы)
         POSSESSIVE = "possessive", "Omistuš"
+        # Сравнительная степень a. на -mbi (поиск; не в таблице парадигмы)
+        COMPARATIVE = "comparative", "Komparativa"
 
     code = models.CharField(max_length=32, unique=True)
     name_krl = models.CharField(max_length=128)

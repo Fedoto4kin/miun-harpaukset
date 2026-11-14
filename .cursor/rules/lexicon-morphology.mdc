@@ -9,7 +9,7 @@ alwaysApply: true
 
 | Место | Состояние |
 |-------|-----------|
-| `GrammarForm` | ~177 слотов (парадигма + `diminutive` + `possessive`) |
+| `GrammarForm` | ~178 слотов (парадигма + `diminutive` + `possessive` + `comparative`) |
 | `Stem` | заполнена (`import_stems` / `import_pronouns`) |
 | `WordForm` | ~1.65e5 (= ~1.23e5 парадигма + ~3.6e4 diminutive + ~5.5e3 possessive) |
 | `WordForm.alt_spellings` | поиск-only альты (напр. `kävyin` → `kävin`); канон парадигмы не меняется |
@@ -37,8 +37,9 @@ alwaysApply: true
 4. `generate_wordforms --pos=s.|a.|pron.|v.` — `lexicon/wordform_gen/`
 5. `generate_diminutives` — продуктивные `-ne` (category=`diminutive`; не затирается regenerate s.)
 6. `generate_possessives` — `-ni` / `-š` (+ `-zeni`/`-zeš`; category=`possessive`; search-only)
-7. Ручные `alt_spellings` в admin (сохраняются при regenerate)
-8. `normalize_soft_signs` — канон U+02BC `ʼ`
+7. `generate_comparatives` — `a.` на `-mbi` (category=`comparative`; search-only; skip sibling/`hyvä`)
+8. Ручные `alt_spellings` в admin (сохраняются при regenerate)
+9. `normalize_soft_signs` — канон U+02BC `ʼ`
 
 POS: `s.`, `a.`, `v.`, `pron.`, `v. negat.`; пометы `pl` / `sing` / `v_def`. Альтернативы `/` → `Stem.alt`.
 
@@ -56,7 +57,7 @@ POS: `s.`, `a.`, `v.`, `pron.`, `v. negat.`; пометы `pl` / `sing` / `v_def
 
 - Продуктивно: `nom + ne` → склонение типа hebone/alane; WordForm на **базовой** лемме, `GrammarForm.category=diminutive`, коды `dim_*`.
 - Поиск/подсказки: цепочка `peldozešta → peldo` + метка `pieniskö · …`.
-- `ParadigmView` **исключает** diminutive / `dim_*` (в таблице не показываем).
+- `ParadigmView` **исключает** diminutive / `dim_*` / comparative / `comp` (в таблице не показываем).
 - Skip: леммы на `-ne`, `special_mark=pl`, словарный sibling `*ne` (kirjane).
 - Команда: `manage.py generate_diminutives` (после `generate_wordforms --pos=s.` не затирается).
 
@@ -67,6 +68,16 @@ POS: `s.`, `a.`, `v.`, `pron.`, `v. negat.`; пометы `pl` / `sing` / `v_def
 - Ярлыки: `omistuš …`, dim-слоты `pieniskö · omistuš …`.
 - `ParadigmView` исключает possessive / `poss_*`.
 - Команда: `manage.py generate_possessives` (локально; в фикстуре ~5.5k, MORPH-10).
+
+### Сравнительная степень `a.` на `-mbi` (MORPH-COMP)
+
+- Grammatika/учебник: слабая гласная основа + `mbi`, конечные `a`/`ä` → `e` (`šoma` → `šomembi`).
+- WordForm на базовой лемме `a.`, `GrammarForm.category=comparative`, код `comp`, ярлык `komparativa`.
+- Поиск/подсказки: цепочка `nuorembi → nuori` + метка сравнительной степени.
+- `ParadigmView` исключает comparative / `comp`.
+- Skip: `special_mark=pl`, леммы на `-mbi`, супплетив `hyvä`, sibling-статья с той же поверхностью (`vanhembi`, `parembi`).
+- Команда: `manage.py generate_comparatives` (локально; фикстура — отдельным dump при деплое).
+- v1: только номинатив компаратива (не полная падежная парадигма `…mbi`).
 
 ### Аудит основ (`stem_audit`)
 

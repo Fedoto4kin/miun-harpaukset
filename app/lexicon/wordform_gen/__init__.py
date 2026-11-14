@@ -1,5 +1,6 @@
 """Одноразовая генерация словоформ из Stem. Не импортировать из runtime API."""
 
+from .comparatives import generate_comparative_forms
 from .diminutives import generate_diminutive_forms
 from .possessives import generate_possessive_forms
 from .nouns import generate_noun_forms
@@ -14,4 +15,5 @@ __all__ = [
     "generate_verb_forms",
     "generate_diminutive_forms",
     "generate_possessive_forms",
+    "generate_comparative_forms",
 ]

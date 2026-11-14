@@ -39,6 +39,7 @@
 | MORPH-10 | Dims + possessives в фикстуре + прод `loaddata` | `lexicon.json` | done |
 | MORPH-STEM-AUDIT | Аудит основ `s./a./pron./v.`; оверрайды `rebo`/`čuppu`/`elätti`; `regen_lemma` | `lexicon/stem_audit` | done |
 | MORPH-COMPOUND | Fallback поиска: слитное сложение → разрез по словарю (`form_clean`/`word_clean`), exact-first; meta `compound_parts` + UI `A + B` | `compound_split.py`, `SearchViewList`, client | done |
+| MORPH-COMP | Сравнительная `-mbi` для `a.` (search-only → база + `komparativa`); skip sibling/`hyvä`; не в таблице парадигмы | `wordform_gen/comparatives`, `generate_comparatives` | done |
 
 Закрытый scope: импорт основ + генерация словоформ; exact search + `?letter=`; grouped suggestions; парадигма на карточке; lesson lookup (desktop tip / mobile bar); notranslate; `lexicon.json` loaddata (парадигма + dim + poss); search-only dim/poss; ярлыки глаголов; аудит основ + точечные фиксы слабых основ; **compound-split lookup** (учебник: `muamonkieli`, `eländäpaikka`; целая лемма не режется).
 

@@ -67,8 +67,8 @@ Pos, Speech (медиа)
 
 Поиск: `?query=` — exact лемма/форма/альт; при 0 hits — **compound-split** по словарю (`compound_parts` / `compound_of`, UI `A + B`); `?letter=` — алфавитная лента по лемме.  
 Подсказки: префикс + чипы по веткам; уникальная точная форма → цепочка form→лемма (без compound-fallback).  
-Оффлайн fill: `import_stems` / `import_pronouns` / `generate_wordforms` / `generate_diminutives` / `generate_possessives` → `dumpdata lexicon` → прод `loaddata` (без generate на сервере). Фикстура включает search-only `dim_*`/`poss_*` (`MORPH-10`).
-`GrammarForm.category=diminutive|possessive` — только поиск/цепочки, не таблица парадигмы (`pieniskö` / `omistuš`). Ярлыки глаголов — TERMINAT/учебник.  
+Оффлайн fill: `import_stems` / `import_pronouns` / `generate_wordforms` / `generate_diminutives` / `generate_possessives` / `generate_comparatives` → `dumpdata lexicon` → прод `loaddata` (без generate на сервере). Фикстура включает search-only `dim_*`/`poss_*`/`comp` (`MORPH-10` + `MORPH-COMP`).
+`GrammarForm.category=diminutive|possessive|comparative` — только поиск/цепочки, не таблица парадигмы (`pieniskö` / `omistuš` / `komparativa`). Ярлыки глаголов — TERMINAT/учебник.  
 Сложения: `lexicon/compound_split.md`; края v1 — `backlog.md` → `COMPOUND-*`. Общее: `.cursor/rules/lexicon-morphology.mdc`, `backlog.md` → MORPH-*.
 
 ### Уроки → словарь (lookup)
