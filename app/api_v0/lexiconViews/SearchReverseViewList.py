@@ -3,6 +3,7 @@ from rest_framework import generics
 
 from api_v0.serializers import WordPreviewSerializer
 from lexicon.models import KRL_ABC, Definition, Word
+from lexicon.search import normalize_definition_search
 
 
 class SearchReverseViewList(generics.ListAPIView):
@@ -12,10 +13,14 @@ class SearchReverseViewList(generics.ListAPIView):
         return WordPreviewSerializer
 
     def get_queryset(self):
-        search = self.request.query_params.get("query", "").lower()
+        search = normalize_definition_search(
+            self.request.query_params.get("query", "")
+        )
+        if not search:
+            return Word.objects.none()
         queryset = Word.objects.filter(
             definition_set__in=Definition.objects.filter(
-                definition_lcase__istartswith=search.lower()
+                definition_lcase__istartswith=search
             )
         ).annotate(total=Count("id"))
 

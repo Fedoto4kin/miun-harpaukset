@@ -15,3 +15,10 @@ def search_prepare(string: str) -> str:
         return ""
     normalized = strip_soft_signs(string.lower().replace("ü", "y"))
     return "".join(ch for ch in normalized if ch in _ALLOWED)
+
+
+def normalize_definition_search(string: str) -> str:
+    """lower + ё→е для reverse-поиска по переводам (RU)."""
+    if not string:
+        return ""
+    return string.lower().replace("ё", "е")

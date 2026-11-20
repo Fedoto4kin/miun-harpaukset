@@ -5,7 +5,11 @@ from django.utils.translation import gettext_lazy as _
 from krl.settings import LANGUAGE
 
 from lexicon.ortho import strip_soft_signs
-from lexicon.search import KRL_ABC, search_prepare as prepare_search_string
+from lexicon.search import (
+    KRL_ABC,
+    normalize_definition_search,
+    search_prepare as prepare_search_string,
+)
 
 from .pos import Pos
 from .speech import Speech
@@ -86,5 +90,5 @@ class Definition(models.Model):
         ordering = ["-lang"]
 
     def save(self, *args, **kwargs):
-        self.definition_lcase = self.definition.lower()
+        self.definition_lcase = normalize_definition_search(self.definition)
         super(Definition, self).save(*args, **kwargs)
